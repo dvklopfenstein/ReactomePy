@@ -16,17 +16,125 @@ from reactomeneo4j.neo4j.pathway import Pathway
 
 def test_reactome_tutorial(pwd, abc='hsa'):
     """Mirror Reactome/Neo4j tutorial in Python."""
-    dbpw = GraphDatabase('http://localhost:7474', username='neo4j', password=pwd)
+    gdb = GraphDatabase('http://localhost:7474', username='neo4j', password=pwd)
 
     # 1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER
-    qry = 'MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway'
-    print(qry)
-    query_1a(qry, dbpw)
+    #query_1a('MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway', gdb)
+    # RETRIEVE PROTEIN
+    #query_1b('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas', gdb)
+    # RETRIEVE displayName and Identifier: 'PTEN [cytosol]' and 'P60484'
+    #query_1b(('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
+    #          '(ewas)-[:referenceEntity]->(re:ReferenceEntity) '
+    #          'RETURN ewas.displayName AS EWAS, re.identifier AS Identifier'), gdb)
+    # MATCH PART CAN ALSO BE:
+    # query_1b(('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"})-'
+    #           '[:referenceEntity]->(re:ReferenceEntity) RETURN '
+    #           'ewas.displayName AS EWAS, '
+    #           're.identifier AS Identifier'), gdb)
+    # ALSO GET REFERENCE DB(node) ON TOP OF PREVIOUSLY RETRIEVED FIELDS
+    # query_1b(('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
+    #           '(ewas)-[:referenceEntity]->(re:ReferenceEntity)'
+    #           '-[:referenceDatabase]->(rd:ReferenceDatabase) RETURN '
+    #           'ewas.displayName AS EWAS, '
+    #           're.identifier AS Identifier, '
+    #           'rd.displayName AS Database'), gdb)
 
-def query_1a(qry, dbpw):
+    # 2) BREAKING DOWN COMPLEXES AND SETS TO GET THEIR PARTICIPANTS
+    #     component_stId   component
+    #     --------------   ----------
+    #     'R-HSA-976075    E3 ligases in proteasomal degradation [cytosol]
+    #     'R-ALL-983035    antigenic substrate [cytosol]
+    #     'R-HSA-976165    Ubiquitin:E2 conjugating enzymes [cytosol]
+    # query_1b(('MATCH (Complex{stId:"R-HSA-983126"})-'
+    #           '[:hasComponent]->(pe:PhysicalEntity) RETURN '
+    #           'pe.stId AS component_stId, '
+    #           'pe.displayName AS component'), gdb)
+    # query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
+    #
+    # GET SET AND COMPLEX INSIDE COMPLEX, R-HSA-983126 (returns ~284 entities)
+    # query_1b(('MATCH (Complex{stId:"R-HSA-983126"})-'
+    #           '[:hasComponent|hasMember|hasCandidate*]->'
+    #           '(pe:PhysicalEntity) RETURN DISTINCT '
+    #           'pe.stId AS component_stId, '
+    #           'pe.displayName AS component'), gdb)
+
+    # 3) RETRIEVING PATHWAYS, SUBPATHWAYS, AND SUPERPATHWAYS
+    # Pathway      SubPathway    DisplayName
+    # R-HSA-983169 R-HSA-983168  Antigen proc.: Ubiq. & Proteasome degradation
+    # R-HSA-983169 R-HSA-1236975 Antigen proc-Cross presentation
+    # R-HSA-983169 R-HSA-983170  Antigen Pres.: Folding, assembly & peptide loading of MHC-I
+    # query_1b(('MATCH (p:Pathway{stId:"R-HSA-983169"})-'
+    #           '[:hasEvent]->(sp:Pathway) RETURN '
+    #           'p.stId AS Pathway, '
+    #           'sp.stId AS SubPathway, '
+    #           'sp.displayName as DisplayName'), gdb)
+    #query_1b('MATCH (p:Pathway{stId:"R-HSA-983169"}) RETURN p', gdb)
+    #
+    # GET ALL SUB-PATHWAYS UNDER SUB-PATHWAYS
+    # query_1b(('MATCH (p:Pathway{stId:"R-HSA-983169"})-'
+    #           '[:hasEvent*]->(sp:Pathway) RETURN '
+    #           'p.stId AS Pathway, '
+    #           'sp.stId AS SubPathway, '
+    #           'sp.displayName as DisplayName'), gdb)
+    #
+    # GET SUPER-PATHWAY:
+    #     Pathway      SubPathway    DisplayName
+    #     R-HSA-983169 R-HSA-1280218 Adaptive Immune System
+    # ('MATCH (p:Pathway{stId:"R-HSA-983169"})<-'
+    #  '[:hasEvent]-(sp:Pathway) RETURN '
+    #  'p.stId AS Pathway, '
+    #  'sp.stId AS SubPathway, '
+    #  'sp.displayName as DisplayName')
+    #
+    #     Pathway      SubPathway    DisplayName
+    #     R-HSA-983169 R-HSA-1280218 Adaptive Immune System
+    #     R-HSA-983169 R-HSA-168256  Immune System
+    # GET ALL SUPER-PATHWAYS UP TO ROOT
+    # ('MATCH (p:Pathway{stId:"R-HSA-983169"})<-'
+    #  '[:hasEvent*]-(sp:Pathway) RETURN '
+    #  'p.stId AS Pathway, '
+    #  'sp.stId AS SubPathway, '
+    #  'sp.displayName as DisplayName')
+
+    # 4) RETRIEVING THE REACTIONS FOR A GIVEN PATHWAY
+    # ('MATCH (p:Pathway{stId:"R-HSA-983169"})'
+    #  '-[:hasEvent*]->(rle:ReactionLikeEvent) RETURN '
+    #  'p.stId AS Pathway, '
+    #  'rle.stId AS Reaction, '
+    #  'rle.displayName as ReactionName')
+
+    # 5) RETRIEVING THE PARTICIPANTS OF A REACTION
+    # 6) JOINING THE PIECES: PARTICIPATING MOLECULES FOR A PATHWAY
+
+def query_1b(qry, gdb):
+    """Examine protein stored in QuerySequence."""
+    results = gdb.query(qry, returns=(client.Node)) #, str, client.Node))  # QuerySequence
+    print("SSSSSSSSS", qry)
+    for res in results:
+        node = res[0] 
+        print("SSSSSSSSS", node)
+    #print("SSSSSSSSS", dir(res))
+    # res.cast(cls, elements)
+    # res.columns        ['ewas']
+    # res.count(value)
+    # res.elements       []
+    # res.get_response() {'columns': ['ewas'], 'data': []}
+    # res.graph          None
+    # res.index(value)
+    # res.params         None
+    # res.q              'MATCH (ewas:EntityWithAcessionedSeq ...
+    # res.rows
+    # res.stats
+    # res.to_html
+    # print("RESULTS:", res.rows)
+
+def query_1a(qry, gdb):
+    """MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway"""
+    print(qry)
     labels = ['delete', 'get', 'id', 'items', 'labels', 'properties',
               'relationships', 'set', 'traverse', 'update', 'url']
-    results = dbpw.query(qry, returns=(client.Node, str, client.Node))
+    # <neo4jrestclient.query.QuerySequence
+    results = gdb.query(qry, returns=(client.Node, str, client.Node))
     for res in results:
         print("RESULTS:", res)
         # node_top.id = 2052401
