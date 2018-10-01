@@ -104,7 +104,39 @@ def test_reactome_tutorial(pwd, abc='hsa'):
     #  'rle.displayName as ReactionName')
 
     # 5) RETRIEVING THE PARTICIPANTS OF A REACTION
+    #   Reaction      Participant   DisplayName
+    #   R-HSA-8863895 R-HSA-168113  CHUK:IKBKB:IKBKG [cytosol]
+    #   R-HSA-8863895 R-ALL-113592  ATP [cytosol]
+    #   R-HSA-8863895 R-HSA-8863966 SNAP23 [phagocytic vesicle membrane]
+    #   R-HSA-8863895 R-HSA-8863923 p-S95-SNAP23 [phagocytic vesicle membrane]
+    #   R-HSA-8863895 R-ALL-29370   ADP [cytosol]
+    #   R-HSA-8863895 R-HSA-937033  oligo-MyD88:Mal:BTK:activated TLR [plasma membrane]
+    #
+    # ('MATCH (r:ReactionLikeEvent{stId:"R-HSA-8863895"})-'
+    #  '[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator*]->'
+    #  '(pe:PhysicalEntity) RETURN DISTINCT '
+    #  'r.stId AS Reaction, '
+    #  'pe.stId as Participant, '
+    #  'pe.displayName AS DisplayName')
+    #
+    # INCLUDE COMPONENTS OF COMPLEXES AND SETS
+    #('MATCH (r:ReactionLikeEvent{stId:"R-HSA-8863895"})-'
+    # '[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator|'
+    # 'hasComponent|hasMember|hasCandidate*]->(pe:PhysicalEntity) '
+    # 'RETURN DISTINCT '
+    # 'r.stId AS Reaction, '
+    # 'pe.stId as Participant, '
+    # 'pe.displayName AS DisplayName')
+
     # 6) JOINING THE PIECES: PARTICIPATING MOLECULES FOR A PATHWAY
+    # Concatenate all preceding queries to get all proteins/chemicals in pathway
+    #('MATCH (p:Pathway{stId:"R-HSA-983169"})-'
+    # '[:hasEvent*]->(rle:ReactionLikeEvent),(rle)-'
+    # '[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator|'
+    # 'hasComponent|hasMember|hasCandidate*]->(pe:PhysicalEntity),'
+    # '(pe)-[:referenceEntity]->(re:ReferenceEntity)-'
+    # '[:referenceDatabase]->(rd:ReferenceDatabase) RETURN DISTINCT '
+    # 're.identifier AS Identifier, rd.displayName AS Database')
 
 def query_1b(qry, gdb):
     """Examine protein stored in QuerySequence."""
