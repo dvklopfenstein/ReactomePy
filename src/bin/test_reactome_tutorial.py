@@ -8,10 +8,9 @@ __copyright__ = "Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
-from neo4jrestclient.client import GraphDatabase
-from neo4jrestclient import client
-from reactomeneo4j.neo4j.lit_ref import LiteratureReference
-from reactomeneo4j.neo4j.pathway import Pathway
+from reactomeneo4j.code.graphdb import GraphDatabase
+from reactomeneo4j.code.lit_ref import LiteratureReference
+from reactomeneo4j.code.pathway import Pathway
 
 
 def test_reactome_tutorial(pwd, abc='hsa'):
@@ -49,7 +48,7 @@ def test_reactome_tutorial(pwd, abc='hsa'):
     #           '[:hasComponent]->(pe:PhysicalEntity) RETURN '
     #           'pe.stId AS component_stId, '
     #           'pe.displayName AS component'), gdb)
-    # query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
+    query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
     #
     # GET SET AND COMPLEX INSIDE COMPLEX, R-HSA-983126 (returns ~284 entities)
     # query_1b(('MATCH (Complex{stId:"R-HSA-983126"})-'
@@ -140,12 +139,9 @@ def test_reactome_tutorial(pwd, abc='hsa'):
 
 def query_1b(qry, gdb):
     """Examine protein stored in QuerySequence."""
-    results = gdb.query(qry, returns=(client.Node)) #, str, client.Node))  # QuerySequence
-    print("SSSSSSSSS", qry)
-    for res in results:
-        node = res[0] 
-        print("SSSSSSSSS", node)
-    #print("SSSSSSSSS", dir(res))
+    node = gdb.get_query_node(qry)
+    print("SSSSSSSSS", node)
+    print("SSSSSSSSS", dir(node))
     # res.cast(cls, elements)
     # res.columns        ['ewas']
     # res.count(value)
