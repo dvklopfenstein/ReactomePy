@@ -1,30 +1,47 @@
 #!/usr/bin/env python
 """Mirror Reactome/Neo4j tutorial in Python."""
-# http::
+# https://reactome.org/dev/graph-database/extract-participating-molecules
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
 from reactomeneo4j.code.graphdb import GraphDatabase
 from reactomeneo4j.code.lit_ref import LiteratureReference
 from reactomeneo4j.code.pathway import Pathway
+from reactomeneo4j.code.acc_seq import EntityWithAccessionedSequence
 
 
 def test_reactome_tutorial(pwd, abc='hsa'):
     """Mirror Reactome/Neo4j tutorial in Python."""
     gdb = GraphDatabase('http://localhost:7474', username='neo4j', password=pwd)
 
+
     # 1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER
     #query_1a('MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway', gdb)
     # RETRIEVE PROTEIN
-    #query_1b('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas', gdb)
-    # RETRIEVE displayName and Identifier: 'PTEN [cytosol]' and 'P60484'
+    #     EWAS             Identifier
+    #     PTEN [cytosol]   P60484
+    qry = 'MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas'
+    node = gdb.get_query_node(qry)  # Neo4j Node
+    accseq = EntityWithAccessionedSequence(node)
+    #
+    # RETRIEVE PROTEIN's displayName and Identifier: 'PTEN [cytosol]' and 'P60484'
     #query_1b(('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
     #          '(ewas)-[:referenceEntity]->(re:ReferenceEntity) '
     #          'RETURN ewas.displayName AS EWAS, re.identifier AS Identifier'), gdb)
+    print(dir(node))
+    print("LABELS:", node.labels)
+    print("ITEMS:", node.items)
+    print("PROPERTIES:", node.properties)
+    print("TRAVERSE:", node.traverse())
+    print('EWAS({EWAS})'.format(EWAS=node['displayName']))  # 'PTEN [cytosol]'
+    #print('Id({ID})'.format(ID=node['identifier']))        #  P60484
+    keys = ['schemaClass', 'displayName']
+    accseq.prt_traverse(keys, sortby=lambda n: n['schemaClass'])
+    #
     # MATCH PART CAN ALSO BE:
     # query_1b(('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"})-'
     #           '[:referenceEntity]->(re:ReferenceEntity) RETURN '
@@ -37,7 +54,6 @@ def test_reactome_tutorial(pwd, abc='hsa'):
     #           'ewas.displayName AS EWAS, '
     #           're.identifier AS Identifier, '
     #           'rd.displayName AS Database'), gdb)
-
     # 2) BREAKING DOWN COMPLEXES AND SETS TO GET THEIR PARTICIPANTS
     #     component_stId   component
     #     --------------   ----------
@@ -48,7 +64,7 @@ def test_reactome_tutorial(pwd, abc='hsa'):
     #           '[:hasComponent]->(pe:PhysicalEntity) RETURN '
     #           'pe.stId AS component_stId, '
     #           'pe.displayName AS component'), gdb)
-    query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
+    # query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
     #
     # GET SET AND COMPLEX INSIDE COMPLEX, R-HSA-983126 (returns ~284 entities)
     # query_1b(('MATCH (Complex{stId:"R-HSA-983126"})-'
@@ -237,4 +253,4 @@ if __name__ == '__main__':
 # bin/cypher-shell -u neo4j -p free2beme
 # https://marcobonzanini.com/2015/04/06/getting-started-with-neo4j-and-python/
 
-# Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

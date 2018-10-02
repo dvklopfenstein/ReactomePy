@@ -1,6 +1,6 @@
 """Manage data in schemaClass, Pathway."""
 
-__copyright__ = "Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 #from datetime import date
@@ -28,4 +28,4 @@ class GraphDatabase(object):
     #         ID=self.st_id, DATE=self.release_date, NAME=self.display_name)
 
 
-# Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

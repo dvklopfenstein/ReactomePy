@@ -1,6 +1,6 @@
 """Manage data in schemaClass, LiteratureReference."""
 
-__copyright__ = "Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # pylint: disable=too-few-public-methods
@@ -24,4 +24,4 @@ class LiteratureReference(object):
             PMID=self.pmid, YEAR=self.year, TITLE=self.title)
 
 
-# Copyright (C) 2014-2018, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
