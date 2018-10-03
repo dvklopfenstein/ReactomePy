@@ -4,7 +4,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # TBD: Node-PhysicalEntity-GenomeEncodedEntity-self
-from reactomeneo4j.code.node import Node
+from reactomeneo4j.code.node_rest import Node
 
 
 # pylint: disable=too-few-public-methods
