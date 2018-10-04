@@ -7,9 +7,9 @@ __author__ = "DV Klopfenstein"
 ITEM2CHILDREN = {
     'DatabaseObject':set([
         'AbstractModifiedResidue',
-        'Affiliation'
-        'CatalystActivity'
-        'DatabaseIdentifier'
+        'Affiliation',
+        'CatalystActivity',
+        'DatabaseIdentifier',
         'EntityFunctionalStatus',
         'Event',
         'EvidenceType',
@@ -140,7 +140,7 @@ ITEM2CHILDREN = {
 
     'PositiveRegulation':set([
         'PositiveGeneExpressionRegulation',
-        'Requirement'
+        'Requirement',
     ]),
 
     'Taxon':set(['Species']),

@@ -11,6 +11,7 @@ import sys
 import neo4j
 from neo4j import GraphDatabase
 from reactomeneo4j.code.record import Record
+from reactomeneo4j.code.schema.hier import DataSchemaHier
 
 
 def test_reactome_tutorial(pwd, abc='hsa'):
@@ -21,6 +22,8 @@ def test_reactome_tutorial(pwd, abc='hsa'):
         _run(session)
 
 def _run(ses):
+    obj = DataSchemaHier()
+    
     # Methods: data value values | attached consume detach graph keys peek records single summary
 
     ## print('1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')
