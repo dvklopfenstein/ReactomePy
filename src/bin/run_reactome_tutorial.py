@@ -23,51 +23,103 @@ def test_reactome_tutorial(pwd, abc='hsa'):
         #help(session)
         _run(ses)
 
-def _getobj_w_id(qry, session):
-    """1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')."""
-    # 'MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway'
+def _1a_getobj_w_id(qry, session):
+    """1a) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')."""
+    # MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway
     pwy_node = session.run(qry).data()[0]['pathway']
+    #    NEO4J NODE ID(2052401)
+    #    dbId        1236975
+    #    displayName Antigen processing-Cross presentation
+    #    hasDiagram  False
+    #    isInDisease False
+    #    isInferred  False
+    #    name        ['Antigen processing-Cross presentation']
+    #    oldStId     REACT_111119
+    #    releaseDate 2011-09-20
+    #    schemaClass Pathway
+    #    speciesName Homo sapiens
+    #    stId        R-HSA-1236975
+    #    stIdVersion R-HSA-1236975.1
     #print(pwy)
     #help(pwy.graph)
     # <Node id=2052401 labels={'DatabaseObject', ... properties={...
     print("NEO4J NODE ID({})".format(pwy_node.id))
     # Neo4j's properties:
-    for key, val in pwy_node.items():
+    for key, val in sorted(pwy_node.items()):
         print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
+
+def _1b_get_protein(qry, session):
+    """1b) RETRIEVE PROTEIN'"""
+    # MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas
+    res = session.run(qry)        # neo4j.BoltStatementResult
+    ewas = res.data()[0]['ewas']  # EntityWithAccessionedSequence
+    #    NEO4J NODE ID(2052401)
+    #    dbId        1236975
+    #    displayName Antigen processing-Cross presentation
+    #    hasDiagram  False
+    #    isInDisease False
+    #    isInferred  False
+    #    name        ['Antigen processing-Cross presentation']
+    #    oldStId     REACT_111119
+    #    releaseDate 2011-09-20
+    #    schemaClass Pathway
+    #    speciesName Homo sapiens
+    #    stId        R-HSA-1236975
+    #    stIdVersion R-HSA-1236975.1
+    print("NEO4J NODE ID({})".format(ewas.id))
+    # print(dir(ewas))
+    for key, val in sorted(ewas.items()):
+        print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
+
+def _1c_get_protein_name(qry, session):
+    """1c) RETRIEVE PROTEIN's displayName and Identifier:"""
+    # MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}), (ewas)-[:referenceEntity]->(re:ReferenceEntity) RETURN ewas.displayName AS EWAS, re.identifier AS ID
+    #     EWAS             ID
+    #     ---------------  ------
+    #     PTEN [cytosol]   P60484
+    res = session.run(qry)  # neo4j.BoltStatmentResult
+    print(res.data())  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
+
+def _1d_get_protein_name(qry, session):
+    """1c) RETRIEVE PROTEIN's displayName and Identifier:"""
+    # TIP: the _MATCH_ part of the previous one
+    # MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"})-[:referenceEntity]->(re:ReferenceEntity) RETURN ewas.displayName AS EWAS, re.identifier AS ID
+    #     EWAS             ID
+    #     ---------------  ------
+    #     PTEN [cytosol]   P60484
+    res = session.run(qry)  # neo4j.BoltStatmentResult
+    print(res.data())  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
+
 
 def _run(session):
     # Methods: data value values | attached consume detach graph keys peek records single summary
 
-    ## print('1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')
+    print('1a) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')
     qry = 'MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway'
-    _getobj_w_id(qry, session)
+    _1a_getobj_w_id(qry, session)
 
-    ## print('\n1a) RETRIEVE PROTEIN')
-    ## qry = 'MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas'
-    ## res = session.run(qry)  # neo4j.BoltStatementResult
-    ## ewas = res.data()[0]['ewas']  # EntityWithAccessionedSequence
-    ## # print(dir(ewas))
-    ## for key, val in ewas.items():
-    ##     print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
+    print('\n1b) RETRIEVE PROTEIN')
+    qry = 'MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas'
+    _1b_get_protein(qry, session)
    
-    ## print("\n1b) RETRIEVE PROTEIN's displayName and Identifier:")
-    ## #     EWAS             Identifier
-    ## #     PTEN [cytosol]   P60484
-    ## qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
-    ##        '(ewas)-[:referenceEntity]->(re:ReferenceEntity) RETURN '
-    ##        'ewas.displayName AS EWAS, '
-    ##        're.identifier AS Identifier')
-    ## res = session.run(qry)  # neo4j.BoltStatmentResult
-    ## print(res.data()) # [['PTEN [cytosol]', 'P60484']]
+    print("\n1c) RETRIEVE PROTEIN's displayName and Identifier:")
+    qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
+           '(ewas)-[:referenceEntity]->(re:ReferenceEntity) '
+           'RETURN ewas.displayName AS EWAS, re.identifier AS ID')
+    _1c_get_protein_name(qry, session)  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
+
+    print("\n1d) RETRIEVE PROTEIN's ref database on top of the previously:")
+    qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"})-'
+           '[:referenceEntity]->(re:ReferenceEntity) '
+           'RETURN ewas.displayName AS EWAS, re.identifier AS ID')
+    _1d_get_protein_name(qry, session)  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
 
     ## # MATCH PART CAN ALSO BE:
-    ## print('\n1c) ALSO GET REFERENCE DB(node) ON TOP OF PREVIOUSLY RETRIEVED FIELDS')
-    ## qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
-    ##        '(ewas)-[:referenceEntity]->(re:ReferenceEntity)'
-    ##        '-[:referenceDatabase]->(rd:ReferenceDatabase) RETURN '
-    ##        'ewas.displayName AS EWAS, '
-    ##        're.identifier AS Identifier, '
-    ##        'rd.displayName AS Database')
+    ## print('\n1e) ALSO GET REFERENCE DB(node) ON TOP OF PREVIOUSLY RETRIEVED FIELDS')
+    qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
+           '(ewas)-[:referenceEntity]->(re:ReferenceEntity)'
+           '-[:referenceDatabase]->(rd:ReferenceDatabase) '
+           'RETURN ewas.displayName AS EWAS, re.identifier AS Identifier, rd.displayName AS Database')
     ## # [['PTEN [cytosol]', 'P60484', 'UniProt']]
     ## print(session.run(qry).data())
 

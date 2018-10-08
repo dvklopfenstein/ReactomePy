@@ -22,7 +22,7 @@ class Session(object):
         #   value values  [           [<Node id=2052401 labels={'DatabaseObject', ...
         #   attached consume detach graph keys peek records session single summary
         if prt is not None:
-            prt.write('\nQUERY: {Q}\n'.format(Q=query))
+            prt.write('QUERY: {Q}\n'.format(Q=query))
         return self.ses.run(query)
 
     def prt_relationships(self, node='Complex{stId:"R-HSA-983126"}', prt=sys.stdout):
