@@ -70,6 +70,7 @@ def _1b_get_protein(qry, session):
     # print(dir(ewas))
     for key, val in sorted(ewas.items()):
         print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
+    session.PyBiocode/graph/hier_wr.py(ewas['stId'])
 
 def _1c_get_protein_name(qry, session):
     """1c) RETRIEVE PROTEIN's displayName and Identifier:"""
@@ -90,6 +91,17 @@ def _1d_get_protein_name(qry, session):
     res = session.run(qry)  # neo4j.BoltStatmentResult
     print(res.data())  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
 
+def _1e_get_protein_name(qry, session):
+    """1c) RETRIEVE PROTEIN's displayName and Identifier:"""
+    # Continuing on it, it is possible to construct a query to retrieve the "reference database"
+    # on top of the previously retrieved fields.
+    # MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"})-[:referenceEntity]->(re:ReferenceEntity) RETURN ewas.displayName AS EWAS, re.identifier AS ID
+    #     EWAS             ID
+    #     ---------------  ------
+    #     PTEN [cytosol]   P60484
+    res = session.run(qry)  # neo4j.BoltStatmentResult
+    print(res.data())  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
+
 
 def _run(session):
     # Methods: data value values | attached consume detach graph keys peek records single summary
@@ -101,6 +113,7 @@ def _run(session):
     print('\n1b) RETRIEVE PROTEIN')
     qry = 'MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas'
     _1b_get_protein(qry, session)
+    return
    
     print("\n1c) RETRIEVE PROTEIN's displayName and Identifier:")
     qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'

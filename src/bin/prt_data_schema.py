@@ -10,7 +10,7 @@ from reactomeneo4j.code.schema.hier import DataSchemaHier
 
 def main():
     """Print Reactome data schema."""
-    fout_txt = 'reactome_data_schema.txt'
+    fout_txt = 'log/reactome_data_schema.txt'
     obj = DataSchemaHier()
     with open(fout_txt, 'w') as prt:
         obj.prt_data_schema_all(prt)
