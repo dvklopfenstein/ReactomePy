@@ -47,6 +47,7 @@ def _1a_getobj_w_id(qry, session):
     # Neo4j's properties:
     for key, val in sorted(pwy_node.items()):
         print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
+    session.prt_relationships(session.get_str_node(pwy_node))
 
 def _1b_get_protein(qry, session):
     """1b) RETRIEVE PROTEIN'"""
@@ -66,11 +67,8 @@ def _1b_get_protein(qry, session):
     #    speciesName Homo sapiens
     #    stId        R-HSA-1236975
     #    stIdVersion R-HSA-1236975.1
-    print("NEO4J NODE ID({})".format(ewas.id))
-    # print(dir(ewas))
-    for key, val in sorted(ewas.items()):
-        print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
-    session.PyBiocode/graph/hier_wr.py(ewas['stId'])
+    session.prt_properties_node(ewas)
+    session.prt_relationships(session.get_str_node(ewas))
 
 def _1c_get_protein_name(qry, session):
     """1c) RETRIEVE PROTEIN's displayName and Identifier:"""
@@ -113,7 +111,7 @@ def _run(session):
     print('\n1b) RETRIEVE PROTEIN')
     qry = 'MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas'
     _1b_get_protein(qry, session)
-    return
+    #session.prt_relationships_all()
    
     print("\n1c) RETRIEVE PROTEIN's displayName and Identifier:")
     qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'

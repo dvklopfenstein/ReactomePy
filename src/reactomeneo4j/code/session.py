@@ -4,6 +4,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
+import collections as cx
 from reactomeneo4j.code.schema.hier import DataSchemaHier
 
 
@@ -25,6 +26,11 @@ class Session(object):
             prt.write('QUERY: {Q}\n'.format(Q=query))
         return self.ses.run(query)
 
+    def prt_properties_node(self, node, prt=sys.stdout):
+        prt.write("NEO4J NODE ID({}):\n".format(node.id))
+        for key, val in sorted(node.items()):
+            prt.write("    {KEY:11} {VAL}\n".format(KEY=key, VAL=val))
+
     def prt_relationships(self, node='Complex{stId:"R-HSA-983126"}', prt=sys.stdout):
         """Get all relationships of an object. Ex: 'Complex{stId:"R-HSA-983126"}' """
         # 'MATCH (Complex{stId:"R-HSA-983126"})-[r]-() RETURN r'
@@ -36,17 +42,41 @@ class Session(object):
         # >
         qry = 'MATCH ({NODE})-[r]-() RETURN r'.format(NODE=node)
         res = self.ses.run(qry)
+        ctr = cx.Counter()
         for rec in res.records():
             rel = rec['r']
-            print("ITEMS:", rel.items())
-            print(rel)
-            prt.write("TYPE({TYPE})\n".format(TYPE=rel.type))
+            ctr[rel.type] += 1
+            assert rel['stoichiometry'] == 1, rel
+        prt.write('RELATIONSHIPS:\n')
+        for fld, cnt in ctr.most_common():
+            prt.write("  {CNT:5} {FLD}\n".format(CNT=cnt, FLD=fld))
 
     def get_node(self, neo4j_node_id):
         """Return nodes for neo4j IDs."""
         qry = 'START s=NODE({ID}) MATCH(s) RETURN s'.format(ID=neo4j_node_id)
         res = self.ses.run(qry)
         print('NNNNNNN', res.data())
+
+    def get_str_node(self, neo4j_node):
+        """Given a Neo4j node, return a string to use in neo4j queries."""
+        vals = {n:neo4j_node[n] for n in ['schemaClass', 'stId']}
+        return '{schemaClass}{{stId:"{stId}"}}'.format(**vals)
+
+    def prt_relationships_all(self, prt=sys.stdout):
+        """Get all relationships of an object. Ex: 'Complex{stId:"R-HSA-983126"}' """
+        tic = timeit.default_timer()
+        qry = 'MATCH ()-[r]-() RETURN r'
+        res = self.ses.run(qry)
+        ctr = cx.Counter()
+        for rec in res.records():
+            rel = rec['r']
+            ctr[rel.type] += 1
+            assert rel['stoichiometry'] == 1, rel
+        prt.write('RELATIONSHIPS:\n')
+        for fld, cnt in ctr.most_common():
+            prt.write("  {CNT:5} {FLD}\n".format(CNT=cnt, FLD=fld))
+        hms = str(datetime.timedelta(seconds(timeit.default_timer()-tic)))
+        prt.write("HMS: {HMS}\n".format(HMS=hms))
 
 #  begin_transaction(self, bookmark=None, metadata=None, timeout=None)
 #      Create a new :class:`.Transaction` within this session.
