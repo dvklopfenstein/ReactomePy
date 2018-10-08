@@ -19,6 +19,21 @@ class DataSchemaHier(object):
     def __init__(self):
         self.name2obj = Init().name2obj
 
+    def prt_data_schema_all(self, prt):
+        """Print all data schema in a readable format."""
+        prt.write('TOP DATA SCHEMA: DatabaseObject\n')
+        prt.write('------------------------------------\n')
+        self.prt_data_schema('DatabaseObject', prt, max_indent=2)
+        # Get Data Schema depth-01 nodes which have descendents
+        objs_d1_all = [o for o in self.name2obj.values() if o.depth==1 and o.dcnt!=0]
+        objs_d1_sel = [o for o in sorted(objs_d1_all, key=self.sortby)]
+        # Print hierarchies for depth-01 data schema
+        prt.write('\nDEPTH-01 DATA SCHEMA: DatabaseObject\n')
+        prt.write('------------------------------------\n')
+        for node_obj in objs_d1_sel:
+            prt.write('\n')
+            self.prt_data_schema(node_obj.item_id, prt)
+
     def get_ids_lte(self, name):
         """Return a set containing current data schema name ID and its descendants."""
         names = set(self.name2obj[name].descendants)
