@@ -29,14 +29,20 @@ class DataSchemaHier(object):
         """Get data schema name object."""
         return self.name2obj[name]
 
-    def prt_data_schema(self, root_schema='DatabaseObject', prt=sys.stdout):
+    def prt_data_schema(self, root_schema='DatabaseObject', prt=sys.stdout, **kws):
         """Print Reactome Graph Database data schema hierarchy."""
         cfg = {'name2prtfmt':{'ITEM':'({DCNT})'}}
         ntobj = namedtuple('ntprt', 'name dcnt')
         name2nt = {nm:ntobj(dcnt=o.dcnt, name=nm) for nm, o in self.name2obj.items()}
         name2prtfmt = {'ITEM':'(dcnt={dcnt})', 'ID':'{name}'}
-        wri = WrHier(self.name2obj, id2nt=name2nt, name2prtfmt=name2prtfmt, id_len=0)
+        wri = WrHier(self.name2obj,
+                     id2nt=name2nt, name2prtfmt=name2prtfmt, id_len=0, sortby=self.sortby, **kws)
         wri.prt_hier_down_id(root_schema, prt)  # Root schema
+
+    @staticmethod
+    def sortby(node_obj):
+        """Sort by Data Schema item ID (which is also the name)."""
+        return [-1*node_obj.dcnt, node_obj.item_id]
 
   ## def get_root_objs(self, gene_family_nodes):
   ##   """Get the root (depth=0) data schema name for each family in the list."""
