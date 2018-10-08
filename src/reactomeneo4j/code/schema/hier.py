@@ -5,9 +5,12 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+import sys
 # import os
+from collections import namedtuple
 ## from dvkbiodnld.data.hgnc.famid2name import FAMILYID2NAME
 from reactomeneo4j.code.schema.hier_init import Init
+from PyBiocode.graph.hier_wr import WrHier
 
 
 class DataSchemaHier(object):
@@ -25,6 +28,15 @@ class DataSchemaHier(object):
     def get_obj(self, name):
         """Get data schema name object."""
         return self.name2obj[name]
+
+    def prt_data_schema(self, root_schema='DatabaseObject', prt=sys.stdout):
+        """Print Reactome Graph Database data schema hierarchy."""
+        cfg = {'name2prtfmt':{'ITEM':'({DCNT})'}}
+        ntobj = namedtuple('ntprt', 'name dcnt')
+        name2nt = {nm:ntobj(dcnt=o.dcnt, name=nm) for nm, o in self.name2obj.items()}
+        name2prtfmt = {'ITEM':'(dcnt={dcnt})', 'ID':'{name}'}
+        wri = WrHier(self.name2obj, id2nt=name2nt, name2prtfmt=name2prtfmt, id_len=0)
+        wri.prt_hier_down_id(root_schema, prt)  # Root schema
 
   ## def get_root_objs(self, gene_family_nodes):
   ##   """Get the root (depth=0) data schema name for each family in the list."""

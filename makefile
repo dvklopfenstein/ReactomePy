@@ -2,10 +2,12 @@
 vim_:
 	vim -p \
 	./src/bin/run_reactome_tutorial.py \
+	./src/reactomeneo4j/code/session.py \
 	./src/reactomeneo4j/code/bolt_result.py \
 	./src/reactomeneo4j/code/graph.py \
 	./src/reactomeneo4j/code/record.py \
 	./src/reactomeneo4j/code/node.py \
+	./src/reactomeneo4j/code/relationship.py \
 	./src/reactomeneo4j/code/schema/data_schema.py \
 	./src/reactomeneo4j/code/schema/hier.py \
 	./src/reactomeneo4j/code/schema/hier_init.py \

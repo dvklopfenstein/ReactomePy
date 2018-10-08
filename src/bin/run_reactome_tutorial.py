@@ -10,36 +10,41 @@ __author__ = "DV Klopfenstein"
 import sys
 import neo4j
 from neo4j import GraphDatabase
+from reactomeneo4j.code.session import Session
+from reactomeneo4j.code.node import Node
 from reactomeneo4j.code.record import Record
-from reactomeneo4j.code.schema.hier import DataSchemaHier
 
 
 def test_reactome_tutorial(pwd, abc='hsa'):
     """Mirror Reactome/Neo4j tutorial in Python."""
     gdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', pwd))
     with gdr.session() as session:
-        #help(ses)
-        _run(session)
+        ses = Session(session)
+        #help(session)
+        _run(ses)
 
-def _run(ses):
-    obj = DataSchemaHier()
-    
+def _getobj_w_id(qry, session):
+    """1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')."""
+    # 'MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway'
+    pwy_node = session.run(qry).data()[0]['pathway']
+    #print(pwy)
+    #help(pwy.graph)
+    # <Node id=2052401 labels={'DatabaseObject', ... properties={...
+    print("NEO4J NODE ID({})".format(pwy_node.id))
+    # Neo4j's properties:
+    for key, val in pwy_node.items():
+        print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
+
+def _run(session):
     # Methods: data value values | attached consume detach graph keys peek records single summary
 
     ## print('1) RETRIEVING OBJECTS BASED ON THEIR IDENTIFIER')
-    ## qry = 'MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway'
-    ## pwy = ses.run(qry).value()[0]
-    ## #help(pwy)
-    ## #help(pwy.graph)
-    ## print("ENTITY_ID({})".format(pwy.id))
-    ## for key, val in pwy.items():
-    ##     print("{KEY:11} {VAL}".format(KEY=key, VAL=val))
-    ## for node in pwy.graph.relationships:
-    ##     print(node)
+    qry = 'MATCH (pathway:Pathway{stId:"R-HSA-1236975"}) RETURN pathway'
+    _getobj_w_id(qry, session)
 
     ## print('\n1a) RETRIEVE PROTEIN')
     ## qry = 'MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}) RETURN ewas'
-    ## res = ses.run(qry)  # neo4j.BoltStatementResult
+    ## res = session.run(qry)  # neo4j.BoltStatementResult
     ## ewas = res.data()[0]['ewas']  # EntityWithAccessionedSequence
     ## # print(dir(ewas))
     ## for key, val in ewas.items():
@@ -52,7 +57,7 @@ def _run(ses):
     ##        '(ewas)-[:referenceEntity]->(re:ReferenceEntity) RETURN '
     ##        'ewas.displayName AS EWAS, '
     ##        're.identifier AS Identifier')
-    ## res = ses.run(qry)  # neo4j.BoltStatmentResult
+    ## res = session.run(qry)  # neo4j.BoltStatmentResult
     ## print(res.data()) # [['PTEN [cytosol]', 'P60484']]
 
     ## # MATCH PART CAN ALSO BE:
@@ -64,25 +69,29 @@ def _run(ses):
     ##        're.identifier AS Identifier, '
     ##        'rd.displayName AS Database')
     ## # [['PTEN [cytosol]', 'P60484', 'UniProt']]
-    ## print(ses.run(qry).data())
+    ## print(session.run(qry).data())
+
+    return
 
     print('\n2) BREAKING DOWN COMPLEXES AND SETS TO GET THEIR PARTICIPANTS')
+    # https://reactome.org/content/schema/Complex
+    # MATCH (Complex{stId:"R-HSA-983126"})-[:hasComponent]->(pe:PhysicalEntity) RETURN pe.stId AS component_stId, pe.displayName AS component
+    qry = ('MATCH (Complex{stId:"R-HSA-983126"})-'
+           '[:hasComponent]->(pe:PhysicalEntity) RETURN '
+           'pe.stId AS component_stId, '
+           'pe.displayName AS component')
+    #
     #     component_stId   component
     #     --------------   ----------
     #     'R-HSA-976075    E3 ligases in proteasomal degradation [cytosol]
     #     'R-ALL-983035    antigenic substrate [cytosol]
     #     'R-HSA-976165    Ubiquitin:E2 conjugating enzymes [cytosol]
-    # https://reactome.org/content/schema/Complex
-    qry = ('MATCH (Complex{stId:"R-HSA-983126"})-'
-           '[:hasComponent]->(pe:PhysicalEntity) RETURN '
-           'pe.stId AS component_stId, '
-           'pe.displayName AS component')
-    for dct in ses.run(qry).data():
+    for dct in session.run(qry).data():
         print('{ID} {NAME}'.format(ID=dct['component_stId'], NAME=dct['component']))
 
     qry = ('MATCH (Complex{stId:"R-HSA-983126"})-'
            '[:hasComponent]->(pe:PhysicalEntity) RETURN pe')
-    res = ses.run(qry)
+    res = session.run(qry)
     graph = res.graph()
     print(graph)
     print(dir(res))
@@ -99,6 +108,11 @@ def _run(ses):
         print("")
     for rec in res.records():
         print("RRRRRRRRRRRRRR", rec)
+
+    ses = Session(session)
+    ses.prt_relationships('Complex{stId:"R-HSA-983126"}')
+    ses.get_node(2020241)
+    
 
     # query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
     #

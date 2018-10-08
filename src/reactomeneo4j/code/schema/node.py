@@ -15,7 +15,7 @@ from PyBiocode.graph.node import Node
 class DataSchemaNode(Node):
     """Holds information for one data schema item."""
 
-    prtfmt = "D-{DEPTH} {DCNT:3}=dcnt {NAME}"
+    prtfmt = "D-{DEPTH} {DCNT:2}=dcnt {NAME}"
     #### ntobj = cx.namedtuple("ntgf", "FAMILY_ID NAME ROOTSYM DEPTH DCNT")
 
     def __init__(self, name):
