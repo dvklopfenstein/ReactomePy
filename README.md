@@ -1,2 +1,5 @@
-# reactome_neo4j_py
-Query curated biological pathways in Reactome from within a Python script using neo4j
+# Biological Pathways, Reactome, Python, Neo4j
+Explore biological pathways in Reactome using Python to query neo4j
+
+
+Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

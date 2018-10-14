@@ -54,6 +54,7 @@ class Session(object):
     def get_node(self, neo4j_node_id):
         """Return nodes for neo4j IDs."""
         qry = 'START s=NODE({ID}) MATCH(s) RETURN s'.format(ID=neo4j_node_id)
+        qry = 'MATCH (s) WHERE ID(s)={ID} RETURN s'.format(ID=neo4j_node_id)
         res = self.ses.run(qry)
         print('NNNNNNN', res.data())
 

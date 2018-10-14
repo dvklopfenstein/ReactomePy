@@ -125,12 +125,13 @@ def _run(session):
            'RETURN ewas.displayName AS EWAS, re.identifier AS ID')
     _1d_get_protein_name(qry, session)  # [{'EWAS': 'PTEN [cytosol]', 'ID': 'P60484'}]
 
-    ## # MATCH PART CAN ALSO BE:
-    ## print('\n1e) ALSO GET REFERENCE DB(node) ON TOP OF PREVIOUSLY RETRIEVED FIELDS')
+    # MATCH PART CAN ALSO BE:
+    print('\n1e) ALSO GET REFERENCE DB(node) ON TOP OF PREVIOUSLY RETRIEVED FIELDS')
     qry = ('MATCH (ewas:EntityWithAccessionedSequence{stId:"R-HSA-199420"}),'
            '(ewas)-[:referenceEntity]->(re:ReferenceEntity)'
            '-[:referenceDatabase]->(rd:ReferenceDatabase) '
            'RETURN ewas.displayName AS EWAS, re.identifier AS Identifier, rd.displayName AS Database')
+    _1e_get_protein_name(qry, session)
     ## # [['PTEN [cytosol]', 'P60484', 'UniProt']]
     ## print(session.run(qry).data())
 
