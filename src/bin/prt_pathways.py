@@ -7,6 +7,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+import os
 import sys
 import collections as cx
 from neo4j import GraphDatabase
@@ -16,6 +17,8 @@ from reactomeneo4j.code.session import Session
 
 def prt_pathways():
     """Print pathway information for a species."""
+    abc = 'hsa'
+    fout_txt = 'log/pathways_{ABC}.py'.format(ABC=abc)
     assert len(sys.argv) != 1, "NO NEO4J PASSWORD PROVIDED"
     password = sys.argv[1]
     species = 'Homo sapiens'
@@ -23,12 +26,19 @@ def prt_pathways():
     prt = sys.stdout
     with gdr.session() as session:
         ses = Session(session)
-        _run(ses, species, prt=prt)
+        with open(fout_txt, 'w') as prt:
+            num_pws = _run(ses, species, prt=prt)
+            print("  {N:5} WROTE: {TXT}".format(N=num_pws, TXT=fout_txt))
+    #os.system('tail -60 {TXT}'.format(TXT=fout_txt))
 
 def _run(session, species, linelen=120, prt=sys.stdout):
     """Print pathway information for a species."""
     field = 'hasDiagram'
-    qry = 'MATCH (pw:Pathway{{speciesName:"{species}"}})-[:summation]->(s:Summation) RETURN pw, s'.format(species=species)
+    qry_pw = 'MATCH (pw:Pathway{{speciesName:"{species}"}})-'.format(species=species)
+    qry_pw = 'MATCH (pw:Pathway{stId:"R-HSA-3000480"})-'
+    qry_rels = ('[:summation]->(s:Summation) RETURN pw, s')
+    qry_rels = ('[]->(s) RETURN pw, s')
+    qry = "".join([qry_pw, qry_rels])
     res = session.run(qry)
     flds = cx.Counter()
     cnt = 0
@@ -41,13 +51,15 @@ def _run(session, species, linelen=120, prt=sys.stdout):
     #_prt_flds_seen(flds)
     # print(kws)
     # prt.write("\n{IDX}) {releaseDate} {stId:13} {displayName}\n".format(IDX=idx, **kws))
-    qry = 'MATCH (pw:Pathway{stId:"R-HSA-3000480"})-[:summation]->(s:Summation) RETURN pw, s'
-    res = session.run(qry)
-    for idx, rec in enumerate(res.records()):
-        print(rec)
-        pwy = rec['pw']
-        stmt = rec['s']
-    print("{N} {FLD} FIELDS FOUND".format(N=cnt, FLD=field))
+
+    # qry = 'MATCH (pw:Pathway{stId:"R-HSA-3000480"})-[:summation]->(s:Summation) RETURN pw, s'
+    # res = session.run(qry)
+    # for idx, rec in enumerate(res.records()):
+    #     print(rec)
+    #     pwy = rec['pw']
+    #     stmt = rec['s']
+    # print("{N} {FLD} FIELDS FOUND".format(N=cnt, FLD=field))
+    return idx
 
 def _prt_rel(node, session):
     """Print relationships."""
@@ -92,11 +104,13 @@ def _prt_flds_seen(fld2cnt):
 def _prt_pw(rec, idx, prt, linelen=120):
     """Print field."""
     kws_pw = {f:rec['pw'].get(f) for f in rec['pw']}  # Pathway
-    kws_su = {f:rec['s'].get(f) for f in rec['s']}    # Summation
-    prt.write("\n{IDX}) {releaseDate} {stId:13} {displayName}\n".format(IDX=idx, **kws_pw))
-    prt.write("{SUMMARY}\n".format(
-        SUMMARY="\n".join(textwrap.wrap(kws_su['text'], linelen))))
+    kws_su = {f:rec['s'].get(f) for f in rec['s']}    # Summation 'text'
+    print("\n{IDX}) {releaseDate} {stId:13} {displayName}\n".format(IDX=idx, **kws_pw))
+    # prt.write("{SUMMARY}\n".format(
+    #     SUMMARY="\n".join(textwrap.wrap(kws_su['text'], linelen))))
     #prt.write("{VAL}\n".format(VAL=kws[fld]))  # on Event
+    for e in kws_su.items():
+        print("    ", e)
 
 
 # KEY-VAL pw <Node id=2458192 labels={'DatabaseObject', 'Event', 'Pathway'} 
