@@ -8,7 +8,7 @@ import sys
 #import textwrap
 import datetime
 
-REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../")
+REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../..")
 COPYRIGHT = "Copyright (C) 2018-{YEAR}, DV Klopfenstein. All rights reserved.".format(
     YEAR=str(datetime.datetime.now().year))
 
