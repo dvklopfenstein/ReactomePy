@@ -50,6 +50,7 @@ class PathwayMaker(object):
         # x   21040 inferredTo
         # x   14504 hasEvent
         # Y     294 normalPathway
+        #       174 precedingEvent
         #
         # Y    8845 literatureReference
         # Y    2224 summation
@@ -59,9 +60,8 @@ class PathwayMaker(object):
         # Y     970 goBiologicalProcess
         # Y     526 disease
         # Y     351 hasEncapsulatedEvent
-        #       268 figure
-        #       190 relatedSpecies
-        #       174 precedingEvent
+        # Y     268 figure
+        # Y     190 relatedSpecies
         dont_do = set(['hasEvent', 'inferredTo'])
         # reltypes = cx.Counter()
         missing = cx.Counter()
@@ -73,7 +73,9 @@ class PathwayMaker(object):
                 pwy = rec['pw']
                 dst = rec['dst']
                 dct = self._get_pwdct(pw2info, pwy)
-                if rel.type == 'summation':
+                if rel.type == 'inferredTo':
+                    self._get_inferredTo(dct, rel, dst)
+                elif rel.type == 'summation':
                     self._get_summation(dct, rel, dst)
                 elif rel.type == 'literatureReference':
                     self._load_literatureref(dct, rel, dst)
@@ -97,6 +99,8 @@ class PathwayMaker(object):
                     self._get_normalpathway(dct, rel, dst)
                 elif rel.type == 'figure':
                     self._get_figure(dct, rel, dst)
+                elif rel.type == 'relatedSpecies':
+                    self._get_relatedspecies(dct, rel, dst)
                 # elif rel.type == 'authored':
                 #     self._get_authored(dct, rel, dst)
                 elif rel.type not in dont_do:
@@ -277,6 +281,24 @@ class PathwayMaker(object):
             dct['normalPathway'].append(dst['stId'])
 
     @staticmethod
+    def _get_relatedspecies(dct, rel, dst):
+        """Get related species."""
+        assert dst['schemaClass'] == 'Species'
+        assert rel['stoichiometry'] == 1
+        # print("GET_RELATED_SPECIES", dst)
+        if 'species' not in dct:
+            dct['species'] = [int(dst['taxId'])]
+        else:
+            dct['species'].append(int(dst['taxId']))
+
+    @staticmethod
+    def _get_inferredTo(dct, rel, dst):
+        """Get inferred to."""
+        assert dst['schemaClass'] == self.exp_schema_class, dst
+        assert rel['stoichiometry'] == 1
+        # print("GET_INFERRED_TO", dst)
+
+    @staticmethod
     def _get_relationship_typecnt(session, pw_stid):
         ctr = cx.Counter()
         qry = 'MATCH (Pathway{{stId:"{ID}"}})-[r]-() RETURN r'.format(ID=pw_stid)
@@ -284,6 +306,8 @@ class PathwayMaker(object):
         for rec in res.records():
             ctr[rec['r'].type] += 1
         return ctr
+
+    
 
     @staticmethod
     def rm_period(title):
