@@ -21,7 +21,7 @@ from reactomeneo4j.code.mkpy.pathways import PathwayMaker
 
 def prt_pathways():
     """Print pathway information for a species."""
-    species = 'Homo sapiens' if len(sys.argv)==2 else sys.argv[2]
+    species = sys.argv[2] if len(sys.argv)==3 else 'Homo sapiens'
     # fout_txt = 'log/pathways_{ABC}.py'.format(ABC=abc)
     assert len(sys.argv) != 1, "NO NEO4J PASSWORD PROVIDED"
     password = sys.argv[1]

@@ -49,15 +49,16 @@ class PathwayMaker(object):
         # Pathway relationships for Homo sapiens
         # x   21040 inferredTo
         # x   14504 hasEvent
+        # Y     294 normalPathway
+        #
         # Y    8845 literatureReference
         # Y    2224 summation
         # Y    2222 species
         # Y    1422 crossReference
         # Y    1320 compartment
         # Y     970 goBiologicalProcess
-        #       526 disease
-        #       351 hasEncapsulatedEvent
-        #       294 normalPathway
+        # Y     526 disease
+        # Y     351 hasEncapsulatedEvent
         #       268 figure
         #       190 relatedSpecies
         #       174 precedingEvent
@@ -90,6 +91,12 @@ class PathwayMaker(object):
                 # Disease
                 elif rel.type == 'disease':
                     self._get_disease(dct, rel, dst)
+                elif rel.type == 'hasEncapsulatedEvent':
+                    self._get_hasencapsulatedevent(dct, rel, dst)
+                elif rel.type == 'normalPathway':
+                    self._get_normalpathway(dct, rel, dst)
+                elif rel.type == 'figure':
+                    self._get_figure(dct, rel, dst)
                 # elif rel.type == 'authored':
                 #     self._get_authored(dct, rel, dst)
                 elif rel.type not in dont_do:
@@ -97,7 +104,6 @@ class PathwayMaker(object):
                     # print(rel)  # stoichiometry order
                     # print(" ".join(dst.keys()))
                     # print("")
-                    pass
             # print("{N} {FLD} FIELDS FOUND".format(N=cnt, FLD=field))
         # self.prt_cnts(reltypes)
         self.prt_cnts(missing)
@@ -174,7 +180,7 @@ class PathwayMaker(object):
     def _get_go(self, name, dct, rel, dst):
         """Get Compartments in a pathway."""
         # 'displayName': 'nucleoplasm',
-        # 'definition': 'That part of the nuclear content other than the chromosomes or the nucleolus.',
+        # 'definition': 'That part of the nuclear content other than chromosomes or nucleolus',
         # 'accession': '0005654',
         # 'url':'http://www.ebi.ac.uk/ego/QuickGO?mode=display&entry=GO:0005654'}>
         assert rel['stoichiometry'] == 1
@@ -229,14 +235,46 @@ class PathwayMaker(object):
         assert dst['schemaClass'] == 'Disease'
         assert dst['databaseName'] == 'DOID'
         assert rel['stoichiometry'] == 1
-        print("DISEASE", dst)
-        # assert dst['schemaClass'] == 'Summation'
-        # # Mostly, there is one summation per pathway
-        # if 'summation' not in dct:
-        #     dct['summation'] = [dst['text']]
-        # # Sometimes there is more than one summation per pathway
-        # else:
-        #     dct['summation'].append(dst['text'])
+        # print("DISEASE", dst)
+        if 'disease' not in dct:
+            dct['disease'] = [dst['displayName']]
+        else:
+            dct['disease'].append(dst['displayName'])
+
+    def _get_hasencapsulatedevent(self, dct, rel, dst):
+        """Get encapsulated event."""
+        assert dst['stId'] is not None, dst
+        assert dst['schemaClass'] in self.exp_schema_class, dst  # (TopLevel)?Pathway
+        assert rel['stoichiometry'] == 1
+        # print("GET_ENCAPSULATED_EVENT", dst)
+        if 'hasEncapsulatedEvent' not in dct:
+            dct['hasEncapsulatedEvent'] = [dst['stId']]
+        else:
+            dct['hasEncapsulatedEvent'].append(dst['stId'])
+
+    @staticmethod
+    def _get_figure(dct, rel, dst):
+        """Get figure."""
+        assert dst['schemaClass'] == 'Figure'
+        assert rel['stoichiometry'] == 1
+        # print("GET_FIGURE", dst)
+        fig = dst['displayName']
+        assert fig[:9] == '/figures/', fig
+        if 'figure' not in dct:
+            dct['figure'] = [fig[9:]]
+        else:
+            dct['figure'].append(dst[fig[9:]])
+
+    @staticmethod
+    def _get_normalpathway(dct, rel, dst):
+        """Get normal pathway."""
+        assert dst['schemaClass'] == 'Pathway'
+        assert rel['stoichiometry'] == 1
+        # print("GET_NORMAL_PATHWAY", dst)
+        if 'normalPathway' not in dct:
+            dct['normalPathway'] = [dst['stId']]
+        else:
+            dct['normalPathway'].append(dst['stId'])
 
     @staticmethod
     def _get_relationship_typecnt(session, pw_stid):
