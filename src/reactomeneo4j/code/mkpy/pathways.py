@@ -72,11 +72,13 @@ class PathwayMaker(object):
                 pwy = rec['pw']
                 dst = rec['dst']
                 dct = self._get_pwdct(pw2info, pwy)
+                # Pathways and TopLevelPathways
                 if rel.type == 'inferredTo':
                     self._get_inferredTo(dct, rel, dst)
                 elif rel.type == 'summation':
                     self._get_summation(dct, rel, dst)
-                elif rel.type == 'literatureReference':
+                # Pubs, Books, URLs
+                elif rel.type == 'literatureReference': 
                     self._load_literatureref(dct, rel, dst)
                 elif rel.type == 'species':
                     self._get_taxid(dct, rel, dst)
@@ -100,6 +102,8 @@ class PathwayMaker(object):
                     self._get_figure(dct, rel, dst)
                 elif rel.type == 'relatedSpecies':
                     self._get_relatedspecies(dct, rel, dst)
+                elif rel.type == 'hasEvent':
+                    self._get_event(dct, rel, dst)
                 else:
                     missing[rel.type] += 1
                     # print(rel)  # stoichiometry order
@@ -297,6 +301,10 @@ class PathwayMaker(object):
             dct['inferredTo'] = [dst['stId']]
         else:
             dct['inferredTo'].append(dst['stId'])
+
+    def _get_event(dct, rel, dst):
+        assert rel['stoichiometry'] == 1
+        print("GET_EVENT", dst)
 
     @staticmethod
     def _get_relationship_typecnt(session, pw_stid):
