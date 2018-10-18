@@ -47,7 +47,7 @@ class PathwayMaker(object):
         qry_rels = ('[r]->(dst) RETURN pw, r, dst')
         qry = "".join([qry_pw, qry_rels])
         # Pathway relationships for Homo sapiens
-        # x   21040 inferredTo
+        # Y   21040 inferredTo
         # x   14504 hasEvent
         # Y     294 normalPathway
         #       174 precedingEvent
@@ -62,7 +62,6 @@ class PathwayMaker(object):
         # Y     351 hasEncapsulatedEvent
         # Y     268 figure
         # Y     190 relatedSpecies
-        dont_do = set(['hasEvent', 'inferredTo'])
         # reltypes = cx.Counter()
         missing = cx.Counter()
         with self.gdr.session() as session:
@@ -101,9 +100,7 @@ class PathwayMaker(object):
                     self._get_figure(dct, rel, dst)
                 elif rel.type == 'relatedSpecies':
                     self._get_relatedspecies(dct, rel, dst)
-                # elif rel.type == 'authored':
-                #     self._get_authored(dct, rel, dst)
-                elif rel.type not in dont_do:
+                else:
                     missing[rel.type] += 1
                     # print(rel)  # stoichiometry order
                     # print(" ".join(dst.keys()))
@@ -291,12 +288,15 @@ class PathwayMaker(object):
         else:
             dct['species'].append(int(dst['taxId']))
 
-    @staticmethod
-    def _get_inferredTo(dct, rel, dst):
+    def _get_inferredTo(self, dct, rel, dst):
         """Get inferred to."""
-        assert dst['schemaClass'] == self.exp_schema_class, dst
+        assert dst['schemaClass'] in self.exp_schema_class, dst  # (TopLevel)?Pathway
         assert rel['stoichiometry'] == 1
         # print("GET_INFERRED_TO", dst)
+        if 'inferredTo' not in dct:
+            dct['inferredTo'] = [dst['stId']]
+        else:
+            dct['inferredTo'].append(dst['stId'])
 
     @staticmethod
     def _get_relationship_typecnt(session, pw_stid):
