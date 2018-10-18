@@ -227,6 +227,7 @@ class PathwayMaker(object):
     def _get_disease(dct, rel, dst):
         """Get disease associated with a pathway."""
         assert rel['stoichiometry'] == 1
+        print("DISEASE", dst)
         # assert dst['schemaClass'] == 'Summation'
         # # Mostly, there is one summation per pathway
         # if 'summation' not in dct:
