@@ -200,8 +200,8 @@ class PathwayMaker(object):
     @staticmethod
     def _get_taxid(dct, rel, dst):
         """Get taxId text given a relationship and a destination Node."""
-        assert rel['stoichiometry'] == 1
         assert dst['schemaClass'] == 'Species'
+        assert rel['stoichiometry'] == 1
         # Mostly, there is one Species per pathway
         taxid = int(dst['taxId'])
         if 'taxId' not in dct:
@@ -214,8 +214,8 @@ class PathwayMaker(object):
     @staticmethod
     def _get_summation(dct, rel, dst):
         """Get summation text given a relationship and a destination Node."""
-        assert rel['stoichiometry'] == 1
         assert dst['schemaClass'] == 'Summation'
+        assert rel['stoichiometry'] == 1
         # Mostly, there is one summation per pathway
         if 'summation' not in dct:
             dct['summation'] = [dst['text']]
@@ -226,6 +226,8 @@ class PathwayMaker(object):
     @staticmethod
     def _get_disease(dct, rel, dst):
         """Get disease associated with a pathway."""
+        assert dst['schemaClass'] == 'Disease'
+        assert dst['databaseName'] == 'DOID'
         assert rel['stoichiometry'] == 1
         print("DISEASE", dst)
         # assert dst['schemaClass'] == 'Summation'
