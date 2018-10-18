@@ -5,6 +5,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+import sys
 import collections as cx
 import timeit
 import datetime
@@ -26,6 +27,8 @@ class PathwayMaker(object):
     # LiteratureReference EXCLUDE: volume schemaClass pages dbId title
     ntlit = cx.namedtuple('ntlit', 'year pubMedIdentifier displayName journal')
     nturl = cx.namedtuple('nturl', 'URL title')
+    ntgo = cx.namedtuple('ntgo', 'displayName accession')  # definition url
+    # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
     def __init__(self, species, password):
         self.name2nt = {nt.displayName:nt for nt in SPECIES}
@@ -43,12 +46,30 @@ class PathwayMaker(object):
         qry_rels = ('[:summation]->(s:Summation) RETURN pw, s')
         qry_rels = ('[r]->(dst) RETURN pw, r, dst')
         qry = "".join([qry_pw, qry_rels])
+        # Pathway relationships for Homo sapiens
+        # x   21040 inferredTo
+        # x   14504 hasEvent
+        # Y    8845 literatureReference
+        # Y    2224 summation
+        # Y    2222 species
+        # Y    1422 crossReference
+        # Y    1320 compartment
+        # Y     970 goBiologicalProcess
+        #       526 disease
+        #       351 hasEncapsulatedEvent
+        #       294 normalPathway
+        #       268 figure
+        #       190 relatedSpecies
+        #       174 precedingEvent
         dont_do = set(['hasEvent', 'inferredTo'])
+        # reltypes = cx.Counter()
+        missing = cx.Counter()
         with self.gdr.session() as session:
             res = session.run(qry)
             for rec in res.records():
-                pwy = rec['pw']
                 rel = rec['r']
+                # reltypes[rel.type] += 1
+                pwy = rec['pw']
                 dst = rec['dst']
                 dct = self._get_pwdct(pw2info, pwy)
                 if rel.type == 'summation':
@@ -57,12 +78,29 @@ class PathwayMaker(object):
                     self._load_literatureref(dct, rel, dst)
                 elif rel.type == 'species':
                     self._get_taxid(dct, rel, dst)
+                elif rel.type == 'crossReference':
+                    self._get_crossreference(dct, rel, dst)
+                # Gene Ontology
+                elif rel.type == 'compartment':
+                    assert dst['schemaClass'] == 'Compartment'
+                    self._get_go('Compartment', dct, rel, dst)
+                elif rel.type == 'goBiologicalProcess':
+                    assert dst['schemaClass'] == 'GO_BiologicalProcess'
+                    self._get_go('GO_BiologicalProcess', dct, rel, dst)
+                # Disease
+                elif rel.type == 'disease':
+                    self._get_disease(dct, rel, dst)
+                # elif rel.type == 'authored':
+                #     self._get_authored(dct, rel, dst)
                 elif rel.type not in dont_do:
+                    missing[rel.type] += 1
                     # print(rel)  # stoichiometry order
                     # print(" ".join(dst.keys()))
                     # print("")
                     pass
             # print("{N} {FLD} FIELDS FOUND".format(N=cnt, FLD=field))
+        # self.prt_cnts(reltypes)
+        self.prt_cnts(missing)
         hms = str(datetime.timedelta(seconds=(timeit.default_timer()-tic)))
         print("HMS {HMS} {N:5} Pathways READ".format(HMS=hms, N=len(pw2info)))
         return pw2info
@@ -77,7 +115,7 @@ class PathwayMaker(object):
         assert pwy.get('speciesName') == self.species
         #relctr = self._get_relationship_typecnt(session, stid)
         #print(self.pwfmt.format(**dct_pwy), relctr.most_common())
-        print(self.pwfmt.format(**dct_pwy))
+        # print(self.pwfmt.format(**dct_pwy))
         dct_all = {'Pathway':dct_pwy}
         pw2info[stid] = dct_all
         return dct_all
@@ -133,6 +171,32 @@ class PathwayMaker(object):
             print("\nDISPLAY({})\nTITLE  ({})".format(dct['displayName'], title))
         return self.ntlit(**dct)
 
+    def _get_go(self, name, dct, rel, dst):
+        """Get Compartments in a pathway."""
+        # 'displayName': 'nucleoplasm',
+        # 'definition': 'That part of the nuclear content other than the chromosomes or the nucleolus.',
+        # 'accession': '0005654',
+        # 'url':'http://www.ebi.ac.uk/ego/QuickGO?mode=display&entry=GO:0005654'}>
+        assert rel['stoichiometry'] == 1
+        assert dst['displayName'] == dst['name'], '{} {}'.format(dst['displayName'], dst['name'])
+        assert dst['databaseName'] == 'GO'
+        comp = self.ntgo(displayName=dst['displayName'], accession=dst['accession'])
+        if name in dct:
+            dct[name].append(comp)
+        else:
+            dct[name] = [comp]
+
+    @staticmethod
+    def _get_crossreference(dct, rel, dst):
+        """Get pathway crossReference."""
+        assert dst['databaseName'] == 'BioModels Database', dst
+        assert dst['schemaClass'] == 'DatabaseIdentifier'
+        assert rel['stoichiometry'] == 1
+        if 'crossreference' not in dct:
+            dct['crossreference'] = [dst['displayName']]
+        else:
+            dct['crossreference'].append(dst['displayName'])
+
     @staticmethod
     def _get_taxid(dct, rel, dst):
         """Get taxId text given a relationship and a destination Node."""
@@ -160,6 +224,18 @@ class PathwayMaker(object):
             dct['summation'].append(dst['text'])
 
     @staticmethod
+    def _get_disease(dct, rel, dst):
+        """Get disease associated with a pathway."""
+        assert rel['stoichiometry'] == 1
+        # assert dst['schemaClass'] == 'Summation'
+        # # Mostly, there is one summation per pathway
+        # if 'summation' not in dct:
+        #     dct['summation'] = [dst['text']]
+        # # Sometimes there is more than one summation per pathway
+        # else:
+        #     dct['summation'].append(dst['text'])
+
+    @staticmethod
     def _get_relationship_typecnt(session, pw_stid):
         ctr = cx.Counter()
         qry = 'MATCH (Pathway{{stId:"{ID}"}})-[r]-() RETURN r'.format(ID=pw_stid)
@@ -173,5 +249,11 @@ class PathwayMaker(object):
         """Remove ending period, if one exists."""
         return title if title[-1] != '.' else title[:-1]
 
+    @staticmethod
+    def prt_cnts(ctr, prt=sys.stdout):
+        """Print counts of items found in a Counter."""
+        for fld, cnt in ctr.most_common():
+            prt.write("  {CNT:6} {FLD}\n".format(CNT=cnt, FLD=fld))
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reservedsEvent
