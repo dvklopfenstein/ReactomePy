@@ -2,8 +2,8 @@
 vim_:
 	vim -p \
 	./src/bin/run_reactome_tutorial.py \
+	./src/mkpy/pathways.py \
 	./src/reactomeneo4j/code/session.py \
-	./src/reactomeneo4j/code/bolt_result.py \
 	./src/reactomeneo4j/code/graph.py \
 	./src/reactomeneo4j/code/record.py \
 	./src/reactomeneo4j/code/node.py \
@@ -12,6 +12,12 @@ vim_:
 	./src/reactomeneo4j/code/schema/hier.py \
 	./src/reactomeneo4j/code/schema/hier_init.py \
 	./src/reactomeneo4j/code/schema/node.py
+
+vim_pw:
+	vim -p \
+	./src/mkpy/pathways.py \
+	src/reactomeneo4j/code/mkpy/pathways.py \
+	src/reactomeneo4j/data/species.py
 
 vim_old:
 	vim -p \

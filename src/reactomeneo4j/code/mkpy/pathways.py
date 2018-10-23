@@ -36,16 +36,29 @@ class PathwayMaker(object):
             S=species, A="\n".join(sorted(self.name2nt)))
         self.species = species
         self.gdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+        self.reltype2fnc = {
+            'inferredTo': self._get_inferredto,
+            'summation': self._get_summation,
+            # Pubs, Books, URLs
+            'literatureReference': self._load_literatureref,
+            'species': self._get_taxid,
+            'crossReference': self._get_crossreference,
+            'disease': self._get_disease,
+            'hasEncapsulatedEvent': self._get_hasencapsulatedevent,
+            'normalPathway': self._get_normalpathway,
+            'figure': self._get_figure,
+            'relatedSpecies': self._get_relatedspecies,
+            'hasEvent': self._get_event,
+        }
 
     def get_pw2dcts(self):
         """Fill in Pathway with information by following other relationships."""
         pw2info = {}
         tic = timeit.default_timer()
-        qry_pw = 'MATCH (pw:Pathway{{speciesName:"{species}"}})-'.format(species=self.species)
         #qry_pw = 'MATCH (pw:Pathway{stId:"R-HSA-3000480"})-'
-        qry_rels = ('[:summation]->(s:Summation) RETURN pw, s')
-        qry_rels = ('[r]->(dst) RETURN pw, r, dst')
-        qry = "".join([qry_pw, qry_rels])
+        qry = "".join([
+            'MATCH (pw:Pathway{{speciesName:"{species}"}})-'.format(species=self.species),
+            '[r]->(dst) RETURN pw, r, dst'])
         # Pathway relationships for Homo sapiens
         # Y   21040 inferredTo
         # x   14504 hasEvent
@@ -65,25 +78,15 @@ class PathwayMaker(object):
         # reltypes = cx.Counter()
         missing = cx.Counter()
         with self.gdr.session() as session:
-            res = session.run(qry)
-            for rec in res.records():
+            for rec in session.run(qry).records():
                 rel = rec['r']
+                typ = rel.type
                 # reltypes[rel.type] += 1
-                pwy = rec['pw']
                 dst = rec['dst']
-                dct = self._get_pwdct(pw2info, pwy)
+                dct = self._get_pwdct(pw2info, rec['pw'])
                 # Pathways and TopLevelPathways
-                if rel.type == 'inferredTo':
-                    self._get_inferredTo(dct, rel, dst)
-                elif rel.type == 'summation':
-                    self._get_summation(dct, rel, dst)
-                # Pubs, Books, URLs
-                elif rel.type == 'literatureReference': 
-                    self._load_literatureref(dct, rel, dst)
-                elif rel.type == 'species':
-                    self._get_taxid(dct, rel, dst)
-                elif rel.type == 'crossReference':
-                    self._get_crossreference(dct, rel, dst)
+                if typ in self.reltype2fnc:
+                    self.reltype2fnc[typ](dct, rel, dst)
                 # Gene Ontology
                 elif rel.type == 'compartment':
                     assert dst['schemaClass'] == 'Compartment'
@@ -91,19 +94,6 @@ class PathwayMaker(object):
                 elif rel.type == 'goBiologicalProcess':
                     assert dst['schemaClass'] == 'GO_BiologicalProcess'
                     self._get_go('GO_BiologicalProcess', dct, rel, dst)
-                # Disease
-                elif rel.type == 'disease':
-                    self._get_disease(dct, rel, dst)
-                elif rel.type == 'hasEncapsulatedEvent':
-                    self._get_hasencapsulatedevent(dct, rel, dst)
-                elif rel.type == 'normalPathway':
-                    self._get_normalpathway(dct, rel, dst)
-                elif rel.type == 'figure':
-                    self._get_figure(dct, rel, dst)
-                elif rel.type == 'relatedSpecies':
-                    self._get_relatedspecies(dct, rel, dst)
-                elif rel.type == 'hasEvent':
-                    self._get_event(dct, rel, dst)
                 else:
                     missing[rel.type] += 1
                     # print(rel)  # stoichiometry order
@@ -292,7 +282,7 @@ class PathwayMaker(object):
         else:
             dct['species'].append(int(dst['taxId']))
 
-    def _get_inferredTo(self, dct, rel, dst):
+    def _get_inferredto(self, dct, rel, dst):
         """Get inferred to."""
         assert dst['schemaClass'] in self.exp_schema_class, dst  # (TopLevel)?Pathway
         assert rel['stoichiometry'] == 1
@@ -302,9 +292,10 @@ class PathwayMaker(object):
         else:
             dct['inferredTo'].append(dst['stId'])
 
+    @staticmethod
     def _get_event(dct, rel, dst):
         assert rel['stoichiometry'] == 1
-        print("GET_EVENT", dst)
+        #print("GET_EVENT", dst)
 
     @staticmethod
     def _get_relationship_typecnt(session, pw_stid):
@@ -315,7 +306,7 @@ class PathwayMaker(object):
             ctr[rec['r'].type] += 1
         return ctr
 
-    
+
 
     @staticmethod
     def rm_period(title):

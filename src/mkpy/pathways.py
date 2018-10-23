@@ -7,34 +7,24 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-import os
+# import os
 import sys
-import collections as cx
-import timeit
-import datetime
-from neo4j import GraphDatabase
-import textwrap
-from reactomeneo4j.code.session import Session
-from reactomeneo4j.data.species import SPECIES
+# import collections as cx
+# import timeit
+# import datetime
+# import textwrap
+# from reactomeneo4j.data.species import SPECIES
 from reactomeneo4j.code.mkpy.pathways import PathwayMaker
 
 
 def prt_pathways():
     """Print pathway information for a species."""
-    species = sys.argv[2] if len(sys.argv)==3 else 'Homo sapiens'
+    species = sys.argv[2] if len(sys.argv) == 3 else 'Homo sapiens'
     # fout_txt = 'log/pathways_{ABC}.py'.format(ABC=abc)
     assert len(sys.argv) != 1, "NO NEO4J PASSWORD PROVIDED"
     password = sys.argv[1]
     obj = PathwayMaker(species, password)
     pw2dcts = obj.get_pw2dcts()
-
-    # prt = sys.stdout
-    # with gdr.session() as session:
-    #     ses = Session(session)
-    #     with open(fout_txt, 'w') as prt:
-    #         num_pws = _run(ses, species, prt=prt)
-    #         print("  {N:5} WROTE: {TXT}".format(N=num_pws, TXT=fout_txt))
-    # #os.system('tail -60 {TXT}'.format(TXT=fout_txt))
 
 ####def _prt_rel(node, session):
 ####    """Print relationships."""
@@ -91,7 +81,7 @@ def prt_pathways():
 ####        print("    ", e)
 
 
-##### KEY-VAL pw <Node id=2458192 labels={'DatabaseObject', 'Event', 'Pathway'} 
+##### KEY-VAL pw <Node id=2458192 labels={'DatabaseObject', 'Event', 'Pathway'}
 ##### properties={
 #####   'schemaClass': 'Pathway'
 #####   'speciesName': 'Homo sapiens'
