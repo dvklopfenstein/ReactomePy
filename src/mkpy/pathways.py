@@ -14,17 +14,24 @@ import sys
 # import datetime
 # import textwrap
 # from reactomeneo4j.data.species import SPECIES
-from reactomeneo4j.code.mkpy.pathways import PathwayMaker
+from reactomeneo4j.code.mkpy.pathway_query import PathwayQuery
+from reactomeneo4j.code.mkpy.pathway_wrpy import PathwayWrPy
 
 
 def prt_pathways():
-    """Print pathway information for a species."""
+    """Print pathways and their details for a species."""
+    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways_info.py'
+    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways_summation.py'
+    fout_txt = '{ABC}_pathways.txt'
     species = sys.argv[2] if len(sys.argv) == 3 else 'Homo sapiens'
     # fout_txt = 'log/pathways_{ABC}.py'.format(ABC=abc)
     assert len(sys.argv) != 1, "NO NEO4J PASSWORD PROVIDED"
     password = sys.argv[1]
-    obj = PathwayMaker(species, password)
-    pw2dcts = obj.get_pw2dcts()
+    objqu = PathwayQuery(species, password)
+    pw2dcts = objqu.get_pw2dcts()
+    objwr = PathwayWrPy(pw2dcts)
+    # objwr.wrtxt(fout_txt)
+    objwr.wrpy_summation(fout_sum)
 
 ####def _prt_rel(node, session):
 ####    """Print relationships."""

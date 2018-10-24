@@ -1,3 +1,9 @@
+# Reactome Python Neo4j tasks
+
+pylint:
+	git status -uno | perl -ne 'if (/(\S.*\S):\s+(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$2}' | tee tmp_pylint
+	chmod 755 tmp_pylint
+	tmp_pylint
 
 vim_:
 	vim -p \
@@ -16,8 +22,10 @@ vim_:
 vim_pw:
 	vim -p \
 	./src/mkpy/pathways.py \
-	src/reactomeneo4j/code/mkpy/pathways.py \
-	src/reactomeneo4j/data/species.py
+	src/reactomeneo4j/code/mkpy/pathway_query.py \
+	src/reactomeneo4j/code/mkpy/pathway_wrpy.py \
+	src/reactomeneo4j/data/species.py \
+	src/reactomeneo4j/code/mkpy/utils.py
 
 vim_old:
 	vim -p \

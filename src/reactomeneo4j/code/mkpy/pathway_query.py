@@ -14,8 +14,8 @@ from neo4j import GraphDatabase
 from reactomeneo4j.data.species import SPECIES
 
 
-class PathwayMaker(object):
-    """Collect pathway description, summary, and literature."""
+class PathwayQuery(object):
+    """Collect pathway description, summary, and literature using Neo4j queries."""
 
     pwfmt = ('{stId:13} '
              'dis={isInDisease:1} dia={hasDiagram:1} inferred={isInferred:1} '
@@ -27,7 +27,7 @@ class PathwayMaker(object):
     # LiteratureReference EXCLUDE: volume schemaClass pages dbId title
     ntlit = cx.namedtuple('ntlit', 'year pubMedIdentifier displayName journal')
     nturl = cx.namedtuple('nturl', 'URL title')
-    ntgo = cx.namedtuple('ntgo', 'displayName accession')  # definition url
+    ntgo = cx.namedtuple('ntgo', 'displayName GO')  # definition url
     # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
     def __init__(self, species, password):
@@ -83,6 +83,7 @@ class PathwayMaker(object):
                 typ = rel.type
                 # reltypes[rel.type] += 1
                 dst = rec['dst']
+                # Updating dct updates pw2info
                 dct = self._get_pwdct(pw2info, rec['pw'])
                 # Pathways and TopLevelPathways
                 if typ in self.reltype2fnc:
@@ -99,6 +100,9 @@ class PathwayMaker(object):
                     # print(rel)  # stoichiometry order
                     # print(" ".join(dst.keys()))
                     # print("")
+                # print("--------------------------------------------", dct['Pathway']['stId'])
+                # print(dct)
+                # pw2info[dct['Pathway']['stId']] = dct
             # print("{N} {FLD} FIELDS FOUND".format(N=cnt, FLD=field))
         # self.prt_cnts(reltypes)
         self.prt_cnts(missing)
@@ -181,7 +185,7 @@ class PathwayMaker(object):
         assert rel['stoichiometry'] == 1
         assert dst['displayName'] == dst['name'], '{} {}'.format(dst['displayName'], dst['name'])
         assert dst['databaseName'] == 'GO'
-        comp = self.ntgo(displayName=dst['displayName'], accession=dst['accession'])
+        comp = self.ntgo(displayName=dst['displayName'], GO="GO:{GO}".format(GO=dst['accession']))
         if name in dct:
             dct[name].append(comp)
         else:
@@ -255,10 +259,13 @@ class PathwayMaker(object):
         # print("GET_FIGURE", dst)
         fig = dst['displayName']
         assert fig[:9] == '/figures/', fig
+        fig = fig[9:]
+        if fig is None:
+            print('FIGURE', dst['displayName'])
         if 'figure' not in dct:
-            dct['figure'] = [fig[9:]]
+            dct['figure'] = [fig]
         else:
-            dct['figure'].append(dst[fig[9:]])
+            dct['figure'].append(fig)
 
     @staticmethod
     def _get_normalpathway(dct, rel, dst):
@@ -286,11 +293,15 @@ class PathwayMaker(object):
         """Get inferred to."""
         assert dst['schemaClass'] in self.exp_schema_class, dst  # (TopLevel)?Pathway
         assert rel['stoichiometry'] == 1
-        # print("GET_INFERRED_TO", dst)
+        # print("\nDCT GET_INFERRED_TO", dct)
+        # print("KEY GET_INFERRED_TO", dct.keys())
+        # print("DST GET_INFERRED_TO", dst)
         if 'inferredTo' not in dct:
             dct['inferredTo'] = [dst['stId']]
         else:
+            # print("INF GET_INFERRED_TO", dct['inferredTo'])
             dct['inferredTo'].append(dst['stId'])
+        # print("INF GET_INFERRED_TO", dct['inferredTo'])
 
     @staticmethod
     def _get_event(dct, rel, dst):
