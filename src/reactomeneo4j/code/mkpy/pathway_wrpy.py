@@ -90,7 +90,6 @@ class PathwayWrPy(object):
             prt.write('# pylint: disable=line-too-long,too-many-lines\n')
             prt.write("PW2SUMS = {\n")
             for pwy, dct in sorted(self.pw2info.items()):
-                print(dct['Pathway'])
                 prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=dct['summation']))
             prt.write("}\n")
             prt_copyright_comment(prt)
