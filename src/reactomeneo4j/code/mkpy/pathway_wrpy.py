@@ -7,7 +7,7 @@ __author__ = "DV Klopfenstein"
 
 import os
 import sys
-# import collections as cx
+import collections as cx
 # import timeit
 # import datetime
 # import textwrap
@@ -15,7 +15,7 @@ from reactomeneo4j.data.species import SPECIES
 from reactomeneo4j.code.mkpy.utils import REPO
 from reactomeneo4j.code.mkpy.utils import prt_docstr_module
 # from reactomeneo4j.code.mkpy.utils import prt_namedtuple
-from reactomeneo4j.code.mkpy.utils import prt_dict
+# from reactomeneo4j.code.mkpy.utils import prt_dict
 from reactomeneo4j.code.mkpy.utils import prt_copyright_comment
 
 
@@ -23,6 +23,8 @@ class PathwayWrPy(object):
     """Write pathway information obtained from PythonQuery into Python modules."""
 
     taxid2nt = {nt.taxId:nt for nt in SPECIES}
+
+    figerr = '{stId:13} dia={hasDiagram:1} {diagramHeight:>4}x{diagramWidth:<4} {displayName}'
 
     #### pwfmt = ('{stId:13} '
     ####          'dis={isInDisease:1} dia={hasDiagram:1} inferred={isInferred:1} '
@@ -37,7 +39,8 @@ class PathwayWrPy(object):
     #### ntgo = cx.namedtuple('ntgo', 'displayName accession')  # definition url
     #### # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
-    def __init__(self, pw2info):
+    def __init__(self, pw2info, log=sys.stdout):
+        self.log = log
         self.pw2info = pw2info
         self.taxnt = self._init_taxnt()
         # assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
@@ -75,7 +78,7 @@ class PathwayWrPy(object):
             for rel, val in rel2dct.items():
                 if rel == 'Pathway':
                     prt.write("{VAL}\n".format(VAL=val))  # dict
-                else:
+                elif rel not in set(['summation']):
                     for item in val:  # list
                         prt.write('{REL:20} {ITEM}\n'.format(REL=rel, ITEM=item))
                 # prt.write(rel, val)
@@ -94,6 +97,41 @@ class PathwayWrPy(object):
             prt.write("}\n")
             prt_copyright_comment(prt)
             print('  WROTE: {PY}'.format(PY=fout_py))
+
+    def wrpy_figure(self, fpat_py):
+        """Write pathway summation to a Python file."""
+        fout_py = fpat_py.format(ABC=self.taxnt.abc)
+        pw2ntfig = self._get_ntfig()
+        with open(os.path.join(REPO, fout_py), 'w') as prt:
+            prt_docstr_module('{N} of {T} Pathway have figures'.format(
+                N=len(pw2ntfig), T=len(self.pw2info)), prt)
+            prt.write("PW2FIGS = {\n")
+            for pwy, ntfig in sorted(pw2ntfig.items()):
+                prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=ntfig))
+            prt.write("}\n")
+            prt_copyright_comment(prt)
+            print('  WROTE: {PY}'.format(PY=fout_py))
+
+    def _get_ntfig(self):
+        """Get pathways and their figure information."""
+        pw2ntfig = {}
+        ntobj = cx.namedtuple('ntfig', 'height width filename')
+        cnt = 0
+        for pwy, dct in sorted(self.pw2info.items()):
+            pwdct = dct['Pathway']
+            if 'diagramHeight' in pwdct:
+                if 'figure' in dct:
+                    ntd = ntobj(height=pwdct['diagramHeight'],
+                                width=pwdct['diagramWidth'],
+                                filename=dct['figure'])
+                    pw2ntfig[pwy] = ntd
+                else:
+                    self.log.write('**WARNING: NO FIGURE: {PW}\n'.format(
+                        PW=self.figerr.format(**pwdct)))
+                    cnt += 1
+        self.log.write('{Y} Figures found. {N} Figures missing.\n'.format(
+            Y=len(pw2ntfig), N=cnt))
+        return pw2ntfig
 
     def _init_taxnt(self):
         """Get the taxid for this set of pathways."""

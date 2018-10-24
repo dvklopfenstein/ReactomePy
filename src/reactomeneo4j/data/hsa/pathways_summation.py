@@ -1,6 +1,6 @@
 """Summations for pathways"""
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # pylint: disable=line-too-long,too-many-lines

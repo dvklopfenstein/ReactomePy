@@ -31,10 +31,12 @@ class PathwayQuery(object):
     # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
     def __init__(self, species, password):
+        self.log = sys.stdout
         self.name2nt = {nt.displayName:nt for nt in SPECIES}
         assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
             S=species, A="\n".join(sorted(self.name2nt)))
         self.species = species
+        self.abc = self.name2nt[species].abc
         self.gdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
         self.reltype2fnc = {
             'inferredTo': self._get_inferredto,
@@ -51,9 +53,10 @@ class PathwayQuery(object):
             'hasEvent': self._get_event,
         }
 
-    def get_pw2dcts(self):
+    def get_pw2dcts(self, prt=sys.stdout):
         """Fill in Pathway with information by following other relationships."""
         pw2info = {}
+        self.log = prt
         tic = timeit.default_timer()
         #qry_pw = 'MATCH (pw:Pathway{stId:"R-HSA-3000480"})-'
         qry = "".join([
@@ -108,6 +111,7 @@ class PathwayQuery(object):
         self.prt_cnts(missing)
         hms = str(datetime.timedelta(seconds=(timeit.default_timer()-tic)))
         print("HMS {HMS} {N:5} Pathways READ".format(HMS=hms, N=len(pw2info)))
+        self.log = sys.stdout
         return pw2info
 
     def _get_pwdct(self, pw2info, pwy):
@@ -158,7 +162,7 @@ class PathwayQuery(object):
     def _add_url(self, dct, dst):
         """Add URL Node info thru the literatureReference relationship."""
         url = self.nturl(URL=dst['uniformResourceLocator'], title=dst['title'])
-        print('URL', url)
+        self.log.write('URL({URL})\n'.format(URL=url))
         if 'URL' in dct:
             dct['URL'].append(url)
         else:
@@ -173,7 +177,7 @@ class PathwayQuery(object):
         title = self.rm_period(dst['title'])
         dct['displayName'] = self.rm_period(dst['displayName'])
         if dct['displayName'].lower() != title.lower():
-            print("\nDISPLAY({})\nTITLE  ({})".format(dct['displayName'], title))
+            self.log.write("\nDISPLAY({})\nTITLE  ({})\n".format(dct['displayName'], title))
         return self.ntlit(**dct)
 
     def _get_go(self, name, dct, rel, dst):
@@ -202,8 +206,7 @@ class PathwayQuery(object):
         else:
             dct['crossreference'].append(dst['displayName'])
 
-    @staticmethod
-    def _get_taxid(dct, rel, dst):
+    def _get_taxid(self, dct, rel, dst):
         """Get taxId text given a relationship and a destination Node."""
         assert dst['schemaClass'] == 'Species'
         assert rel['stoichiometry'] == 1
@@ -214,7 +217,7 @@ class PathwayQuery(object):
         # Sometimes there is more than one taxId per pathway
         else:
             dct['taxId'].append(taxid)
-            print('TAXID', dct)
+            self.log.write('TAXIDS: {DCT}\n'.format(DCT=dct))
 
     @staticmethod
     def _get_summation(dct, rel, dst):
@@ -260,8 +263,7 @@ class PathwayQuery(object):
         fig = dst['displayName']
         assert fig[:9] == '/figures/', fig
         fig = fig[9:]
-        if fig is None:
-            print('FIGURE', dst['displayName'])
+        assert fig is not None
         if 'figure' not in dct:
             dct['figure'] = [fig]
         else:

@@ -20,18 +20,26 @@ from reactomeneo4j.code.mkpy.pathway_wrpy import PathwayWrPy
 
 def prt_pathways():
     """Print pathways and their details for a species."""
-    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways_info.py'
-    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways_summation.py'
-    fout_txt = '{ABC}_pathways.txt'
+    objneo = _init_neo4j()
+    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways_info.py'.format(ABC=objneo.abc)
+    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways_summation.py'.format(ABC=objneo.abc)
+    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways_figure.py'.format(ABC=objneo.abc)
+    fout_txt = '{ABC}_pathways.txt'.format(ABC=objneo.abc)
+    fout_log = '{ABC}_pathways.log'.format(ABC=objneo.abc)
+    with open(fout_log, 'w') as prt:
+        pw2dcts = objneo.get_pw2dcts(prt)
+        objwr = PathwayWrPy(pw2dcts, prt)
+        objwr.wrpy_summation(fout_sum)
+        objwr.wrtxt(fout_txt)
+        objwr.wrpy_figure(fout_fig)
+        print('  WROTE: {LOG}'.format(LOG=fout_log))
+
+def _init_neo4j():
+    """Connect to a Neo4j instance with Reactome loaded."""
     species = sys.argv[2] if len(sys.argv) == 3 else 'Homo sapiens'
-    # fout_txt = 'log/pathways_{ABC}.py'.format(ABC=abc)
     assert len(sys.argv) != 1, "NO NEO4J PASSWORD PROVIDED"
     password = sys.argv[1]
-    objqu = PathwayQuery(species, password)
-    pw2dcts = objqu.get_pw2dcts()
-    objwr = PathwayWrPy(pw2dcts)
-    # objwr.wrtxt(fout_txt)
-    objwr.wrpy_summation(fout_sum)
+    return PathwayQuery(species, password)
 
 ####def _prt_rel(node, session):
 ####    """Print relationships."""

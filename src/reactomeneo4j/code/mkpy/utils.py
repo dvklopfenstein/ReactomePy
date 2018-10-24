@@ -40,7 +40,7 @@ def prt_namedtuple(lst_of_dcts, name, flds, prt=sys.stdout):
 def prt_docstr_module(docstr, prt=sys.stdout):
     """Print module docstring."""
     prt.write('"""{DOC}"""\n\n'.format(DOC=docstr))
-    prt.write('__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."\n')
+    prt.write('__copyright__ = "{C}"\n'.format(C=COPYRIGHT))
     prt.write('__author__ = "DV Klopfenstein"\n\n')
 
 def prt_copyright_comment(prt=sys.stdout):
