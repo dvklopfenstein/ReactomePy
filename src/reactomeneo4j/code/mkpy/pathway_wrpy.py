@@ -41,8 +41,8 @@ class PathwayWrPy(object):
 
     def __init__(self, pw2info, log=sys.stdout):
         self.log = log
-        self.pw2info = pw2info
-        self.taxnt = self._init_taxnt()
+        self.taxnt = self._init_taxnt(pw2info)
+        self.pw2info = cx.OrderedDict(sorted(pw2info.items(), key=self._sortby))
         # assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
         #     S=species, A="\n".join(sorted(self.name2nt)))
         # self.species = species
@@ -77,8 +77,10 @@ class PathwayWrPy(object):
             # prt.write("DICTS:", dcts)
             for rel, val in rel2dct.items():
                 if rel == 'Pathway':
+                    val = {k:v for k, v in val.items() if k not in set(['hasDiagram', 'diagramWidth', 'diagramHeight'])} # DVK:RM
                     prt.write("{VAL}\n".format(VAL=val))  # dict
-                elif rel not in set(['summation']):
+                # else:  # DVK:UNC
+                elif rel not in set(['summation', 'figure']): # DVK:RM
                     for item in val:  # list
                         prt.write('{REL:20} {ITEM}\n'.format(REL=rel, ITEM=item))
                 # prt.write(rel, val)
@@ -92,10 +94,18 @@ class PathwayWrPy(object):
             prt_docstr_module('Summations for pathways', prt)
             prt.write('# pylint: disable=line-too-long,too-many-lines\n')
             prt.write("PW2SUMS = {\n")
-            for pwy, dct in sorted(self.pw2info.items()):
+            for pwy, dct in self.pw2info.items():
                 prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=dct['summation']))
             prt.write("}\n")
             prt_copyright_comment(prt)
+            print('  WROTE: {PY}'.format(PY=fout_py))
+
+    def wrpy_inferredto(self, fout_py):
+        """Write inferredTo species for a pathway."""
+        pw2abcs = self._get_inferredto()
+        with open(os.path.join(REPO, fout_py), 'w') as prt:
+            for pwy, abcs in pw2abcs.items():
+                pass
             print('  WROTE: {PY}'.format(PY=fout_py))
 
     def wrpy_figure(self, fpat_py):
@@ -106,18 +116,38 @@ class PathwayWrPy(object):
             prt_docstr_module('{N} of {T} Pathway have figures'.format(
                 N=len(pw2ntfig), T=len(self.pw2info)), prt)
             prt.write("PW2FIGS = {\n")
-            for pwy, ntfig in sorted(pw2ntfig.items()):
+            for pwy, ntfig in pw2ntfig.items():
                 prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=ntfig))
             prt.write("}\n")
             prt_copyright_comment(prt)
             print('  WROTE: {PY}'.format(PY=fout_py))
+
+    def _get_inferredto(self):
+        """Get inferredTo species for a pathway."""
+        pw2abcs = {}
+        for pwy, dct in self.pw2info.items():
+            if 'inferredTo' in dct:
+                # pwnum = pwy.split('-')[2]
+                ids = set(p.split('-')[2] for p in dct['inferredTo'])
+                if len(ids) != 1:
+                    self.log.write('**INFO-inferredTo MULTI: {PW}'.format(PW=self.pwstr(dct)))
+            else:
+                self.log.write('**INFO-inferredTo NONE: {PW}\n'.format(PW=self.pwstr(dct)))
+        return pw2abcs
+
+    @staticmethod
+    def pwstr(dct):
+        """Get Pathway string."""
+        return '{PW} {NAME}\n'.format(
+            PW=dct['Pathway']['stId'],
+            NAME=dct['Pathway']['displayName'])
 
     def _get_ntfig(self):
         """Get pathways and their figure information."""
         pw2ntfig = {}
         ntobj = cx.namedtuple('ntfig', 'height width filename')
         cnt = 0
-        for pwy, dct in sorted(self.pw2info.items()):
+        for pwy, dct in self.pw2info.items():
             pwdct = dct['Pathway']
             if 'diagramHeight' in pwdct:
                 if 'figure' in dct:
@@ -126,16 +156,28 @@ class PathwayWrPy(object):
                                 filename=dct['figure'])
                     pw2ntfig[pwy] = ntd
                 else:
-                    self.log.write('**WARNING: NO FIGURE: {PW}\n'.format(
+                    self.log.write('**ERROR: NO FIGURE FOUND: {PW}\n'.format(
                         PW=self.figerr.format(**pwdct)))
                     cnt += 1
+            else:
+                self.log.write('**INFO: NO FIGURE EXPECTED: {PW} {NAME}\n'.format(
+                    PW=pwy, NAME=dct['Pathway']['displayName']))
         self.log.write('{Y} Figures found. {N} Figures missing.\n'.format(
             Y=len(pw2ntfig), N=cnt))
         return pw2ntfig
 
-    def _init_taxnt(self):
+    def _sortby(self, key_val):
+        """Sort by Pathway number."""
+        vals = key_val[0].split('-')
+        assert len(vals) == 3
+        assert vals[0] == 'R'
+        assert vals[1] == self.taxnt.abc.upper(), "{} {} {}".format(
+            vals[1], self.taxnt.abc, key_val)
+        return int(vals[2])
+
+    def _init_taxnt(self, pw2info):
         """Get the taxid for this set of pathways."""
-        taxids = next(iter(self.pw2info.values()))['taxId']
+        taxids = next(iter(pw2info.values()))['taxId']
         assert len(taxids) == 1
         return self.taxid2nt[taxids[0]]
 

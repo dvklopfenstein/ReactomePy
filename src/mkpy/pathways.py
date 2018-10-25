@@ -24,6 +24,7 @@ def prt_pathways():
     fout_py = 'src/reactomeneo4j/data/{ABC}/pathways_info.py'.format(ABC=objneo.abc)
     fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways_summation.py'.format(ABC=objneo.abc)
     fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways_figure.py'.format(ABC=objneo.abc)
+    fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways_inferredto.py'.format(ABC=objneo.abc)
     fout_txt = '{ABC}_pathways.txt'.format(ABC=objneo.abc)
     fout_log = '{ABC}_pathways.log'.format(ABC=objneo.abc)
     with open(fout_log, 'w') as prt:
@@ -32,6 +33,7 @@ def prt_pathways():
         objwr.wrpy_summation(fout_sum)
         objwr.wrtxt(fout_txt)
         objwr.wrpy_figure(fout_fig)
+        objwr.wrpy_inferredto(fout_inf)
         print('  WROTE: {LOG}'.format(LOG=fout_log))
 
 def _init_neo4j():
