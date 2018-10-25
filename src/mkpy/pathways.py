@@ -32,6 +32,7 @@ def prt_pathways():
         pw2dcts = objneo.get_pw2dcts(prt)
         objwr = PathwayWrPy(pw2dcts, prt)
         objwr.wrpwys(fous_txt)
+        objwr.wrpy_pwys(fout_py)
         objwr.wrpy_summation(fout_sum)
         objwr.wrtxt(fout_txt)
         objwr.wrpy_figure(fout_fig)

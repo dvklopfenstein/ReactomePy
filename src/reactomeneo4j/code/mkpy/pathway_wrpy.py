@@ -11,6 +11,7 @@ import collections as cx
 # import timeit
 # import datetime
 # import textwrap
+from datetime import date
 from reactomeneo4j.data.species import SPECIES
 from reactomeneo4j.code.mkpy.utils import REPO
 from reactomeneo4j.code.mkpy.utils import prt_docstr_module
@@ -52,7 +53,9 @@ class PathwayWrPy(object):
 
     def __init__(self, pw2info, log=sys.stdout):
         self.log = log
+        # abc='hsa', abbreviation taxId displayName
         self.taxnt = self._init_taxnt(pw2info)
+        print(self.taxnt)
         self.pw2info = cx.OrderedDict(sorted(pw2info.items(), key=self._sortby))
         # assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
         #     S=species, A="\n".join(sorted(self.name2nt)))
@@ -72,9 +75,44 @@ class PathwayWrPy(object):
         #     # 'hasEvent': self._get_event,
         # }
 
+    def wrpy_pwys(self, fout_py):
+        """Write all pathways into a Python module in a condensed format."""
+        pwy2nt = self.get_pwy2nt()
+        keys = 'stId releaseDate marks displayName'  # TBD: Replace with keys()
+        with open(fout_py, 'w') as prt:
+            prt_docstr_module('Pathway information', prt)
+            prt.write('from collections import namedtuple\n')
+            prt.write('from datetime import date\n')
+            prt.write("\nNto = namedtuple('ntpwy', '{KEYS}')\n".format(KEYS=keys))
+            prt.write('# {N} {SPECIES} Pathways\n'.format(N=len(pwy2nt), SPECIES=self.taxnt.displayName))
+            prt.write('# pylint: disable=line-too-long,too-many-lines\n')
+            prt.write('PWYNTS = [\n')
+            for dct in pwy2nt.values():
+                ntstr = '{}'.format(list(dct)).replace('datetime.date', 'date')
+                prt.write('    Nto._make({VALS}),\n'.format(VALS=ntstr))
+            prt.write(']\n')
+            prt_copyright_comment(prt)
+            print("  {N:5} pathways WROTE: {TXT}".format(N=len(self.pw2info), TXT=fout_py))
+
+    def get_pwy2nt(self):
+        """Write all pathways into a Python module in a condensed format."""
+        pwy_nt = []
+        ntobj = cx.namedtuple("ntpwy", "stId releaseDate marks displayName")
+        for pwy, dct in self.pw2info.items():
+            pwydct = dct['Pathway']
+            date_ints = [int(i) for i in pwydct['releaseDate'].split('-')]
+            ntd = ntobj(
+                stId=pwydct['stId'],
+                releaseDate=date(*date_ints),
+                marks=self._get_pwmarkstr(dct),
+                displayName=pwydct['displayName'])
+            pwy_nt.append((pwy, ntd))
+        return cx.OrderedDict(pwy_nt)
+
     def wrpwys(self, fout_txt):
-        """Write all pathways into a file in a condensed format."""
+        """Write all pathways into a text file in a condensed format."""
         with open(fout_txt, 'w') as prt:
+            # prt = sys.stdout
             for dct in self.pw2info.values():
                 prt.write('{PWY}\n'.format(PWY=self.pwstr(dct)))
             print("  {N:5} pathways WROTE: {TXT}".format(N=len(self.pw2info), TXT=fout_txt))
