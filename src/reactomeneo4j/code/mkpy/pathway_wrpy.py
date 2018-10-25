@@ -24,6 +24,17 @@ class PathwayWrPy(object):
 
     taxid2nt = {nt.taxId:nt for nt in SPECIES}
 
+# stId
+# displayName
+# speciesName
+# releaseDate
+# schemaClass
+# isInDisease
+# hasDiagram
+# isInferred
+# stIdVersion
+# dbId
+# name
     figerr = '{stId:13} dia={hasDiagram:1} {diagramHeight:>4}x{diagramWidth:<4} {displayName}'
 
     #### pwfmt = ('{stId:13} '
@@ -60,6 +71,33 @@ class PathwayWrPy(object):
         #     'relatedSpecies': self._get_relatedspecies,
         #     # 'hasEvent': self._get_event,
         # }
+
+    def wrpwys(self, fout_txt):
+        """Write all pathways into a file in a condensed format."""
+        with open(fout_txt, 'w') as prt:
+            for dct in self.pw2info.values():
+                prt.write('{PWY}\n'.format(PWY=self.pwstr(dct)))
+            print("  {N:5} pathways WROTE: {TXT}".format(N=len(self.pw2info), TXT=fout_txt))
+
+    def _get_pwmarkstr(self, dct):
+        """Get a string representing Pathway information markers."""
+        pwy = dct['Pathway']
+        return "".join([
+            'T' if pwy['schemaClass'] == 'TopLevelPathway' else '.',
+            'D' if pwy['isInDisease'] else '.',
+            self._get_fig_mark(dct),
+            'I' if pwy['isInferred'] else '.',
+            'P' if 'LiteratureReferences' in dct else '.',
+            'B' if 'Book' in dct else '.',
+            'U' if 'URL' in dct else '.',
+        ])
+
+    @staticmethod
+    def _get_fig_mark(dct):
+        """Get a mark showing the presence of a Diagram and a filename."""
+        if dct['Pathway']['hasDiagram']:
+            return 'F' if 'Figure' in dct else 'f'
+        return '.'
 
     def wrtxt(self, fout_pat):
         """Write pathway information into Python modules."""
@@ -135,12 +173,14 @@ class PathwayWrPy(object):
                 self.log.write('**INFO-inferredTo NONE: {PW}\n'.format(PW=self.pwstr(dct)))
         return pw2abcs
 
-    @staticmethod
-    def pwstr(dct):
+    def pwstr(self, dct):
         """Get Pathway string."""
-        return '{PW} {NAME}\n'.format(
-            PW=dct['Pathway']['stId'],
-            NAME=dct['Pathway']['displayName'])
+        pwy = dct['Pathway']
+        return '{PW:13} {DATE} {MARKS} {NAME}'.format(
+            PW=pwy['stId'],
+            MARKS=self._get_pwmarkstr(dct),
+            DATE=pwy['releaseDate'],
+            NAME=pwy['displayName'])
 
     def _get_ntfig(self):
         """Get pathways and their figure information."""

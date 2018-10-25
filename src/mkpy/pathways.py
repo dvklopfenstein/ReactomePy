@@ -25,11 +25,13 @@ def prt_pathways():
     fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways_summation.py'.format(ABC=objneo.abc)
     fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways_figure.py'.format(ABC=objneo.abc)
     fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways_inferredto.py'.format(ABC=objneo.abc)
+    fous_txt = '{ABC}_pathways_short.txt'.format(ABC=objneo.abc)
     fout_txt = '{ABC}_pathways.txt'.format(ABC=objneo.abc)
     fout_log = '{ABC}_pathways.log'.format(ABC=objneo.abc)
     with open(fout_log, 'w') as prt:
         pw2dcts = objneo.get_pw2dcts(prt)
         objwr = PathwayWrPy(pw2dcts, prt)
+        objwr.wrpwys(fous_txt)
         objwr.wrpy_summation(fout_sum)
         objwr.wrtxt(fout_txt)
         objwr.wrpy_figure(fout_fig)
