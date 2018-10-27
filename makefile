@@ -28,6 +28,11 @@ vim_pw:
 	src/reactomeneo4j/data/species.py \
 	src/reactomeneo4j/code/mkpy/utils.py
 
+vim_pub:
+	vim -p \
+	src/bin/prt_publications.py \
+	src/reactomeneo4j/code/publication.py
+
 vim_old:
 	vim -p \
 	./src/bin/test_reactome_tutorial.py \

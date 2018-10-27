@@ -21,12 +21,12 @@ from reactomeneo4j.code.mkpy.pathway_wrpy import PathwayWrPy
 def prt_pathways():
     """Print pathways and their details for a species."""
     objneo = _init_neo4j()
-    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways_info.py'.format(ABC=objneo.abc)
-    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways_summation.py'.format(ABC=objneo.abc)
-    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways_figure.py'.format(ABC=objneo.abc)
-    fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways_inferredto.py'.format(ABC=objneo.abc)
-    fout_pub = 'src/reactomeneo4j/data/{ABC}/pathways_publications.py'.format(ABC=objneo.abc)
-    fout_pmd = 'src/reactomeneo4j/data/{ABC}/pathways_pubmeds.py'.format(ABC=objneo.abc)
+    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/info.py'.format(ABC=objneo.abc)
+    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/summation.py'.format(ABC=objneo.abc)
+    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways/figure.py'.format(ABC=objneo.abc)
+    fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways/inferredto.py'.format(ABC=objneo.abc)
+    fout_pub = 'src/reactomeneo4j/data/{ABC}/pathways/publications.py'.format(ABC=objneo.abc)
+    fout_pmd = 'src/reactomeneo4j/data/{ABC}/pathways/pubmeds.py'.format(ABC=objneo.abc)
     fous_txt = '{ABC}_pathways_short.txt'.format(ABC=objneo.abc)
     fout_txt = '{ABC}_pathways.txt'.format(ABC=objneo.abc)
     fout_log = '{ABC}_pathways.log'.format(ABC=objneo.abc)

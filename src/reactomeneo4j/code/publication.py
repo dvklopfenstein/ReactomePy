@@ -16,22 +16,22 @@ from importlib import import_module
 class Publication(object):
     """Manages Publications: Research papers, books, and URLs."""
 
-    pmds = import_module('reactomeneo4j.data.{ABC}.pathways_pubmeds'
+    pmds = 'reactomeneo4j.data.{ABC}.pathways_pubmeds'
 
     def __init__(self, abc):
         self.abc = abc
-        self.pmid2nt = import_module(pmds.format(ABC=abc)).PMID2NT
+        self.pmid2nt = import_module(self.pmds.format(ABC=abc)).PMID2NT
         self.pubs = self._init_literaturereference()
         self.books = self._init_books()
         self.urls = self._init_urls()
 
-    def _init_literaturereference():
+    def _init_literaturereference(self):
         pass
 
-    def _init_books():
+    def _init_books(self):
         pass
 
-    def _init_urls():
+    def _init_urls(self):
         pass
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
