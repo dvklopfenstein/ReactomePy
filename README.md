@@ -2,17 +2,17 @@
 Explore biological pathways in Reactome using Python to query neo4j
 
   * [**Scripts**](#scripts)
-    * [Pathway Scripts](#pathway_scripts)
-    * [Neo4j Scripts](#neo4j_scripts)
+    1. [Pathway Scripts](#pathway_scripts)
+    2. [Neo4j Scripts](#neo4j_scripts)
   * [**Reactome Links**](#reactome_links)
 
 ## Scripts
 
-### Pathway Scripts
+### 1) Pathway Scripts
 Pathway scripts use Reactome data saved into Python modules.    
 Neo4j does not need to be running to use these scripts.    
 
-### Neo4j Scripts
+### 2) Neo4j Scripts
 Neo4j scripts require that Neo4j loaded with Reactome is working on your machine.
 
 ## Reactome Links
