@@ -38,19 +38,6 @@ class PathwayWrPy(object):
 # name
     figerr = '{stId:13} dia={hasDiagram:1} {diagramHeight:>4}x{diagramWidth:<4} {displayName}'
 
-    #### pwfmt = ('{stId:13} '
-    ####          'dis={isInDisease:1} dia={hasDiagram:1} inferred={isInferred:1} '
-    ####          '{releaseDate} {displayName}')
-
-    #### exp_schema_class = set(['Pathway', 'TopLevelPathway'])
-    #### excl_pw = set(['dbId', 'speciesName', 'oldStId', 'name', 'stIdVersion'])
-
-    #### # LiteratureReference EXCLUDE: volume schemaClass pages dbId title
-    #### ntlit = cx.namedtuple('ntlit', 'year pubMedIdentifier displayName journal')
-    #### nturl = cx.namedtuple('nturl', 'URL title')
-    #### ntgo = cx.namedtuple('ntgo', 'displayName accession')  # definition url
-    #### # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
-
     def __init__(self, pw2info, log=sys.stdout):
         self.log = log
         # abc='hsa', abbreviation taxId displayName
@@ -74,6 +61,24 @@ class PathwayWrPy(object):
         #     'relatedSpecies': self._get_relatedspecies,
         #     # 'hasEvent': self._get_event,
         # }
+
+    def wrpy_publications(self, fout_py):
+        """Write Publications(LiteratureReference, Book, URL) into a Python module."""
+        pubs = self._get_pubs()
+
+    def _get_pubs(self):
+        """Get Publications(LiteratureReference, Book, URL) into a Python module."""
+        pw2lits = {}
+        pw2books = {}
+        pw2urls = {}
+        for pwy, dct in self.pw2info.items():
+            if 'LiteratureReferences' in dct:
+                pw2lits[pwy] = sorted(dct['LiteratureReference'], key=lambda nt: nt.order)
+            elif 'Book' in dct:
+                pw2books[pwy] = sorted(dct['Book'], key=lambda nt: nt.order)
+            elif 'URL' in dct:
+                pw2urls[pwy] = sorted(dct['URL'], key=lambda nt: nt.order)
+        return {'pw2lits':pw2lits, 'pw2books':pw2books, 'pw2urls':pw2urls}
 
     def wrpy_pwys(self, fout_py):
         """Write all pathways into a Python module in a condensed format."""

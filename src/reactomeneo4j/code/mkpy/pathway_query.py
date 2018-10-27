@@ -23,10 +23,13 @@ class PathwayQuery(object):
 
     exp_schema_class = set(['Pathway', 'TopLevelPathway'])
     excl_pw = set(['dbId', 'speciesName', 'oldStId', 'name', 'stIdVersion'])
+    # Stored for every Book: ISBN year title
+    excl_book = set(['dbId', 'schemaClass', 'displayName', 'ISBN', 'year', 'title'])
 
     # LiteratureReference EXCLUDE: volume schemaClass pages dbId title
-    ntlit = cx.namedtuple('ntlit', 'year pubMedIdentifier displayName journal')
-    nturl = cx.namedtuple('nturl', 'URL title')
+    ntlit = cx.namedtuple('ntlit', 'order year pubMedIdentifier displayName journal')
+    ntbook = cx.namedtuple('ntbook', 'order year ISBN title other')
+    nturl = cx.namedtuple('nturl', 'order URL title')
     ntgo = cx.namedtuple('ntgo', 'displayName GO')  # definition url
     # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
@@ -134,35 +137,40 @@ class PathwayQuery(object):
         schema_class = dst['schemaClass']
         if schema_class == 'LiteratureReference':
             pub = self.get_pub(rel, dst)
-            if 'LiteratureReferences' in dct:
-                dct['LiteratureReferences'].append(pub)
+            if 'LiteratureReference' in dct:
+                dct['LiteratureReference'].append(pub)
             else:
-                dct['LiteratureReferences'] = [pub]
+                dct['LiteratureReference'] = [pub]
         elif schema_class == 'Book':
-            self._add_book(dct, dst)
+            self._add_book(dct, rel, dst)
         elif schema_class == 'URL':
-            self._add_url(dct, dst)
+            self._add_url(dct, rel, dst)
         else:
             assert False, "UNKNOWN LiteratureReference({})".format(dst)
 
-    @staticmethod
-    def _add_book(dct, dst):
+    def _add_book(self, dct, rel, dst):
         """Add Book Node info thru the literatureReference relationship."""
         # Book nodes have other relationships: author, created, publisher, modified, etc.
-        # Dict fields include: pages ISBN year chapterTitle
-        # But displayName is sufficient currently
-        book = dst['displayName']
+        # Dict fields include: ISBN year title and sometimes chapterTitle and pages
+        # Skip displayName since info repeated in other fields (except author)
+        assert dst['schemaClass'] == 'Book', dst
+        # assert set(dct.keys()).intersection(set(['year', 'ISBN', 'title'])), dct
+        dst_opt = {k:v for k, v in dst.items() if k not in self.excl_book}
+        book = self.ntbook(order=rel['order'], other=dst_opt,
+                           year=dst['year'], ISBN=dst['ISBN'], title=dst['title'])
         # print('BOOK', book)
-        # print('BOOK', dst)
         if 'Book' in dct:
             dct['Book'].append(book)
         else:
             dct['Book'] = [book]
 
-    def _add_url(self, dct, dst):
+    def _add_url(self, dct, rel, dst):
         """Add URL Node info thru the literatureReference relationship."""
-        url = self.nturl(URL=dst['uniformResourceLocator'], title=dst['title'])
-        self.log.write('URL({URL})\n'.format(URL=url))
+        url = self.nturl(URL=dst['uniformResourceLocator'], title=dst['title'], order=rel['order'])
+        # self.log.write('URL({URL})\n'.format(URL=url))
+        assert dst['schemaClass'] == 'URL', dst
+        assert rel['stoichiometry'] == 1
+        # print('URL', [url])
         if 'URL' in dct:
             dct['URL'].append(url)
         else:
@@ -171,14 +179,18 @@ class PathwayQuery(object):
     def get_pub(self, rel, dst):
         """Get pubmed info given a relationship and a destination Node."""
         assert rel['stoichiometry'] == 1
-        assert rel['order'] >= 0
         assert dst['schemaClass'] == 'LiteratureReference', dst
+        assert rel['order'] >= 0
         dct = {f:dst[f] for f in self.ntlit._fields}
+        dct['order'] = rel['order']
+        # Check that 'title' and 'displayName' are the same
         title = self.rm_period(dst['title'])
         dct['displayName'] = self.rm_period(dst['displayName'])
         if dct['displayName'].lower() != title.lower():
             self.log.write("\nDISPLAY({})\nTITLE  ({})\n".format(dct['displayName'], title))
-        return self.ntlit(**dct)
+        ntd = self.ntlit(**dct)
+        # print("PUB", ntd)
+        return ntd
 
     def _get_go(self, name, dct, rel, dst):
         """Get Compartments in a pathway."""
