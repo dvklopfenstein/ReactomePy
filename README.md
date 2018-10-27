@@ -9,7 +9,7 @@ Pathway scripts use Reactome data saved into Python modules.
 Neo4j does not need to be running to use these scripts.    
 
 ## Neo4j Scripts
-Neo4j scripts require that Neo4j and Reactome active on your machine.
+Neo4j scripts require that Neo4j loaded with Reactome is working on your machine.
 
 ## Reactome Links
   * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
