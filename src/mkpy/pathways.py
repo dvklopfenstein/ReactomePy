@@ -38,7 +38,7 @@ def prt_pathways():
         objwr.wrpy_publications(fout_pub)
         objwr.wrtxt(fout_txt)
         objwr.wrpy_figure(fout_fig)
-        objwr.wrpy_inferredto(fout_inf)
+        # objwr.wrpy_inferredto(fout_inf)
         print('  WROTE: {LOG}'.format(LOG=fout_log))
 
 def _init_neo4j():

@@ -27,7 +27,7 @@ class PathwayQuery(object):
     excl_book = set(['dbId', 'schemaClass', 'displayName', 'ISBN', 'year', 'title'])
 
     # LiteratureReference EXCLUDE: volume schemaClass pages dbId title
-    ntlit = cx.namedtuple('ntlit', 'order year pubMedIdentifier displayName journal')
+    ntlit = cx.namedtuple('ntlit', 'order year displayName journal')
     ntbook = cx.namedtuple('ntbook', 'order year ISBN title other')
     nturl = cx.namedtuple('nturl', 'order URL title')
     ntgo = cx.namedtuple('ntgo', 'displayName GO')  # definition url
@@ -136,11 +136,7 @@ class PathwayQuery(object):
         """Get the destination thru the literatureReference relationship."""
         schema_class = dst['schemaClass']
         if schema_class == 'LiteratureReference':
-            pub = self.get_pub(rel, dst)
-            if 'LiteratureReference' in dct:
-                dct['LiteratureReference'].append(pub)
-            else:
-                dct['LiteratureReference'] = [pub]
+            self.get_pub(dct, rel, dst)
         elif schema_class == 'Book':
             self._add_book(dct, rel, dst)
         elif schema_class == 'URL':
@@ -176,20 +172,31 @@ class PathwayQuery(object):
         else:
             dct['URL'] = [url]
 
-    def get_pub(self, rel, dst):
+    def get_pub(self, dct_pw, rel, dst):
         """Get pubmed info given a relationship and a destination Node."""
         assert rel['stoichiometry'] == 1
         assert dst['schemaClass'] == 'LiteratureReference', dst
         assert rel['order'] >= 0
-        dct = {f:dst[f] for f in self.ntlit._fields}
-        dct['order'] = rel['order']
+        dct_vals = {f:dst[f] for f in self.ntlit._fields}
+        dct_vals['order'] = rel['order']
+        ntd = self.ntlit(**dct_vals)
         # Check that 'title' and 'displayName' are the same
         title = self.rm_period(dst['title'])
-        dct['displayName'] = self.rm_period(dst['displayName'])
-        if dct['displayName'].lower() != title.lower():
-            self.log.write("\nDISPLAY({})\nTITLE  ({})\n".format(dct['displayName'], title))
-        ntd = self.ntlit(**dct)
+        dct_vals['displayName'] = self.rm_period(dst['displayName'])
+        if dct_vals['displayName'].lower() != title.lower():
+            self.log.write("\nDISPLAY({})\nTITLE  ({})\n".format(dct_vals['displayName'], title))
         # print("PUB", ntd)
+        pubmed  = dst['pubMedIdentifier']
+        if pubmed is not None:
+            if 'LiteratureReference' in dct_pw:
+                dct_pw['LiteratureReference'].append((pubmed, ntd))
+            else:
+                dct_pw['LiteratureReference'] = [(pubmed, ntd)]
+        else:
+            if 'Lit_pweratureReferenceNoPubMed' in dct_pw:
+                dct_pw['LiteratureReferenceNoPubMed'].append(ntd)
+            else:
+                dct_pw['LiteratureReferenceNoPubMed'] = [ntd]
         return ntd
 
     def _get_go(self, name, dct, rel, dst):

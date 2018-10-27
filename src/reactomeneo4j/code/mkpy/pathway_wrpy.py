@@ -65,20 +65,49 @@ class PathwayWrPy(object):
     def wrpy_publications(self, fout_py):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
         pubs = self._get_pubs()
+        with open(fout_py, 'w') as prt:
+            prt = sys.stdout
+            prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
+            prt.write('from collections import namedtuple\n')
+            pmids = self._prt_pmid2nt(prt, pubs['pw2pubs'])
+            prt_copyright_comment(prt)
+            print("  WROTE: {TXT}".format(TXT=fout_py))
+
+    def _prt_pmid2nt(self, prt, pw2lits):
+        """Print PubMed data."""
+        pmid2nt = self._get_pmid2nt(pw2lits)
+        prt.write('PMID2NT = {\n')
+        for pmid, ntd in sorted(pmid2nt.items()):
+            prt.write('    {PMID}:ntlit._make({VALS}),\n'.format(PMID=pmid, VALS=list(ntd)))
+        prt.write('}\n\n')
+
+    @staticmethod
+    def _get_pmid2nt(pw2pubs):
+        """Get the PMIDs referenced in the Pathways."""
+        pmid2nt = {}
+        for pmid_nt in pw2pubs.values():
+            for pmid, ntd in pmid_nt:
+                if pmid not in pmid2nt:
+                    pmid2nt[pmid] = ntd
+                else:
+                    assert pmid2nt[pmid].displayName == ntd.displayName
+        return pmid2nt
 
     def _get_pubs(self):
         """Get Publications(LiteratureReference, Book, URL) into a Python module."""
-        pw2lits = {}
+        pw2pubs = {}
         pw2books = {}
         pw2urls = {}
         for pwy, dct in self.pw2info.items():
-            if 'LiteratureReferences' in dct:
-                pw2lits[pwy] = sorted(dct['LiteratureReference'], key=lambda nt: nt.order)
+            if 'LiteratureReference' in dct:
+                pw2pubs[pwy] = sorted(dct['LiteratureReference'], key=lambda t: t[1].order)
+            elif 'LiteratureReferenceNoPubMed' in dct:
+                pw2lits[pwy] = sorted(dct['LiteratureReferenceNoPubMed'], key=lambda nt: nt.order)
             elif 'Book' in dct:
                 pw2books[pwy] = sorted(dct['Book'], key=lambda nt: nt.order)
             elif 'URL' in dct:
                 pw2urls[pwy] = sorted(dct['URL'], key=lambda nt: nt.order)
-        return {'pw2lits':pw2lits, 'pw2books':pw2books, 'pw2urls':pw2urls}
+        return {'pw2pubs':pw2pubs, 'pw2books':pw2books, 'pw2urls':pw2urls}
 
     def wrpy_pwys(self, fout_py):
         """Write all pathways into a Python module in a condensed format."""
@@ -130,7 +159,7 @@ class PathwayWrPy(object):
             'D' if pwy['isInDisease'] else '.',
             self._get_fig_mark(dct),
             'I' if pwy['isInferred'] else '.',
-            'P' if 'LiteratureReferences' in dct else '.',
+            'P' if 'LiteratureReference' in dct else '.',
             'B' if 'Book' in dct else '.',
             'U' if 'URL' in dct else '.',
         ])
@@ -181,13 +210,13 @@ class PathwayWrPy(object):
             prt_copyright_comment(prt)
             print('  WROTE: {PY}'.format(PY=fout_py))
 
-    def wrpy_inferredto(self, fout_py):
-        """Write inferredTo species for a pathway."""
-        pw2abcs = self._get_inferredto()
-        with open(os.path.join(REPO, fout_py), 'w') as prt:
-            for pwy, abcs in pw2abcs.items():
-                pass
-            print('  WROTE: {PY}'.format(PY=fout_py))
+    # def wrpy_inferredto(self, fout_py):
+    #     """Write inferredTo species for a pathway."""
+    #     pw2abcs = self._get_inferredto()
+    #     with open(os.path.join(REPO, fout_py), 'w') as prt:
+    #         for pwy, abcs in pw2abcs.items():
+    #             pass
+    #         print('  WROTE: {PY}'.format(PY=fout_py))
 
     def wrpy_figure(self, fpat_py):
         """Write pathway summation to a Python file."""
