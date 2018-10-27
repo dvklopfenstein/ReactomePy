@@ -27,9 +27,9 @@ class PathwayQuery(object):
     excl_book = set(['dbId', 'schemaClass', 'displayName', 'ISBN', 'year', 'title'])
 
     # LiteratureReference EXCLUDE: volume schemaClass pages dbId title
-    ntlit = cx.namedtuple('ntlit', 'order year displayName journal')
-    ntbook = cx.namedtuple('ntbook', 'order year ISBN title other')
-    nturl = cx.namedtuple('nturl', 'order URL title')
+    ntlit = cx.namedtuple('ntlit', 'year displayName journal')
+    ntbook = cx.namedtuple('ntbook', 'year ISBN title other')
+    nturl = cx.namedtuple('nturl', 'URL title')
     ntgo = cx.namedtuple('ntgo', 'displayName GO')  # definition url
     # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
@@ -152,8 +152,8 @@ class PathwayQuery(object):
         assert dst['schemaClass'] == 'Book', dst
         # assert set(dct.keys()).intersection(set(['year', 'ISBN', 'title'])), dct
         dst_opt = {k:v for k, v in dst.items() if k not in self.excl_book}
-        book = self.ntbook(order=rel['order'], other=dst_opt,
-                           year=dst['year'], ISBN=dst['ISBN'], title=dst['title'])
+        book = (rel['order'],
+                self.ntbook(other=dst_opt, year=dst['year'], ISBN=dst['ISBN'], title=dst['title']))
         # print('BOOK', book)
         if 'Book' in dct:
             dct['Book'].append(book)
@@ -162,7 +162,7 @@ class PathwayQuery(object):
 
     def _add_url(self, dct, rel, dst):
         """Add URL Node info thru the literatureReference relationship."""
-        url = self.nturl(URL=dst['uniformResourceLocator'], title=dst['title'], order=rel['order'])
+        url = (rel['order'], self.nturl(URL=dst['uniformResourceLocator'], title=dst['title']))
         # self.log.write('URL({URL})\n'.format(URL=url))
         assert dst['schemaClass'] == 'URL', dst
         assert rel['stoichiometry'] == 1
@@ -178,7 +178,7 @@ class PathwayQuery(object):
         assert dst['schemaClass'] == 'LiteratureReference', dst
         assert rel['order'] >= 0
         dct_vals = {f:dst[f] for f in self.ntlit._fields}
-        dct_vals['order'] = rel['order']
+        #### dct_vals['order'] = rel['order']
         ntd = self.ntlit(**dct_vals)
         # Check that 'title' and 'displayName' are the same
         title = self.rm_period(dst['title'])
@@ -186,17 +186,18 @@ class PathwayQuery(object):
         if dct_vals['displayName'].lower() != title.lower():
             self.log.write("\nDISPLAY({})\nTITLE  ({})\n".format(dct_vals['displayName'], title))
         # print("PUB", ntd)
-        pubmed  = dst['pubMedIdentifier']
+        pubmed = dst['pubMedIdentifier']
+        order = rel['order']
         if pubmed is not None:
             if 'LiteratureReference' in dct_pw:
-                dct_pw['LiteratureReference'].append((pubmed, ntd))
+                dct_pw['LiteratureReference'].append((order, (pubmed, ntd)))
             else:
-                dct_pw['LiteratureReference'] = [(pubmed, ntd)]
+                dct_pw['LiteratureReference'] = [(order, (pubmed, ntd))]
         else:
             if 'Lit_pweratureReferenceNoPubMed' in dct_pw:
-                dct_pw['LiteratureReferenceNoPubMed'].append(ntd)
+                dct_pw['LiteratureReferenceNoPubMed'].append((order, ntd))
             else:
-                dct_pw['LiteratureReferenceNoPubMed'] = [ntd]
+                dct_pw['LiteratureReferenceNoPubMed'] = [(order, ntd)]
         return ntd
 
     def _get_go(self, name, dct, rel, dst):

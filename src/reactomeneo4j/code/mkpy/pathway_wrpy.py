@@ -66,7 +66,7 @@ class PathwayWrPy(object):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
         pubs = self._get_pubs()
         with open(fout_py, 'w') as prt:
-            prt = sys.stdout
+            # prt = sys.stdout
             prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
             prt.write('from collections import namedtuple\n')
             pmids = self._prt_pmid2nt(prt, pubs['pw2pubs'])
@@ -76,9 +76,13 @@ class PathwayWrPy(object):
     def _prt_pmid2nt(self, prt, pw2lits):
         """Print PubMed data."""
         pmid2nt = self._get_pmid2nt(pw2lits)
+        keys = ' '.join(next(iter(pmid2nt.values()))._fields)
+        prt.write('\n# {N} PubMed IDs\n'.format(N=len(pmid2nt)))
+        prt.write("Ntlit = namedtuple('ntlit', '{KEYS}')\n".format(KEYS=keys))
+        prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
         prt.write('PMID2NT = {\n')
-        for pmid, ntd in sorted(pmid2nt.items()):
-            prt.write('    {PMID}:ntlit._make({VALS}),\n'.format(PMID=pmid, VALS=list(ntd)))
+        for pmid, ntd in sorted(pmid2nt.items(), key=lambda t:[t[1].year, t[0]]):
+            prt.write('    {PMID:>8} : Ntlit._make({VALS}),\n'.format(PMID=pmid, VALS=list(ntd)))
         prt.write('}\n\n')
 
     @staticmethod
@@ -100,19 +104,19 @@ class PathwayWrPy(object):
         pw2urls = {}
         for pwy, dct in self.pw2info.items():
             if 'LiteratureReference' in dct:
-                pw2pubs[pwy] = sorted(dct['LiteratureReference'], key=lambda t: t[1].order)
+                pw2pubs[pwy] = [a[1] for a in sorted(dct['LiteratureReference'], key=lambda a: a[0])]
             elif 'LiteratureReferenceNoPubMed' in dct:
-                pw2lits[pwy] = sorted(dct['LiteratureReferenceNoPubMed'], key=lambda nt: nt.order)
+                pw2lits[pwy] = [a[1] for a in sorted(dct['LiteratureReferenceNoPubMed'], key=lambda a: a[0])]
             elif 'Book' in dct:
-                pw2books[pwy] = sorted(dct['Book'], key=lambda nt: nt.order)
+                pw2books[pwy] = [a[1] for a in sorted(dct['Book'], key=lambda a: a[0])]
             elif 'URL' in dct:
-                pw2urls[pwy] = sorted(dct['URL'], key=lambda nt: nt.order)
+                pw2urls[pwy] = [a[1] for a in sorted(dct['URL'], key=lambda a: a[0])]
         return {'pw2pubs':pw2pubs, 'pw2books':pw2books, 'pw2urls':pw2urls}
 
     def wrpy_pwys(self, fout_py):
         """Write all pathways into a Python module in a condensed format."""
         pwy2nt = self.get_pwy2nt()
-        keys = 'stId releaseDate marks displayName'  # TBD: Replace with keys()
+        keys = ' '.join(next(iter(pwy2nt.values()))._fields)
         with open(fout_py, 'w') as prt:
             prt_docstr_module('Pathway information', prt)
             prt.write('from collections import namedtuple\n')
