@@ -44,6 +44,7 @@ class PathwayWrPy(object):
         self.taxnt = self._init_taxnt(pw2info)
         print(self.taxnt)
         self.pw2info = cx.OrderedDict(sorted(pw2info.items(), key=self._sortby))
+        self.pubs = self._init_pubs()
         # assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
         #     S=species, A="\n".join(sorted(self.name2nt)))
         # self.species = species
@@ -64,32 +65,37 @@ class PathwayWrPy(object):
 
     def wrpy_publications(self, fout_py):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
-        pubs = self._get_pubs()
+        #### pubs = self._get_pubs()
         with open(fout_py, 'w') as prt:
             # prt = sys.stdout
             prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
             prt.write('from collections import namedtuple\n')
-            pmids = self._prt_pmid2nt(prt, pubs['pw2pubs'])
+            # pmids = self._prt_pmid2nt(prt, pubs['pw2pubs'])
             prt_copyright_comment(prt)
             print("  WROTE: {TXT}".format(TXT=fout_py))
 
-    def _prt_pmid2nt(self, prt, pw2lits):
-        """Print PubMed data."""
-        pmid2nt = self._get_pmid2nt(pw2lits)
+    def wrpy_pubmeds(self, fout_py):
+        """Write Publications(LiteratureReference, Book, URL) into a Python module."""
+        pmid2nt = self._get_pmid2nt()
         keys = ' '.join(next(iter(pmid2nt.values()))._fields)
-        prt.write('\n# {N} PubMed IDs\n'.format(N=len(pmid2nt)))
-        prt.write("Ntlit = namedtuple('ntlit', '{KEYS}')\n".format(KEYS=keys))
-        prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
-        prt.write('PMID2NT = {\n')
-        for pmid, ntd in sorted(pmid2nt.items(), key=lambda t:[t[1].year, t[0]]):
-            prt.write('    {PMID:>8} : Ntlit._make({VALS}),\n'.format(PMID=pmid, VALS=list(ntd)))
-        prt.write('}\n\n')
+        with open(fout_py, 'w') as prt:
+            # prt = sys.stdout
+            prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
+            prt.write('from collections import namedtuple\n')
+            prt.write('\n# {N} PubMed IDs\n'.format(N=len(pmid2nt)))
+            prt.write("Ntlit = namedtuple('ntlit', '{KEYS}')\n".format(KEYS=keys))
+            prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
+            prt.write('PMID2NT = {\n')
+            for pmid, ntd in sorted(pmid2nt.items(), key=lambda t:[t[1].year, t[0]]):
+                prt.write('    {PMID:>8} : Ntlit._make({VALS}),\n'.format(PMID=pmid, VALS=list(ntd)))
+            prt.write('}\n\n')
+            prt_copyright_comment(prt)
+            print("  WROTE: {TXT}".format(TXT=fout_py))
 
-    @staticmethod
-    def _get_pmid2nt(pw2pubs):
+    def _get_pmid2nt(self):
         """Get the PMIDs referenced in the Pathways."""
         pmid2nt = {}
-        for pmid_nt in pw2pubs.values():
+        for pmid_nt in self.pubs['pw2pubs'].values():
             for pmid, ntd in pmid_nt:
                 if pmid not in pmid2nt:
                     pmid2nt[pmid] = ntd
@@ -97,7 +103,7 @@ class PathwayWrPy(object):
                     assert pmid2nt[pmid].displayName == ntd.displayName
         return pmid2nt
 
-    def _get_pubs(self):
+    def _init_pubs(self):
         """Get Publications(LiteratureReference, Book, URL) into a Python module."""
         pw2pubs = {}
         pw2books = {}

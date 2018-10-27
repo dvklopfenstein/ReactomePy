@@ -24,6 +24,7 @@ vim_pw:
 	./src/mkpy/pathways.py \
 	src/reactomeneo4j/code/mkpy/pathway_query.py \
 	src/reactomeneo4j/code/mkpy/pathway_wrpy.py \
+	src/reactomeneo4j/data/hsa/pathways_publications.py \
 	src/reactomeneo4j/data/species.py \
 	src/reactomeneo4j/code/mkpy/utils.py
 
