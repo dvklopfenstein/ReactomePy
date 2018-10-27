@@ -21,7 +21,7 @@ from reactomeneo4j.code.mkpy.pathway_wrpy import PathwayWrPy
 def prt_pathways():
     """Print pathways and their details for a species."""
     objneo = _init_neo4j()
-    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/info.py'.format(ABC=objneo.abc)
+    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/pathways.py'.format(ABC=objneo.abc)
     fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/summation.py'.format(ABC=objneo.abc)
     fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways/figure.py'.format(ABC=objneo.abc)
     fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways/inferredto.py'.format(ABC=objneo.abc)
