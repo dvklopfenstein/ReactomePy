@@ -63,14 +63,19 @@ class PathwayWrPy(object):
         #     # 'hasEvent': self._get_event,
         # }
 
-    def wrpy_publications(self, fout_py):
+    def wrpy_pwy2pmids(self, fout_py):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
-        #### pubs = self._get_pubs()
+        pw2pmids = self.pubs['pw2pubs']
         with open(fout_py, 'w') as prt:
             # prt = sys.stdout
-            prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
-            prt.write('from collections import namedtuple\n')
-            # pmids = self._prt_pmid2nt(prt, pubs['pw2pubs'])
+            prt_docstr_module('PubMed IDs for each Pathway', prt)
+            prt.write('\n# {N} of {M} Pathways are associated with PubMed IDs\n'.format(N=len(pw2pmids), M=len(self.pw2info)))
+            prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
+            prt.write('PWY2PMIDS = {\n')
+            for pwy, pmid_nts in sorted(pw2pmids.items(), key=self._sortby):
+                pmids = sorted(set(pmid for pmid, _ in pmid_nts))
+                prt.write("    '{PW}' : {{{PMIDS}}},\n".format(PW=pwy, PMIDS=", ".join(str(i) for i in pmids)))
+            prt.write('}\n\n')
             prt_copyright_comment(prt)
             print("  WROTE: {TXT}".format(TXT=fout_py))
 
@@ -82,7 +87,7 @@ class PathwayWrPy(object):
             # prt = sys.stdout
             prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
             prt.write('from collections import namedtuple\n')
-            prt.write('\n# {N} PubMed IDs\n'.format(N=len(pmid2nt)))
+            prt.write('\n# {N} PubMed IDs assc. w/{M} Pathways\n'.format(N=len(pmid2nt), M=len(self.pubs['pw2pubs'])))
             prt.write("Ntlit = namedtuple('ntlit', '{KEYS}')\n".format(KEYS=keys))
             prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
             prt.write('PMID2NT = {\n')
@@ -119,7 +124,7 @@ class PathwayWrPy(object):
                 pw2urls[pwy] = [a[1] for a in sorted(dct['URL'], key=lambda a: a[0])]
         return {'pw2pubs':pw2pubs, 'pw2books':pw2books, 'pw2urls':pw2urls}
 
-    def wrpy_pwys(self, fout_py):
+    def wrpy_pwy2nt(self, fout_py):
         """Write all pathways into a Python module in a condensed format."""
         pwy2nt = self.get_pwy2nt()
         keys = ' '.join(next(iter(pwy2nt.values()))._fields)
@@ -207,7 +212,7 @@ class PathwayWrPy(object):
                 #for elem in dct:
                 #    prt.write(elem)
 
-    def wrpy_summation(self, fpat_py):
+    def wrpy_pwy2summation(self, fpat_py):
         """Write pathway summation to a Python file."""
         fout_py = fpat_py.format(ABC=self.taxnt.abc)
         with open(os.path.join(REPO, fout_py), 'w') as prt:

@@ -5,7 +5,7 @@ __author__ = "DV Klopfenstein"
 
 from collections import namedtuple
 
-# 6369 PubMed IDs
+# 6369 PubMed IDs assc. w/2014 Pathways
 Ntlit = namedtuple('ntlit', 'year displayName journal')
 # pylint: disable=line-too-long,too-many-lines,bad-continuation
 PMID2NT = {
