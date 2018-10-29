@@ -1,4 +1,4 @@
-"""103 of 2222 Pathway have figures"""
+"""103 of 2244 Pathway have figures"""
 
 __copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
@@ -8,8 +8,8 @@ Ntfig = namedtuple('ntfig', 'width height filename')
 PW2FIGS = {
     'R-HSA-15869' : Ntfig._make([415, 383, ['nucleotides_overview.jpg']]),
     'R-HSA-69242' : Ntfig._make([2365, 2248, ['CellCycle_4.jpg']]),
-    'R-HSA-69278' : Ntfig._make([507, 441, ['CellCycle_1.jpg']]),
-    'R-HSA-69306' : Ntfig._make([397, 97, ['Pathway_Illustrations/illustration_DNA_replication_72.png']]),
+    'R-HSA-69278' : Ntfig._make([515, 441, ['CellCycle_1.jpg']]),
+    'R-HSA-69306' : Ntfig._make([397, 99, ['Pathway_Illustrations/illustration_DNA_replication_72.png']]),
     'R-HSA-69620' : Ntfig._make([3584, 1791, ['Ckpt_1.jpg']]),
     'R-HSA-70326' : Ntfig._make([2577, 2343, ['glycolysis_gluconeogenesis.png']]),
     'R-HSA-70370' : Ntfig._make([2001, 998, ['galactose_catab.jpg']]),
@@ -33,7 +33,7 @@ PW2FIGS = {
     'R-HSA-156842' : Ntfig._make([1207, 593, ['trans_elongcycle.jpg']]),
     'R-HSA-157118' : Ntfig._make([443, 417, ['Pathway_Illustrations/Notch_overview_72_oicr.png']]),
     'R-HSA-157579' : Ntfig._make([1703, 1003, ['end_replication_problem.jpg']]),
-    'R-HSA-162582' : Ntfig._make([438, 727, ['Pathway_Illustrations/Signal_Transduction_72_oicr.png']]),
+    'R-HSA-162582' : Ntfig._make([610, 589, ['Pathway_Illustrations/Signal_Transduction_72_oicr.png']]),
     'R-HSA-162587' : Ntfig._make([3711, 2669, ['HIV1_LifeCycle.jpg']]),
     'R-HSA-163200' : Ntfig._make([4144, 1061, ['Pathway_Illustrations/ETSoverview_72_oicr.png']]),
     'R-HSA-163685' : Ntfig._make([3369, 1876, ['integration1.jpg']]),
@@ -80,7 +80,7 @@ PW2FIGS = {
     'R-HSA-446203' : Ntfig._make([5728, 1356, ['Pathway_Illustrations/illustration_asparagine_glycosylation_part1_72.png', 'Pathway_Illustrations/illustration_asparagine_glycosylation_part2_72.png']]),
     'R-HSA-512988' : Ntfig._make([1905, 1984, ['il3rdomains.png']]),
     'R-HSA-1227986' : Ntfig._make([2352, 1126, ['Pathway_Illustrations/ERBB2_72_oicr.png']]),
-    'R-HSA-1236394' : Ntfig._make([1062, 1757, ['Pathway_Illustrations/ERBB4_72_oicr.png']]),
+    'R-HSA-1236394' : Ntfig._make([1519, 1797, ['Pathway_Illustrations/ERBB4_72_oicr.png']]),
     'R-HSA-1257604' : Ntfig._make([2501, 1479, ['Pathway_Illustrations/PIP3AKT_72_oicr.png']]),
     'R-HSA-1268020' : Ntfig._make([1378, 918, ['Pathway_Illustrations/MPI_72_oicr.png']]),
     'R-HSA-1433557' : Ntfig._make([2927, 924, ['Pathway_Illustrations/SCF-cKIT_72_oicr.png']]),

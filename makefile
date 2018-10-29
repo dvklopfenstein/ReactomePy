@@ -5,6 +5,12 @@ pylint:
 	chmod 755 tmp_pylint
 	tmp_pylint
 
+# mv_db:
+# 	mv $(DL)/reactome.graphdb.gz .
+# 	gunzip reactome.graphdb.gz
+# 	tar -xvf reactome.graphdb.gz
+# 	mv reactome.graphdb.v66 ~/neo4j/neo4j-community-3.4.7/data/graph.db
+
 vim_:
 	vim -p \
 	./src/bin/run_reactome_tutorial.py \

@@ -227,7 +227,7 @@ class PathwayQuery(object):
     @staticmethod
     def _get_crossreference(dct, rel, dst):
         """Get pathway crossReference."""
-        assert dst['databaseName'] == 'BioModels Database', dst
+        assert dst['databaseName'] in set(['BioModels Database', 'OMIM']), dst
         assert dst['schemaClass'] == 'DatabaseIdentifier'
         assert rel['stoichiometry'] == 1
         if 'crossreference' not in dct:
