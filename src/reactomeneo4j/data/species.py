@@ -1,6 +1,6 @@
 """Species in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import collections as cx
@@ -27,6 +27,7 @@ SPECIES = [
     NtObj._make(['ddi', 'DDI', 44689, 'Dictyostelium discoideum']),
     NtObj._make(['dme', 'DME', 7227, 'Drosophila melanogaster']),
     NtObj._make(['dre', 'DRE', 7955, 'Danio rerio']),
+    NtObj._make(['dvi', 'DVI', 12637, 'Dengue virus']),
     NtObj._make(['eco', 'ECO', 562, 'Escherichia coli']),
     NtObj._make(['fca', 'FCA', 9685, 'Felis catus']),
     NtObj._make(['flu', 'FLU', 11320, 'Influenza A virus']),
@@ -67,19 +68,24 @@ SPECIES = [
     NtObj._make(['pfa', 'PFA', 5833, 'Plasmodium falciparum']),
     NtObj._make(['rno', 'RNO', 10116, 'Rattus norvegicus']),
     NtObj._make(['rot', 'ROT', 10912, 'Rotavirus']),
+    NtObj._make(['rsy', 'RSY', 12814, 'Respiratory syncytial virus']),
+    NtObj._make(['rva', 'RVA', 28875, 'Rotavirus A']),
     NtObj._make(['sau', 'SAU', 1280, 'Staphylococcus aureus']),
     NtObj._make(['sce', 'SCE', 4932, 'Saccharomyces cerevisiae']),
     NtObj._make(['sev', 'SEV', 11191, 'Sendai virus']),
+    NtObj._make(['siv', 'SIV', 11034, 'Sindbis virus']),
     NtObj._make(['spo', 'SPO', 4896, 'Schizosaccharomyces pombe']),
     NtObj._make(['ssc', 'SSC', 9823, 'Sus scrofa']),
     NtObj._make(['sty', 'STY', 28901, 'Salmonella enterica']),
     NtObj._make(['sty', 'STY', 90371, 'Salmonella typhimurium']),
     NtObj._make(['tae', 'TAE', 4565, 'Triticum aestivum']),
+    NtObj._make(['ten', 'TEN', 11084, 'Tick-borne encephalitis virus']),
     NtObj._make(['tgo', 'TGO', 5811, 'Toxoplasma gondii']),
     NtObj._make(['tgu', 'TGU', 59729, 'Taeniopygia guttata']),
     NtObj._make(['vra', 'VRA', 3916, 'Vigna radiata var. radiata']),
     NtObj._make(['vra', 'VRA', 157791, 'Vigna radiata']),
     NtObj._make(['vvi', 'VVI', 10245, 'Vaccinia virus']),
+    NtObj._make(['wni', 'WNI', 11082, 'West Nile virus']),
     NtObj._make(['xla', 'XLA', 8355, 'Xenopus laevis']),
     NtObj._make(['xtr', 'XTR', 8364, 'Xenopus tropicalis']),
 ]

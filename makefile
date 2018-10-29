@@ -1,9 +1,16 @@
 # Reactome Python Neo4j tasks
 
-pylint:
-	git status -uno | perl -ne 'if (/(\S.*\S):\s+(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$2}' | tee tmp_pylint
-	chmod 755 tmp_pylint
-	tmp_pylint
+# pylint:
+# 	git status -uno | perl -ne 'if (/(\S.*\S):\s+(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$2}' | tee tmp_pylint
+# 	chmod 755 tmp_pylint
+# 	tmp_pylint
+
+# Re-generate Python modules containing Reatome data
+# This is done for every new Reactome version
+mkpy:
+	src/mkpy/pathways.py $(PASSWORD)
+	src/mkpy/species.py $(PASSWORD)
+	src/mkpy/disease.py $(PASSWORD)
 
 # mv_db:
 # 	mv $(DL)/reactome.graphdb.gz .

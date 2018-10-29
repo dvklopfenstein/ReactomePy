@@ -1,6 +1,6 @@
 """Common name for the species in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # pylint: disable=line-too-long
@@ -61,12 +61,18 @@ TAXID2NAMES = {
     10407: ['Hepatitis B virus', 'HBV'],
     10703: ['Corynephage beta'],
     10912: ['Rotavirus'],
+    11034: ['Sindbis virus'],
+    11082: ['West Nile virus'],
+    11084: ['Tick-borne encephalitis virus'],
     11103: ['Hepatitis C Virus', 'HCV'],
     11120: ['Infectious bronchitis virus'],
     11191: ['Sendai virus'],
     11234: ['Measles virus', 'rubeola virus', 'rougeole virus'],
     11320: ['Influenza A virus'],
     11676: ['Human immunodeficiency virus 1', 'Human immunodeficiency virus type 1', 'HIV1', 'HIV-1', 'Human immunodeficiency virus type 1 (isolate 90CF056 group M subtype H)', 'Human immunodeficiency virus type 1 (isolate 92BR025 group M subtype C)', 'Human immunodeficiency virus type 1 (isolate 92NG083 group M subtype G)', 'Human immunodeficiency virus type 1 (isolate 93BR020 group M subtype F1)', 'Human immunodeficiency virus type 1 (isolate 96CM-MP535 group M subtype K)', 'Human immunodeficiency virus type 1 (isolate 97ZR-EQTB11 group M subtype K)', 'Human immunodeficiency virus type 1 (isolate ANT70 group O)', 'Human immunodeficiency virus type 1 (isolate ARV2/SF2 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate BH10 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate BH5 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate BH8 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate BRU/LAI group M subtype B)', 'Human immunodeficiency virus type 1 (isolate BRVA group M subtype B)', 'Human immunodeficiency virus type 1 (isolate CDC-451 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate ELI group M subtype D)', 'Human immunodeficiency virus type 1 (isolate ETH2220 group M subtype C)', 'Human immunodeficiency virus type 1 (isolate HXB2 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate HXB3 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate JH32 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate JRCSF group M subtype B)', 'Human immunodeficiency virus type 1 (isolate KB-1/ETR group M subtype B)', 'Human immunodeficiency virus type 1 (isolate Lai group M subtype B)', 'Human immunodeficiency virus type 1 (isolate LW123 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate MAL group M subtype A)', 'Human immunodeficiency virus type 1 (isolate MFA group M subtype B)', 'Human immunodeficiency virus type 1 (isolate MN group M subtype B)', 'Human immunodeficiency virus type 1 (isolate MP255 group M subtype F2)', 'Human immunodeficiency virus type 1 (isolate MP257 group M subtype F2)', 'Human immunodeficiency virus type 1 (isolate MVP5180 group O)', 'Human immunodeficiency virus type 1 (isolate N1T-A group M subtype B)', 'Human immunodeficiency virus type 1 (isolate NDK group M subtype D)', 'Human immunodeficiency virus type 1 (isolate NY5 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate OYI group M subtype B)', 'Human immunodeficiency virus type 1 (isolate PCV12 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate RF/HAT3 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate SC group M subtype B)', 'Human immunodeficiency virus type 1 (isolate SE6165 group M subtype G)', 'Human immunodeficiency virus type 1 (isolate SE9173 group M subtype J)', 'Human immunodeficiency virus type 1 (isolate SE9280 group M subtype J)', 'Human immunodeficiency virus type 1 (isolate SF162 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate SF33 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate U455 group M subtype A)', 'Human immunodeficiency virus type 1 (isolate VI850 group M subtype F1)', 'Human immunodeficiency virus type 1 (isolate VI991 group M subtype H)', 'Human immunodeficiency virus type 1 (isolate WMJ1 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate WMJ22 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate YBF106 group N)', 'Human immunodeficiency virus type 1 (isolate YBF30 group N)', 'Human immunodeficiency virus type 1 (isolate YU-2 group M subtype B)', 'Human immunodeficiency virus type 1 (isolate Z2/CDC-Z34 group M subtype D)', 'Human immunodeficiency virus type 1 (isolate Z3 group M subtype U)', 'Human immunodeficiency virus type 1 (isolate Z321 group M subtype A)', 'Human immunodeficiency virus type 1 (isolate Z6 group M subtype D)', 'Human immunodeficiency virus type 1 (isolate Z84 group M subtype D)', 'Human immunodeficiency virus type 1 (strain 89.6 group M subtype B)'],
+    12637: ['Dengue virus'],
+    12814: ['Respiratory syncytial virus'],
+    28875: ['Rotavirus A', 'Rotavirus group A'],
     28901: ['Salmonella enterica'],
     31646: ['Hepatitis C virus subtype 1a'],
     31649: ['Hepatitis C virus genotype 2a'],
