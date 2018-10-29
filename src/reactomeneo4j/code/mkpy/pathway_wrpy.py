@@ -237,12 +237,15 @@ class PathwayWrPy(object):
         """Write pathway summation to a Python file."""
         fout_py = fpat_py.format(ABC=self.taxnt.abc)
         pw2ntfig = self._get_ntfig()
+        keys = ' '.join(next(iter(pw2ntfig.values()))._fields)
         with open(os.path.join(REPO, fout_py), 'w') as prt:
             prt_docstr_module('{N} of {T} Pathway have figures'.format(
                 N=len(pw2ntfig), T=len(self.pw2info)), prt)
+            prt.write('from collections import namedtuple\n')
+            prt.write("Ntfig = namedtuple('ntfig', '{KEYS}')\n".format(KEYS=keys))
             prt.write("PW2FIGS = {\n")
-            for pwy, ntfig in pw2ntfig.items():
-                prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=ntfig))
+            for pwy, ntfig in sorted(pw2ntfig.items(), key=self._sortby):
+                prt.write("    '{PWY}' : Ntfig._make({VALS}),\n".format(PWY=pwy, VALS=list(ntfig)))
             prt.write("}\n")
             prt_copyright_comment(prt)
             print('  WROTE: {PY}'.format(PY=fout_py))
@@ -272,14 +275,14 @@ class PathwayWrPy(object):
     def _get_ntfig(self):
         """Get pathways and their figure information."""
         pw2ntfig = {}
-        ntobj = cx.namedtuple('ntfig', 'height width filename')
+        ntobj = cx.namedtuple('ntfig', 'width height filename')
         cnt = 0
         for pwy, dct in self.pw2info.items():
             pwdct = dct['Pathway']
             if 'diagramHeight' in pwdct:
                 if 'figure' in dct:
-                    ntd = ntobj(height=pwdct['diagramHeight'],
-                                width=pwdct['diagramWidth'],
+                    ntd = ntobj(width=pwdct['diagramWidth'],
+                                height=pwdct['diagramHeight'],
                                 filename=dct['figure'])
                     pw2ntfig[pwy] = ntd
                 else:

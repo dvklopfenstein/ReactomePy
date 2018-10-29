@@ -24,7 +24,7 @@ def prt_pathways():
     fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/pathways.py'.format(ABC=objneo.abc)
     fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2summation.py'.format(ABC=objneo.abc)
     fout_pub = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2pmids.py'.format(ABC=objneo.abc)
-    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways/figure.py'.format(ABC=objneo.abc)
+    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2imgname.py'.format(ABC=objneo.abc)
     fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways/inferredto.py'.format(ABC=objneo.abc)
     fout_pmd = 'src/reactomeneo4j/data/{ABC}/pathways/pmid2nt.py'.format(ABC=objneo.abc)
     fous_txt = '{ABC}_pathways_short.txt'.format(ABC=objneo.abc)
