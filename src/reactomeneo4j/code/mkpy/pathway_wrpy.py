@@ -63,18 +63,29 @@ class PathwayWrPy(object):
         #     # 'hasEvent': self._get_event,
         # }
 
+    @staticmethod
+    def wrpy_version(fout_py, version):
+        """Write Reactome version to a Python module."""
+        with open(os.path.join(REPO, fout_py), 'w') as prt:
+            prt_docstr_module('Reactome version', prt)
+            prt.write('VERSION = {V}\n'.format(V=version))
+            prt_copyright_comment(prt)
+            print("  WROTE: {PY}".format(PY=fout_py))
+
     def wrpy_pwy2pmids(self, fout_py):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
         pw2pmids = self.pubs['pw2pubs']
         with open(fout_py, 'w') as prt:
             # prt = sys.stdout
             prt_docstr_module('PubMed IDs for each Pathway', prt)
-            prt.write('\n# {N} of {M} Pathways are associated with PubMed IDs\n'.format(N=len(pw2pmids), M=len(self.pw2info)))
+            prt.write('\n# {N} of {M} Pathways are associated with PubMed IDs\n'.format(
+                N=len(pw2pmids), M=len(self.pw2info)))
             prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
             prt.write('PWY2PMIDS = {\n')
             for pwy, pmid_nts in sorted(pw2pmids.items(), key=self._sortby):
                 pmids = sorted(set(pmid for pmid, _ in pmid_nts))
-                prt.write("    '{PW}' : {{{PMIDS}}},\n".format(PW=pwy, PMIDS=", ".join(str(i) for i in pmids)))
+                prt.write("    '{PW}' : {{{PMIDS}}},\n".format(
+                    PW=pwy, PMIDS=", ".join(str(i) for i in pmids)))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
             print("  WROTE: {TXT}".format(TXT=fout_py))
@@ -87,12 +98,14 @@ class PathwayWrPy(object):
             # prt = sys.stdout
             prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
             prt.write('from collections import namedtuple\n')
-            prt.write('\n# {N} PubMed IDs assc. w/{M} Pathways\n'.format(N=len(pmid2nt), M=len(self.pubs['pw2pubs'])))
+            prt.write('\n# {N} PubMed IDs assc. w/{M} Pathways\n'.format(
+                N=len(pmid2nt), M=len(self.pubs['pw2pubs'])))
             prt.write("Ntlit = namedtuple('ntlit', '{KEYS}')\n".format(KEYS=keys))
             prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
             prt.write('PMID2NT = {\n')
-            for pmid, ntd in sorted(pmid2nt.items(), key=lambda t:[t[1].year, t[0]]):
-                prt.write('    {PMID:>8} : Ntlit._make({VALS}),\n'.format(PMID=pmid, VALS=list(ntd)))
+            for pmid, ntd in sorted(pmid2nt.items(), key=lambda t: [t[1].year, t[0]]):
+                prt.write('    {PMID:>8} : Ntlit._make({VALS}),\n'.format(
+                    PMID=pmid, VALS=list(ntd)))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
             print("  WROTE: {TXT}".format(TXT=fout_py))
@@ -111,8 +124,10 @@ class PathwayWrPy(object):
     def _init_pubs(self):
         """Get Publications(LiteratureReference, Book, URL) into a Python module."""
         pw2pubs = {}
+        pw2lits = {}
         pw2books = {}
         pw2urls = {}
+        # pylint: disable=line-too-long
         for pwy, dct in self.pw2info.items():
             if 'LiteratureReference' in dct:
                 pw2pubs[pwy] = [a[1] for a in sorted(dct['LiteratureReference'], key=lambda a: a[0])]
@@ -133,7 +148,8 @@ class PathwayWrPy(object):
             prt.write('from collections import namedtuple\n')
             prt.write('from datetime import date\n')
             prt.write("\nNto = namedtuple('ntpwy', '{KEYS}')\n".format(KEYS=keys))
-            prt.write('# {N} {SPECIES} Pathways\n'.format(N=len(pwy2nt), SPECIES=self.taxnt.displayName))
+            prt.write('# {N} {SPECIES} Pathways\n'.format(
+                N=len(pwy2nt), SPECIES=self.taxnt.displayName))
             prt.write('# pylint: disable=line-too-long,too-many-lines\n')
             prt.write('PWYNTS = [\n')
             for dct in pwy2nt.values():

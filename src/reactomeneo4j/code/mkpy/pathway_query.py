@@ -56,6 +56,15 @@ class PathwayQuery(object):
             'hasEvent': self._get_event,
         }
 
+    def get_version(self):
+        """Get Reactome version."""
+        qry = 'MATCH (v:DBInfo) RETURN v'
+        with self.gdr.session() as session:
+            for rec in session.run(qry).records():
+                dbinfo = rec['v']
+                assert dbinfo.get('name') == 'reactome'
+                return dbinfo.get('version')
+
     def get_pw2dcts(self, prt=sys.stdout):
         """Fill in Pathway with information by following other relationships."""
         pw2info = {}

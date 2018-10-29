@@ -33,6 +33,7 @@ def prt_pathways():
     with open(fout_log, 'w') as prt:
         pw2dcts = objneo.get_pw2dcts(prt)
         objwr = PathwayWrPy(pw2dcts, prt)
+        objwr.wrpy_version('src/reactomeneo4j/data/reactome_version.py', objneo.get_version())
         objwr.wrpwys(fous_txt)
         objwr.wrpy_pwy2nt(fout_py)
         objwr.wrpy_pwy2summation(fout_sum)
