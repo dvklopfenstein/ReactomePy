@@ -1,3 +1,4 @@
+# coding=utf-8
 """Pathway information"""
 
 __copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."

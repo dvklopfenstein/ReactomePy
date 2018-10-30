@@ -5,6 +5,9 @@
 # 	chmod 755 tmp_pylint
 # 	tmp_pylint
 
+run:
+	echo Hello
+
 # Re-generate Python modules containing Reatome data
 # This is done for every new Reactome version
 mkpy:

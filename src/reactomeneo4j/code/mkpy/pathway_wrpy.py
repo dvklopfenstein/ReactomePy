@@ -95,6 +95,7 @@ class PathwayWrPy(object):
         pmid2nt = self._get_pmid2nt()
         keys = ' '.join(next(iter(pmid2nt.values()))._fields)
         with open(fout_py, 'w') as prt:
+            prt.write('# coding=utf-8\n')
             # prt = sys.stdout
             prt_docstr_module('Publications including Pubmed papers, Books, and URLs', prt)
             prt.write('from collections import namedtuple\n')
@@ -144,6 +145,7 @@ class PathwayWrPy(object):
         pwy2nt = self.get_pwy2nt()
         keys = ' '.join(next(iter(pwy2nt.values()))._fields)
         with open(fout_py, 'w') as prt:
+            prt.write('# coding=utf-8\n')
             prt_docstr_module('Pathway information', prt)
             prt.write('from collections import namedtuple\n')
             prt.write('from datetime import date\n')
@@ -232,6 +234,7 @@ class PathwayWrPy(object):
         """Write pathway summation to a Python file."""
         fout_py = fpat_py.format(ABC=self.taxnt.abc)
         with open(os.path.join(REPO, fout_py), 'w') as prt:
+            prt.write('# coding=utf-8\n')
             prt_docstr_module('Summations for pathways', prt)
             prt.write('# pylint: disable=line-too-long,too-many-lines\n')
             prt.write("PW2SUMS = {\n")
