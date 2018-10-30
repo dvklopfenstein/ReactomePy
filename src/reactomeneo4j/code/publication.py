@@ -10,7 +10,7 @@ __author__ = "DV Klopfenstein"
 # -- LiteratureReference(dcnt=0)
 # -- URL (dcnt=0)
 
-# import sys
+import sys
 from importlib import import_module
 
 class Publication(object):
