@@ -14,7 +14,7 @@ import sys
 from importlib import import_module
 import textwrap
 
-class Publication(object):
+class DescribePathway(object):
     """Manages Publications: Research papers, books, and URLs."""
 
     PWYS = 'reactomeneo4j.data.{ABC}.pathways.pathways'
@@ -35,8 +35,16 @@ class Publication(object):
     def prt_pw(self, pwy_stid, prt=sys.stdout):
         """Print Pathway information."""
         prt.write('\nPATHWAY: {stId} {releaseDate} {marks} {displayName}\n'.format(**(self.pw2nt[pwy_stid])._asdict()))
+        self._prt_summary(pwy_stid, prt)
+        self._prt_pmids(pwy_stid, prt)
+
+    def _prt_summary(self, pwy_stid, prt=sys.stdout):
+        """Print Pathway Summary."""
         for idx, summary in enumerate(self.pw2sum[pwy_stid]):
             prt.write('SUMMARY: {TXT}\n'.format(TXT=('\n'.join(textwrap.wrap(summary, self.linewidth)))))
+
+    def _prt_pmids(self, pwy_stid, prt=sys.stdout):
+        """Print Pathway PubMed IDs and titles."""
         if pwy_stid in self.pw2pmids:
             pmid_nt = sorted([(p, self.pmid2nt[p]) for p in self.pw2pmids[pwy_stid]], key=lambda t: -1*t[1].year)
             for pmid, ntpub in pmid_nt:
