@@ -7,7 +7,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-# import os
+import os
 import sys
 # import collections as cx
 # import timeit
@@ -21,6 +21,7 @@ from reactomeneo4j.code.mkpy.pathway_wrpy import PathwayWrPy
 def prt_pathways():
     """Print pathways and their details for a species."""
     objneo = _init_neo4j()
+    dir_pwy = 'src/reactomeneo4j/data/{ABC}/pathways/'.format(ABC=objneo.abc)
     fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/pathways.py'.format(ABC=objneo.abc)
     fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2summation.py'.format(ABC=objneo.abc)
     fout_pub = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2pmids.py'.format(ABC=objneo.abc)
@@ -41,6 +42,8 @@ def prt_pathways():
         objwr.wrpy_pubmeds(fout_pmd)
         objwr.wrtxt(fout_txt)
         objwr.wrpy_figure(fout_fig)
+        objwr.wrpy_gons(os.path.join(dir_pwy, 'go_bp.py'), 'GO_BiologicalProcess')
+        objwr.wrpy_gons(os.path.join(dir_pwy, 'go_cc.py'), 'Compartment')
         # objwr.wrpy_inferredto(fout_inf)
         print('  WROTE: {LOG}'.format(LOG=fout_log))
 

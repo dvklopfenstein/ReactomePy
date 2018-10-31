@@ -88,7 +88,7 @@ class PathwayWrPy(object):
                     PW=pwy, PMIDS=", ".join(str(i) for i in pmids)))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
-            print("  WROTE: {TXT}".format(TXT=fout_py))
+            print("  WROTE: {PY}".format(PY=fout_py))
 
     def wrpy_pubmeds(self, fout_py):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
@@ -160,6 +160,31 @@ class PathwayWrPy(object):
             prt.write(']\n')
             prt_copyright_comment(prt)
             print("  {N:5} pathways WROTE: {TXT}".format(N=len(self.pw2info), TXT=fout_py))
+
+    def wrpy_gons(self, fout_py, name='GO_BiologicalProcess'):
+        """Write Gene Ontology information for a Pathway's Biological Processes."""
+        pwy2ns = self._get_pwy2ns(name)
+        with open(fout_py, 'w') as prt:
+            # prt = sys.stdout
+            prt_docstr_module('Gene Ontology {NS} for each Pathway'.format(NS=name), prt)
+            prt.write('\n# {N} of {M} Pathways are associated with {NS}\n'.format(
+                N=len(pwy2ns), M=len(self.pw2info), NS=name))
+            prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
+            prt.write('PWY2GOS = {\n')
+            for pwy, goids in sorted(pwy2ns.items(), key=self._sortby):
+                goids_str = set("'{GO}'".format(GO=go) for go in goids)
+                prt.write("    '{PW}' : {{{GOS}}},\n".format(PW=pwy, GOS=", ".join(goids_str)))
+            prt.write('}\n\n')
+            prt_copyright_comment(prt)
+            print("  WROTE: {PY}".format(PY=fout_py))
+
+    def _get_pwy2ns(self, name):
+        """Get Gene Ontology information for a Pathway's Biological Processes."""
+        pwy_bps = []
+        for pwy, dct in self.pw2info.items():
+            if name in dct:
+                pwy_bps.append((pwy, set(nt.GO for nt in dct[name])))
+        return cx.OrderedDict(pwy_bps)
 
     def get_pwy2nt(self):
         """Write all pathways into a Python module in a condensed format."""
