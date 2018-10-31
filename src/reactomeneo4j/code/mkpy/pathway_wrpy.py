@@ -164,7 +164,7 @@ class PathwayWrPy(object):
     def get_pwy2nt(self):
         """Write all pathways into a Python module in a condensed format."""
         pwy_nt = []
-        ntobj = cx.namedtuple("ntpwy", "stId releaseDate marks displayName")
+        ntobj = cx.namedtuple("ntpwy", "stId releaseDate marks NS displayName")
         for pwy, dct in self.pw2info.items():
             pwydct = dct['Pathway']
             date_ints = [int(i) for i in pwydct['releaseDate'].split('-')]
@@ -172,6 +172,7 @@ class PathwayWrPy(object):
                 stId=pwydct['stId'],
                 releaseDate=date(*date_ints),
                 marks=self._get_pwmarkstr(dct),
+                NS=self._get_namespace(dct),
                 displayName=pwydct['displayName'])
             pwy_nt.append((pwy, ntd))
         return cx.OrderedDict(pwy_nt)
@@ -195,6 +196,14 @@ class PathwayWrPy(object):
             'P' if 'LiteratureReference' in dct else '.',
             'B' if 'Book' in dct else '.',
             'U' if 'URL' in dct else '.',
+        ])
+
+    @staticmethod
+    def _get_namespace(dct):
+        """Return Gene Ontology namespace markers."""
+        return "".join([
+            'B' if 'GO_BiologicalProcess' in dct else '.',  # Biological Process
+            'C' if 'Compartment' in dct else '.',           # Cellular Compartment
         ])
 
     @staticmethod
