@@ -48,7 +48,8 @@ vim_pub:
 	vim -p \
 	src/bin/describe_pathway.py \
 	src/reactomeneo4j/code/describe_pathway.py \
-	src/reactomeneo4j/data/hsa/pathways/pathways.py
+	src/reactomeneo4j/data/hsa/pathways/pathways.py \
+	src/reactomeneo4j/code/species.py
 
 vim_old:
 	vim -p \
