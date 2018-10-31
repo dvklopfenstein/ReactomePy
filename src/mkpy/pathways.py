@@ -44,6 +44,7 @@ def prt_pathways():
         objwr.wrpy_figure(fout_fig)
         objwr.wrpy_gons(os.path.join(dir_pwy, 'go_bp.py'), 'GO_BiologicalProcess')
         objwr.wrpy_gons(os.path.join(dir_pwy, 'go_cc.py'), 'Compartment')
+        objwr.wrpy_relatedspecies(os.path.join(dir_pwy, 'pwy2relatedspecies.py'))
         # objwr.wrpy_inferredto(fout_inf)
         print('  WROTE: {LOG}'.format(LOG=fout_log))
 

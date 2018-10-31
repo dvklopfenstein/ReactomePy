@@ -315,10 +315,10 @@ class PathwayQuery(object):
         assert dst['schemaClass'] == 'Species'
         assert rel['stoichiometry'] == 1
         # print("GET_RELATED_SPECIES", dst)
-        if 'species' not in dct:
-            dct['species'] = [int(dst['taxId'])]
+        if 'relatedSpecies' not in dct:
+            dct['relatedSpecies'] = set([int(dst['taxId'])])
         else:
-            dct['species'].append(int(dst['taxId']))
+            dct['relatedSpecies'].add(int(dst['taxId']))
 
     def _get_inferredto(self, dct, rel, dst):
         """Get inferred to."""

@@ -186,6 +186,29 @@ class PathwayWrPy(object):
                 pwy_bps.append((pwy, set(nt.GO for nt in dct[name])))
         return cx.OrderedDict(pwy_bps)
 
+    def wrpy_relatedspecies(self, fout_py):
+        """Write related species for a pathway, if it exists."""
+        pwy2taxids = self._get_pwy2relatedspecies()
+        with open(fout_py, 'w') as prt:
+            prt_docstr_module('Related species.', prt)
+            prt.write('\n# {N} of {M} Pathways have related species\n'.format(
+                N=len(pwy2taxids), M=len(self.pw2info)))
+            # prt.write('# pylint: disable=line-too-long,too-many-lines,bad-continuation\n')
+            prt.write('PWY2TAXIDS = {\n')
+            for pwy, taxids in sorted(pwy2taxids.items(), key=self._sortby):
+                prt.write("    '{PW}' : {TAXIDS},\n".format(PW=pwy, TAXIDS=taxids))
+            prt.write('}\n\n')
+            prt_copyright_comment(prt)
+            print("  WROTE: {PY}".format(PY=fout_py))
+
+    def _get_pwy2relatedspecies(self):
+        """Get Gene Ontology information for a Pathway's Biological Processes."""
+        pwy_taxids = []
+        for pwy, dct in self.pw2info.items():
+            if 'relatedSpecies' in dct:
+                pwy_taxids.append((pwy, dct['relatedSpecies']))
+        return cx.OrderedDict(pwy_taxids)
+
     def get_pwy2nt(self):
         """Write all pathways into a Python module in a condensed format."""
         pwy_nt = []
