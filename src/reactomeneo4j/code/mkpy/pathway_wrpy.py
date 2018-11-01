@@ -209,6 +209,23 @@ class PathwayWrPy(object):
                 pwy_taxids.append((pwy, dct['relatedSpecies']))
         return cx.OrderedDict(pwy_taxids)
 
+    def get_pwy2disease(self):
+        """Write all pathways into a Python module in a condensed format."""
+        pwy_nt = []
+        ntobj = cx.namedtuple("ntpwy", "stId releaseDate marks NS displayName")
+        for pwy, dct in self.pw2info.items():
+            pwydct = dct['disease']
+            print('DDDDDDDDDDDDDDD', pwy, pwydct)
+            # date_ints = [int(i) for i in pwydct['releaseDate'].split('-')]
+            # ntd = ntobj(
+            #     stId=pwydct['stId'],
+            #     releaseDate=date(*date_ints),
+            #     marks=self._get_pwmarkstr(dct),
+            #     NS=self._get_namespace(dct),
+            #     displayName=pwydct['displayName'])
+            # pwy_nt.append((pwy, ntd))
+        return cx.OrderedDict(pwy_nt)
+
     def get_pwy2nt(self):
         """Write all pathways into a Python module in a condensed format."""
         pwy_nt = []
