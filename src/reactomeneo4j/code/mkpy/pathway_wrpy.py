@@ -173,7 +173,7 @@ class PathwayWrPy(object):
             prt.write('PWY2GOS = {\n')
             for pwy, goids in sorted(pwy2ns.items(), key=self._sortby):
                 goids_str = set("'{GO}'".format(GO=go) for go in goids)
-                prt.write("    '{PW}' : {{{GOS}}},\n".format(PW=pwy, GOS=", ".join(goids_str)))
+                prt.write("    '{PW}' : {{{GOS}}},\n".format(PW=pwy, GOS=", ".join(sorted(goids_str))))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
             print("  WROTE: {PY}".format(PY=fout_py))
@@ -209,22 +209,21 @@ class PathwayWrPy(object):
                 pwy_taxids.append((pwy, dct['relatedSpecies']))
         return cx.OrderedDict(pwy_taxids)
 
-    def get_pwy2disease(self):
-        """Write all pathways into a Python module in a condensed format."""
-        pwy_nt = []
-        ntobj = cx.namedtuple("ntpwy", "stId releaseDate marks NS displayName")
-        for pwy, dct in self.pw2info.items():
-            pwydct = dct['disease']
-            print('DDDDDDDDDDDDDDD', pwy, pwydct)
-            # date_ints = [int(i) for i in pwydct['releaseDate'].split('-')]
-            # ntd = ntobj(
-            #     stId=pwydct['stId'],
-            #     releaseDate=date(*date_ints),
-            #     marks=self._get_pwmarkstr(dct),
-            #     NS=self._get_namespace(dct),
-            #     displayName=pwydct['displayName'])
-            # pwy_nt.append((pwy, ntd))
-        return cx.OrderedDict(pwy_nt)
+    def wrpy_pwy2disease(self, fout_py):
+        """Write all pathways that have associated diseases."""
+        pwy_dis = [(p, d['disease']) for p, d in self.pw2info.items() if 'disease' in d]
+        num_pwy = len(pwy_dis)
+        num_dis = len(set(d for _, ds in pwy_dis for d in ds))
+        with open(fout_py, 'w') as prt:
+            msg = '{N} Pathways have {M} diseases'.format(N=num_pwy, M=num_dis)
+            prt_docstr_module(msg, prt)
+            prt.write('# pylint: disable=line-too-long\n')
+            prt.write('PWY2DIS = {\n')
+            for pwy, dis in pwy_dis:
+                prt.write("    '{PWY}': {DIS},\n".format(PWY=pwy, DIS=dis))
+            prt.write('}\n')
+            prt_copyright_comment(prt)
+            print("  {MSG} WROTE: {PY}".format(MSG=msg, PY=fout_py))
 
     def get_pwy2nt(self):
         """Write all pathways into a Python module in a condensed format."""
