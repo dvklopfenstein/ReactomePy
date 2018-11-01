@@ -12,8 +12,10 @@ __author__ = "DV Klopfenstein"
 
 import sys
 from importlib import import_module
+import pkgutil
 import textwrap
 from reactomeneo4j.code.species import Species
+from reactomeneo4j.data.disease_definitions import DISEASE2DEFN
 
 class DescribePathway(object):
     """Manages Publications: Research papers, books, and URLs."""
@@ -23,6 +25,7 @@ class DescribePathway(object):
     PYPM = 'reactomeneo4j.data.{ABC}.pathways.pwy2pmids'
     PMDS = 'reactomeneo4j.data.{ABC}.pathways.pmid2nt'
     SPEC = 'reactomeneo4j.data.{ABC}.pathways.pwy2relatedspecies'
+    DISS = 'reactomeneo4j.data.{ABC}.pathways.pwy2disease'
 
     objspecies = Species()
     sep = '\n-------------------------------------------------------------------\n'
@@ -32,6 +35,7 @@ class DescribePathway(object):
         self.linewidth = linewidth
         self.pw2nt = {nt.stId:nt for nt in import_module(self.PWYS.format(ABC=abc)).PWYNTS}
         self.pw2sum = import_module(self.SUMS.format(ABC=abc)).PW2SUMS
+        self.pw2dis = import_module(self.DISS.format(ABC=abc)).PWY2DIS
         self.pw2pmids = import_module(self.PYPM.format(ABC=abc)).PWY2PMIDS
         self.pmid2nt = import_module(self.PMDS.format(ABC=abc)).PMID2NT
         self.pmid2info = self._init_pmid2info()
@@ -45,6 +49,7 @@ class DescribePathway(object):
         prt.write('PATHWAY: {stId} {releaseDate} {marks} {displayName}\n'.format(
             **(self.pw2nt[pwy_stid])._asdict()))
         self._prt_summary(pwy_stid, prt)
+        self._prt_diseases(pwy_stid, prt)
         self._prt_pmids(pwy_stid, prt)
         self._prt_species(pwy_stid, prt)
 
@@ -53,12 +58,22 @@ class DescribePathway(object):
         for summary in self.pw2sum[pwy_stid]:
             prt.write('SUMMARY: {TXT}\n'.format(TXT=('\n'.join(textwrap.wrap(summary, self.linewidth)))))
 
+    def _prt_diseases(self, pwy_stid, prt):
+        """Print diseases, if any, associated with this pathway."""
+        if pwy_stid in self.pw2dis:
+            for dis in self.pw2dis[pwy_stid]:
+                prt.write('DISEASE({DIS})'.format(DIS=dis))
+                if dis in DISEASE2DEFN:
+                    prt.write(': {DESC}'.format(DESC=DISEASE2DEFN[dis]))
+                prt.write('\n') 
+
     def _prt_pmids(self, pwy_stid, prt=sys.stdout):
         """Print Pathway PubMed IDs and titles."""
         if pwy_stid in self.pw2pmids:
             pwy_pmid = [(p, self.pmid2nt[p]) for p in self.pw2pmids[pwy_stid]]
             pmid_nt = sorted(pwy_pmid, key=lambda t: -1*t[1].year)
-            prt.write('{SEP}{N} Publications in PubMed:\n'.format(SEP=self.sep, N=len(pmid_nt)))
+            prt.write('{SEP}{N} Publications in PubMed for {PWY}({DESC}):\n'.format(
+                SEP=self.sep, N=len(pmid_nt), PWY=pwy_stid, DESC=self.pw2nt[pwy_stid].displayName))
             for idx, (pmid, ntpub) in enumerate(pmid_nt):
                 prt.write('\n{I}) PMID: {year} {PMID:8} {journal}\n'.format(
                     I=idx, PMID=pmid, year=ntpub.year, journal=ntpub.journal))
@@ -98,10 +113,8 @@ class DescribePathway(object):
     def _init_pmid2info(self):
         """Initialize PMID-to-Abstract if it is available."""
         modstr = 'reactomeneo4j.work.{ABC}_pwy_pmid2info'.format(ABC=self.abc)
-        module = import_module(modstr)
-        if module is None:
-            return None
-        return module.pmid2info
+        if pkgutil.find_loader(modstr) is not None:
+            return import_module(modstr).pmid2info
         
 
 

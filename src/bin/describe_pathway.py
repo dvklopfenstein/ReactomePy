@@ -13,7 +13,8 @@ def main():
     pmids = obj.get_pwys_w_all()
     print('{N} Pathways of {M} have all types of data'.format(N=len(pmids), M=len(obj.pw2nt)))
     obj.prt_pw('R-HSA-202040')
-    obj.prt_pw('R-HSA-168898')
+    obj.prt_pw('R-HSA-168898')   # Multiple Species
+    obj.prt_pw('R-HSA-5678420')  # Multiple diseases
 
 
 if __name__ == '__main__':
