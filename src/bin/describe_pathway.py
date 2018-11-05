@@ -29,20 +29,19 @@ def main(obo='go-basic.obo', gaf='goa_human.gaf'):
     obj.prt_pw('R-HSA-5678420')  # Multiple diseases
     obj.prt_pw('R-HSA-15869')    # Biological Pathways
     obj.prt_pw('R-HSA-71288')    # Cellular Components
-    print(gosubdag.prt_attr)
-    print(gosubdag.prt_attr['fmt'])
+    # print(gosubdag.prt_attr)
+    # print(gosubdag.prt_attr['fmt'])
 
 def _get_gosubdag(obo, gaf):
     """Return a gosubdag object with human annotations."""
-    go2obj_all = get_godag(os.path.join(REPO, obo))
     # Load GO DAG with optional 'definition' field values
     godag = GODag(os.path.join(REPO, obo), ['defn'])
     # Annotations
     #   % wget http://geneontology.org/gene-associations/goa_human.gaf.gz
     #   % gunzip goa_human.gaf.gz
     gene2gos = read_gaf(gaf)
-    tcntobj = TermCounts(go2obj_all, gene2gos)
-    return GoSubDag(None, go2obj_all, tcntobj=tcntobj, prt=sys.stdout)
+    tcntobj = TermCounts(godag, gene2gos)
+    return GoSubDag(None, godag, tcntobj=tcntobj, prt=sys.stdout)
 
 if __name__ == '__main__':
     main()

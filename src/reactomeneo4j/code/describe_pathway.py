@@ -136,7 +136,6 @@ class DescribePathway(object):
         for ntgo in nts:
             key2val = ntgo._asdict()
             prt.write("{GO}\n".format(GO=prtfmt.format(**key2val)))
-            # print(dir(self.gosubdag.go2obj[ntgo.GO]))
             goterm = self.gosubdag.go2obj[ntgo.GO]
             if hasattr(goterm , 'defn'):
                 prt.write("{DEFN}\n\n".format(DEFN=goterm.defn))
