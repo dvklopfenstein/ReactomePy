@@ -17,31 +17,31 @@ import textwrap
 from reactomeneo4j.code.species import Species
 from reactomeneo4j.data.disease_definitions import DISEASE2DEFN
 
+
 class DescribePathway(object):
     """Manages Publications: Research papers, books, and URLs."""
-
-    PWYS = 'reactomeneo4j.data.{ABC}.pathways.pathways'
-    SUMS = 'reactomeneo4j.data.{ABC}.pathways.pwy2summation'
-    PYPM = 'reactomeneo4j.data.{ABC}.pathways.pwy2pmids'
-    PMDS = 'reactomeneo4j.data.{ABC}.pathways.pmid2nt'
-    SPEC = 'reactomeneo4j.data.{ABC}.pathways.pwy2relatedspecies'
-    DISS = 'reactomeneo4j.data.{ABC}.pathways.pwy2disease'
 
     objspecies = Species()
     sep = '\n-------------------------------------------------------------------\n'
 
-    def __init__(self, abc, linewidth=80):
+    def __init__(self, abc, gosubdag=None, linewidth=80):
         self.abc = abc
+        self.gosubdag = gosubdag
+        self.mdir = 'reactomeneo4j.data.{ABC}.pathways.'.format(ABC=abc)
         self.linewidth = linewidth
-        self.pw2nt = {nt.stId:nt for nt in import_module(self.PWYS.format(ABC=abc)).PWYNTS}
-        self.pw2sum = import_module(self.SUMS.format(ABC=abc)).PW2SUMS
-        self.pw2dis = import_module(self.DISS.format(ABC=abc)).PWY2DIS
-        self.pw2pmids = import_module(self.PYPM.format(ABC=abc)).PWY2PMIDS
-        self.pmid2nt = import_module(self.PMDS.format(ABC=abc)).PMID2NT
+        self.pw2nt = {nt.stId:nt for nt in import_module(self.mdir+"pathways").PWYNTS}
+        self.pw2sum = import_module(self.mdir+"pwy2summation").PW2SUMS
+        self.pw2dis = import_module(self.mdir+"pwy2disease").PWY2DIS
+        self.pw2pmids = import_module(self.mdir+"pwy2pmids").PWY2PMIDS
+        self.pmid2nt = import_module(self.mdir+"pmid2nt").PMID2NT
         self.pmid2info = self._init_pmid2info()
         # self.books = self._init_books()  # TBD
         # self.urls = self._init_urls()    # TBD
-        self.pw2relatedtaxids = import_module(self.SPEC.format(ABC=abc)).PWY2TAXIDS
+        self.pw2relatedtaxids = import_module(self.mdir+"pwy2relatedspecies").PWY2TAXIDS
+        # Gene Ontology
+        self.pw2go = {
+            'bp' : import_module(self.mdir+"pwy2bp").PWY2GOS,
+            'cc' : import_module(self.mdir+"pwy2cc").PWY2GOS}
 
     def prt_pw(self, pwy_stid, prt=sys.stdout):
         """Print Pathway information."""
@@ -50,6 +50,8 @@ class DescribePathway(object):
             **(self.pw2nt[pwy_stid])._asdict()))
         self._prt_summary(pwy_stid, prt)
         self._prt_diseases(pwy_stid, prt)
+        self._prt_gos('bp', pwy_stid, prt)
+        self._prt_gos('cc', pwy_stid, prt)
         self._prt_pmids(pwy_stid, prt)
         self._prt_species(pwy_stid, prt)
 
@@ -66,6 +68,17 @@ class DescribePathway(object):
                 if dis in DISEASE2DEFN:
                     prt.write(': {DESC}'.format(DESC=DISEASE2DEFN[dis]))
                 prt.write('\n') 
+
+    def _prt_gos(self, nsname, pwy_stid, prt):
+        """Print GO information."""
+        pw2go = self.pw2go[nsname]
+        if pwy_stid in pw2go:
+            goids = pw2go[pwy_stid]
+            if self.gosubdag:
+                self._prt_goids(prt, goids)
+            else:
+                for goid in goids:
+                    prt.write('{GO}\n'.format(GO=goid))
 
     def _prt_pmids(self, pwy_stid, prt=sys.stdout):
         """Print Pathway PubMed IDs and titles."""
@@ -115,7 +128,18 @@ class DescribePathway(object):
         modstr = 'reactomeneo4j.work.{ABC}_pwy_pmid2info'.format(ABC=self.abc)
         if pkgutil.find_loader(modstr) is not None:
             return import_module(modstr).pmid2info
-        
+
+    def _prt_goids(self, prt, goids, sortby=None):
+        """Print GO IDs."""
+        nts = self.gosubdag.get_nts(goids, sortby)
+        prtfmt = self.gosubdag.prt_attr['fmta']
+        for ntgo in nts:
+            key2val = ntgo._asdict()
+            prt.write("{GO}\n".format(GO=prtfmt.format(**key2val)))
+            # print(dir(self.gosubdag.go2obj[ntgo.GO]))
+            goterm = self.gosubdag.go2obj[ntgo.GO]
+            if hasattr(goterm , 'defn'):
+                prt.write("{DEFN}\n\n".format(DEFN=goterm.defn))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
