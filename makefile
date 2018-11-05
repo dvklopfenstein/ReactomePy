@@ -69,4 +69,9 @@ clean_pyc:
 	find . -name \*.pyc | xargs rm -f
 	find . -name \*.stackdump | xargs rm -f
 
+clobber_materials:
+	rm goa_human.*; wget http://geneontology.org/gene-associations/goa_human.gaf.gz; gunzip goa_human.gaf.gz
+	rm go-basic.obo*; wget http://geneontology.org/ontology/go-basic.obo
+	
+
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
