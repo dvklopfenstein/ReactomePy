@@ -43,6 +43,7 @@ def _get_gosubdag(obo, gaf):
     tcntobj = TermCounts(godag, gene2gos)
     return GoSubDag(None, godag, tcntobj=tcntobj, prt=sys.stdout)
 
+
 if __name__ == '__main__':
     main()
 

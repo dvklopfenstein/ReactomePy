@@ -35,6 +35,7 @@ class DescribePathway(object):
         self.pw2pmids = import_module(self.mdir+"pwy2pmids").PWY2PMIDS
         self.pmid2nt = import_module(self.mdir+"pmid2nt").PMID2NT
         self.pmid2info = self._init_pmid2info()
+        self.mh2ms = self._init_mh2ms()
         # self.books = self._init_books()  # TBD
         # self.urls = self._init_urls()    # TBD
         self.pw2relatedtaxids = import_module(self.mdir+"pwy2relatedspecies").PWY2TAXIDS
@@ -42,6 +43,13 @@ class DescribePathway(object):
         self.pw2go = {
             'bp' : import_module(self.mdir+"pwy2bp").PWY2GOS,
             'cc' : import_module(self.mdir+"pwy2cc").PWY2GOS}
+
+    def _init_mh2ms(self):
+        """MeSH-to-namedtuple: UI MS."""
+        if self.pmid2info is not None:
+          modstr = 'dvkbiodnld.data.mesh.descriptors'
+          if pkgutil.find_loader(modstr) is not None:
+              return {nt.MH:nt.MS for nt in import_module(modstr).UI2NT.values()}
 
     def prt_pw(self, pwy_stid, prt=sys.stdout):
         """Print Pathway information."""
@@ -108,6 +116,11 @@ class DescribePathway(object):
         if 'MH' in fld2val:
              for mhstr in fld2val['MH']:
                prt.write('MeSH: {MH}\n'.format(MH=mhstr))
+               desc = mhstr.split('/')[0]
+               if desc:
+                   msstr = self.mh2ms.get(desc)
+                   if msstr:
+                       prt.write('      {MS}\n'.format(MS=msstr))
 
     def _prt_species(self, pwy_stid, prt=sys.stdout):
         """Print speciesi that are related to this pathway."""

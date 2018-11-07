@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+*.obo
+*.gaf
 src/reactomeneo4j/work/*.py
 __pycache__/
 *.py[cod]
