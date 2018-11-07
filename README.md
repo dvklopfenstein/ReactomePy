@@ -3,8 +3,8 @@ Explore peer-reviewed biological pathways in Reactome using Python to query neo4
 
   * [**Scripts**](#scripts)
     * **Neo4j MUST BE INSTALLED AND RUNNING ON DATA DOWNLOADED FROM Reactome:**    
-      * Run Reactome's [Reactome/Neo4j Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules) using Python scripts
-      * [Extract Reactome data using Neo4j using Python scripts](#neo4j_scripts)    
+      * Run Reactome's Neo4j Query [Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules) using Python scripts
+      * [Extract Reactome data using Neo4j. Save the data into Python modules for later use.](#neo4j_scripts)    
     * **NO NEED TO HAVE Neo4j RUNNING:**    
       * [Pathway Scripts](#pathway_scripts)     
 
