@@ -180,12 +180,12 @@ def _run(session):
 
     # query_1b('MATCH (c:Complex{stId:"R-HSA-983126"}) RETURN c', gdb)
     #
-    # GET SET AND COMPLEX INSIDE COMPLEX, R-HSA-983126 (returns ~284 entities)
-    # query_1b(('MATCH (Complex{stId:"R-HSA-983126"})-'
-    #           '[:hasComponent|hasMember|hasCandidate*]->'
-    #           '(pe:PhysicalEntity) RETURN DISTINCT '
-    #           'pe.stId AS component_stId, '
-    #           'pe.displayName AS component'), gdb)
+    #### GET SET AND COMPLEX INSIDE COMPLEX, R-HSA-983126 (returns ~284 entities)
+    #### query_1b(('MATCH (Complex{stId:"R-HSA-983126"})-'
+    ####           '[:hasComponent|hasMember|hasCandidate*]->'
+    ####           '(pe:PhysicalEntity) RETURN DISTINCT '
+    ####           'pe.stId AS component_stId, '
+    ####           'pe.displayName AS component'), gdb)
 
     # 3) RETRIEVING PATHWAYS, SUBPATHWAYS, AND SUPERPATHWAYS
     # Pathway      SubPathway    DisplayName
