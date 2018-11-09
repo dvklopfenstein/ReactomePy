@@ -11,9 +11,9 @@ run:
 # Re-generate Python modules containing Reatome data
 # This is done for every new Reactome version
 mkpy:
-	src/mkpy/pathways.py $(PASSWORD)
-	src/mkpy/species.py $(PASSWORD)
-	src/mkpy/disease.py $(PASSWORD)
+	src/bin_neo4j/wrpy/pathways.py $(PASSWORD)
+	src/bin_neo4j/wrpy/species.py $(PASSWORD)
+	src/bin_neo4j/wrpy/disease.py $(PASSWORD)
 
 # mv_db:
 # 	mv $(DL)/reactome.graphdb.gz .
@@ -24,7 +24,7 @@ mkpy:
 vim_:
 	vim -p \
 	./src/bin/run_reactome_tutorial.py \
-	./src/mkpy/pathways.py \
+	./src/bin_neo4j/wrpy/pathways.py \
 	./src/reactomeneo4j/code/session.py \
 	./src/reactomeneo4j/code/graph.py \
 	./src/reactomeneo4j/code/record.py \
@@ -37,7 +37,7 @@ vim_:
 
 vim_pw:
 	vim -p \
-	./src/mkpy/pathways.py \
+	./src/bin_neo4j/wrpy/pathways.py \
 	src/reactomeneo4j/code/mkpy/pathway_query.py \
 	src/reactomeneo4j/code/mkpy/pathway_wrpy.py \
 	src/reactomeneo4j/data/hsa/pathways_publications.py \
