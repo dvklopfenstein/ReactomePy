@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Report counts of all relationships related to all Complexes in one species.
+"""Report counts of all relationships related to a schemaName for in one species.
 
  11772 Complex for Homo sapiens
 
