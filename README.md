@@ -2,9 +2,9 @@
 Explore peer-reviewed biological pathways in Reactome using Python to query neo4j
 
   * [**Scripts**](#scripts)
-    * **NO NEED TO HAVE Neo4j RUNNING:**    
+    * **No need to have Neo4j running:**    
       * [src/bin](/src/bin)     
-    * **Neo4j MUST BE INSTALLED AND RUNNING ON DATA DOWNLOADED FROM Reactome:**    
+    * **Neo4j MUST BE INSTALLED and RUNNING on data downloaded from Reactome:**    
       * [src/bin_neo4j/tutorial](src/bin_neo4j/tutorial)
       * [src/bin_neo4j/wrpy](src/bin_neo4j/wrpy)
 

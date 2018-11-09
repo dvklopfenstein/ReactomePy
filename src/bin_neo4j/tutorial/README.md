@@ -1,7 +1,7 @@
 # Reactome's Neo4j Tutorial
-Run Reactome's [tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules) of Neo4j queries from a Python script.
+Run Reactome's [tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules) of Neo4j queries from Python scripts.
 
-## The participating molecules use case
+## Tutorial: Report participating molecules
 Build a query to retrieve the resource and identifier of each participating molecule of a given Pathway in six stages:
 
 1. How to retrieve objects like proteins, reactions, pathways, etc.
