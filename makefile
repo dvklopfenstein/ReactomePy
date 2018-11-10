@@ -15,6 +15,16 @@ mkpy:
 	src/bin_neo4j/wrpy/species.py $(PASSWORD)
 	src/bin_neo4j/wrpy/disease.py $(PASSWORD)
 
+
+# Write relationships for various schema
+WRREL := src/bin_neo4j/run/get_relationship_cnts.py 
+wr_rel:
+	$(WRREL) $(PASSWORD) -o --schemaClass=ReactionLikeEvent
+	$(WRREL) $(PASSWORD) -o --schemaClass=Pathway
+	$(WRREL) $(PASSWORD) -o --schemaClass=TopLevelPathway
+	$(WRREL) $(PASSWORD) -o --species='' --schemaClass=Drug
+	
+
 # mv_db:
 # 	mv $(DL)/reactome.graphdb.gz .
 # 	gunzip reactome.graphdb.gz

@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 """Report counts of all relationships related to a schemaName for a single species.
 
-Usage: get_relationship_cnts.py <neo4j_password> [--schemaClass=CLS] [--species=S]
+Usage: get_relationship_cnts.py <neo4j_password> [--schemaClass=CLS] [--species=S] [-o]
 
 Options:
   -h --help
   -c --schemaClass=CLS  Examples: Complex, Pathway, etc. [default: Complex]
   -s --species=S        Species [default: Homo sapiens]
-
+  -o                    Write results into a file rather than to the screen
 
 """
 
 # Example for relationships for human complexes:
-#  
+#
 #  11772 Complex for Homo sapiens
-# 
+#
 #  Total num/ID  Relationship
 #  ----- ------- -------------------------
 #  90665 10.0560 inferredTo
@@ -46,36 +46,53 @@ from neo4j import GraphDatabase
 def main():  # password, schemaclass='Complex', species='Homo sapiens'):
     """Report counts of all relationships related to all Complexes in one species."""
     args = docopt(__doc__)
-    # https://reactome.org/content/schema/Complex
+    print(args)
 
+    species = '{{speciesName:"{--species}"}}'.format(**args) if args['--species'] else ''
     qry = "".join([
-        'MATCH (src:{--schemaClass}{{speciesName:"{--species}"}})-'.format(**args),
+        'MATCH (src:{--schemaClass}{SPECIES})-'.format(SPECIES=species, **args),
         '[rel]->(dst) RETURN src, rel, dst'])
 
-    complex2rel2cnt = cx.defaultdict(cx.Counter)
+    id2rel2cnt = cx.defaultdict(cx.Counter)
+    ctr = cx.Counter()
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', args['<neo4j_password>']))
+    print('QUERY: {Q}'.format(Q=qry))
     with gdbdr.session() as session:
-        ctr = cx.Counter()
-        for rec in session.run(qry).records():
+        for idx, rec in enumerate(session.run(qry).records()):
             rel = rec['rel']
             stid_complex = rec['src'].get('stId')
             rel_type = rel.type
             dst_cls = rec['dst']['schemaClass']
             key = (rel_type, dst_cls)
-            complex2rel2cnt[stid_complex][key] += 1
-            # print(stid_complex, rel_type, rec['dst']['schemaClass'])
+            id2rel2cnt[stid_complex][key] += 1
             ctr[key] += 1
+            if idx%5000 == 0:
+                print('{I:7} {ID:13} {TYPE:20} {DST} ...'.format(
+                    I=idx, ID=stid_complex, TYPE=rel_type, DST=rec['dst']['schemaClass']))
+    _write(ctr, id2rel2cnt, args)
 
-    print('\n{N:6} {--schemaClass} for {--species}'.format(
-        N=len(complex2rel2cnt), **args))
-        # N=len(complex2rel2cnt), schemaClass=schemaclass, species=species))
-    print('\n Total  num/ID Relationship')
-    print(' ----- ------- -------------------------')
+def _write(ctr, id2rel2cnt, args):
+    """Write results to a file or to the screen."""
+    if ctr:
+        if args['-o']:
+            fout_txt = 'relationship_{CLS}_{ORG}.txt'.format(
+              CLS=args['--schemaClass'], ORG=args['--species'].replace(' ', '_'))
+            with open(fout_txt, 'w') as prt:
+                _prt(ctr, id2rel2cnt, args, prt)
+                print('  WROTE: {TXT}'.format(TXT=fout_txt))
+        else:
+            _prt(ctr, id2rel2cnt, args, sys.stdout)
+
+def _prt(ctr, id2rel2cnt, args, prt):
+    """Write results."""
+    title = '{N} {--schemaClass} for species({--species})'.format(N=len(id2rel2cnt), **args)
+    prt.write('\n{TITLE}\n'.format(TITLE=title))
+    prt.write('\n Total  num/ID Relationship         Destination Type\n')
+    prt.write(  ' ----- ------- -------------------- ----------------\n')
     for typ, tot in sorted(ctr.items(), key=lambda t: [t[0][0], -1*t[1]]):
-        #### mean = _get_mean_cnt(typ, complex2rel2cnt)
-        mean = statistics.mean(c for r2c in complex2rel2cnt.values() for r, c in r2c.items() if r==typ)
-        # mean = 0
-        print('{N:6} {MEAN:7.4f} {TYPE}'.format(TYPE=typ, N=tot, MEAN=mean))
+        mean = statistics.mean(c for r2c in id2rel2cnt.values() for r, c in r2c.items() if r == typ)
+        prt.write('{N:6} {MEAN:7.4f} {REL:20} {DST}\n'.format(REL=typ[0], DST=typ[1], N=tot, MEAN=mean))
+    print(title)
 
 
 if __name__ == '__main__':
