@@ -10,8 +10,8 @@ __author__ = "DV Klopfenstein"
 import sys
 from neo4j import GraphDatabase
 
+
 # pylint: disable=line-too-long
-#### def main(password, schemaname='Complex', stid='R-HSA-8863895'):
 def main(password, prt=sys.stdout):
     """Retrieving the reactions for a given pathway."""
 
@@ -24,6 +24,7 @@ def main(password, prt=sys.stdout):
 
     data = _get_data(qry, password)
     _prt_data(data, prt)
+
 
 def _prt_data(data, prt):
     """Print the reactions for a given pathway."""
