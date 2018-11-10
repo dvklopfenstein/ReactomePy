@@ -8,11 +8,10 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
-import collections as cx
 from neo4j import GraphDatabase
 
 # pylint: disable=line-too-long
-def main(password, schemaname='Complex', stid='R-HSA-983126', prt=sys.stdout):
+def main(password):
     """Joining the pieces: Participating molecules for a pathway."""
     fout_txt = 'pathway_molecules_R-HSA-983169.txt'
 
@@ -27,6 +26,7 @@ def main(password, schemaname='Complex', stid='R-HSA-983126', prt=sys.stdout):
         _prt_data(data, prt)
         print('  WROTE: {TXT}'.format(TXT=fout_txt))
 
+
 def _prt_data(data, prt):
     """Print the Participating molecules for a pathway."""
     msg = '{N} participants in Pathway(R-HSA-983169)'.format(N=len(data))
@@ -39,12 +39,9 @@ def _prt_data(data, prt):
 
 def _get_data(qry, password):
     """Get the Participating molecules for a pathway."""
-    dicts = []
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
     with gdbdr.session() as session:
-        for rec in session.run(qry).records():
-            dicts.append(rec.data())
-    return dicts
+        return [rec.data() for rec in session.run(qry).records()]
 
 
 if __name__ == '__main__':

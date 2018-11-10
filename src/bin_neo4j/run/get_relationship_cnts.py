@@ -82,23 +82,31 @@ def _write(ctr, id2rel2cnt, args):
     """Write results to a file or to the screen."""
     if ctr:
         if args['-o']:
-            fout_txt = 'relationship_r{REL}_{ORG}_{CLS}.txt'.format(
-              CLS=args['--schemaClass'], ORG=args['--species'].replace(' ', '_'), REL=int(args['-r']))
+            fout_txt = _get_fout(args)
             with open(fout_txt, 'w') as prt:
                 _prt(ctr, id2rel2cnt, args, prt)
                 print('  WROTE: {TXT}'.format(TXT=fout_txt))
         else:
             _prt(ctr, id2rel2cnt, args, sys.stdout)
 
+def _get_fout(args):
+    """Return an automatically generated filename to store results."""
+    fout_txt = ['relationship_r{REL}_'.format(REL=int(args['-r']))]
+    if args['--species'] != '':
+        fout_txt.append('{ORG}_'.format(ORG=args['--species'].replace(' ', '_')))
+    fout_txt.append(args['--schemaClass'])
+    fout_txt.append('.txt')
+    return ''.join(fout_txt)
+
 def _prt(ctr, id2rel2cnt, args, prt):
     """Write results."""
     title = '{N} {--schemaClass} for species({--species})'.format(N=len(id2rel2cnt), **args)
     prt.write('\n{TITLE}\n'.format(TITLE=title))
-    prt.write('\n Total  num/ID Source Type                    Relationship         Destination Type\n')
-    prt.write(  ' ----- ------- ------------------------------ -------------------- --------------\n')
+    prt.write('\n Total  num/ID Source Type                    Relationship           Destination Type\n')
+    prt.write(  ' ----- ------- ------------------------------ ---------------------- ----------------\n')
     for typ, tot in sorted(ctr.items(), key=lambda t: [t[0][0], t[0][1], -1*t[1]]):
         mean = statistics.mean(c for r2c in id2rel2cnt.values() for r, c in r2c.items() if r == typ)
-        prt.write('{N:6} {MEAN:7.4f} {SRC:30} {REL:20} {DST}\n'.format(
+        prt.write('{N:6} {MEAN:7.4f} {SRC:30} {REL:22} {DST}\n'.format(
             SRC=typ[0], REL=typ[1], DST=typ[2], N=tot, MEAN=mean))
     print(title)
 
