@@ -13,11 +13,11 @@ import collections as cx
 # import textwrap
 from datetime import date
 from reactomeneo4j.data.species import SPECIES
-from reactomeneo4j.code.mkpy.utils import REPO
-from reactomeneo4j.code.mkpy.utils import prt_docstr_module
-# from reactomeneo4j.code.mkpy.utils import prt_namedtuple
-# from reactomeneo4j.code.mkpy.utils import prt_dict
-from reactomeneo4j.code.mkpy.utils import prt_copyright_comment
+from reactomeneo4j.code.wrpy.utils import REPO
+from reactomeneo4j.code.wrpy.utils import prt_docstr_module
+# from reactomeneo4j.code.wrpy.utils import prt_namedtuple
+# from reactomeneo4j.code.wrpy.utils import prt_dict
+from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
 
 
 class PathwayWrPy(object):

@@ -14,8 +14,8 @@ import sys
 # import datetime
 # import textwrap
 # from reactomeneo4j.data.species import SPECIES
-from reactomeneo4j.code.mkpy.pathway_query import PathwayQuery
-from reactomeneo4j.code.mkpy.pathway_wrpy import PathwayWrPy
+from reactomeneo4j.code.wrpy.pathway_query import PathwayQuery
+from reactomeneo4j.code.wrpy.pathway_wrpy import PathwayWrPy
 
 
 def prt_pathways():

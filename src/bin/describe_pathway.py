@@ -6,7 +6,7 @@ __author__ = "DV Klopfenstein"
 
 import os
 import sys
-from reactomeneo4j.code.mkpy.utils import REPO
+from reactomeneo4j.code.wrpy.utils import REPO
 from goatools.obo_parser import GODag
 from goatools.base import get_godag
 from goatools.base import dnld_gaf
