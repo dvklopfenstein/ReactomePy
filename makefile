@@ -20,8 +20,12 @@ mkpy:
 WRREL := src/bin_neo4j/run/get_relationship_cnts.py 
 wr_rel:
 	$(WRREL) $(PASSWORD) -o --schemaClass=ReactionLikeEvent
+	$(WRREL) $(PASSWORD) -o --schemaClass=ReactionLikeEvent -r
 	$(WRREL) $(PASSWORD) -o --schemaClass=Pathway
+	$(WRREL) $(PASSWORD) -o --schemaClass=Pathway -r
 	$(WRREL) $(PASSWORD) -o --schemaClass=TopLevelPathway
+	$(WRREL) $(PASSWORD) -o --schemaClass=PhysicalEntity
+	$(WRREL) $(PASSWORD) -o --schemaClass=PhysicalEntity -r
 	$(WRREL) $(PASSWORD) -o --species='' --schemaClass=Drug
 	
 
@@ -74,6 +78,11 @@ pylint:
 	@git status -uno | perl -ne 'if (/(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$1}' | tee tmp_pylint
 	chmod 755 tmp_pylint
 	tmp_pylint
+
+clean:
+	rm -f relationship_*.txt
+	rm -f tmp_pylint
+	make -f makefile clean_pyc
 
 clean_pyc:
 	find . -name \*.pyc | xargs rm -f

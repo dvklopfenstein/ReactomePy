@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 """Report counts of all relationships related to a schemaName for a single species.
 
-Usage: get_relationship_cnts.py <neo4j_password> [--schemaClass=CLS] [--species=S] [-o]
+Usage: get_relationship_cnts.py <neo4j_password> [--schemaClass=CLS] [--species=S] [-o] [-r]
 
 Options:
   -h --help
   -c --schemaClass=CLS  Examples: Complex, Pathway, etc. [default: Complex]
   -s --species=S        Species [default: Homo sapiens]
   -o                    Write results into a file rather than to the screen
+  -r                    Report lower-level source schema
 
 """
 
@@ -59,24 +60,30 @@ def main():  # password, schemaclass='Complex', species='Homo sapiens'):
     print('QUERY: {Q}'.format(Q=qry))
     with gdbdr.session() as session:
         for idx, rec in enumerate(session.run(qry).records()):
-            rel = rec['rel']
             stid_complex = rec['src'].get('stId')
-            rel_type = rel.type
-            dst_cls = rec['dst']['schemaClass']
-            key = (rel_type, dst_cls)
+            key = _get_key(rec, args)
             id2rel2cnt[stid_complex][key] += 1
             ctr[key] += 1
             if idx%5000 == 0:
-                print('{I:7} {ID:13} {TYPE:20} {DST} ...'.format(
-                    I=idx, ID=stid_complex, TYPE=rel_type, DST=rec['dst']['schemaClass']))
+                print('{I:7} {ID:13} {SRC:30} {TYPE:20} {DST} ...'.format(
+                    I=idx, ID=stid_complex, TYPE=rec['rel'].type,
+                    SRC=rec['src']['schemaClass'],
+                    DST=rec['dst']['schemaClass']))
     _write(ctr, id2rel2cnt, args)
+
+def _get_key(rec, args):
+    """Get key."""
+    if args['-r']:
+        return (rec['src']['schemaClass'], rec['rel'].type, rec['dst']['schemaClass'])
+    else:
+        return (args['--schemaClass'], rec['rel'].type, rec['dst']['schemaClass'])
 
 def _write(ctr, id2rel2cnt, args):
     """Write results to a file or to the screen."""
     if ctr:
         if args['-o']:
-            fout_txt = 'relationship_{CLS}_{ORG}.txt'.format(
-              CLS=args['--schemaClass'], ORG=args['--species'].replace(' ', '_'))
+            fout_txt = 'relationship_r{REL}_{ORG}_{CLS}.txt'.format(
+              CLS=args['--schemaClass'], ORG=args['--species'].replace(' ', '_'), REL=int(args['-r']))
             with open(fout_txt, 'w') as prt:
                 _prt(ctr, id2rel2cnt, args, prt)
                 print('  WROTE: {TXT}'.format(TXT=fout_txt))
@@ -87,11 +94,12 @@ def _prt(ctr, id2rel2cnt, args, prt):
     """Write results."""
     title = '{N} {--schemaClass} for species({--species})'.format(N=len(id2rel2cnt), **args)
     prt.write('\n{TITLE}\n'.format(TITLE=title))
-    prt.write('\n Total  num/ID Relationship         Destination Type\n')
-    prt.write(  ' ----- ------- -------------------- ----------------\n')
-    for typ, tot in sorted(ctr.items(), key=lambda t: [t[0][0], -1*t[1]]):
+    prt.write('\n Total  num/ID Source Type                    Relationship         Destination Type\n')
+    prt.write(  ' ----- ------- ------------------------------ -------------------- --------------\n')
+    for typ, tot in sorted(ctr.items(), key=lambda t: [t[0][0], t[0][1], -1*t[1]]):
         mean = statistics.mean(c for r2c in id2rel2cnt.values() for r, c in r2c.items() if r == typ)
-        prt.write('{N:6} {MEAN:7.4f} {REL:20} {DST}\n'.format(REL=typ[0], DST=typ[1], N=tot, MEAN=mean))
+        prt.write('{N:6} {MEAN:7.4f} {SRC:30} {REL:20} {DST}\n'.format(
+            SRC=typ[0], REL=typ[1], DST=typ[2], N=tot, MEAN=mean))
     print(title)
 
 
