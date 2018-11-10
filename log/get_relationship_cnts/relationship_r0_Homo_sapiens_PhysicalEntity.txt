@@ -1,0 +1,77 @@
+MATCH (src:PhysicalEntity{speciesName:"Homo sapiens"})-[rel]->(dst) RETURN src, rel, dst
+
+41962 schemaClasses
+
+ Total  num/ID Source Type                    Relationship           Destination Type
+ ----- ------- ------------------------------ ---------------------- ----------------
+ 41995  1.0008 PhysicalEntity                 compartment            Compartment
+  1188  1.3655 PhysicalEntity                 crossReference         DatabaseIdentifier
+  3952  1.6556 PhysicalEntity                 disease                Disease
+   139  1.1210 PhysicalEntity                 entityOnOtherCell      EntityWithAccessionedSequence
+    52  1.0612 PhysicalEntity                 entityOnOtherCell      DefinedSet
+    29  1.0000 PhysicalEntity                 entityOnOtherCell      Complex
+    10  1.0000 PhysicalEntity                 entityOnOtherCell      SimpleEntity
+     5  1.0000 PhysicalEntity                 entityOnOtherCell      Polymer
+     3  1.0000 PhysicalEntity                 entityOnOtherCell      OtherEntity
+     1  1.0000 PhysicalEntity                 entityOnOtherCell      OpenSet
+     2  1.0000 PhysicalEntity                 figure                 Figure
+   132  1.0000 PhysicalEntity                 goCellularComponent    GO_CellularComponent
+    42  1.0000 PhysicalEntity                 goCellularComponent    Compartment
+  3685  4.3251 PhysicalEntity                 hasCandidate           EntityWithAccessionedSequence
+   380  2.2892 PhysicalEntity                 hasCandidate           Complex
+    75  1.7857 PhysicalEntity                 hasCandidate           DefinedSet
+    50  2.0000 PhysicalEntity                 hasCandidate           CandidateSet
+     6  1.2000 PhysicalEntity                 hasCandidate           Polymer
+ 14857  1.7454 PhysicalEntity                 hasComponent           EntityWithAccessionedSequence
+  7225  1.4355 PhysicalEntity                 hasComponent           Complex
+  3046  1.1973 PhysicalEntity                 hasComponent           DefinedSet
+  1795  1.1433 PhysicalEntity                 hasComponent           SimpleEntity
+  1019  1.1672 PhysicalEntity                 hasComponent           CandidateSet
+   359  1.0528 PhysicalEntity                 hasComponent           OtherEntity
+   247  1.0601 PhysicalEntity                 hasComponent           GenomeEncodedEntity
+   189  1.2115 PhysicalEntity                 hasComponent           Polymer
+    17  1.0000 PhysicalEntity                 hasComponent           OpenSet
+     5  1.0000 PhysicalEntity                 hasComponent           ChemicalDrug
+ 15807  5.1877 PhysicalEntity                 hasMember              EntityWithAccessionedSequence
+  2627  2.8217 PhysicalEntity                 hasMember              Complex
+   396  2.3023 PhysicalEntity                 hasMember              DefinedSet
+   169  3.5957 PhysicalEntity                 hasMember              GenomeEncodedEntity
+   151  3.4318 PhysicalEntity                 hasMember              Polymer
+   140  4.8276 PhysicalEntity                 hasMember              SimpleEntity
+   104  1.6508 PhysicalEntity                 hasMember              CandidateSet
+    12  4.0000 PhysicalEntity                 hasMember              ChemicalDrug
+     9  1.0000 PhysicalEntity                 hasMember              OtherEntity
+ 11962  2.2193 PhysicalEntity                 hasModifiedResidue     ModifiedResidue
+  1506  1.0658 PhysicalEntity                 hasModifiedResidue     GroupModifiedResidue
+  1366  1.0714 PhysicalEntity                 hasModifiedResidue     ReplacedResidue
+   374  1.2303 PhysicalEntity                 hasModifiedResidue     InterChainCrosslinkedResidue
+   118  1.0000 PhysicalEntity                 hasModifiedResidue     FragmentInsertionModification
+   100  2.1739 PhysicalEntity                 hasModifiedResidue     IntraChainCrosslinkedResidue
+    97  1.0000 PhysicalEntity                 hasModifiedResidue     FragmentReplacedModification
+    50  1.0000 PhysicalEntity                 hasModifiedResidue     FragmentDeletionModification
+  4404  1.2437 PhysicalEntity                 includedLocation       Compartment
+365410 18.0664 PhysicalEntity                 inferredTo             EntityWithAccessionedSequence
+ 91459  9.8354 PhysicalEntity                 inferredTo             Complex
+ 88362  4.2588 PhysicalEntity                 inferredTo             DefinedSet
+  7944 10.0557 PhysicalEntity                 inferredTo             CandidateSet
+  5344  3.2526 PhysicalEntity                 inferredTo             GenomeEncodedEntity
+  1478  9.2956 PhysicalEntity                 inferredTo             Polymer
+    17 17.0000 PhysicalEntity                 inferredTo             OpenSet
+  5869  1.5260 PhysicalEntity                 literatureReference    LiteratureReference
+    79  1.0000 PhysicalEntity                 literatureReference    URL
+    24  1.0000 PhysicalEntity                 literatureReference    Book
+ 23756  1.0000 PhysicalEntity                 referenceEntity        ReferenceGeneProduct
+   808  1.0000 PhysicalEntity                 referenceEntity        ReferenceDNASequence
+   546  1.0000 PhysicalEntity                 referenceEntity        ReferenceIsoform
+   216  1.0000 PhysicalEntity                 referenceEntity        ReferenceRNASequence
+     1  1.0000 PhysicalEntity                 referenceEntity        ReferenceMolecule
+   548  1.6023 PhysicalEntity                 relatedSpecies         Species
+    67  1.0000 PhysicalEntity                 repeatedUnit           Complex
+    59  1.0000 PhysicalEntity                 repeatedUnit           DefinedSet
+    59  1.0926 PhysicalEntity                 repeatedUnit           EntityWithAccessionedSequence
+     8  1.0000 PhysicalEntity                 repeatedUnit           Polymer
+     3  1.0000 PhysicalEntity                 repeatedUnit           CandidateSet
+     2  1.0000 PhysicalEntity                 repeatedUnit           SimpleEntity
+     1  1.0000 PhysicalEntity                 repeatedUnit           GenomeEncodedEntity
+ 42162  1.0048 PhysicalEntity                 species                Species
+   679  1.0030 PhysicalEntity                 summation              Summation

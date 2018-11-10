@@ -1,0 +1,13 @@
+MATCH (src:Drug)-[rel]->(dst) RETURN src, rel, dst
+
+139 schemaClasses
+
+ Total  num/ID Source Type                    Relationship           Destination Type
+ ----- ------- ------------------------------ ---------------------- ----------------
+   139  1.0000 Drug                           compartment            Compartment
+    13  1.0000 Drug                           crossReference         DatabaseIdentifier
+   213  1.5324 Drug                           disease                Disease
+    43  1.4333 Drug                           literatureReference    LiteratureReference
+   136  1.0000 Drug                           referenceEntity        ReferenceMolecule
+   139  1.0000 Drug                           referenceTherapeutic   ReferenceTherapeutic
+    18  1.0000 Drug                           summation              Summation

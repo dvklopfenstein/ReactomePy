@@ -25,7 +25,7 @@ def main(password, prt=sys.stdout):
     qry = ('MATCH (p:Pathway{stId:"R-HSA-983169"})<-[:hasEvent*]-(sp:Pathway)'
            'RETURN p.stId AS Pathway, sp.stId AS SuperPathway, sp.displayName as DisplayName')
     data = _get_data(qry, password)
-    prt.write('\nALL {N} super-pathways at all levels above Pathway(R-HSA-983169)\n'.format(N=len(data)))
+    prt.write('\nALL {N} super-pathways above Pathway(R-HSA-983169)\n'.format(N=len(data)))
     _prt_data(data, prt)
 
 

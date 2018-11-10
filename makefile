@@ -27,6 +27,7 @@ wr_rel:
 	$(WRREL) $(PASSWORD) -o --schemaClass=PhysicalEntity
 	$(WRREL) $(PASSWORD) -o --schemaClass=PhysicalEntity -r
 	$(WRREL) $(PASSWORD) -o --species='' --schemaClass=Drug
+	mv relationship_r*.txt log/get_relationship_cnts
 	
 
 # mv_db:
