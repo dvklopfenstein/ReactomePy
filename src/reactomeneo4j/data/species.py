@@ -5,7 +5,7 @@ __author__ = "DV Klopfenstein"
 
 import collections as cx
 
-NtObj = cx.namedtuple('ntspecies', 'abc abbreviation taxId displayName')
+NtObj = cx.namedtuple('ntSPECIES', 'abc abbreviation taxId displayName')
 SPECIES = [
     NtObj._make(['ama', 'AMA', 6344, 'Arenicola marina']),
     NtObj._make(['ath', 'ATH', 3702, 'Arabidopsis thaliana']),
