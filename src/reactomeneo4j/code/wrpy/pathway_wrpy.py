@@ -149,6 +149,8 @@ class PathwayWrPy(object):
             prt_docstr_module('Pathway information', prt)
             prt.write('from collections import namedtuple\n')
             prt.write('from datetime import date\n')
+            prt.write('{KEY}\n'.format(KEY=self._get_pwmarkdoc()))
+            print('AAAAAAAAAAAAAAAAAAAAA', '{KEY}\n'.format(KEY=self._get_pwmarkdoc()))
             prt.write("\nNto = namedtuple('ntpwy', '{KEYS}')\n".format(KEYS=keys))
             prt.write('# {N} {SPECIES} Pathways\n'.format(
                 N=len(pwy2nt), SPECIES=self.taxnt.displayName))
@@ -260,6 +262,17 @@ class PathwayWrPy(object):
             'P' if 'LiteratureReference' in dct else '.',
             'B' if 'Book' in dct else '.',
             'U' if 'URL' in dct else '.',
+        ])
+
+    def _get_pwmarkdoc(self, pre='# '):
+        return "\n".join('{PRE}{LINE}'.format(PRE=pre, LINE=l) for l in [
+            'T   -> TopLevelPathway',
+            'D   -> isInDisease',
+            'f/F -> figure/hand-drawn-diagram',
+            'I   -> isInferred',
+            'P   -> PubMed ID',
+            'B   -> Book',
+            'U   -> URL',
         ])
 
     @staticmethod
