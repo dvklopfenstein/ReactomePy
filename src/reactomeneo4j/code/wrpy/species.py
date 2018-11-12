@@ -17,6 +17,8 @@ from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
 class Species(object):
     """Print all species in Reactome."""
 
+    QUERY = 'MATCH (s:Species) RETURN s'
+
     def __init__(self, password):
         self.gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
         self.dcts = self._init_dcts(set(['name', 'abbreviation', 'displayName', 'taxId']))
@@ -56,10 +58,9 @@ class Species(object):
     def _init_dcts(self, fields_keep):
         """Read species information in Reactome."""
         species = []
-        qry = 'MATCH (s:Species) RETURN s'
         with self.gdbdr.session() as session:
             flds_exp = set(['name', 'schemaClass', 'abbreviation', 'displayName', 'taxId', 'dbId'])
-            res = session.run(qry)
+            res = session.run(self.QUERY)
             for rec in res.records():
                 node = rec['s']
                 assert node.keys() == flds_exp
