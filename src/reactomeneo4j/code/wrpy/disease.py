@@ -11,17 +11,19 @@ from reactomeneo4j.code.wrpy.utils import prt_docstr_module
 # from reactomeneo4j.code.wrpy.utils import prt_namedtuple
 from reactomeneo4j.code.wrpy.utils import prt_dict
 from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
+from reactomeneo4j.code.utils import chk_unique
 
 
 class Diseases(object):
     """Print all disease in Reactome."""
 
-    dis_qry = 'MATCH (n:Disease) RETURN n'
+    dis_qry = 'MATCH (node:Disease) RETURN node'
     dis_keep = set(['displayName', 'definition', 'synonym', 'name'])
 
     def __init__(self, gdbdr):
         self.gdr = gdbdr  # GraphDatabase.driver
         self.diseases = self._init_disease()
+        chk_unique(self.diseases, {'displayName':True})
         self.num_dis = len(self.diseases)
 
     def wrpy_disease2fld(self, fout_py, field, varname):
@@ -60,18 +62,8 @@ class Diseases(object):
                 assert node.get('databaseName') == 'DOID'
                 key2val = {f:node.get(f) for f in self.dis_keep}
                 disease.append(key2val)
-        self._chk_disnames(disease)
         disease = sorted(disease, key=lambda d: d['displayName'])
         return disease
-
-    @staticmethod
-    def _chk_disnames(disease):
-        """Expect that displayNames are unique."""
-        num_disease = len(disease)
-        display = set()
-        for dct in disease:
-            display.add(dct['displayName'])
-        assert len(display) == num_disease
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

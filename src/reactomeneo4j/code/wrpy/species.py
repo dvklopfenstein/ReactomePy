@@ -11,6 +11,7 @@ from reactomeneo4j.code.wrpy.utils import prt_docstr_module
 from reactomeneo4j.code.wrpy.utils import prt_namedtuple
 from reactomeneo4j.code.wrpy.utils import prt_dict
 from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
+from reactomeneo4j.code.utils import chk_unique
 
 
 class Species(object):
@@ -21,6 +22,7 @@ class Species(object):
     def __init__(self, gdbdr):
         self.gdbdr = gdbdr  # GraphDatabase.driver
         self.dcts = self._init_dcts(set(['name', 'abbreviation', 'displayName', 'taxId']))
+        chk_unique(self.dcts, {'taxId':True, 'displayName':True, 'abbreviation':False})
 
     def wrpy_info(self, fout_py):
         """Print Reactome species main information."""
@@ -68,24 +70,8 @@ class Species(object):
                 key2val['taxId'] = int(key2val['taxId'])
                 key2val['abc'] = key2val['abbreviation'].lower()
                 species.append(key2val)
-        self._chk_cnts(species)
         species = sorted(species, key=lambda d: [d['abc'], d['taxId']])
         return species
-
-    @staticmethod
-    def _chk_cnts(species):
-        """Expect that taxIds and displayNames are unique while abbreviation is not."""
-        num_species = len(species)
-        taxids = set()     # 9940
-        display = set()    # 'Ovis aries'
-        abc = set()        # 'OAR'
-        for dct in species:
-            taxids.add(dct['taxId'])
-            display.add(dct['displayName'])
-            abc.add(dct['abbreviation'])
-        assert len(taxids) == num_species
-        assert len(display) == num_species
-        assert len(abc) != num_species
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
