@@ -8,11 +8,13 @@ __author__ = "DV Klopfenstein"
 
 import sys
 from reactomeneo4j.code.wrpy.species import Species
+from neo4j import GraphDatabase
 
 
 def prt_species(password):
     """Print all species in Reactome."""
-    obj = Species(password)
+    gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    obj = Species(gdbdr)
     obj.wrpy_info('src/reactomeneo4j/data/species.py')
     obj.wrpy_common_names('src/reactomeneo4j/data/species_commonnames.py')
 

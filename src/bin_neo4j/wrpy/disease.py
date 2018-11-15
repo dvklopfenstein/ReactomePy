@@ -8,11 +8,13 @@ __author__ = "DV Klopfenstein"
 
 import sys
 from reactomeneo4j.code.wrpy.disease import Diseases
+from neo4j import GraphDatabase
 
 
 def prt_disease(password):
     """Print all disease in Reactome."""
-    obj = Diseases(password)
+    gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    obj = Diseases(gdbdr)
     fout_disease_py = 'src/reactomeneo4j/data/disease_definitions.py'
     obj.wrpy_disease2fld(fout_disease_py, 'definition', 'DISEASE2DEFN')
     #fout_common_py = 'src/reactomeneo4j/data/disease_synonyms.py'

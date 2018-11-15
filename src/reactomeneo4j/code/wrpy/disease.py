@@ -6,7 +6,6 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
-from neo4j import GraphDatabase
 from reactomeneo4j.code.wrpy.utils import REPO
 from reactomeneo4j.code.wrpy.utils import prt_docstr_module
 # from reactomeneo4j.code.wrpy.utils import prt_namedtuple
@@ -20,8 +19,8 @@ class Diseases(object):
     dis_qry = 'MATCH (n:Disease) RETURN n'
     dis_keep = set(['displayName', 'definition', 'synonym', 'name'])
 
-    def __init__(self, password):
-        self.gdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    def __init__(self, gdbdr):
+        self.gdr = gdbdr  # GraphDatabase.driver
         self.diseases = self._init_disease()
         self.num_dis = len(self.diseases)
 
@@ -55,7 +54,7 @@ class Diseases(object):
         with self.gdr.session() as session:
             res = session.run(self.dis_qry)
             for rec in res.records():
-                node = rec['n']
+                node = rec['node']
                 # assert node.keys() == fields_exp
                 assert node.get('schemaClass') == 'Disease'
                 assert node.get('databaseName') == 'DOID'

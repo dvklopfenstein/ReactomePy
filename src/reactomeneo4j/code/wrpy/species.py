@@ -6,7 +6,6 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
-from neo4j import GraphDatabase
 from reactomeneo4j.code.wrpy.utils import REPO
 from reactomeneo4j.code.wrpy.utils import prt_docstr_module
 from reactomeneo4j.code.wrpy.utils import prt_namedtuple
@@ -17,10 +16,10 @@ from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
 class Species(object):
     """Print all species in Reactome."""
 
-    QUERY = 'MATCH (s:Species) RETURN s'
+    QUERY = 'MATCH (node:Species) RETURN node'
 
-    def __init__(self, password):
-        self.gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    def __init__(self, gdbdr):
+        self.gdbdr = gdbdr  # GraphDatabase.driver
         self.dcts = self._init_dcts(set(['name', 'abbreviation', 'displayName', 'taxId']))
 
     def wrpy_info(self, fout_py):
@@ -62,7 +61,7 @@ class Species(object):
             flds_exp = set(['name', 'schemaClass', 'abbreviation', 'displayName', 'taxId', 'dbId'])
             res = session.run(self.QUERY)
             for rec in res.records():
-                node = rec['s']
+                node = rec['node']
                 assert node.keys() == flds_exp
                 assert node.get('schemaClass') == 'Species'
                 key2val = {f:node.get(f) for f in fields_keep}
