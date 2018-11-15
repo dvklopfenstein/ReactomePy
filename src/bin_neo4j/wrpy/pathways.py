@@ -21,9 +21,9 @@ from reactomeneo4j.code.wrpy.pathway_wrpy import PathwayWrPy
 def main(password):
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
     species = [
-        'Homo sapiens',
-        # 'Mus musculus',
-        # 'Drosophila melanogaster',
+        #'Homo sapiens',
+        'Mus musculus',
+        #'Drosophila melanogaster',
     ]
     for org in species:
         obj = PathwayQuery(org, gdbdr)

@@ -88,11 +88,14 @@ class PathwayWrPy(object):
                     PW=pwy, PMIDS=", ".join(str(i) for i in pmids)))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
-            print("  WROTE: {PY}".format(PY=fout_py))
+            print("  {N:5} items WROTE: {PY}".format(N=len(pw2pmids), PY=fout_py))
 
     def wrpy_pubmeds(self, fout_py):
         """Write Publications(LiteratureReference, Book, URL) into a Python module."""
         pmid2nt = self._get_pmid2nt()
+        if not pmid2nt:
+            print("  NO items. Not writing {PY}".format(PY=fout_py))
+            return
         keys = ' '.join(next(iter(pmid2nt.values()))._fields)
         with open(fout_py, 'w') as prt:
             prt.write('# coding=utf-8\n')
@@ -109,7 +112,7 @@ class PathwayWrPy(object):
                     PMID=pmid, VALS=list(ntd)))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
-            print("  WROTE: {TXT}".format(TXT=fout_py))
+            print("  {N:5} items WROTE: {PY}".format(N=len(pmid2nt), PY=fout_py))
 
     def _get_pmid2nt(self):
         """Get the PMIDs referenced in the Pathways."""
@@ -178,7 +181,7 @@ class PathwayWrPy(object):
                 prt.write("    '{PW}' : {{{GOS}}},\n".format(PW=pwy, GOS=", ".join(sorted(goids_str))))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
-            print("  WROTE: {PY}".format(PY=fout_py))
+            print("  {N:5} items WROTE: {PY}".format(N=len(pw2ns), PY=fout_py))
 
     def _get_pwy2ns(self, name):
         """Get Gene Ontology information for a Pathway's Biological Processes."""
@@ -201,7 +204,7 @@ class PathwayWrPy(object):
                 prt.write("    '{PW}' : {TAXIDS},\n".format(PW=pwy, TAXIDS=taxids))
             prt.write('}\n\n')
             prt_copyright_comment(prt)
-            print("  WROTE: {PY}".format(PY=fout_py))
+            print("  {N:5} items WROTE: {PY}".format(N=len(pw2taxids), PY=fout_py))
 
     def _get_pwy2relatedspecies(self):
         """Get Gene Ontology information for a Pathway's Biological Processes."""
@@ -337,7 +340,7 @@ class PathwayWrPy(object):
                 prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=dct['summation']))
             prt.write("}\n")
             prt_copyright_comment(prt)
-            print('  WROTE: {PY}'.format(PY=fout_py))
+            print('  {N:5} items WROTE: {PY}'.format(N=len(pw2info), PY=fout_py))
 
     # def wrpy_inferredto(self, fout_py):
     #     """Write inferredTo species for a pathway."""
@@ -351,6 +354,9 @@ class PathwayWrPy(object):
         """Write pathway summation to a Python file."""
         fout_py = fpat_py.format(ABC=self.taxnt.abc)
         pw2ntfig = self._get_ntfig()
+        if not pw2ntfig:
+            print("  NO items. Not writing {PY}".format(PY=fout_py))
+            return
         keys = ' '.join(next(iter(pw2ntfig.values()))._fields)
         with open(os.path.join(REPO, fout_py), 'w') as prt:
             prt_docstr_module('{N} of {T} Pathway have figures'.format(
@@ -362,7 +368,7 @@ class PathwayWrPy(object):
                 prt.write("    '{PWY}' : Ntfig._make({VALS}),\n".format(PWY=pwy, VALS=list(ntfig)))
             prt.write("}\n")
             prt_copyright_comment(prt)
-            print('  WROTE: {PY}'.format(PY=fout_py))
+            print('  {N:5} items WROTE: {PY}'.format(N=len(pw2ntfig), PY=fout_py))
 
     def _get_inferredto(self):
         """Get inferredTo species for a pathway."""
