@@ -149,8 +149,8 @@ class PathwayWrPy(object):
             prt_docstr_module('Pathway information', prt)
             prt.write('from collections import namedtuple\n')
             prt.write('from datetime import date\n')
-            prt.write('{KEY}\n'.format(KEY=self._get_pwmarkdoc()))
-            print('AAAAAAAAAAAAAAAAAAAAA', '{KEY}\n'.format(KEY=self._get_pwmarkdoc()))
+            prt.write('\n# Keys:\n{KEY}\n'.format(KEY=self._get_pwmarkdoc()))
+            prt.write('\n# Keys:\n{KEY}\n'.format(KEY=self._get_nsdoc()))
             prt.write("\nNto = namedtuple('ntpwy', '{KEYS}')\n".format(KEYS=keys))
             prt.write('# {N} {SPECIES} Pathways\n'.format(
                 N=len(pwy2nt), SPECIES=self.taxnt.displayName))
@@ -264,7 +264,8 @@ class PathwayWrPy(object):
             'U' if 'URL' in dct else '.',
         ])
 
-    def _get_pwmarkdoc(self, pre='# '):
+    @staticmethod
+    def _get_pwmarkdoc(pre='#     '):
         return "\n".join('{PRE}{LINE}'.format(PRE=pre, LINE=l) for l in [
             'T   -> TopLevelPathway',
             'D   -> isInDisease',
@@ -281,6 +282,14 @@ class PathwayWrPy(object):
         return "".join([
             'B' if 'GO_BiologicalProcess' in dct else '.',  # Biological Process
             'C' if 'Compartment' in dct else '.',           # Cellular Compartment
+        ])
+
+    @staticmethod
+    def _get_nsdoc(pre='#     '):
+        """Return Gene Ontology namespace markers."""
+        return "\n".join('{PRE}{LINE}'.format(PRE=pre, LINE=l) for l in [
+            'B -> Biological Process',
+            'C -> Cellular Compartment',
         ])
 
     @staticmethod

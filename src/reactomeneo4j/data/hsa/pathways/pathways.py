@@ -7,6 +7,19 @@ __author__ = "DV Klopfenstein"
 from collections import namedtuple
 from datetime import date
 
+# Keys:
+#     T   -> TopLevelPathway
+#     D   -> isInDisease
+#     f/F -> figure/hand-drawn-diagram
+#     I   -> isInferred
+#     P   -> PubMed ID
+#     B   -> Book
+#     U   -> URL
+
+# Keys:
+#     B -> Biological Process
+#     C -> Cellular Compartment
+
 Nto = namedtuple('ntpwy', 'stId releaseDate marks NS displayName')
 # 2244 Homo sapiens Pathways
 # pylint: disable=line-too-long,too-many-lines

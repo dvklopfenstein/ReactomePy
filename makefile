@@ -10,7 +10,7 @@ run:
 
 # Re-generate Python modules containing Reatome data
 # This is done for every new Reactome version
-mkpy:
+wrpy:
 	src/bin_neo4j/wrpy/pathways.py $(PASSWORD)
 	src/bin_neo4j/wrpy/species.py $(PASSWORD)
 	src/bin_neo4j/wrpy/disease.py $(PASSWORD)
@@ -53,11 +53,11 @@ vim_:
 vim_pw:
 	vim -p \
 	./src/bin_neo4j/wrpy/pathways.py \
-	src/reactomeneo4j/code/mkpy/pathway_query.py \
-	src/reactomeneo4j/code/mkpy/pathway_wrpy.py \
+	src/reactomeneo4j/code/wrpy/pathway_query.py \
+	src/reactomeneo4j/code/wrpy/pathway_wrpy.py \
 	src/reactomeneo4j/data/hsa/pathways_publications.py \
 	src/reactomeneo4j/data/species.py \
-	src/reactomeneo4j/code/mkpy/utils.py
+	src/reactomeneo4j/code/wrpy/utils.py
 
 vim_pub:
 	vim -p \

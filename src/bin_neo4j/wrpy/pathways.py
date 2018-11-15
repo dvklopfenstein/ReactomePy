@@ -9,6 +9,7 @@ __author__ = "DV Klopfenstein"
 
 import os
 import sys
+from neo4j import GraphDatabase
 # import collections as cx
 # import timeit
 # import datetime
@@ -17,10 +18,19 @@ import sys
 from reactomeneo4j.code.wrpy.pathway_query import PathwayQuery
 from reactomeneo4j.code.wrpy.pathway_wrpy import PathwayWrPy
 
+def main(password):
+    gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    species = [
+        'Homo sapiens',
+        # 'Mus musculus',
+        # 'Drosophila melanogaster',
+    ]
+    for org in species:
+        obj = PathwayQuery(org, gdbdr)
+        prt_pathways(obj)
 
-def prt_pathways():
+def prt_pathways(objneo):
     """Print pathways and their details for a species."""
-    objneo = _init_neo4j()
     dir_pwy = 'src/reactomeneo4j/data/{ABC}/pathways/'.format(ABC=objneo.abc)
     fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/pathways.py'.format(ABC=objneo.abc)
     fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2summation.py'.format(ABC=objneo.abc)
@@ -49,12 +59,6 @@ def prt_pathways():
         # objwr.wrpy_inferredto(fout_inf)
         print('  WROTE: {LOG}'.format(LOG=fout_log))
 
-def _init_neo4j():
-    """Connect to a Neo4j instance with Reactome loaded."""
-    species = sys.argv[2] if len(sys.argv) == 3 else 'Homo sapiens'
-    assert len(sys.argv) != 1, "NO NEO4J PASSWORD PROVIDED"
-    password = sys.argv[1]
-    return PathwayQuery(species, password)
 
 ####def _prt_rel(node, session):
 ####    """Print relationships."""
@@ -126,6 +130,7 @@ def _init_neo4j():
 #####   'hasDiagram': False, 'isInferred': False}>
 
 if __name__ == '__main__':
-    prt_pathways()
+    assert len(sys.argv) != 1, 'First arg must be your Neo4j database password'
+    main(sys.argv[1])
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

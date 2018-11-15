@@ -33,14 +33,14 @@ class PathwayQuery(object):
     ntgo = cx.namedtuple('ntgo', 'displayName GO')  # definition url
     # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
-    def __init__(self, species, password):
+    def __init__(self, species, gdbdr):
         self.log = sys.stdout
         self.name2nt = {nt.displayName:nt for nt in SPECIES}
         assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
             S=species, A="\n".join(sorted(self.name2nt)))
         self.species = species
         self.abc = self.name2nt[species].abc
-        self.gdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+        self.gdr = gdbdr
         self.reltype2fnc = {
             'inferredTo': self._get_inferredto,
             'summation': self._get_summation,
