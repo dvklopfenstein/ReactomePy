@@ -50,10 +50,12 @@ vim_:
 	./src/reactomeneo4j/code/schema/hier_init.py \
 	./src/reactomeneo4j/code/schema/node.py
 
-vim_pw:
+vim_wrpy:
 	vim -p \
 	./src/bin_neo4j/wrpy/pathways.py \
+	src/reactomeneo4j/code/wrpy/query_general.py \
 	src/reactomeneo4j/code/wrpy/pathway_query.py \
+	src/reactomeneo4j/code/wrpy/wrpy_general.py \
 	src/reactomeneo4j/code/wrpy/pathway_wrpy.py \
 	src/reactomeneo4j/data/hsa/pathways_publications.py \
 	src/reactomeneo4j/data/species.py \
@@ -92,6 +94,9 @@ clean_pyc:
 clobber_materials:
 	rm goa_human.*; wget http://geneontology.org/gene-associations/goa_human.gaf.gz; gunzip goa_human.gaf.gz
 	rm go-basic.obo*; wget http://geneontology.org/ontology/go-basic.obo
+
+clobber_pwys:
+	rm -f src/reactomeneo4j/data/*/pathways/p*.py
 	
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

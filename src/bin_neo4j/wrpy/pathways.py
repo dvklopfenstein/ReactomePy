@@ -16,48 +16,55 @@ from neo4j import GraphDatabase
 # import textwrap
 # from reactomeneo4j.data.species import SPECIES
 from reactomeneo4j.code.wrpy.pathway_query import PathwayQuery
+from reactomeneo4j.code.wrpy.query_general import Query
+from reactomeneo4j.code.wrpy.wrpy_general import WrPy
 from reactomeneo4j.code.wrpy.pathway_wrpy import PathwayWrPy
+from reactomeneo4j.code.species import Species
 
 def main(password):
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
-    species = [
-        #'Homo sapiens',
+    objqry = Query(gdbdr)
+    objwr = WrPy()
+    objwr.wrpy_version('src/reactomeneo4j/data/reactome_version.py', objqry.get_version())
+    orgs = [
+        'Homo sapiens',
         'Mus musculus',
-        #'Drosophila melanogaster',
+        'Drosophila melanogaster',
     ]
-    for org in species:
-        obj = PathwayQuery(org, gdbdr)
-        prt_pathways(obj)
+    pmid2nt = {}
+    for species in orgs:
+        objabc = Species(species)
+        fout_log = '{ABC}_pathways.log'.format(ABC=objabc.abc)
+        with open(fout_log, 'w') as log:
+            objqu = PathwayQuery(species, gdbdr, log)
+            objwr = PathwayWrPy(objqu.pw2dcts, log)
+            prt_pathways(objwr, objabc.abc)
+            print('  WROTE: {LOG}'.format(LOG=fout_log))
 
-def prt_pathways(objneo):
+def prt_pathways(objwr, abc):
     """Print pathways and their details for a species."""
-    dir_pwy = 'src/reactomeneo4j/data/{ABC}/pathways/'.format(ABC=objneo.abc)
-    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/pathways.py'.format(ABC=objneo.abc)
-    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2summation.py'.format(ABC=objneo.abc)
-    fout_pub = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2pmids.py'.format(ABC=objneo.abc)
-    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2imgname.py'.format(ABC=objneo.abc)
-    fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways/inferredto.py'.format(ABC=objneo.abc)
-    fout_pmd = 'src/reactomeneo4j/data/{ABC}/pathways/pmid2nt.py'.format(ABC=objneo.abc)
-    fous_txt = '{ABC}_pathways_short.txt'.format(ABC=objneo.abc)
-    fout_txt = '{ABC}_pathways.txt'.format(ABC=objneo.abc)
-    fout_log = '{ABC}_pathways.log'.format(ABC=objneo.abc)
-    with open(fout_log, 'w') as prt:
-        pw2dcts = objneo.get_pw2dcts(prt)
-        objwr = PathwayWrPy(pw2dcts, prt)
-        objwr.wrpy_version('src/reactomeneo4j/data/reactome_version.py', objneo.get_version())
-        objwr.wrpwys(fous_txt)
-        objwr.wrpy_pwy2nt(fout_py)
-        objwr.wrpy_pwy2summation(fout_sum)
-        objwr.wrpy_pwy2pmids(fout_pub)
-        objwr.wrpy_pubmeds(fout_pmd)
-        objwr.wrtxt(fout_txt)
-        objwr.wrpy_figure(fout_fig)
-        objwr.wrpy_gons(os.path.join(dir_pwy, 'pwy2bp.py'), 'GO_BiologicalProcess')
-        objwr.wrpy_gons(os.path.join(dir_pwy, 'pwy2cc.py'), 'Compartment')
-        objwr.wrpy_relatedspecies(os.path.join(dir_pwy, 'pwy2relatedspecies.py'))
-        objwr.wrpy_pwy2disease(os.path.join(dir_pwy, 'pwy2disease.py'))
-        # objwr.wrpy_inferredto(fout_inf)
-        print('  WROTE: {LOG}'.format(LOG=fout_log))
+    dir_pwy = 'src/reactomeneo4j/data/{ABC}/pathways/'.format(ABC=abc)
+    fout_py = 'src/reactomeneo4j/data/{ABC}/pathways/pathways.py'.format(ABC=abc)
+    fout_sum = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2summation.py'.format(ABC=abc)
+    fout_pub = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2pmids.py'.format(ABC=abc)
+    fout_fig = 'src/reactomeneo4j/data/{ABC}/pathways/pwy2imgname.py'.format(ABC=abc)
+    fout_inf = 'src/reactomeneo4j/data/{ABC}/pathways/inferredto.py'.format(ABC=abc)
+    fout_pmd = 'src/reactomeneo4j/data/{ABC}/pathways/pmid2nt.py'.format(ABC=abc)
+    fous_txt = '{ABC}_pathways_short.txt'.format(ABC=abc)
+    fout_txt = '{ABC}_pathways.txt'.format(ABC=abc)
+    objwr.wrpwys(fous_txt)
+    objwr.wrpy_pwy2nt(fout_py)
+    objwr.wrpy_pwy2summation(fout_sum)
+    objwr.wrpy_pwy2pmids(fout_pub)
+    pmid2nt = objwr.wrpy_pubmeds(fout_pmd)
+    objwr.wrtxt(fout_txt)
+    objwr.wrpy_figure(fout_fig)
+    objwr.wrpy_gons(os.path.join(dir_pwy, 'pwy2bp.py'), 'GO_BiologicalProcess')
+    objwr.wrpy_gons(os.path.join(dir_pwy, 'pwy2cc.py'), 'Compartment')
+    objwr.wrpy_relatedspecies(os.path.join(dir_pwy, 'pwy2relatedspecies.py'))
+    objwr.wrpy_pwy2disease(os.path.join(dir_pwy, 'pwy2disease.py'))
+    # objwr.wrpy_inferredto(fout_inf)
+    return {'pmid2nt':pmid2nt}
 
 
 ####def _prt_rel(node, session):

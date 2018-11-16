@@ -15,6 +15,15 @@ from reactomeneo4j.data.species import SPECIES
 
 
 class PathwayQuery(object):
+    """Manage pathways for a single species."""
+
+    def __init__(self, species, gdbdr, log):
+        self.species = species
+        _ini = _Init(species, gdbdr, log)
+        self.pw2dcts = _ini.get_pw2dcts()
+        # self.name2nt = _ini.get_species2nt()
+
+class _Init(object):
     """Collect pathway description, summary, and literature using Neo4j queries."""
 
     pwfmt = ('{stId:13} '
@@ -33,13 +42,9 @@ class PathwayQuery(object):
     ntgo = cx.namedtuple('ntgo', 'displayName GO')  # definition url
     # http://www.ebi.ac.uk/biomodels-main/publ-model.do?mid=BIOMD000000046,8
 
-    def __init__(self, species, gdbdr):
-        self.log = sys.stdout
-        self.name2nt = {nt.displayName:nt for nt in SPECIES}
-        assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
-            S=species, A="\n".join(sorted(self.name2nt)))
+    def __init__(self, species, gdbdr, log):
         self.species = species
-        self.abc = self.name2nt[species].abc
+        self.log = sys.stdout
         self.gdr = gdbdr
         self.reltype2fnc = {
             'inferredTo': self._get_inferredto,
@@ -55,15 +60,6 @@ class PathwayQuery(object):
             'relatedSpecies': self._get_relatedspecies,
             'hasEvent': self._get_event,
         }
-
-    def get_version(self):
-        """Get Reactome version."""
-        qry = 'MATCH (v:DBInfo) RETURN v'
-        with self.gdr.session() as session:
-            for rec in session.run(qry).records():
-                dbinfo = rec['v']
-                assert dbinfo.get('name') == 'reactome'
-                return dbinfo.get('version')
 
     def get_pw2dcts(self, prt=sys.stdout):
         """Fill in Pathway with information by following other relationships."""
