@@ -38,12 +38,13 @@ class PathwayWrPy(object):
 # name
     figerr = '{stId:13} dia={hasDiagram:1} {diagramHeight:>4}x{diagramWidth:<4} {displayName}'
 
-    def __init__(self, pw2info, log=sys.stdout):
+    def __init__(self, objquery, log=sys.stdout):
         self.log = log
         # abc='hsa', abbreviation taxId displayName
-        self.taxnt = self._init_taxnt(pw2info)
+        self.taxnt = objquery.objspecies.get_nt()
         print(self.taxnt)
-        self.pw2info = cx.OrderedDict(sorted(pw2info.items(), key=self._sortby))
+        self.objqu = objquery  # PathwayQuery
+        self.pw2info = cx.OrderedDict(sorted(objquery.pw2dcts.items(), key=self._sortby))
         self.pubs = self._init_pubs()
         # assert species in self.name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
         #     S=species, A="\n".join(sorted(self.name2nt)))
@@ -343,8 +344,8 @@ class PathwayWrPy(object):
     def wrpy_pwy2summation(self, fpat_py):
         """Write pathway summation to a Python file."""
         fout_py = fpat_py.format(ABC=self.taxnt.abc)
-        p2s = {p:d['summation'] for p, d in self.pw2info.items() if not d['Pathway']['isInferred']}
-        if not p2s:
+        pwy2summation = self.objqu.get_pwy2summation(self.log)
+        if not pwy2summation:
             print("  NO items. Not writing {PY}".format(PY=fout_py))
             return
         with open(os.path.join(REPO, fout_py), 'w') as prt:
@@ -352,13 +353,13 @@ class PathwayWrPy(object):
             prt_docstr_module('Summations for pathways', prt)
             prt.write('# pylint: disable=line-too-long,too-many-lines\n')
             prt.write("PW2SUMS = {\n")
-            for pwy, summation in p2s.items():
+            for pwy, summation in sorted(pwy2summation.items(), key=self._sortby):
                 # Get the summation from the original pathway 
                 prt.write("    '{KEY}': {VAL},\n".format(KEY=pwy, VAL=summation))
             prt.write("}\n")
             prt_copyright_comment(prt)
-            print('  {N:5} items WROTE: {PY}'.format(N=len(p2s), PY=fout_py))
-        return p2s
+            print('  {N:5} items WROTE: {PY}'.format(N=len(pwy2summation), PY=fout_py))
+        return pwy2summation
 
     # def wrpy_inferredto(self, fout_py):
     #     """Write inferredTo species for a pathway."""
@@ -443,12 +444,6 @@ class PathwayWrPy(object):
         assert vals[1] == self.taxnt.abc.upper(), "{} {} {}".format(
             vals[1], self.taxnt.abc, key_val)
         return int(vals[2])
-
-    def _init_taxnt(self, pw2info):
-        """Get the taxid for this set of pathways."""
-        taxids = next(iter(pw2info.values()))['taxId']
-        assert len(taxids) == 1
-        return self.taxid2nt[taxids[0]]
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reservedsEvent

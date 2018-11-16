@@ -17,11 +17,35 @@ from reactomeneo4j.data.species import SPECIES
 class PathwayQuery(object):
     """Manage pathways for a single species."""
 
-    def __init__(self, species, gdbdr, log):
-        self.species = species
-        _ini = _Init(species, gdbdr, log)
+    def __init__(self, objspecies, gdbdr, log):
+        self.objspecies = objspecies
+        _ini = _Init(objspecies.species, gdbdr, log)
         self.pw2dcts = _ini.get_pw2dcts()
-        # self.name2nt = _ini.get_species2nt()
+
+    def get_pwy2summation(self, prt=sys.stdout):
+        """Get summation for a Pathway if it is not 'This event has been comp...'"""
+        pwy2sum = {}
+        exclude_str = ('This event has been computationally inferred from an event '
+                       'that has been demonstrated in another species')
+        exclude_len = len(exclude_str)
+        # exclude_nul = ['---']
+        all_true = set([True])
+        for pwy, dct in self.pw2dcts.items():
+            summ = dct['summation']  # Possibly multiple summaries for one Pathway
+            summ_full = set(s[:exclude_len] != exclude_str for s in summ)
+            if summ_full == all_true:
+                # if summ_full != exclude_nul:
+                pwy2sum[pwy] = summ
+                if prt and dct['Pathway']['isInferred']:
+                    prt.write('{PWY} INFERRED, BUT HAS SUMMATION\n{DCT}\n'.format(PWY=pwy, DCT=dct))
+                # elif prt and not dct['Pathway']['isInferred']:
+                #     print('{PWY} NOT INFERRED AND AWAITING SUMMATION\n{DCT}\n'.format(PWY=pwy, DCT=dct))
+                #     prt.write('{PWY} NOT INFERRED AND AWAITING SUMMATION\n{DCT}\n'.format(PWY=pwy, DCT=dct))
+            else:
+                assert dct['Pathway']['isInferred']
+        return pwy2sum
+           
+
 
 class _Init(object):
     """Collect pathway description, summary, and literature using Neo4j queries."""

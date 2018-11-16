@@ -11,14 +11,18 @@ from reactomeneo4j.data.species import SPECIES
 class Species(object):
     """Manages a list of taxids for various species."""
 
+    # nt: abc abbreviation taxId displayName
+    taxid2nt = {nt.taxId:nt for nt in SPECIES}
+    pat = '{taxId:7} {abc} {displayName}\n'
+
     def __init__(self, species):
         self.species = species
         self.name2nt = self._ini_species2nt()
         self.abc = self.name2nt[species].abc
 
-    # nt: abc abbreviation taxId displayName
-    taxid2nt = {nt.taxId:nt for nt in SPECIES}
-    pat = '{taxId:7} {abc} {displayName}\n'
+    def get_nt(self):
+        """Get the namedtuple for the species of interest."""
+        return self.name2nt[self.species]
 
     def prt_taxids(self, taxids, prt=sys.stdout, sortby=None):
         """Print a list of taxids, including their species name and abbreviation."""

@@ -36,8 +36,8 @@ def main(password):
         objabc = Species(species)
         fout_log = '{ABC}_pathways.log'.format(ABC=objabc.abc)
         with open(fout_log, 'w') as log:
-            objqu = PathwayQuery(species, gdbdr, log)
-            objwr = PathwayWrPy(objqu.pw2dcts, log)
+            objqu = PathwayQuery(objabc, gdbdr, log)
+            objwr = PathwayWrPy(objqu, log)
             prt_pathways(objwr, objabc.abc)
             print('  WROTE: {LOG}'.format(LOG=fout_log))
 
