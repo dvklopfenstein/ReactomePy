@@ -22,7 +22,7 @@ def main(password, prt=sys.stdout):
     _prt_data(data, prt)
 
     # It is important to note that subpathways might contain other subpathways,
-    # so to get ALL the supathways of R-HSA-198933, the query is as follows:
+    # so to get ALL the subpathways of R-HSA-198933, the query is as follows:
     qry = ('MATCH (p:Pathway{stId:"R-HSA-983169"})-[:hasEvent*]->(sp:Pathway)'
            'RETURN p.stId AS Pathway, sp.stId AS SubPathway, sp.displayName as DisplayName')
     prt.write('\nALL {N} subpathways in Pathway(R-HSA-983169)'.format(N=len(data)))
