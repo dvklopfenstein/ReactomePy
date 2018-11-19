@@ -6,14 +6,13 @@ __author__ = "DV Klopfenstein"
 
 import os
 import sys
-from reactomeneo4j.code.wrpy.utils import REPO
 from goatools.obo_parser import GODag
-from goatools.base import get_godag
-from goatools.base import dnld_gaf
+# from goatools.base import get_godag
+# from goatools.base import dnld_gaf
 from goatools.associations import read_gaf
 from goatools.semantic import TermCounts
 from goatools.gosubdag.gosubdag import GoSubDag
-from goatools.gosubdag.plot.gosubdag_plot import GoSubDagPlot
+from reactomeneo4j.code.wrpy.utils import REPO
 from reactomeneo4j.code.describe_pathway import DescribePathway
 
 
