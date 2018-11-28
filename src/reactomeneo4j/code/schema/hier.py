@@ -25,7 +25,7 @@ class DataSchemaHier(object):
         prt.write('------------------------------------\n')
         self.prt_data_schema('DatabaseObject', prt, max_indent=2, **kws)
         # Get Data Schema depth-01 nodes which have descendents
-        objs_d1_all = [o for o in self.name2obj.values() if o.depth==1 and o.dcnt!=0]
+        objs_d1_all = [o for o in self.name2obj.values() if o.depth == 1 and o.dcnt != 0]
         objs_d1_sel = [o for o in sorted(objs_d1_all, key=self.sortby)]
         # Print hierarchies for depth-01 data schema
         prt.write('\nDEPTH-01 DATA SCHEMA: DatabaseObject\n')
@@ -40,13 +40,24 @@ class DataSchemaHier(object):
         names.add(name)
         return names
 
+    def get_ancestor_d1(self, schema):
+        """Get the ancestor at the depth-01 for given schema."""
+        return self.get_ancestor_dn(schema, 1)
+
+    def get_ancestor_dn(self, schema, depth):
+        """Get the ancestor at the requested depth for given schema."""
+        names = set(a for a in self.name2obj[schema].ancestors if self.name2obj[a].depth == depth)
+        num_names = len(names)
+        assert num_names <= 1
+        return next(iter(names)) if num_names == 1 else ''
+
     def get_obj(self, name):
         """Get data schema name object."""
         return self.name2obj[name]
 
     def prt_data_schema(self, root_schema='DatabaseObject', prt=sys.stdout, **kws):
         """Print Reactome Graph Database data schema hierarchy."""
-        cfg = {'name2prtfmt':{'ITEM':'({DCNT})'}}
+        # cfg = {'name2prtfmt':{'ITEM':'({DCNT})'}}
         ntobj = namedtuple('ntprt', 'name dcnt')
         name2nt = {nm:ntobj(dcnt=o.dcnt, name=nm) for nm, o in self.name2obj.items()}
         name2prtfmt = {'ITEM':'(dcnt={dcnt})', 'ID':'{name}'}

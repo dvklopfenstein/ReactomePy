@@ -23,17 +23,18 @@ def main(password):
         #     'R-ALL-983035    antigenic substrate [cytosol]
         #     'R-HSA-976165    Ubiquitin:E2 conjugating enzymes [cytosol]
         qry = ('MATCH (Complex{stId:"R-HSA-983126"})-[:hasComponent]->(pe:PhysicalEntity)'
-               'RETURN pe.stId AS component_stId, pe.displayName AS component')
+               'RETURN '
+               'pe.stId AS component_stId, pe.displayName AS component, pe.schemaClass as schemaClass')
         for dct in session.run(qry).data():
-            print('{component_stId} {component}'.format(**dct))
+            print('{component_stId} {schemaClass:12} {component}'.format(**dct))
 
         # Get ALL distinct components for the complex
         qry = ('MATCH (Complex{stId:"R-HSA-983126"})-[:hasComponent|hasMember|hasCandidate*]->(pe:PhysicalEntity)'
-               'RETURN pe.stId AS component_stId, pe.displayName AS component')
+               'RETURN pe.stId AS component_stId, pe.displayName AS component, pe.schemaClass as schemaClass')
         fout_txt = 'complex_components_all.txt'
         with open(fout_txt, 'w') as prt:
             for idx, dct in enumerate(session.run(qry).data()):
-                prt.write('{component_stId} {component}\n'.format(**dct))
+                prt.write('{component_stId:13} {schemaClass:29} {component}\n'.format(**dct))
             print('  {N} compents WROTE: {TXT}'.format(N=idx, TXT=fout_txt))
 
 
