@@ -12,6 +12,8 @@ Explore peer-reviewed biological pathways in Reactome using Python to run neo4j 
 
 
 ## Reactome Links
+  * **Publications**
+    * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
   * [Glossary Data Model](http://wiki.reactome.org/index.php/Glossary_Data_Model)    
   * [Icon library](https://reactome.org/icon-lib)    
