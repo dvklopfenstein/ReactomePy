@@ -24,43 +24,22 @@ from reactomeneo4j.code.neo4jnt.databaseobject import DatabaseObject
 class InstanceEdit(DatabaseObject):
     """Report the dates that a pathway was edited."""
 
-    params_req = ['dateTime']
-    params_opt = ['note']
+    local_params_req = ['dateTime']
     timefmt = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self):
         super(InstanceEdit, self).__init__()
-        self.nted = namedtuple('NtEd', ' '.join(self.get_fields_namedtuple()))
+        # params: dbId schemaName displayName dateTime
+        self.params_req = DatabaseObject.params_req + self.local_params_req
+        self.params_opt = ['note']
+        self.nted = namedtuple('NtEd', ' '.join(self.params_req + ['optional']))
 
     def get_nt(self, node):
         """Query Reactome database for all edit dates."""
-        date = datetime.datetime.strptime(node['dateTime'].split('.')[0], self.timefmt)
-        return self.nted(
-            dbId=node['dbId'],
-            displayName=node['displayName'],
-            schemaClass=node['schemaClass'],
-            dateTime=date,
-            optional=self._get_pwy_optional(node))
-
-    def get_fields_namedtuple(self):
-        """Get fields to store Reactome Neo4j Node properties in a namedtuple."""
-        return self.get_params_required() + ['optional']
-
-    def get_params_required(self):
-        """Get parameters seen on all Reactome Neo4j Node instances."""
-        return DatabaseObject.params_req + self.params_req
-
-    def get_params_optional(self):
-        """Get parameters seen on some, but not all Reactome Neo4j Node instances."""
-        return self.params_opt
-
-    @staticmethod
-    def _get_pwy_optional(node):
-        """Get optional data members."""
-        ret = {}
-        if 'note' in node:
-            ret['note'] = node['note']
-        return ret
+        k2v = {p:node[p] for p in self.params_req}
+        k2v['dateTime'] = datetime.datetime.strptime(k2v['dateTime'].split('.')[0], self.timefmt)
+        k2v['optional'] = {o:node[o] for o in self.params_opt if o in node}
+        return self.nted(**k2v)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
