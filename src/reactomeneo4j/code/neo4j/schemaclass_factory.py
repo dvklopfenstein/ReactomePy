@@ -18,6 +18,7 @@ from reactomeneo4j.code.neo4j.reactionlikeevent import ReactionLikeEvent
 from reactomeneo4j.code.neo4j.reaction import Reaction
 from reactomeneo4j.code.neo4j.pathway import Pathway
 from reactomeneo4j.code.neo4j.toplevelpathway import TopLevelPathway
+from reactomeneo4j.code.neo4j.regulation import Regulation
 
 # pylint: disable=multiple-statements,too-many-return-statements
 def get_schemaclass(schemaclass):
@@ -66,6 +67,18 @@ def get_schemaclass(schemaclass):
     if schemaclass == 'Reaction': return Reaction()                   # Reaction
     if schemaclass == 'Pathway': return Pathway()                     # Pathway
     if schemaclass == 'TopLevelPathway': return TopLevelPathway()     # TopLevelPathway
+
+    #   - Regulation (dcnt=5)
+    # > -- PositiveRegulation (dcnt=2)
+    # > --- PositiveGeneExpressionRegulation (dcnt=0)
+    # > --- Requirement (dcnt=0)
+    # > -- NegativeRegulation (dcnt=1)
+    # > --- NegativeGeneExpressionRegulation (dcnt=0)
+    if schemaclass == 'PositiveRegulation': return Regulation()                # PositiveRegulation
+    if schemaclass == 'PositiveGeneExpressionRegulation': return Regulation()  # PositiveGeneExpressionRegulation
+    if schemaclass == 'Requirement': return Regulation()                       # Requirement
+    if schemaclass == 'NegativeRegulation': return Regulation()                # NegativeRegulation
+    if schemaclass == 'NegativeGeneExpressionRegulation': return Regulation()  # NegativeGeneExpressionRegulation
 
     assert False, 'UNRECOGNIZED schemaClass({S})'.format(S=schemaclass)
     return None

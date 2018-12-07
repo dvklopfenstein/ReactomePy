@@ -46,10 +46,15 @@ class DataSchemaHier(object):
 
     def get_ancestor_dn(self, schema, depth):
         """Get the ancestor at the requested depth for given schema."""
-        names = set(a for a in self.name2obj[schema].ancestors if self.name2obj[a].depth == depth)
+        obj = self.name2obj[schema]
+        names = set(a for a in obj.ancestors if self.name2obj[a].depth == depth)
         num_names = len(names)
         assert num_names <= 1
-        return next(iter(names)) if num_names == 1 else ''
+        if num_names == 1:
+            return next(iter(names))
+        elif obj.depth == depth:
+            return schema
+        return ''
 
     def get_obj(self, name):
         """Get data schema name object."""
