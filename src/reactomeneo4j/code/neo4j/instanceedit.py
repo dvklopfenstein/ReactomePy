@@ -17,7 +17,7 @@ __author__ = "DV Klopfenstein"
 
 from collections import namedtuple
 import datetime
-from reactomeneo4j.code.neo4jnt.databaseobject import DatabaseObject
+from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 
 
 # pylint: disable=too-few-public-methods
