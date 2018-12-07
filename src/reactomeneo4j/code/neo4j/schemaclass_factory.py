@@ -3,6 +3,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 from reactomeneo4j.code.neo4j.instanceedit import InstanceEdit
 from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 from reactomeneo4j.code.neo4j.candidateset import CandidateSet
@@ -79,6 +80,12 @@ def get_schemaclass(schemaclass):
     if schemaclass == 'Requirement': return Regulation()                       # Requirement
     if schemaclass == 'NegativeRegulation': return Regulation()                # NegativeRegulation
     if schemaclass == 'NegativeGeneExpressionRegulation': return Regulation()  # NegativeGeneExpressionRegulation
+
+    # > -- CatalystActivity (dcnt=0)
+    if schemaclass == 'CatalystActivity': return DatabaseObject()  # CatalystActivity
+
+    # > -- DatabaseObject (dcnt=0)
+    if schemaclass == 'DatabaseObject': return DatabaseObject()  # DatabaseObject
 
     assert False, 'UNRECOGNIZED schemaClass({S})'.format(S=schemaclass)
     return None
