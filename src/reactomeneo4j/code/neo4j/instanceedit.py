@@ -15,7 +15,6 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from collections import namedtuple
 import datetime
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 
@@ -24,22 +23,20 @@ from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 class InstanceEdit(DatabaseObject):
     """Report the dates that a pathway was edited."""
 
-    local_params_req = ['dateTime']
+    # params: dbId schemaName displayName
+    params_req = DatabaseObject.params_req + ['dateTime']
+    params_opt = DatabaseObject.params_opt + ['note']
     timefmt = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self):
         super(InstanceEdit, self).__init__()
-        # params: dbId schemaName displayName dateTime
-        self.params_req = DatabaseObject.params_req + self.local_params_req
-        self.params_opt = ['note']
-        self.nted = namedtuple('NtEd', ' '.join(self.params_req + ['optional']))
 
     def get_nt(self, node):
         """Query Reactome database for all edit dates."""
         k2v = {p:node[p] for p in self.params_req}
         k2v['dateTime'] = datetime.datetime.strptime(k2v['dateTime'].split('.')[0], self.timefmt)
         k2v['optional'] = {o:node[o] for o in self.params_opt if o in node}
-        return self.nted(**k2v)
+        return self.ntobj(**k2v)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
