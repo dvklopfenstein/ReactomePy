@@ -32,7 +32,7 @@ class OtherEntity(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['definition']
 
     def __init__(self):
-        super(OtherEntity, self).__init__()
+        super(OtherEntity, self).__init__('OtherEntity')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

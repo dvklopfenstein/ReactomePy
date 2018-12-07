@@ -52,8 +52,8 @@ class Event(DatabaseObject):
         ['stId', 'stIdVersion', 'name', 'isInDisease', 'isInferred', 'releaseDate', 'speciesName']
     params_opt = ['oldStId', 'releaseStatus']
 
-    def __init__(self):
-        super(Event, self).__init__()
+    def __init__(self, name):
+        super(Event, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

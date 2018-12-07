@@ -29,7 +29,7 @@ class Reaction(ReactionLikeEvent):
     params_opt = ReactionLikeEvent.params_opt + ['definition']
 
     def __init__(self):
-        super(Reaction, self).__init__()
+        super(Reaction, self).__init__('Reaction')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -28,8 +28,8 @@ class ReactionLikeEvent(Event):
     # params_opt: oldStId releaseStatus
     params_opt = Event.params_opt + ['isChimeric', 'systematicName']
 
-    def __init__(self):
-        super(ReactionLikeEvent, self).__init__()
+    def __init__(self, name):
+        super(ReactionLikeEvent, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

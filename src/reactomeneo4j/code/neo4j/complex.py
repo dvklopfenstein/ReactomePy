@@ -34,7 +34,7 @@ class Complex(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isChimeric', 'systematicName']
 
     def __init__(self):
-        super(Complex, self).__init__()
+        super(Complex, self).__init__('Complex')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

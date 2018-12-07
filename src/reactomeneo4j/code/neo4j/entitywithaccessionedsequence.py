@@ -41,7 +41,7 @@ class EntityWithAccessionedSequence(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['startCoordinate', 'endCoordinate', 'definition']
 
     def __init__(self):
-        super(EntityWithAccessionedSequence, self).__init__()
+        super(EntityWithAccessionedSequence, self).__init__('EntityWithAccessionedSequence')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

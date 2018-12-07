@@ -42,8 +42,8 @@ class EntitySet(PhysicalEntity):
     # params: oldStId
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isOrdered', 'systematicName']
 
-    def __init__(self):
-        super(EntitySet, self).__init__()
+    def __init__(self, name):
+        super(EntitySet, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

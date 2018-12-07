@@ -21,10 +21,8 @@ from reactomeneo4j.code.neo4j.pathway import Pathway
 from reactomeneo4j.code.neo4j.toplevelpathway import TopLevelPathway
 from reactomeneo4j.code.neo4j.regulation import Regulation
 
-# pylint: disable=multiple-statements,too-many-return-statements
-def get_schemaclass(schemaclass):
-    """Given a schemaClass string, return the associated class instance."""
-    if schemaclass == 'InstanceEdit': return InstanceEdit()
+SCHEMACLASS2CONSTRUCTOR = {
+    'InstanceEdit': InstanceEdit(),
 
     #   - PhysicalEntity(dcnt=13)
     #   -- EntitySet(dcnt=3)
@@ -40,17 +38,17 @@ def get_schemaclass(schemaclass):
     # > -- OtherEntity(dcnt=0)
     # > -- Polymer(dcnt=0)
     # > -- SimpleEntity(dcnt=0)
-    if schemaclass == 'CandidateSet': return CandidateSet()
-    if schemaclass == 'DefinedSet': return DefinedSet()
-    if schemaclass == 'OpenSet': return OpenSet()
-    if schemaclass == 'ChemicalDrug': return PhysicalEntity()  # ChemicalDrug()
-    if schemaclass == 'ProteinDrug': return PhysicalEntity()   # ProteinDrug()
-    if schemaclass == 'GenomeEncodedEntity': return GenomeEncodedEntity()
-    if schemaclass == 'EntityWithAccessionedSequence': return EntityWithAccessionedSequence()
-    if schemaclass == 'Complex': return Complex()
-    if schemaclass == 'OtherEntity': return OtherEntity()
-    if schemaclass == 'Polymer': return Polymer()
-    if schemaclass == 'SimpleEntity': return SimpleEntity()
+    'CandidateSet': CandidateSet(),
+    'DefinedSet': DefinedSet(),
+    'OpenSet': OpenSet(),
+    'ChemicalDrug': PhysicalEntity('ChemicalDrug'),  # ChemicalDrug()
+    'ProteinDrug': PhysicalEntity('ProteinDrug'),   # ProteinDrug()
+    'GenomeEncodedEntity': GenomeEncodedEntity(),
+    'EntityWithAccessionedSequence': EntityWithAccessionedSequence(),
+    'Complex': Complex(),
+    'OtherEntity': OtherEntity(),
+    'Polymer': Polymer(),
+    'SimpleEntity': SimpleEntity(),
 
     #   - Event (dcnt=8)
     #   -- ReactionLikeEvent (dcnt=5)
@@ -61,13 +59,13 @@ def get_schemaclass(schemaclass):
     # > --- Reaction (dcnt=0)
     # > -- Pathway (dcnt=1)
     # > --- TopLevelPathway (dcnt=0)
-    if schemaclass == 'BlackBoxEvent': return ReactionLikeEvent()     # BlackBoxEvent
-    if schemaclass == 'Depolymerisation': return ReactionLikeEvent()  # Depolymerisation
-    if schemaclass == 'FailedReaction': return ReactionLikeEvent()    # FailedReaction
-    if schemaclass == 'Polymerisation': return ReactionLikeEvent()    # Polymerisation
-    if schemaclass == 'Reaction': return Reaction()                   # Reaction
-    if schemaclass == 'Pathway': return Pathway()                     # Pathway
-    if schemaclass == 'TopLevelPathway': return TopLevelPathway()     # TopLevelPathway
+    'BlackBoxEvent': ReactionLikeEvent('BlackBoxEvent'),        # BlackBoxEvent
+    'Depolymerisation': ReactionLikeEvent('Depolymerisation'),  # Depolymerisation
+    'FailedReaction': ReactionLikeEvent('FailedReaction'),      # FailedReaction
+    'Polymerisation': ReactionLikeEvent('Polymerisation'),      # Polymerisation
+    'Reaction': Reaction(),                   # Reaction
+    'Pathway': Pathway(),                     # Pathway
+    'TopLevelPathway': TopLevelPathway(),     # TopLevelPathway
 
     #   - Regulation (dcnt=5)
     # > -- PositiveRegulation (dcnt=2)
@@ -75,20 +73,18 @@ def get_schemaclass(schemaclass):
     # > --- Requirement (dcnt=0)
     # > -- NegativeRegulation (dcnt=1)
     # > --- NegativeGeneExpressionRegulation (dcnt=0)
-    if schemaclass == 'PositiveRegulation': return Regulation()                # PositiveRegulation
-    if schemaclass == 'PositiveGeneExpressionRegulation': return Regulation()  # PositiveGeneExpressionRegulation
-    if schemaclass == 'Requirement': return Regulation()                       # Requirement
-    if schemaclass == 'NegativeRegulation': return Regulation()                # NegativeRegulation
-    if schemaclass == 'NegativeGeneExpressionRegulation': return Regulation()  # NegativeGeneExpressionRegulation
+    'PositiveRegulation'              : Regulation('PositiveRegulation'),
+    'PositiveGeneExpressionRegulation': Regulation('PositiveGeneExpressionRegulation'),
+    'Requirement'                     : Regulation('Requirement'),
+    'NegativeRegulation'              : Regulation('NegativeRegulation'),
+    'NegativeGeneExpressionRegulation': Regulation('NegativeGeneExpressionRegulation'),
 
     # > -- CatalystActivity (dcnt=0)
-    if schemaclass == 'CatalystActivity': return DatabaseObject()  # CatalystActivity
+    'CatalystActivity': DatabaseObject('CatalystActivity'),
 
     # > -- DatabaseObject (dcnt=0)
-    if schemaclass == 'DatabaseObject': return DatabaseObject()  # DatabaseObject
-
-    assert False, 'UNRECOGNIZED schemaClass({S})'.format(S=schemaclass)
-    return None
+    'EntityFunctionalStatus': DatabaseObject('EntityFunctionalStatus'),
+}
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

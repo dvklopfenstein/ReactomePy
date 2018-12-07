@@ -65,8 +65,8 @@ class PhysicalEntity(DatabaseObject):
     params_req = DatabaseObject.params_req + ['stId', 'stIdVersion', 'isInDisease', 'name']
     params_opt = ['oldStId']
 
-    def __init__(self):
-        super(PhysicalEntity, self).__init__()
+    def __init__(self, name):
+        super(PhysicalEntity, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

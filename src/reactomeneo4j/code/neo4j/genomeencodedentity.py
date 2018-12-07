@@ -39,8 +39,8 @@ class GenomeEncodedEntity(PhysicalEntity):
     params_req = PhysicalEntity.params_req + ['speciesName']
     params_opt = PhysicalEntity.params_opt + ['definition']
 
-    def __init__(self):
-        super(GenomeEncodedEntity, self).__init__()
+    def __init__(self, name='GenomeEncodedEntity'):
+        super(GenomeEncodedEntity, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

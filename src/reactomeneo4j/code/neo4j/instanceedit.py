@@ -29,7 +29,7 @@ class InstanceEdit(DatabaseObject):
     timefmt = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self):
-        super(InstanceEdit, self).__init__()
+        super(InstanceEdit, self).__init__('InstanceEdit')
 
     def get_nt(self, node):
         """Query Reactome database for all edit dates."""

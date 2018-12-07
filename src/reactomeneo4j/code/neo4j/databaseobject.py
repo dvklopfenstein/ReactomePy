@@ -12,7 +12,8 @@ class DatabaseObject():
     params_req = ['dbId', 'schemaClass', 'displayName']
     params_opt = []
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req + ['optional']))
 
     def get_nt(self, node):

@@ -39,7 +39,7 @@ class Pathway(Event):
     params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
 
     def __init__(self):
-        super(Pathway, self).__init__()
+        super(Pathway, self).__init__('Pathway')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

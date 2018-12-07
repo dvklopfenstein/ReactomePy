@@ -42,7 +42,7 @@ class DefinedSet(EntitySet):
     # params: oldStId | speciesName isOrdered systematicName
 
     def __init__(self):
-        super(DefinedSet, self).__init__()
+        super(DefinedSet, self).__init__('DefinedSet')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

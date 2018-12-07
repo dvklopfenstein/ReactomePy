@@ -45,7 +45,7 @@ class OpenSet(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['speciesName']
 
     def __init__(self):
-        super(OpenSet, self).__init__()
+        super(OpenSet, self).__init__('OpenSet')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

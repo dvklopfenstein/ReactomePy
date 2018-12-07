@@ -34,7 +34,7 @@ class SimpleEntity(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['definition']
 
     def __init__(self):
-        super(SimpleEntity, self).__init__()
+        super(SimpleEntity, self).__init__('SimpleEntity')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -43,7 +43,7 @@ class CandidateSet(EntitySet):
     params_opt = EntitySet.params_opt + ['definition']
 
     def __init__(self):
-        super(CandidateSet, self).__init__()
+        super(CandidateSet, self).__init__('CandidateSet')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

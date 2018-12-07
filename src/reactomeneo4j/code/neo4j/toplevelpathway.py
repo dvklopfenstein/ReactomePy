@@ -39,7 +39,7 @@ class TopLevelPathway(Event):
     params_opt = Event.params_opt + ['doi']
 
     def __init__(self):
-        super(TopLevelPathway, self).__init__()
+        super(TopLevelPathway, self).__init__('TopLevelPathway')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
