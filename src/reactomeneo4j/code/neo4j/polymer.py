@@ -35,6 +35,10 @@ class Polymer(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + \
         ['speciesName', 'minUnitCount', 'maxUnitCount', 'definition']
 
+    relationships = {
+        'repeatedUnit': set(['PhysicalEntity']),
+    }
+
     def __init__(self):
         super(Polymer, self).__init__('Polymer')
 

@@ -28,6 +28,10 @@ class Reaction(ReactionLikeEvent):
     # params_opt: oldStId releaseStatus | isChimeric systematicName
     params_opt = ReactionLikeEvent.params_opt + ['definition']
 
+    relationships = {
+        'literatureReference': set(['Publication']),
+    }
+
     def __init__(self):
         super(Reaction, self).__init__('Reaction')
 

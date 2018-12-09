@@ -33,6 +33,10 @@ class Complex(PhysicalEntity):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isChimeric', 'systematicName']
 
+    relationships = {
+        'hasComponent': set(['PhysicalEntity']),
+    }
+
     def __init__(self):
         super(Complex, self).__init__('Complex')
 

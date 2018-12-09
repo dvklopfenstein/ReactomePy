@@ -7,8 +7,8 @@
   > --- FailedReaction (dcnt=0)
   > --- Polymerisation (dcnt=0)
   > --- Reaction (dcnt=0)
-  > -- Pathway (dcnt=1)
-  > --- TopLevelPathway (dcnt=0)
+  > -- Pathway (dcnt=0)
+  > -- TopLevelPathway (dcnt=0)
 
   113,854 Event     23080 Pathway                 15  23080  0.0006 definition
   113,854 Event     23080 Pathway               7915  23080  0.3429 diagramHeight
@@ -37,6 +37,10 @@ class TopLevelPathway(Event):
     params_req = Event.params_req + ['hasDiagram', 'diagramHeight', 'diagramWidth']
     # params: oldStId releaseStatus
     params_opt = Event.params_opt + ['doi']
+
+    relationships = {
+        'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
+    }
 
     def __init__(self):
         super(TopLevelPathway, self).__init__('TopLevelPathway')

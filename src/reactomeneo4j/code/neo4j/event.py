@@ -52,6 +52,10 @@ class Event(DatabaseObject):
         ['stId', 'stIdVersion', 'name', 'isInDisease', 'isInferred', 'releaseDate', 'speciesName']
     params_opt = ['oldStId', 'releaseStatus']
 
+    relationships = {
+        'literatureReference': set(['Publication']),
+    }
+
     def __init__(self, name):
         super(Event, self).__init__(name)
 

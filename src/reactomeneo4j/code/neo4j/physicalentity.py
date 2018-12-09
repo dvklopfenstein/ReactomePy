@@ -65,6 +65,10 @@ class PhysicalEntity(DatabaseObject):
     params_req = DatabaseObject.params_req + ['stId', 'stIdVersion', 'isInDisease', 'name']
     params_opt = ['oldStId']
 
+    relationships = {
+        'literatureReference': set(['Publication']),
+    }
+
     def __init__(self, name):
         super(PhysicalEntity, self).__init__(name)
 

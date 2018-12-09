@@ -46,6 +46,10 @@ class Regulation(DatabaseObject):
     # params_req: dbId schemaClass displayName
     params_opt = ['oldStId', 'name', 'stId', 'stIdVersion']
 
+    relationships = {
+        'regulator': set(['PhysicalEntity']),
+    }
+
     def __init__(self, name):
         super(Regulation, self).__init__(name)
 

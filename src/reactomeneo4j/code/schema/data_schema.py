@@ -59,10 +59,11 @@ ITEM2CHILDREN = {
 
     'Event':set([
         'Pathway',
+        'TopLevelPathway',  # DVK
         'ReactionLikeEvent',
     ]),
 
-    'Pathway':set(['TopLevelPathway']),
+    # 'Pathway':set(['TopLevelPathway']),  # DVK
 
     'ReactionLikeEvent':set([
         'BlackBoxEvent',

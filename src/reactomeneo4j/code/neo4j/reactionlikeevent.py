@@ -28,6 +28,14 @@ class ReactionLikeEvent(Event):
     # params_opt: oldStId releaseStatus
     params_opt = Event.params_opt + ['isChimeric', 'systematicName']
 
+    relationships = {
+        'input': set(['PhysicalEntity']),
+        'output': set(['PhysicalEntity']),
+        'catalystActivity': set(['CatalystActivity']),
+        'entityFunctionalStatus': set(['EntityFunctionalStatus']),
+        'regulatedBy': set(['Regulation']),
+    }
+
     def __init__(self, name):
         super(ReactionLikeEvent, self).__init__(name)
 

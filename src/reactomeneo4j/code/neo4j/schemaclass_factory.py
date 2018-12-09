@@ -20,6 +20,21 @@ from reactomeneo4j.code.neo4j.reaction import Reaction
 from reactomeneo4j.code.neo4j.pathway import Pathway
 from reactomeneo4j.code.neo4j.toplevelpathway import TopLevelPathway
 from reactomeneo4j.code.neo4j.regulation import Regulation
+from reactomeneo4j.code.neo4j.referencesequence import ReferenceSequence
+from reactomeneo4j.code.neo4j.referencegeneproduct import ReferenceGeneProduct
+from reactomeneo4j.code.neo4j.referenceisoform import ReferenceIsoform
+from reactomeneo4j.code.neo4j.referencednasequence import ReferenceDNASequence
+# from reactomeneo4j.code.neo4j.referencernasequence import ReferenceRNASequence
+from reactomeneo4j.code.neo4j.referencegroup import ReferenceGroup
+from reactomeneo4j.code.neo4j.referencemolecule import ReferenceMolecule
+from reactomeneo4j.code.neo4j.referencetherapeutic import ReferenceTherapeutic
+from reactomeneo4j.code.neo4j.referencedatabase import ReferenceDatabase
+from reactomeneo4j.code.neo4j.catalystactivity import CatalystActivity
+from reactomeneo4j.code.neo4j.entityfunctionalstatus import EntityFunctionalStatus
+
+from reactomeneo4j.code.neo4j.literaturereference import LiteratureReference
+from reactomeneo4j.code.neo4j.book import Book
+from reactomeneo4j.code.neo4j.url import URL
 
 SCHEMACLASS2CONSTRUCTOR = {
     'InstanceEdit': InstanceEdit(),
@@ -79,11 +94,42 @@ SCHEMACLASS2CONSTRUCTOR = {
     'NegativeRegulation'              : Regulation('NegativeRegulation'),
     'NegativeGeneExpressionRegulation': Regulation('NegativeGeneExpressionRegulation'),
 
-    # > -- CatalystActivity (dcnt=0)
-    'CatalystActivity': DatabaseObject('CatalystActivity'),
+    #   - ReferenceEntity (dcnt=8)
+    #   -- ReferenceSequence (dcnt=4)
+    # > --- ReferenceGeneProduct (dcnt=1)
+    # > ---- ReferenceIsoform (dcnt=0)
+    # > --- ReferenceDNASequence (dcnt=0)
+    # > --- ReferenceRNASequence (dcnt=0)
+    # > -- ReferenceGroup (dcnt=0)
+    # > -- ReferenceMolecule (dcnt=0)
+    # > -- ReferenceTherapeutic (dcnt=0)
+    'ReferenceGeneProduct' : ReferenceGeneProduct(),
+    'ReferenceIsoform' : ReferenceIsoform(),
+    'ReferenceDNASequence' : ReferenceDNASequence(),
+    'ReferenceRNASequence' : ReferenceSequence('ReferenceRNASequence'),
+    'ReferenceGroup' : ReferenceGroup(),
+    'ReferenceMolecule' : ReferenceMolecule(),
+    'ReferenceTherapeutic' : ReferenceTherapeutic(),
 
-    # > -- DatabaseObject (dcnt=0)
-    'EntityFunctionalStatus': DatabaseObject('EntityFunctionalStatus'),
+    #   - Publication (dcnt=3)
+    # > -- LiteratureReference (dcnt=0)
+    # > -- Book (dcnt=0)
+    # > -- URL  (dcnt=0)
+    'LiteratureReference': LiteratureReference(),
+    'Book': Book(),
+    'URL': URL(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- CatalystActivity (dcnt=0)
+    'CatalystActivity': CatalystActivity(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- EntityFunctionalStatus (dcnt=0)
+    'EntityFunctionalStatus': EntityFunctionalStatus(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- ReferenceDatabase (dcnt=0)
+    'ReferenceDatabase': ReferenceDatabase(),
 }
 
 

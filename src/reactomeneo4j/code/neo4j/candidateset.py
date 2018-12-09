@@ -42,6 +42,10 @@ class CandidateSet(EntitySet):
     # params: oldStId | speciesName isOrdered systematicName
     params_opt = EntitySet.params_opt + ['definition']
 
+    relationships = {
+        'hasCandidate': set(['PhysicalEntity']),
+    }
+
     def __init__(self):
         super(CandidateSet, self).__init__('CandidateSet')
 

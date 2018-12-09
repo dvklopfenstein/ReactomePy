@@ -38,6 +38,10 @@ class Pathway(Event):
     # params: oldStId releaseStatus
     params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
 
+    relationships = {
+        'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
+    }
+
     def __init__(self):
         super(Pathway, self).__init__('Pathway')
 
