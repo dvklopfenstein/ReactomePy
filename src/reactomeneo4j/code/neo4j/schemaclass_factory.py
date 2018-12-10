@@ -31,10 +31,23 @@ from reactomeneo4j.code.neo4j.referencetherapeutic import ReferenceTherapeutic
 from reactomeneo4j.code.neo4j.referencedatabase import ReferenceDatabase
 from reactomeneo4j.code.neo4j.catalystactivity import CatalystActivity
 from reactomeneo4j.code.neo4j.entityfunctionalstatus import EntityFunctionalStatus
-
 from reactomeneo4j.code.neo4j.literaturereference import LiteratureReference
 from reactomeneo4j.code.neo4j.book import Book
 from reactomeneo4j.code.neo4j.url import URL
+from reactomeneo4j.code.neo4j.go_term import GOTerm
+from reactomeneo4j.code.neo4j.go_molecularfunction import GO_MolecularFunction
+from reactomeneo4j.code.neo4j.externalontology import ExternalOntology
+from reactomeneo4j.code.neo4j.fragmentmodification import FragmentModification
+from reactomeneo4j.code.neo4j.fragmentreplacedmodification import FragmentReplacedModification
+from reactomeneo4j.code.neo4j.abstractmodifiedresidue import AbstractModifiedResidue
+from reactomeneo4j.code.neo4j.crosslinkedresidue import CrosslinkedResidue
+from reactomeneo4j.code.neo4j.undirectedinteraction import UndirectedInteraction
+from reactomeneo4j.code.neo4j.taxon import Taxon
+from reactomeneo4j.code.neo4j.species import Species
+from reactomeneo4j.code.neo4j.databaseidentifier import DatabaseIdentifier
+from reactomeneo4j.code.neo4j.person import Person
+from reactomeneo4j.code.neo4j.summation import Summation
+from reactomeneo4j.code.neo4j.functionalstatus import FunctionalStatus
 
 SCHEMACLASS2CONSTRUCTOR = {
     'InstanceEdit': InstanceEdit(),
@@ -94,6 +107,32 @@ SCHEMACLASS2CONSTRUCTOR = {
     'NegativeRegulation'              : Regulation('NegativeRegulation'),
     'NegativeGeneExpressionRegulation': Regulation('NegativeGeneExpressionRegulation'),
 
+    #   - AbstractModifiedResidue (dcnt=12)
+    #   -- GeneticallyModifiedResidue (dcnt=5)
+    #   --- FragmentModification (dcnt=3)
+    # > ---- FragmentDeletionModification (dcnt=0)
+    # > ---- FragmentInsertionModification (dcnt=0)
+    # > ---- FragmentReplacedModification (dcnt=0)
+    # > --- ReplacedResidue (dcnt=0)
+    #   -- TranslationalModification (dcnt=5)
+    #   --- CrosslinkedResidue (dcnt=2)
+    # > ---- InterChainCrosslinkedResidue (dcnt=0)
+    # > ---- IntraChainCrosslinkedResidue (dcnt=0)
+    # > --- GroupModifiedResidue (dcnt=0)
+    # > --- ModifiedResidue (dcnt=0)
+    'FragmentDeletionModification' : FragmentModification('FragmentDeletionModification'),
+    'FragmentInsertionModification' : FragmentModification('FragmentInsertionModification'),
+    'FragmentReplacedModification' : FragmentReplacedModification(),
+    'ReplacedResidue' : AbstractModifiedResidue('ReplacedResidue'),
+    'InterChainCrosslinkedResidue' : CrosslinkedResidue('InterChainCrosslinkedResidue'),
+    'IntraChainCrosslinkedResidue' : CrosslinkedResidue('IntraChainCrosslinkedResidue'),
+    'GroupModifiedResidue' : AbstractModifiedResidue('GroupModifiedResidue'),
+    'ModifiedResidue' : AbstractModifiedResidue('ModifiedResidue'),
+
+    #   - Interaction (dcnt=1)
+    # > -- UndirectedInteraction (dcnt=0)
+    'UndirectedInteraction': UndirectedInteraction(),
+
     #   - ReferenceEntity (dcnt=8)
     #   -- ReferenceSequence (dcnt=4)
     # > --- ReferenceGeneProduct (dcnt=1)
@@ -119,6 +158,24 @@ SCHEMACLASS2CONSTRUCTOR = {
     'Book': Book(),
     'URL': URL(),
 
+    #   - GO_Term (dcnt=4)
+    # > -- GO_CellularComponent (dcnt=1)
+    # > --- Compartment (dcnt=0)
+    # > -- GO_BiologicalProcess (dcnt=0)
+    # > -- GO_MolecularFunction (dcnt=0)
+    'GO_CellularComponent' : GOTerm('GO_CellularComponent'),
+    'Compartment' : GOTerm('Compartment'),
+    'GO_BiologicalProcess' : GOTerm('GO_BiologicalProcess'),
+    'GO_MolecularFunction' : GO_MolecularFunction(),
+
+    #   - ExternalOntology (dcnt=3)
+    # > -- Disease (dcnt=0)
+    # > -- PsiMod (dcnt=0)
+    # > -- SequenceOntology (dcnt=0)
+    'Disease' : ExternalOntology('Disease'),
+    'PsiMod' : ExternalOntology('PsiMod'),
+    'SequenceOntology' : ExternalOntology('SequenceOntology'),
+
     #   - DatabaseObject (dcnt=80)
     # > -- CatalystActivity (dcnt=0)
     'CatalystActivity': CatalystActivity(),
@@ -130,6 +187,27 @@ SCHEMACLASS2CONSTRUCTOR = {
     #   - DatabaseObject (dcnt=80)
     # > -- ReferenceDatabase (dcnt=0)
     'ReferenceDatabase': ReferenceDatabase(),
+
+    # > - Taxon (dcnt=1)
+    # > -- Species (dcnt=0)
+    'Taxon': Taxon(),
+    'Species': Species(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- DatabaseIdentifier (dcnt=0)
+    'DatabaseIdentifier': DatabaseIdentifier(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- Person (dcnt=0)
+    'Person': Person(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- Summation (dcnt=0)
+    'Summation': Summation(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- FunctionalStatus (dcnt=0)
+    'FunctionalStatus': FunctionalStatus(),
 }
 
 

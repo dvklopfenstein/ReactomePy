@@ -54,6 +54,7 @@ class Event(DatabaseObject):
 
     relationships = {
         'literatureReference': set(['Publication']),
+        'precedingEvent': set(['Event']),
     }
 
     def __init__(self, name):
