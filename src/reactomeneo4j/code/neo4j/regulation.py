@@ -47,6 +47,7 @@ class Regulation(DatabaseObject):
     params_opt = ['oldStId', 'name', 'stId', 'stIdVersion']
 
     relationships = {
+        'literatureReference': set(['Publication']),
         'regulator': set(['PhysicalEntity']),
     }
 

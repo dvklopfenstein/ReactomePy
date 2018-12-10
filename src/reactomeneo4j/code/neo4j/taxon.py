@@ -24,6 +24,11 @@ class Taxon(DatabaseObject):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = DatabaseObject.params_opt + ['taxId', 'name']
 
+    relationships = {
+        'crossReference' : set(['Taxon']),
+        'superTaxon'     : set(['Taxon']),
+    }
+
     def __init__(self, name="Taxon"):
         super(Taxon, self).__init__(name)
 

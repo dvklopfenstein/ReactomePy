@@ -76,6 +76,7 @@ class ReferenceEntity(DatabaseObject):
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
+        'crossReference'     : set(['DatabaseIdentifier']),
     }
 
     def __init__(self, name):

@@ -28,6 +28,15 @@ class InstanceEdit(DatabaseObject):
     params_opt = DatabaseObject.params_opt + ['note']
     timefmt = '%Y-%m-%d %H:%M:%S'
 
+    relationships = {
+        'created' : set(['DatabaseObject']),
+        'modified': set(['DatabaseObject']),
+        'authored': set(['PhysicalEntity', 'Event']),
+        'edited'  : set(['PhysicalEntity', 'Event']),
+        'reviewed': set(['PhysicalEntity', 'Event']),
+        'revised' : set(['PhysicalEntity', 'Event']),
+    }
+
     def __init__(self):
         super(InstanceEdit, self).__init__('InstanceEdit')
 

@@ -17,6 +17,10 @@ class Summation(DatabaseObject):
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['text']
 
+    relationships = {
+        'literatureReference': set(['Publication']),
+    }
+
     def __init__(self):
         super(Summation, self).__init__('Summation')
 

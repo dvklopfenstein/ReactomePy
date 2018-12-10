@@ -18,6 +18,11 @@ class Person(DatabaseObject):
     params_req = DatabaseObject.params_req + ['surname', 'initial']
     params_opt = DatabaseObject.params_opt + ['firstname', 'orcidId', 'project']
 
+    relationships = {
+        'author'         : set(['InstanceEdit']),
+        'crossReference' : set(['DatabaseIdentifier']),
+    }
+
     def __init__(self):
         super(Person, self).__init__('Person')
 

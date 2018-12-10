@@ -67,6 +67,7 @@ class PhysicalEntity(DatabaseObject):
 
     relationships = {
         'literatureReference': set(['Publication']),
+        'crossReference'     : set(['DatabaseIdentifier']),
     }
 
     def __init__(self, name):
