@@ -49,6 +49,9 @@ from reactomeneo4j.code.neo4j.databaseidentifier import DatabaseIdentifier
 from reactomeneo4j.code.neo4j.person import Person
 from reactomeneo4j.code.neo4j.summation import Summation
 from reactomeneo4j.code.neo4j.functionalstatus import FunctionalStatus
+from reactomeneo4j.code.neo4j.affiliation import Affiliation
+from reactomeneo4j.code.neo4j.figure import Figure
+from reactomeneo4j.code.neo4j.functionalstatustype import FunctionalStatusType
 
 SCHEMACLASS2CONSTRUCTOR = {
     'InstanceEdit': InstanceEdit(),
@@ -209,6 +212,22 @@ SCHEMACLASS2CONSTRUCTOR = {
     #   - DatabaseObject (dcnt=80)
     # > -- FunctionalStatus (dcnt=0)
     'FunctionalStatus': FunctionalStatus(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- Affiliation (dcnt=0)
+    'Affiliation': Affiliation(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- Figure (dcnt=0)
+    'Figure': Figure(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- FunctionalStatusType (dcnt=0)
+    'FunctionalStatusType': FunctionalStatusType(),
+
+    #   - DatabaseObject (dcnt=80)
+    # > -- EvidenceType (dcnt=0)
+    'EvidenceType': DatabaseObject('EvidenceType'),
 }
 
 
