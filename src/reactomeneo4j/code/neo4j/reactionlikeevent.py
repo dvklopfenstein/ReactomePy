@@ -29,11 +29,17 @@ class ReactionLikeEvent(Event):
     params_opt = Event.params_opt + ['isChimeric', 'systematicName']
 
     relationships = {
-        'input': set(['PhysicalEntity']),
-        'output': set(['PhysicalEntity']),
-        'catalystActivity': set(['CatalystActivity']),
-        'entityFunctionalStatus': set(['EntityFunctionalStatus']),
-        'regulatedBy': set(['Regulation']),
+        **Event.relationships, 
+        **{
+            'input': set(['PhysicalEntity']),
+            'output': set(['PhysicalEntity']),
+            'requiredInputComponent': set(['PhysicalEntity']),
+            'catalystActivity': set(['CatalystActivity']),
+            'entityFunctionalStatus': set(['EntityFunctionalStatus']),
+            'regulatedBy': set(['Regulation']),
+            'entityOnOtherCell': set(['PhysicalEntity']),
+            'normalReaction': set(['ReactionLikeEvent']),
+        }
     }
 
     def __init__(self, name):

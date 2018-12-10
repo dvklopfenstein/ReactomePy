@@ -29,7 +29,10 @@ class Reaction(ReactionLikeEvent):
     params_opt = ReactionLikeEvent.params_opt + ['definition']
 
     relationships = {
-        'literatureReference': set(['Publication']),
+        **ReactionLikeEvent.relationships, 
+        **{
+            'reverseReaction': set(['Reaction']),
+        }
     }
 
     def __init__(self):

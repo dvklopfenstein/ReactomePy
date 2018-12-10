@@ -27,6 +27,13 @@ class ReferenceGeneProduct(ReferenceSequence):
         'sequenceLength', 'chain', 'checksum', 'comment', 'isSequenceChanged',
         'keyword', 'secondaryIdentifier', 'otherIdentifier']
 
+    relationships = {
+        **ReferenceSequence.relationships, 
+        **{
+            'referenceTranscript': set(['ReferenceRNASequence']),
+        }
+    }
+
     def __init__(self, name="ReferenceGeneProduct"):
         super(ReferenceGeneProduct, self).__init__(name)
 

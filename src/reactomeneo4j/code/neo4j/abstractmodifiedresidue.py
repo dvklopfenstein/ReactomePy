@@ -42,8 +42,10 @@ class AbstractModifiedResidue(DatabaseObject):
     params_opt = DatabaseObject.params_opt + ['coordinate']
 
     relationships = {
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
+        'referenceSequence': set(['ReferenceSequence']),
+        'secondReferenceSequence': set(['ReferenceSequence']),
+        'modification': set(['PhysicalEntity', 'ReferenceEntity']),
+        'psiMod': set(['PsiMod']),
     }
 
     def __init__(self, name):

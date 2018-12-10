@@ -22,6 +22,13 @@ class ReferenceIsoform(ReferenceGeneProduct):
 
     params_req = ReferenceGeneProduct.params_req + ['variantIdentifier']
 
+    relationships = {
+        **ReferenceGeneProduct.relationships, 
+        **{
+            'isoformParent': set(['ReferenceGeneProduct']),
+        }
+    }
+
     def __init__(self):
         super(ReferenceIsoform, self).__init__('ReferenceIsoform')
 

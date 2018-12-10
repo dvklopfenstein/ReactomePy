@@ -41,6 +41,12 @@ class DefinedSet(EntitySet):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     # params: oldStId | speciesName isOrdered systematicName
 
+    # relationships = {
+    #     **EntitySet.relationships, 
+    #     **{
+    #     }
+    # }
+
     def __init__(self):
         super(DefinedSet, self).__init__('DefinedSet')
 

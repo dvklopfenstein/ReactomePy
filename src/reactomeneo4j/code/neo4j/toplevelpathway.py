@@ -39,7 +39,11 @@ class TopLevelPathway(Event):
     params_opt = Event.params_opt + ['doi']
 
     relationships = {
-        'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
+        **Event.relationships, 
+        **{
+            'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
+            'hasEncapsulatedEvent': set(['Pathway', 'TopLevelPathway']),
+        }
     }
 
     def __init__(self):

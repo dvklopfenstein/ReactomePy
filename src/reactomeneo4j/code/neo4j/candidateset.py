@@ -1,19 +1,19 @@
 """Reactome CandidateSet Neo4j Node.
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 PhysicalEntity   87271 DefinedSet          74  87271  0.0008 isOrdered
   574,228 PhysicalEntity   87271 DefinedSet       86795  87271  0.9945 speciesName
@@ -43,7 +43,10 @@ class CandidateSet(EntitySet):
     params_opt = EntitySet.params_opt + ['definition']
 
     relationships = {
-        'hasCandidate': set(['PhysicalEntity']),
+        **EntitySet.relationships, 
+        **{
+            'hasCandidate': set(['PhysicalEntity']),
+        }
     }
 
     def __init__(self):

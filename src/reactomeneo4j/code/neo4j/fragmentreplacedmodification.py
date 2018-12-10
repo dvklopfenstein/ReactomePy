@@ -29,11 +29,6 @@ class FragmentReplacedModification(FragmentModification):
     #     startPositionInReferenceSequence endPositionInReferenceSequence
     params_opt = FragmentModification.params_opt + ['alteredAminoAcidFragment']
 
-    relationships = {
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
-    }
-
     def __init__(self):
         super(FragmentReplacedModification, self).__init__('FragmentReplacedModification')
 

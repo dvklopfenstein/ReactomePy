@@ -1,19 +1,19 @@
 """Reactome PhysicalEntity Neo4j Node.
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 PhysicalEntity   6094 GenomeEncodedEntity                  3   6094 0.0005 definition
   574,228 PhysicalEntity   6094 GenomeEncodedEntity               6094   6094 1.0000 speciesName
@@ -68,6 +68,15 @@ class PhysicalEntity(DatabaseObject):
     relationships = {
         'literatureReference': set(['Publication']),
         'crossReference'     : set(['DatabaseIdentifier']),
+        'compartment'        : set(['Compartment']),
+        'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+        'disease'            : set(['Disease']),
+        'inferredTo'         : set(['PhysicalEntity']),
+        'species'            : set(['Species']),
+        'relatedSpecies'     : set(['Species']),
+        'summation'          : set(['Summation']),
+        'referenceEntity'    : set(['ReferenceEntity']),
+        'figure'             : set(['Figure']),
     }
 
     def __init__(self, name):

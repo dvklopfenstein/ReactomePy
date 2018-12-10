@@ -40,6 +40,13 @@ class EntityWithAccessionedSequence(PhysicalEntity):
     # oldStId definition
     params_opt = PhysicalEntity.params_opt + ['startCoordinate', 'endCoordinate', 'definition']
 
+    relationships = {
+        **PhysicalEntity.relationships, 
+        **{
+            'hasModifiedResidue': set(['AbstractModifiedResidue']),
+        }
+    }
+
     def __init__(self):
         super(EntityWithAccessionedSequence, self).__init__('EntityWithAccessionedSequence')
 

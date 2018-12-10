@@ -39,7 +39,12 @@ class Pathway(Event):
     params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
 
     relationships = {
-        'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
+        **Event.relationships, 
+        **{
+            'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
+            'hasEncapsulatedEvent': set(['Pathway']),
+            'normalPathway': set(['Pathway']),
+        }
     }
 
     def __init__(self):

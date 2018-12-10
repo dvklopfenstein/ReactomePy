@@ -18,6 +18,7 @@ class EntityFunctionalStatus(DatabaseObject):
 
     relationships = {
         'physicalEntity': set(['PhysicalEntity']),
+        'functionalStatus': set(['FunctionalStatus']),
     }
 
     def __init__(self):

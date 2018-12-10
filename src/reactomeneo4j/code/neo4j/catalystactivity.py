@@ -18,6 +18,8 @@ class CatalystActivity(DatabaseObject):
 
     relationships = {
         'physicalEntity': set(['PhysicalEntity']),
+        'activeUnit': set(['PhysicalEntity']),
+        'activity': set(['GO_MolecularFunction']),
     }
 
     def __init__(self):

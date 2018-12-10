@@ -34,7 +34,12 @@ class Complex(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isChimeric', 'systematicName']
 
     relationships = {
-        'hasComponent': set(['PhysicalEntity']),
+        **PhysicalEntity.relationships, 
+        **{
+            'hasComponent': set(['PhysicalEntity']),
+            'entityOnOtherCell': set(['PhysicalEntity']),
+            'includedLocation': set(['Compartment']),
+        }
     }
 
     def __init__(self):

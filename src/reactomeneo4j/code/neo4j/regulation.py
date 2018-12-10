@@ -1,11 +1,11 @@
 """Reactome PhysicalEntity Neo4j Node.
 
-    - Regulation(dcnt=5)
-  > -- PositiveRegulation(dcnt=2)
-  > --- PositiveGeneExpressionRegulation(dcnt=0)
-  > --- Requirement(dcnt=0)
-  > -- NegativeRegulation(dcnt=1)
-  > --- NegativeGeneExpressionRegulation(dcnt=0)
+    - Regulation (dcnt=5)
+  > -- PositiveRegulation (dcnt=2)
+  > --- PositiveGeneExpressionRegulation (dcnt=0)
+  > --- Requirement (dcnt=0)
+  > -- NegativeRegulation (dcnt=1)
+  > --- NegativeGeneExpressionRegulation (dcnt=0)
 
   5,262 Regulation   1963 PositiveRegulation                   42   1963  0.0214 name
   5,262 Regulation   1963 PositiveRegulation                  373   1963  0.1900 oldStId
@@ -49,6 +49,7 @@ class Regulation(DatabaseObject):
     relationships = {
         'literatureReference': set(['Publication']),
         'regulator': set(['PhysicalEntity']),
+        'summation': set(['Summation']),
     }
 
     def __init__(self, name):

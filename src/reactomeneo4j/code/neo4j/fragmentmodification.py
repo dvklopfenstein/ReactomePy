@@ -31,10 +31,11 @@ class FragmentModification(AbstractModifiedResidue):
     params_req = AbstractModifiedResidue.params_req + [
         'startPositionInReferenceSequence', 'endPositionInReferenceSequence']
 
-    relationships = {
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
-    }
+    # relationships = {
+    #     **AbstractModifiedResidue.relationships, 
+    #     **{
+    #     }
+    # }
 
     def __init__(self, name):
         super(FragmentModification, self).__init__(name)

@@ -21,6 +21,7 @@ class Person(DatabaseObject):
     relationships = {
         'author'         : set(['InstanceEdit']),
         'crossReference' : set(['DatabaseIdentifier']),
+        'affiliation'    : set(['Affiliation']),
     }
 
     def __init__(self):

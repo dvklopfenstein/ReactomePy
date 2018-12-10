@@ -9,6 +9,7 @@ from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 from reactomeneo4j.code.neo4j.candidateset import CandidateSet
 from reactomeneo4j.code.neo4j.definedset import DefinedSet
 from reactomeneo4j.code.neo4j.openset import OpenSet
+from reactomeneo4j.code.neo4j.drug import Drug
 from reactomeneo4j.code.neo4j.genomeencodedentity import GenomeEncodedEntity
 from reactomeneo4j.code.neo4j.entitywithaccessionedsequence import EntityWithAccessionedSequence
 from reactomeneo4j.code.neo4j.complex import Complex
@@ -69,8 +70,8 @@ SCHEMACLASS2CONSTRUCTOR = {
     'CandidateSet': CandidateSet(),
     'DefinedSet': DefinedSet(),
     'OpenSet': OpenSet(),
-    'ChemicalDrug': PhysicalEntity('ChemicalDrug'),  # ChemicalDrug()
-    'ProteinDrug': PhysicalEntity('ProteinDrug'),   # ProteinDrug()
+    'ChemicalDrug': Drug('ChemicalDrug'),  # ChemicalDrug()
+    'ProteinDrug': Drug('ProteinDrug'),   # ProteinDrug()
     'GenomeEncodedEntity': GenomeEncodedEntity(),
     'EntityWithAccessionedSequence': EntityWithAccessionedSequence(),
     'Complex': Complex(),

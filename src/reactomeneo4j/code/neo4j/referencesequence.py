@@ -47,6 +47,13 @@ class ReferenceSequence(ReferenceEntity):
 
     params_opt = ReferenceEntity.params_opt + ['description', 'name', 'geneName']
 
+    relationships = {
+        **ReferenceEntity.relationships, 
+        **{
+            'referenceGene': set(['ReferenceDNASequence']),
+        }
+    }
+
     def __init__(self, name):
         super(ReferenceSequence, self).__init__(name)
 

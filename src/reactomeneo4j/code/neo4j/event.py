@@ -1,14 +1,14 @@
 """Reactome PhysicalEntity Neo4j Node.
 
-    - Event(dcnt=8)
-    -- ReactionLikeEvent(dcnt=5)
-  > --- BlackBoxEvent(dcnt=0)
-  > --- Depolymerisation(dcnt=0)
-  > --- FailedReaction(dcnt=0)
-  > --- Polymerisation(dcnt=0)
-  > --- Reaction(dcnt=0)
-  > -- Pathway(dcnt=1)
-  > --- TopLevelPathway(dcnt=0)
+    - Event (dcnt=8)
+    -- ReactionLikeEvent (dcnt=5)
+  > --- BlackBoxEvent (dcnt=0)
+  > --- Depolymerisation (dcnt=0)
+  > --- FailedReaction (dcnt=0)
+  > --- Polymerisation (dcnt=0)
+  > --- Reaction (dcnt=0)
+  > -- Pathway (dcnt=1)
+  > --- TopLevelPathway (dcnt=0)
 
   113,854 Event      7702 BlackBoxEvent         1703   7702  0.2211 isChimeric
   113,854 Event      7702 BlackBoxEvent           10   7702  0.0013 systematicName
@@ -54,7 +54,17 @@ class Event(DatabaseObject):
 
     relationships = {
         'literatureReference': set(['Publication']),
-        'precedingEvent': set(['Event']),
+        'precedingEvent'     : set(['Event']),
+        'compartment'        : set(['Compartment']),
+        'goBiologicalProcess': set(['GO_BiologicalProcess']),
+        'disease'            : set(['Disease']),
+        'inferredTo'         : set(['Event']),
+        'species'            : set(['Species']),
+        'relatedSpecies'     : set(['Species']),
+        'summation'          : set(['Summation']),
+        'figure'             : set(['Figure']),
+        'evidenceType'       : set(['EvidenceType']),
+        'crossReference'     : set(['DatabaseIdentifier']),
     }
 
     def __init__(self, name):

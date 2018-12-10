@@ -22,11 +22,6 @@ class GO_MolecularFunction(GOTerm):
     # params: dbId schemaClass displayName | accession databaseName definition name url
     params_opt = GOTerm.params_opt + ['ecNumber']
 
-    relationships = {
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
-    }
-
     def __init__(self):
         super(GO_MolecularFunction, self).__init__('GO_MolecularFunction')
 

@@ -32,17 +32,23 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
+from reactomeneo4j.code.neo4j.entityset import EntitySet
 
 
 # pylint: disable=too-few-public-methods
-class OpenSet(PhysicalEntity):
+class OpenSet(EntitySet):
     """Params seen on all EntitySets."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    params_req = PhysicalEntity.params_req + ['referenceType']
+    params_req = EntitySet.params_req + ['referenceType']
     # params: oldStId speciesName isOrdered definition
-    params_opt = PhysicalEntity.params_opt + ['speciesName']
+    params_opt = EntitySet.params_opt + ['speciesName']
+
+    # relationships = {
+    #     **EntitySet.relationships, 
+    #     **{
+    #     }
+    # }
 
     def __init__(self):
         super(OpenSet, self).__init__('OpenSet')

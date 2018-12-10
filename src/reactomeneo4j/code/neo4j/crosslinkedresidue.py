@@ -42,8 +42,10 @@ class CrosslinkedResidue(AbstractModifiedResidue):
     params_opt = AbstractModifiedResidue.params_opt + ['secondCoordinate']
 
     relationships = {
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
+        **AbstractModifiedResidue.relationships, 
+        **{
+            'equivalentTo': set(['InterChainCrosslinkedResidue']),
+        }
     }
 
     def __init__(self, name):

@@ -25,6 +25,12 @@ class GOTerm(DatabaseObject):
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
+        'hasPart': set(['GO_Term']),
+        'componentOf': set(['GO_Term']),
+        'instanceOf': set(['GO_Term']),
+        'regulate': set(['GO_Term']),
+        'negativelyRegulate': set(['GO_Term']),
+        'positivelyRegulate': set(['GO_Term']),
     }
 
     def __init__(self, name):

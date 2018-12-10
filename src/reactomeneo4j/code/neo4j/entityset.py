@@ -43,7 +43,10 @@ class EntitySet(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isOrdered', 'systematicName']
 
     relationships = {
-        'hasMember': set(['PhysicalEntity']),
+        **PhysicalEntity.relationships, 
+        **{
+            'hasMember': set(['PhysicalEntity']),
+        }
     }
 
     def __init__(self, name):
