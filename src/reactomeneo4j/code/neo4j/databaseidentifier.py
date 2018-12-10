@@ -21,6 +21,10 @@ class DatabaseIdentifier(DatabaseObject):
     # params: dbId schemaClass displayName
     params_opt = DatabaseObject.params_opt + ['databaseName', 'identifier', 'url']
 
+    relationships = {
+        'referenceDatabase': set(['ReferenceDatabase']),
+    }
+
     def __init__(self):
         super(DatabaseIdentifier, self).__init__('DatabaseIdentifier')
 

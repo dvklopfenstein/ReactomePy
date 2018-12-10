@@ -74,6 +74,10 @@ class ReferenceEntity(DatabaseObject):
 
     params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'url']
 
+    relationships = {
+        'referenceDatabase': set(['ReferenceDatabase']),
+    }
+
     def __init__(self, name):
         super(ReferenceEntity, self).__init__(name)
 

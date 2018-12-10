@@ -17,11 +17,12 @@ from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 class ExternalOntology(DatabaseObject):
     """Params seen on all Physical Entities."""
 
-    # params: dbId schemaClass displayName 
+    # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'name', 'url']
     params_opt = DatabaseObject.params_opt + ['definition', 'synonym']
 
     relationships = {
+        'referenceDatabase': set(['ReferenceDatabase']),
         # 'literatureReference': set(['Publication']),
         # 'precedingEvent': set(['Event']),
     }

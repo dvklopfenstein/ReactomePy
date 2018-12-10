@@ -6,7 +6,7 @@
   > -- GO_BiologicalProcess (dcnt=0)
   > -- GO_MolecularFunction (dcnt=0)
 
-    5,532 GO_Term  2038 GO_MolecularFunction  1232   2038  0.6045 ecNumber             
+    5,532 GO_Term  2038 GO_MolecularFunction  1232   2038  0.6045 ecNumber
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -19,13 +19,12 @@ from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 class GOTerm(DatabaseObject):
     """Params seen on all Physical Entities."""
 
-    # params: dbId schemaClass displayName 
+    # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + [
         'accession', 'databaseName', 'definition', 'name', 'url']
 
     relationships = {
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
+        'referenceDatabase': set(['ReferenceDatabase']),
     }
 
     def __init__(self, name):

@@ -3,10 +3,10 @@
   - Interaction (dcnt=1)
 > -- UndirectedInteraction (dcnt=0)
 
-   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 accession            
-   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 databaseName         
-   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 score                
-   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 url                  
+   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 accession
+   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 databaseName
+   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 score
+   35,113 Interaction  35113 UndirectedInteraction  35113  35113  1.0000 url
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -21,6 +21,10 @@ class UndirectedInteraction(DatabaseObject):
 
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['databaseName', 'accession', 'url', 'score']
+
+    relationships = {
+        'referenceDatabase': set(['ReferenceDatabase']),
+    }
 
     def __init__(self):
         super(UndirectedInteraction, self).__init__('UndirectedInteraction')
