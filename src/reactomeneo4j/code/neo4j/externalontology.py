@@ -23,8 +23,6 @@ class ExternalOntology(DatabaseObject):
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
-        # 'literatureReference': set(['Publication']),
-        # 'precedingEvent': set(['Event']),
     }
 
     def __init__(self, name):

@@ -3,6 +3,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import OrderedDict
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 from reactomeneo4j.code.neo4j.instanceedit import InstanceEdit
 from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
@@ -53,8 +54,8 @@ from reactomeneo4j.code.neo4j.affiliation import Affiliation
 from reactomeneo4j.code.neo4j.figure import Figure
 from reactomeneo4j.code.neo4j.functionalstatustype import FunctionalStatusType
 
-SCHEMACLASS2CONSTRUCTOR = {
-    'InstanceEdit': InstanceEdit(),
+SCHEMACLASS2CONSTRUCTOR = OrderedDict([
+    ('InstanceEdit', InstanceEdit()),
 
     #   - PhysicalEntity(dcnt=13)
     #   -- EntitySet(dcnt=3)
@@ -70,17 +71,17 @@ SCHEMACLASS2CONSTRUCTOR = {
     # > -- OtherEntity(dcnt=0)
     # > -- Polymer(dcnt=0)
     # > -- SimpleEntity(dcnt=0)
-    'CandidateSet': CandidateSet(),
-    'DefinedSet': DefinedSet(),
-    'OpenSet': OpenSet(),
-    'ChemicalDrug': Drug('ChemicalDrug'),  # ChemicalDrug()
-    'ProteinDrug': Drug('ProteinDrug'),   # ProteinDrug()
-    'GenomeEncodedEntity': GenomeEncodedEntity(),
-    'EntityWithAccessionedSequence': EntityWithAccessionedSequence(),
-    'Complex': Complex(),
-    'OtherEntity': OtherEntity(),
-    'Polymer': Polymer(),
-    'SimpleEntity': SimpleEntity(),
+    ('CandidateSet', CandidateSet()),
+    ('DefinedSet', DefinedSet()),
+    ('OpenSet', OpenSet()),
+    ('ChemicalDrug', Drug('ChemicalDrug')),  # ChemicalDrug()
+    ('ProteinDrug', Drug('ProteinDrug')),   # ProteinDrug()
+    ('GenomeEncodedEntity', GenomeEncodedEntity()),
+    ('EntityWithAccessionedSequence', EntityWithAccessionedSequence()),
+    ('Complex', Complex()),
+    ('OtherEntity', OtherEntity()),
+    ('Polymer', Polymer()),
+    ('SimpleEntity', SimpleEntity()),
 
     #   - Event (dcnt=8)
     #   -- ReactionLikeEvent (dcnt=5)
@@ -91,13 +92,13 @@ SCHEMACLASS2CONSTRUCTOR = {
     # > --- Reaction (dcnt=0)
     # > -- Pathway (dcnt=1)
     # > --- TopLevelPathway (dcnt=0)
-    'BlackBoxEvent': ReactionLikeEvent('BlackBoxEvent'),        # BlackBoxEvent
-    'Depolymerisation': ReactionLikeEvent('Depolymerisation'),  # Depolymerisation
-    'FailedReaction': ReactionLikeEvent('FailedReaction'),      # FailedReaction
-    'Polymerisation': ReactionLikeEvent('Polymerisation'),      # Polymerisation
-    'Reaction': Reaction(),                   # Reaction
-    'Pathway': Pathway(),                     # Pathway
-    'TopLevelPathway': TopLevelPathway(),     # TopLevelPathway
+    ('BlackBoxEvent', ReactionLikeEvent('BlackBoxEvent')),        # BlackBoxEvent
+    ('Depolymerisation', ReactionLikeEvent('Depolymerisation')),  # Depolymerisation
+    ('FailedReaction', ReactionLikeEvent('FailedReaction')),      # FailedReaction
+    ('Polymerisation', ReactionLikeEvent('Polymerisation')),      # Polymerisation
+    ('Reaction', Reaction()),                   # Reaction
+    ('Pathway', Pathway()),                     # Pathway
+    ('TopLevelPathway', TopLevelPathway()),     # TopLevelPathway
 
     #   - Regulation (dcnt=5)
     # > -- PositiveRegulation (dcnt=2)
@@ -105,11 +106,11 @@ SCHEMACLASS2CONSTRUCTOR = {
     # > --- Requirement (dcnt=0)
     # > -- NegativeRegulation (dcnt=1)
     # > --- NegativeGeneExpressionRegulation (dcnt=0)
-    'PositiveRegulation'              : Regulation('PositiveRegulation'),
-    'PositiveGeneExpressionRegulation': Regulation('PositiveGeneExpressionRegulation'),
-    'Requirement'                     : Regulation('Requirement'),
-    'NegativeRegulation'              : Regulation('NegativeRegulation'),
-    'NegativeGeneExpressionRegulation': Regulation('NegativeGeneExpressionRegulation'),
+    ('PositiveRegulation'              , Regulation('PositiveRegulation')),
+    ('PositiveGeneExpressionRegulation', Regulation('PositiveGeneExpressionRegulation')),
+    ('Requirement'                     , Regulation('Requirement')),
+    ('NegativeRegulation'              , Regulation('NegativeRegulation')),
+    ('NegativeGeneExpressionRegulation', Regulation('NegativeGeneExpressionRegulation')),
 
     #   - AbstractModifiedResidue (dcnt=12)
     #   -- GeneticallyModifiedResidue (dcnt=5)
@@ -124,18 +125,18 @@ SCHEMACLASS2CONSTRUCTOR = {
     # > ---- IntraChainCrosslinkedResidue (dcnt=0)
     # > --- GroupModifiedResidue (dcnt=0)
     # > --- ModifiedResidue (dcnt=0)
-    'FragmentDeletionModification' : FragmentModification('FragmentDeletionModification'),
-    'FragmentInsertionModification' : FragmentModification('FragmentInsertionModification'),
-    'FragmentReplacedModification' : FragmentReplacedModification(),
-    'ReplacedResidue' : AbstractModifiedResidue('ReplacedResidue'),
-    'InterChainCrosslinkedResidue' : CrosslinkedResidue('InterChainCrosslinkedResidue'),
-    'IntraChainCrosslinkedResidue' : CrosslinkedResidue('IntraChainCrosslinkedResidue'),
-    'GroupModifiedResidue' : AbstractModifiedResidue('GroupModifiedResidue'),
-    'ModifiedResidue' : AbstractModifiedResidue('ModifiedResidue'),
+    ('FragmentDeletionModification' , FragmentModification('FragmentDeletionModification')),
+    ('FragmentInsertionModification' , FragmentModification('FragmentInsertionModification')),
+    ('FragmentReplacedModification' , FragmentReplacedModification()),
+    ('ReplacedResidue' , AbstractModifiedResidue('ReplacedResidue')),
+    ('InterChainCrosslinkedResidue' , CrosslinkedResidue('InterChainCrosslinkedResidue')),
+    ('IntraChainCrosslinkedResidue' , CrosslinkedResidue('IntraChainCrosslinkedResidue')),
+    ('GroupModifiedResidue' , AbstractModifiedResidue('GroupModifiedResidue')),
+    ('ModifiedResidue' , AbstractModifiedResidue('ModifiedResidue')),
 
     #   - Interaction (dcnt=1)
     # > -- UndirectedInteraction (dcnt=0)
-    'UndirectedInteraction': UndirectedInteraction(),
+    ('UndirectedInteraction', UndirectedInteraction()),
 
     #   - ReferenceEntity (dcnt=8)
     #   -- ReferenceSequence (dcnt=4)
@@ -146,89 +147,89 @@ SCHEMACLASS2CONSTRUCTOR = {
     # > -- ReferenceGroup (dcnt=0)
     # > -- ReferenceMolecule (dcnt=0)
     # > -- ReferenceTherapeutic (dcnt=0)
-    'ReferenceGeneProduct' : ReferenceGeneProduct(),
-    'ReferenceIsoform' : ReferenceIsoform(),
-    'ReferenceDNASequence' : ReferenceDNASequence(),
-    'ReferenceRNASequence' : ReferenceSequence('ReferenceRNASequence'),
-    'ReferenceGroup' : ReferenceGroup(),
-    'ReferenceMolecule' : ReferenceMolecule(),
-    'ReferenceTherapeutic' : ReferenceTherapeutic(),
+    ('ReferenceGeneProduct' , ReferenceGeneProduct()),
+    ('ReferenceIsoform' , ReferenceIsoform()),
+    ('ReferenceDNASequence' , ReferenceDNASequence()),
+    ('ReferenceRNASequence' , ReferenceSequence('ReferenceRNASequence')),
+    ('ReferenceGroup' , ReferenceGroup()),
+    ('ReferenceMolecule' , ReferenceMolecule()),
+    ('ReferenceTherapeutic' , ReferenceTherapeutic()),
 
     #   - Publication (dcnt=3)
     # > -- LiteratureReference (dcnt=0)
     # > -- Book (dcnt=0)
     # > -- URL  (dcnt=0)
-    'LiteratureReference': LiteratureReference(),
-    'Book': Book(),
-    'URL': URL(),
+    ('LiteratureReference', LiteratureReference()),
+    ('Book', Book()),
+    ('URL', URL()),
 
     #   - GO_Term (dcnt=4)
     # > -- GO_CellularComponent (dcnt=1)
     # > --- Compartment (dcnt=0)
     # > -- GO_BiologicalProcess (dcnt=0)
     # > -- GO_MolecularFunction (dcnt=0)
-    'GO_CellularComponent' : GOTerm('GO_CellularComponent'),
-    'Compartment' : GOTerm('Compartment'),
-    'GO_BiologicalProcess' : GOTerm('GO_BiologicalProcess'),
-    'GO_MolecularFunction' : GO_MolecularFunction(),
+    ('GO_CellularComponent' , GOTerm('GO_CellularComponent')),
+    ('Compartment' , GOTerm('Compartment')),
+    ('GO_BiologicalProcess' , GOTerm('GO_BiologicalProcess')),
+    ('GO_MolecularFunction' , GO_MolecularFunction()),
 
     #   - ExternalOntology (dcnt=3)
     # > -- Disease (dcnt=0)
     # > -- PsiMod (dcnt=0)
     # > -- SequenceOntology (dcnt=0)
-    'Disease' : ExternalOntology('Disease'),
-    'PsiMod' : ExternalOntology('PsiMod'),
-    'SequenceOntology' : ExternalOntology('SequenceOntology'),
+    ('Disease' , ExternalOntology('Disease')),
+    ('PsiMod' , ExternalOntology('PsiMod')),
+    ('SequenceOntology' , ExternalOntology('SequenceOntology')),
 
     #   - DatabaseObject (dcnt=80)
     # > -- CatalystActivity (dcnt=0)
-    'CatalystActivity': CatalystActivity(),
+    ('CatalystActivity', CatalystActivity()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- EntityFunctionalStatus (dcnt=0)
-    'EntityFunctionalStatus': EntityFunctionalStatus(),
+    ('EntityFunctionalStatus', EntityFunctionalStatus()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- ReferenceDatabase (dcnt=0)
-    'ReferenceDatabase': ReferenceDatabase(),
+    ('ReferenceDatabase', ReferenceDatabase()),
 
     # > - Taxon (dcnt=1)
     # > -- Species (dcnt=0)
-    'Taxon': Taxon(),
-    'Species': Species(),
+    ('Taxon', Taxon()),
+    ('Species', Species()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- DatabaseIdentifier (dcnt=0)
-    'DatabaseIdentifier': DatabaseIdentifier(),
+    ('DatabaseIdentifier', DatabaseIdentifier()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- Person (dcnt=0)
-    'Person': Person(),
+    ('Person', Person()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- Summation (dcnt=0)
-    'Summation': Summation(),
+    ('Summation', Summation()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- FunctionalStatus (dcnt=0)
-    'FunctionalStatus': FunctionalStatus(),
+    ('FunctionalStatus', FunctionalStatus()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- Affiliation (dcnt=0)
-    'Affiliation': Affiliation(),
+    ('Affiliation', Affiliation()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- Figure (dcnt=0)
-    'Figure': Figure(),
+    ('Figure', Figure()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- FunctionalStatusType (dcnt=0)
-    'FunctionalStatusType': FunctionalStatusType(),
+    ('FunctionalStatusType', FunctionalStatusType()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- EvidenceType (dcnt=0)
-    'EvidenceType': DatabaseObject('EvidenceType'),
-}
+    ('EvidenceType', DatabaseObject('EvidenceType')),
+])
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
