@@ -1,5 +1,7 @@
 """Lists parameters seen on all ReferenceMolecule..
 
+Hier: ReferenceEntity:ReferenceMolecule
+
   - ReferenceEntity (dcnt=8)
   -- ReferenceSequence (dcnt=4)
 > --- ReferenceGeneProduct (dcnt=1)

@@ -1,19 +1,25 @@
-"""Reactome PhysicalEntity Neo4j Node.
+"""Reactome GenomeEncodedEntity Neo4j Node.
+   Def GenomeEncodedEntity: A species-specific protein or nucleic acid whose sequence is unknown,
+   Def GenomeEncodedEntity: such as an enzyme that has been characterized functionally
+   Def GenomeEncodedEntity: but not yet purified and sequenced.
+   Def GenomeEncodedEntity:   Example: cytosolic 15-HEDH enzyme
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+   Hier: PhysicalEntity:GenomeEncodedEntity
+
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 PhysicalEntity    6094 GenomeEncodedEntity                 3   6094 0.0005 definition
   574,228 PhysicalEntity    6094 GenomeEncodedEntity              6094   6094 1.0000 speciesName
@@ -33,7 +39,7 @@ from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 
 # pylint: disable=too-few-public-methods
 class GenomeEncodedEntity(PhysicalEntity):
-    """Params seen on all Physical Entities."""
+    """Reactome GenomeEncodedEntity Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_req = PhysicalEntity.params_req + ['speciesName']

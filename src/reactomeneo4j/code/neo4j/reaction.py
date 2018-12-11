@@ -1,5 +1,7 @@
 """Reactome ReactionLikeEvent Neo4j Node.
 
+Hier: Event:ReactionLikeEvent:Reaction
+
     - Event (dcnt=8)
     -- ReactionLikeEvent (dcnt=5)
   > --- BlackBoxEvent (dcnt=0)

@@ -1,5 +1,7 @@
 """Lists parameters seen on all ReferenceGeneProduct
 
+Hier: ReferenceEntity:ReferenceSequence:ReferenceGeneProduct:ReferenceIsoform
+
   - ReferenceEntity (dcnt=8)
   -- ReferenceSequence (dcnt=4)
 > --- ReferenceGeneProduct (dcnt=1)

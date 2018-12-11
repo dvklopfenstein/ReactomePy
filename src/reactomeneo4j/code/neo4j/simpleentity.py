@@ -1,19 +1,23 @@
 """Reactome SimpleEntity Neo4j Node.
+   Def SimpleEntity: Other fully characterized molecules
+   Def SimpleEntity:   Example: 'nucleoplasmic ATP' or 'cytosolic glutathione'
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+   Hier: PhysicalEntity:SimpleEntity
+
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 SimpleEntity   3362 SimpleEntity       8   3362  0.0024 definition
   574,228 SimpleEntity   3362 SimpleEntity    3362   3362  1.0000 referenceType
@@ -27,7 +31,7 @@ from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 
 # pylint: disable=too-few-public-methods
 class SimpleEntity(PhysicalEntity):
-    """Params seen on all Physical Entities."""
+    """Reactome SimpleEntity Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_req = PhysicalEntity.params_req + ['referenceType']

@@ -1,19 +1,22 @@
-"""Reactome PhysicalEntity Neo4j Node.
+"""Reactome Complex Neo4j Node.
+   Def Complex: A complex of two of more PhysicalEntities
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+   Hier: PhysicalEntity:Complex
+
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 PhysicalEntity  103000 Complex      9654 103000  0.0937 isChimeric
   574,228 PhysicalEntity  103000 Complex    102974 103000  0.9997 speciesName
@@ -28,7 +31,7 @@ from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 
 # pylint: disable=too-few-public-methods
 class Complex(PhysicalEntity):
-    """Params seen on all Complexes."""
+    """Reactome Complex Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isChimeric', 'systematicName']

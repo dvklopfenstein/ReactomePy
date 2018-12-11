@@ -1,7 +1,9 @@
 """Reactome CatalystActivity Neo4j Node.
 
-  - DatabaseObject(dcnt=80)
-> -- CatalystActivity(dcnt=0)
+Hier: CatalystActivity
+
+  - DatabaseObject (dcnt=80)
+> -- CatalystActivity (dcnt=0)
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."

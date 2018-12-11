@@ -1,14 +1,16 @@
 """Reactome ReactionLikeEvent Neo4j Node.
 
-    - Event(dcnt=8)
-    -- ReactionLikeEvent(dcnt=5)
-  > --- BlackBoxEvent(dcnt=0)
-  > --- Depolymerisation(dcnt=0)
-  > --- FailedReaction(dcnt=0)
-  > --- Polymerisation(dcnt=0)
-  > --- Reaction(dcnt=0)
-  > -- Pathway(dcnt=1)
-  > --- TopLevelPathway(dcnt=0)
+Hier: Event:ReactionLikeEvent(5)
+
+    - Event (dcnt=8)
+    -- ReactionLikeEvent (dcnt=5)
+  > --- BlackBoxEvent (dcnt=0)
+  > --- Depolymerisation (dcnt=0)
+  > --- FailedReaction (dcnt=0)
+  > --- Polymerisation (dcnt=0)
+  > --- Reaction (dcnt=0)
+  > -- Pathway (dcnt=1)
+  > --- TopLevelPathway (dcnt=0)
 
   113,854 Event     82024 Reaction                 1  82024  0.0000 definition
 """

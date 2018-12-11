@@ -1,4 +1,5 @@
-"""Reactome PhysicalEntity Neo4j Node.
+"""Reactome EntityWithAccessionedSequence Neo4j Node.
+   Def EntityWithAccessionedSequence: Proteins and nucleic acids with known sequences.
 
     - PhysicalEntity(dcnt=13)
     -- EntitySet(dcnt=3)
@@ -33,7 +34,7 @@ from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 
 # pylint: disable=too-few-public-methods
 class EntityWithAccessionedSequence(PhysicalEntity):
-    """Params seen on all Physical Entities."""
+    """Reactome EntityWithAccessionedSequence Neo4j Node."""
 
     # dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name | speciesName
     params_req = PhysicalEntity.params_req + ['referenceType', 'speciesName']

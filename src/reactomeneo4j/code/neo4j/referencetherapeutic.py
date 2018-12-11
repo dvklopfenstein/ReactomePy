@@ -1,5 +1,7 @@
 """Lists parameters seen on all ReferenceTherapeutic..
 
+Hier: ReferenceEntity:ReferenceTherapeutic
+
   - ReferenceEntity (dcnt=8)
   -- ReferenceSequence (dcnt=4)
 > --- ReferenceGeneProduct (dcnt=1)
