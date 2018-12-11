@@ -55,7 +55,7 @@ class Event(DatabaseObject):
     params_opt = ['oldStId', 'releaseStatus']
     datefmt = '%Y-%m-%d'
 
-    fmtpat = '{stId:7} {schemaClass:17} {releaseDate} {aart} {abc} {displayName}'
+    fmtpat = '{stId:13} {schemaClass:17} {aart} {abc} {releaseDate} {displayName}'
 
     relationships = {
         'literatureReference': set(['Publication']),
@@ -76,16 +76,20 @@ class Event(DatabaseObject):
         super(Event, self).__init__(name)
         self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
 
-    def get_nt(self, node):
-        """Given a Neo4j Node, return a namedtuple containing parameters."""
-        k2v = self.get_dict(node)
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = DatabaseObject.get_dict(self, node)
         k2v['releaseDate'] = datetime.strptime(k2v['releaseDate'], self.datefmt).date()
         k2v['aart'] = ''.join([
             'D' if k2v['isInDisease'] else '.',
             'I' if k2v['isInferred'] else '.'])
         species = k2v['speciesName']
         k2v['abc'] = self.species2nt[species].abbreviation if species in self.species2nt else '...'
-        return self.ntobj(**k2v)
+        return k2v
+
+    def get_nt(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        return self.ntobj(**self.get_dict(node))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

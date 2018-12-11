@@ -26,6 +26,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
 
 
@@ -36,8 +37,10 @@ class Complex(PhysicalEntity):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isChimeric', 'systematicName']
 
+    fmtpat = '{stId:13} {schemaClass:17} {aart} {abc} {displayName}'
+
     relationships = {
-        **PhysicalEntity.relationships, 
+        **PhysicalEntity.relationships,
         **{
             'hasComponent': set(['PhysicalEntity']),
             'entityOnOtherCell': set(['PhysicalEntity']),
@@ -47,6 +50,27 @@ class Complex(PhysicalEntity):
 
     def __init__(self):
         super(Complex, self).__init__('Complex')
+        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
+
+    def get_nt(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        k2v = self.get_dict(node)
+        _opt = k2v['optional']
+        k2v['aart'] = k2v['aart'] + self._get_ischimeric(_opt)
+        k2v['abc'] = self._get_abc(_opt)
+        return self.ntobj(**k2v)
+
+    @staticmethod
+    def _get_ischimeric(k2vopt):
+        if 'isChimeric' not in k2vopt:
+            return '.'
+        return 'C' if k2vopt['isChimeric'] else 'n'
+
+    def _get_abc(self, k2vopt):
+        if 'speciesName' in k2vopt:
+            species = k2vopt['speciesName']
+            return self.species2nt[species].abbreviation if species in self.species2nt else 'nnn'
+        return '...'
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

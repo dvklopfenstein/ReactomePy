@@ -54,6 +54,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 
 
@@ -61,9 +62,11 @@ from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 class PhysicalEntity(DatabaseObject):
     """Params seen on all Physical Entities."""
 
-    # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
+    # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['stId', 'stIdVersion', 'isInDisease', 'name']
     params_opt = ['oldStId']
+
+    fmtpat = '{stId:7} {schemaClass:17} {aart} {displayName}'
 
     relationships = {
         'literatureReference': set(['Publication']),
@@ -79,8 +82,19 @@ class PhysicalEntity(DatabaseObject):
         'figure'             : set(['Figure']),
     }
 
+
     def __init__(self, name):
         super(PhysicalEntity, self).__init__(name)
+        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart optional')
+
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        k2v = DatabaseObject.get_dict(self, node)
+        k2v['aart'] = 'D' if k2v['isInDisease'] else '.'
+        return k2v
+
+    def get_nt(self, node):
+        return self.ntobj(**self.get_dict(node))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
