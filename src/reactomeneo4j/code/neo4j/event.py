@@ -40,6 +40,8 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from datetime import datetime
+from collections import namedtuple
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 
 
@@ -51,6 +53,9 @@ class Event(DatabaseObject):
     params_req = DatabaseObject.params_req + \
         ['stId', 'stIdVersion', 'name', 'isInDisease', 'isInferred', 'releaseDate', 'speciesName']
     params_opt = ['oldStId', 'releaseStatus']
+    datefmt = '%Y-%m-%d'
+
+    fmtpat = '{stId:7} {schemaClass:17} {releaseDate} {aart} {abc} {displayName}'
 
     relationships = {
         'literatureReference': set(['Publication']),
@@ -69,6 +74,18 @@ class Event(DatabaseObject):
 
     def __init__(self, name):
         super(Event, self).__init__(name)
+        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
+
+    def get_nt(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        k2v = self.get_dict(node)
+        k2v['releaseDate'] = datetime.strptime(k2v['releaseDate'], self.datefmt).date()
+        k2v['aart'] = ''.join([
+            'D' if k2v['isInDisease'] else '.',
+            'I' if k2v['isInferred'] else '.'])
+        species = k2v['speciesName']
+        k2v['abc'] = self.species2nt[species].abbreviation if species in self.species2nt else '...'
+        return self.ntobj(**k2v)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

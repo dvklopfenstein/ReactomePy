@@ -15,7 +15,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-import datetime
+from datetime import datetime
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 
 
@@ -42,9 +42,8 @@ class InstanceEdit(DatabaseObject):
 
     def get_nt(self, node):
         """Query Reactome database for all edit dates."""
-        k2v = {p:node[p] for p in self.params_req}
-        k2v['dateTime'] = datetime.datetime.strptime(k2v['dateTime'].split('.')[0], self.timefmt)
-        k2v['optional'] = {o:node[o] for o in self.params_opt if o in node}
+        k2v = self.get_dict()
+        k2v['dateTime'] = datetime.strptime(k2v['dateTime'].split('.')[0], self.timefmt)
         return self.ntobj(**k2v)
 
 

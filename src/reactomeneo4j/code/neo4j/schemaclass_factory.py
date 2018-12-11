@@ -224,10 +224,15 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
 
     #   - DatabaseObject (dcnt=80)
     # > -- FunctionalStatusType (dcnt=0)
+    #         2018/12: "loss_of_function"
+    #         2018/12: "gain_of_function"
+    #         2018/12: "decreased_transcript_level"
+    #         2018/12: "partial_loss_of_function"
     ('FunctionalStatusType', FunctionalStatusType()),
 
     #   - DatabaseObject (dcnt=80)
     # > -- EvidenceType (dcnt=0)
+    #       2018/12: "inferred by electronic annotation"
     ('EvidenceType', DatabaseObject('EvidenceType')),
 ])
 
