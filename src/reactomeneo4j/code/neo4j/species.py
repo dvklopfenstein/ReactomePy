@@ -24,6 +24,7 @@ class Species(Taxon):
     # req: dbId schemaClass displayName 
     # opt: taxId name
     params_opt = Taxon.params_opt + ['abbreviation']
+    fmtpat = '{schemaClass}: {displayName}'
 
     def __init__(self):
         super(Species, self).__init__('Species')

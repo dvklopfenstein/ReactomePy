@@ -20,6 +20,7 @@ class ExternalOntology(DatabaseObject):
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'name', 'url']
     params_opt = DatabaseObject.params_opt + ['definition', 'synonym']
+    fmtpat = '{schemaClass}: {displayName}'
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),

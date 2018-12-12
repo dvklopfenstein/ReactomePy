@@ -32,6 +32,7 @@ class LiteratureReference(Publication):
     # params: dbId schemaClass displayName | title 
     params_req = Publication.params_req + ['journal', 'year']
     params_opt = Publication.params_opt + ['pubMedIdentifier', 'volume', 'pages']
+    fmtpat = '{schemaClass}: {year} ({journal}) {displayName}'
 
     def __init__(self):
         super(LiteratureReference, self).__init__('LiteratureReference')

@@ -66,7 +66,7 @@ class PhysicalEntity(DatabaseObject):
     params_req = DatabaseObject.params_req + ['stId', 'stIdVersion', 'isInDisease', 'name']
     params_opt = ['oldStId']
 
-    fmtpat = '{stId:7} {schemaClass:17} {aart} {displayName}'
+    fmtpat = '{stId:13} {schemaClass:17} {aart} {displayName}'
 
     relationships = {
         'literatureReference': set(['Publication']),

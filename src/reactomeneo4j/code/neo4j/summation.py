@@ -16,6 +16,7 @@ class Summation(DatabaseObject):
 
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['text']
+    fmtpat = '{schemaClass}: {text}'
 
     relationships = {
         'literatureReference': set(['Publication']),

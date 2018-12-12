@@ -15,7 +15,7 @@ class Figure(DatabaseObject):
     """Figure."""
 
     # params: dbId schemaClass displayName
-    params_req = ['url']
+    params_req = DatabaseObject.params_req + ['url']
 
     def __init__(self):
         super(Figure, self).__init__('Figure')

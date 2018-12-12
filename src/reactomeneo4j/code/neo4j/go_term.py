@@ -12,6 +12,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 
 
@@ -19,9 +20,18 @@ from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 class GOTerm(DatabaseObject):
     """Params seen on all Physical Entities."""
 
+    sch2ns = {
+         'GO_CellularComponent': 'CC',
+         'Compartment': 'CC',
+         'GO_BiologicalProcess': 'BP',
+         'GO_MolecularFunction': 'MF'
+    }
+
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + [
         'accession', 'databaseName', 'definition', 'name', 'url']
+
+    fmtpat = '{NS} {databaseName}:{accession} {name} -> {definition}'
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
@@ -35,6 +45,17 @@ class GOTerm(DatabaseObject):
 
     def __init__(self, name):
         super(GOTerm, self).__init__(name)
+        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req + [' NS optional']))
+
+    def get_dict(self, node):
+        """Return a Python dict containing all Neo4j Node parameters."""
+        k2v = DatabaseObject.get_dict(self, node)
+        k2v['NS'] = self.sch2ns[k2v['schemaClass']]
+        return k2v
+
+    def get_nt(self, node):
+        """Return a Python namedtuple containing all Neo4j Node parameters."""
+        return self.ntobj(**self.get_dict(node))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
