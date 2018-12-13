@@ -82,7 +82,7 @@ class ReferenceEntity(DatabaseObject):
         'species'          : set(['Taxon']),
     }
 
-    def __init__(self, name):
+    def __init__(self, name='ReferenceEntity'):
         super(ReferenceEntity, self).__init__(name)
 
 

@@ -1,5 +1,5 @@
 """Reactome EntityWithAccessionedSequence Neo4j Node.
-   Def EntityWithAccessionedSequence: Proteins and nucleic acids with known sequences.
+   Defn EntityWithAccessionedSequence: Proteins and nucleic acids with known sequences.
 
     - PhysicalEntity(dcnt=13)
     -- EntitySet(dcnt=3)
@@ -42,7 +42,7 @@ class EntityWithAccessionedSequence(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['startCoordinate', 'endCoordinate', 'definition']
 
     relationships = {
-        **PhysicalEntity.relationships, 
+        **PhysicalEntity.relationships,
         **{
             'hasModifiedResidue': set(['AbstractModifiedResidue']),
         }

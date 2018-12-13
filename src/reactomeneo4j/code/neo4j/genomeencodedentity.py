@@ -1,8 +1,8 @@
 """Reactome GenomeEncodedEntity Neo4j Node.
-   Def GenomeEncodedEntity: A species-specific protein or nucleic acid whose sequence is unknown,
-   Def GenomeEncodedEntity: such as an enzyme that has been characterized functionally
-   Def GenomeEncodedEntity: but not yet purified and sequenced.
-   Def GenomeEncodedEntity:   Example: cytosolic 15-HEDH enzyme
+   Defn GenomeEncodedEntity: A species-specific protein or nucleic acid whose sequence is unknown,
+   Defn GenomeEncodedEntity: such as an enzyme that has been characterized functionally
+   Defn GenomeEncodedEntity: but not yet purified and sequenced.
+   Defn GenomeEncodedEntity:   Example: cytosolic 15-HEDH enzyme
 
    Hier: PhysicalEntity:GenomeEncodedEntity
 

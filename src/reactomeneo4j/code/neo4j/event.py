@@ -72,7 +72,7 @@ class Event(DatabaseObject):
         'crossReference'     : set(['DatabaseIdentifier']),
     }
 
-    def __init__(self, name):
+    def __init__(self, name='Event'):
         super(Event, self).__init__(name)
         self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
 

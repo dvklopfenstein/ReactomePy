@@ -1,4 +1,7 @@
 """Reactome Pathway Neo4j Node.
+Defn Pathway: grouping of related Events
+
+Hier: Event:Pathway
 
     - Event (dcnt=8)
     -- ReactionLikeEvent (dcnt=5)
@@ -39,7 +42,7 @@ class Pathway(Event):
     params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
 
     relationships = {
-        **Event.relationships, 
+        **Event.relationships,
         **{
             'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
             'hasEncapsulatedEvent': set(['Pathway']),

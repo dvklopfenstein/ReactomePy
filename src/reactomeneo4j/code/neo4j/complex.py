@@ -1,5 +1,5 @@
 """Reactome Complex Neo4j Node.
-   Def Complex: A complex of two of more PhysicalEntities
+   Defn Complex: A complex of two of more PhysicalEntities
 
    Hier: PhysicalEntity:Complex
 

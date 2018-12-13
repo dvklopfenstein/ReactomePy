@@ -1,19 +1,19 @@
 """Reactome PhysicalEntity Neo4j Node.
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 PhysicalEntity  87271 DefinedSet         74  87271  0.0008 isOrdered
   574,228 PhysicalEntity  87271 DefinedSet      86795  87271  0.9945 speciesName
@@ -43,13 +43,13 @@ class EntitySet(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isOrdered', 'systematicName']
 
     relationships = {
-        **PhysicalEntity.relationships, 
+        **PhysicalEntity.relationships,
         **{
             'hasMember': set(['PhysicalEntity']),
         }
     }
 
-    def __init__(self, name):
+    def __init__(self, name='EntitySet'):
         super(EntitySet, self).__init__(name)
 
 

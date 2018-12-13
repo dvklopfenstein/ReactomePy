@@ -7,6 +7,7 @@ from collections import OrderedDict
 from reactomeneo4j.code.neo4j.databaseobject import DatabaseObject
 from reactomeneo4j.code.neo4j.instanceedit import InstanceEdit
 from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
+from reactomeneo4j.code.neo4j.entityset import EntitySet
 from reactomeneo4j.code.neo4j.candidateset import CandidateSet
 from reactomeneo4j.code.neo4j.definedset import DefinedSet
 from reactomeneo4j.code.neo4j.openset import OpenSet
@@ -17,11 +18,13 @@ from reactomeneo4j.code.neo4j.complex import Complex
 from reactomeneo4j.code.neo4j.otherentity import OtherEntity
 from reactomeneo4j.code.neo4j.polymer import Polymer
 from reactomeneo4j.code.neo4j.simpleentity import SimpleEntity
+from reactomeneo4j.code.neo4j.event import Event
 from reactomeneo4j.code.neo4j.reactionlikeevent import ReactionLikeEvent
 from reactomeneo4j.code.neo4j.reaction import Reaction
 from reactomeneo4j.code.neo4j.pathway import Pathway
 from reactomeneo4j.code.neo4j.toplevelpathway import TopLevelPathway
 from reactomeneo4j.code.neo4j.regulation import Regulation
+from reactomeneo4j.code.neo4j.referenceentity import ReferenceEntity
 from reactomeneo4j.code.neo4j.referencesequence import ReferenceSequence
 from reactomeneo4j.code.neo4j.referencegeneproduct import ReferenceGeneProduct
 from reactomeneo4j.code.neo4j.referenceisoform import ReferenceIsoform
@@ -54,23 +57,26 @@ from reactomeneo4j.code.neo4j.affiliation import Affiliation
 from reactomeneo4j.code.neo4j.figure import Figure
 from reactomeneo4j.code.neo4j.functionalstatustype import FunctionalStatusType
 
+# pylint: disable=bad-whitespace
 SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     ('InstanceEdit', InstanceEdit()),
 
-    #   - PhysicalEntity(dcnt=13)
-    #   -- EntitySet(dcnt=3)
-    # > --- CandidateSet(dcnt=0)
-    # > --- DefinedSet(dcnt=0)
-    # > --- OpenSet(dcnt=0)
-    #   -- Drug(dcnt=2)
-    # > --- ChemicalDrug(dcnt=0)
-    # > --- ProteinDrug(dcnt=0)
-    # > -- GenomeEncodedEntity(dcnt=1)
-    # > --- EntityWithAccessionedSequence(dcnt=0)
-    # > -- Complex(dcnt=0)
-    # > -- OtherEntity(dcnt=0)
-    # > -- Polymer(dcnt=0)
-    # > -- SimpleEntity(dcnt=0)
+    #   - PhysicalEntity (dcnt=13)
+    #   -- EntitySet (dcnt=3)
+    # > --- CandidateSet (dcnt=0)
+    # > --- DefinedSet (dcnt=0)
+    # > --- OpenSet (dcnt=0)
+    #   -- Drug (dcnt=2)
+    # > --- ChemicalDrug (dcnt=0)
+    # > --- ProteinDrug (dcnt=0)
+    # > -- GenomeEncodedEntity (dcnt=1)
+    # > --- EntityWithAccessionedSequence (dcnt=0)
+    # > -- Complex (dcnt=0)
+    # > -- OtherEntity (dcnt=0)
+    # > -- Polymer (dcnt=0)
+    # > -- SimpleEntity (dcnt=0)
+    ('PhysicalEntity', PhysicalEntity()),
+    ('EntitySet', EntitySet()),
     ('CandidateSet', CandidateSet()),
     ('DefinedSet', DefinedSet()),
     ('OpenSet', OpenSet()),
@@ -92,6 +98,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > --- Reaction (dcnt=0)
     # > -- Pathway (dcnt=1)
     # > --- TopLevelPathway (dcnt=0)
+    ('Event', Event()),
     ('BlackBoxEvent', ReactionLikeEvent('BlackBoxEvent')),        # BlackBoxEvent
     ('Depolymerisation', ReactionLikeEvent('Depolymerisation')),  # Depolymerisation
     ('FailedReaction', ReactionLikeEvent('FailedReaction')),      # FailedReaction
@@ -147,6 +154,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > -- ReferenceGroup (dcnt=0)
     # > -- ReferenceMolecule (dcnt=0)
     # > -- ReferenceTherapeutic (dcnt=0)
+    ('ReferenceEntity' , ReferenceEntity()),
     ('ReferenceGeneProduct' , ReferenceGeneProduct()),
     ('ReferenceIsoform' , ReferenceIsoform()),
     ('ReferenceDNASequence' , ReferenceDNASequence()),

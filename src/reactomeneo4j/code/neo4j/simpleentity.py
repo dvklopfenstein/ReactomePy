@@ -1,6 +1,6 @@
 """Reactome SimpleEntity Neo4j Node.
-   Def SimpleEntity: Other fully characterized molecules
-   Def SimpleEntity:   Example: 'nucleoplasmic ATP' or 'cytosolic glutathione'
+   Defn SimpleEntity: Other fully characterized molecules
+   Defn SimpleEntity:   Example: 'nucleoplasmic ATP' or 'cytosolic glutathione'
 
    Hier: PhysicalEntity:SimpleEntity
 

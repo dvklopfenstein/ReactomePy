@@ -1,4 +1,5 @@
 """Reactome ReactionLikeEvent Neo4j Node.
+Defn ReactionLikeEvent: converts inputs into outputs
 
 Hier: Event:ReactionLikeEvent(5)
 
@@ -31,7 +32,7 @@ class ReactionLikeEvent(Event):
     params_opt = Event.params_opt + ['isChimeric', 'systematicName']
 
     relationships = {
-        **Event.relationships, 
+        **Event.relationships,
         **{
             'input': set(['PhysicalEntity']),
             'output': set(['PhysicalEntity']),

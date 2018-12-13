@@ -83,7 +83,7 @@ class PhysicalEntity(DatabaseObject):
     }
 
 
-    def __init__(self, name):
+    def __init__(self, name='PhysicalEntity'):
         super(PhysicalEntity, self).__init__(name)
         self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart optional')
 
