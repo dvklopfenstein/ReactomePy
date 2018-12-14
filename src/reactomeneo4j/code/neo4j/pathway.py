@@ -44,9 +44,15 @@ class Pathway(Event):
     relationships = {
         **Event.relationships,
         **{
+            'figure': set(['Figure']),
+            'precedingEvent': set(['Event']),
+            'relatedSpecies': set(['Species']),
+            'crossReference': set(['DatabaseIdentifier']),
             'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
             'hasEncapsulatedEvent': set(['Pathway']),
             'normalPathway': set(['Pathway']),
+            'goBiologicalProcess': set(['GO_BiologicalProcess']),
+            'evidenceType': set(['EvidenceType']),
         }
     }
 

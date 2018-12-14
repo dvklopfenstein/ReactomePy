@@ -31,26 +31,26 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.translationalmodification import TranslationalModification
+from reactomeneo4j.code.neo4j.crosslinkedresidue import CrosslinkedResidue
 
 
 # pylint: disable=too-few-public-methods
-class CrosslinkedResidue(TranslationalModification):
+class InterChainCrosslinkedResidue(CrosslinkedResidue):
     """CrosslinkedResidue."""
 
     # params_req: dbId schemaClass displayName
-    # params_opt: coordinate
-    # params_opt = AbstractModifiedResidue.params_opt + ['secondCoordinate']
+    # params_opt: coordinate | secondCoordinate
 
     relationships = {
-        **TranslationalModification.relationships, 
+        **CrosslinkedResidue.relationships, 
         **{
-            'modification': set(['PhysicalEntity', 'ReferenceEntity']),
+            'secondReferenceSequence': set(['ReferenceSequence']),
+            'equivalentTo': set(['InterChainCrosslinkedResidue']),
         }
     }
 
-    def __init__(self, name):
-        super(CrosslinkedResidue, self).__init__(name)
+    def __init__(self):
+        super(InterChainCrosslinkedResidue, self).__init__('InterChainCrosslinkedResidue')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

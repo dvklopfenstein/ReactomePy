@@ -2,15 +2,15 @@
 
   - AbstractModifiedResidue (dcnt=12)
   -- GeneticallyModifiedResidue (dcnt=5)
-  --- FragmentModification (dcnt=3)
+  --- TranslationalModification (dcnt=3)
 > ---- FragmentDeletionModification (dcnt=0)
 > ---- FragmentInsertionModification (dcnt=0)
 > ---- FragmentReplacedModification (dcnt=0)
 > --- ReplacedResidue (dcnt=0)
   -- TranslationalModification (dcnt=5)
-  --- FragmentModification (dcnt=2)
-> ---- InterChainFragmentModification (dcnt=0)
-> ---- IntraChainFragmentModification (dcnt=0)
+  --- TranslationalModification (dcnt=2)
+> ---- InterChainTranslationalModification (dcnt=0)
+> ---- IntraChainTranslationalModification (dcnt=0)
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
 
@@ -20,25 +20,26 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.geneticallymodifiedresidue import GeneticallyModifiedResidue
+from reactomeneo4j.code.neo4j.abstractmodifiedresidue import AbstractModifiedResidue
 
 
 # pylint: disable=too-few-public-methods
-class FragmentModification(GeneticallyModifiedResidue):
-    """FragmentModification."""
+class TranslationalModification(AbstractModifiedResidue):
+    """TranslationalModification."""
 
     # params: dbId schemaClass displayName | coordinate
-    params_req = GeneticallyModifiedResidue.params_req + [
-        'startPositionInReferenceSequence', 'endPositionInReferenceSequence']
+    # params_req = AbstractModifiedResidue.params_req + [
+    #     'startPositionInReferenceSequence', 'endPositionInReferenceSequence']
 
-    # relationships = {
-    #     **GeneticallyModifiedResidue.relationships, 
-    #     **{
-    #     }
-    # }
+    relationships = {
+        **AbstractModifiedResidue.relationships, 
+        **{
+           'psiMod': set(['PsiMod']),
+        }
+    }
 
     def __init__(self, name):
-        super(FragmentModification, self).__init__(name)
+        super(TranslationalModification, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

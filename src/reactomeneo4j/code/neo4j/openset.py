@@ -41,14 +41,15 @@ class OpenSet(EntitySet):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_req = EntitySet.params_req + ['referenceType']
-    # params: oldStId speciesName isOrdered definition
-    params_opt = EntitySet.params_opt + ['speciesName']
+    # params: oldStId | speciesName isOrdered definition
 
-    # relationships = {
-    #     **EntitySet.relationships, 
-    #     **{
-    #     }
-    # }
+    relationships = {
+        **EntitySet.relationships, 
+        **{
+            'referenceEntity'    : set(['ReferenceMolecule']),
+            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+        }
+    }
 
     def __init__(self):
         super(OpenSet, self).__init__('OpenSet')

@@ -38,7 +38,10 @@ class Polymer(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships, 
         **{
+            'species': set(['Species']),
+            'inferredTo': set(['PhysicalEntity']),
             'repeatedUnit': set(['PhysicalEntity']),
+            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
         }
     }
 

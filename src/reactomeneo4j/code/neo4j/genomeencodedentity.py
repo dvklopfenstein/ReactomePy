@@ -45,6 +45,15 @@ class GenomeEncodedEntity(PhysicalEntity):
     params_req = PhysicalEntity.params_req + ['speciesName']
     params_opt = PhysicalEntity.params_opt + ['definition']
 
+    relationships = {
+        **PhysicalEntity.relationships, 
+        **{
+            'species': set(['Species']),
+            'inferredTo': set(['PhysicalEntity']),
+            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+        }
+    }
+
     def __init__(self, name='GenomeEncodedEntity'):
         super(GenomeEncodedEntity, self).__init__(name)
 

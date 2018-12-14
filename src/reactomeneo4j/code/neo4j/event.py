@@ -59,17 +59,17 @@ class Event(DatabaseObject):
 
     relationships = {
         'literatureReference': set(['Publication']),
-        'precedingEvent'     : set(['Event']),
+        #'precedingEvent'     : set(['Event']),
         'compartment'        : set(['Compartment']),
-        'goBiologicalProcess': set(['GO_BiologicalProcess']),
+        #'goBiologicalProcess': set(['GO_BiologicalProcess']),
         'disease'            : set(['Disease']),
         'inferredTo'         : set(['Event']),
         'species'            : set(['Species']),
-        'relatedSpecies'     : set(['Species']),
+        #'relatedSpecies'     : set(['Species']),
         'summation'          : set(['Summation']),
-        'figure'             : set(['Figure']),
-        'evidenceType'       : set(['EvidenceType']),
-        'crossReference'     : set(['DatabaseIdentifier']),
+        #'figure'             : set(['Figure']),
+        #'evidenceType'       : set(['EvidenceType']),
+        #'crossReference'     : set(['DatabaseIdentifier']),
     }
 
     def __init__(self, name='Event'):

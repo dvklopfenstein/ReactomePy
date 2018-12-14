@@ -24,21 +24,22 @@ from reactomeneo4j.code.neo4j.geneticallymodifiedresidue import GeneticallyModif
 
 
 # pylint: disable=too-few-public-methods
-class FragmentModification(GeneticallyModifiedResidue):
-    """FragmentModification."""
+class ReplacedResidue(GeneticallyModifiedResidue):
+    """ReplacedResidue."""
 
     # params: dbId schemaClass displayName | coordinate
     params_req = GeneticallyModifiedResidue.params_req + [
         'startPositionInReferenceSequence', 'endPositionInReferenceSequence']
 
-    # relationships = {
-    #     **GeneticallyModifiedResidue.relationships, 
-    #     **{
-    #     }
-    # }
+    relationships = {
+        **GeneticallyModifiedResidue.relationships, 
+        **{
+            'psiMod': set(['PsiMod']),
+        }
+    }
 
-    def __init__(self, name):
-        super(FragmentModification, self).__init__(name)
+    def __init__(self):
+        super(ReplacedResidue, self).__init__('ReplacedResidue')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

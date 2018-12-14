@@ -35,12 +35,12 @@ from reactomeneo4j.code.neo4j.translationalmodification import TranslationalModi
 
 
 # pylint: disable=too-few-public-methods
-class CrosslinkedResidue(TranslationalModification):
-    """CrosslinkedResidue."""
+class GroupModifiedResidue(TranslationalModification):
+    """GroupModifiedResidue."""
 
     # params_req: dbId schemaClass displayName
     # params_opt: coordinate
-    # params_opt = AbstractModifiedResidue.params_opt + ['secondCoordinate']
+    # params_opt = TranslationalModification.params_opt + ['secondCoordinate']
 
     relationships = {
         **TranslationalModification.relationships, 
@@ -49,8 +49,8 @@ class CrosslinkedResidue(TranslationalModification):
         }
     }
 
-    def __init__(self, name):
-        super(CrosslinkedResidue, self).__init__(name)
+    def __init__(self):
+        super(GroupModifiedResidue, self).__init__('GroupModifiedResidue')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

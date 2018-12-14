@@ -22,32 +22,30 @@ from reactomeneo4j.code.neo4j.reactionlikeevent import ReactionLikeEvent
 
 
 # pylint: disable=too-few-public-methods
-class Reaction(ReactionLikeEvent):
+class BlackBoxEvent(ReactionLikeEvent):
     """Reactome ReactionLikeEvent Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name |
     #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
     # params_opt: oldStId releaseStatus | isChimeric systematicName
-    params_opt = ReactionLikeEvent.params_opt + ['definition']
+    # params_opt = ReactionLikeEvent.params_opt + ['definition']
 
     relationships = {
         **ReactionLikeEvent.relationships, 
         **{
             'figure': set(['Figure']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
-            'requiredInputComponent': set(['PhysicalEntity']),
-            'crossReference': set(['DatabaseIdentifier']),
-            'reverseReaction': set(['Reaction']),
+            'requiredInputComponent': set(['Complex', 'EntityWithAccessionedSequence']),
             'entityOnOtherCell': set(['PhysicalEntity']),
-            'normalReaction': set(['Reaction']),
+            'normalReaction': set(['Reaction', 'BlackBoxEvent']),
             'goBiologicalProcess': set(['GO_BiologicalProcess']),
             'regulatedBy': set(['Regulation']),
-            'evidenceType': set(['EvidenceType']),
+            'evidenceType'       : set(['EvidenceType']),
         }
     }
 
     def __init__(self):
-        super(Reaction, self).__init__('Reaction')
+        super(BlackBoxEvent, self).__init__('BlackBoxEvent')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

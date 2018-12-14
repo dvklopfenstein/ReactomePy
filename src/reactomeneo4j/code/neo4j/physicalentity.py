@@ -72,14 +72,14 @@ class PhysicalEntity(DatabaseObject):
         'literatureReference': set(['Publication']),
         'crossReference'     : set(['DatabaseIdentifier']),
         'compartment'        : set(['Compartment']),
-        'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+        #'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
         'disease'            : set(['Disease']),
-        'inferredTo'         : set(['PhysicalEntity']),
-        'species'            : set(['Species']),
-        'relatedSpecies'     : set(['Species']),
+        #'inferredTo'         : set(['PhysicalEntity']),
+        #'species'            : set(['Species']),
+        #'relatedSpecies'     : set(['Species']),
         'summation'          : set(['Summation']),
-        'referenceEntity'    : set(['ReferenceEntity']),
-        'figure'             : set(['Figure']),
+        #'referenceEntity'    : set(['ReferenceEntity']),
+        #'figure'             : set(['Figure']),
     }
 
 

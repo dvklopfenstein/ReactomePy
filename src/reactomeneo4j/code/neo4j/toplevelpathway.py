@@ -41,8 +41,11 @@ class TopLevelPathway(Event):
     relationships = {
         **Event.relationships, 
         **{
+            'figure': set(['Figure']),
             'hasEvent': set(['ReactionLikeEvent', 'Pathway']),
             'hasEncapsulatedEvent': set(['Pathway', 'TopLevelPathway']),
+            'goBiologicalProcess': set(['GO_BiologicalProcess']),
+            'evidenceType': set(['EvidenceType']),
         }
     }
 

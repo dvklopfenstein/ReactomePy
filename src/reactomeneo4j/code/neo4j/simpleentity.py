@@ -37,6 +37,15 @@ class SimpleEntity(PhysicalEntity):
     params_req = PhysicalEntity.params_req + ['referenceType']
     params_opt = PhysicalEntity.params_opt + ['definition']
 
+    relationships = {
+        **PhysicalEntity.relationships, 
+        **{
+            'figure': set(['Figure']),
+            'referenceEntity': set(['ReferenceMolecule']),
+            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+        }
+    }
+
     def __init__(self):
         super(SimpleEntity, self).__init__('SimpleEntity')
 

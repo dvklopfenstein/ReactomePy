@@ -43,9 +43,9 @@ class AbstractModifiedResidue(DatabaseObject):
 
     relationships = {
         'referenceSequence': set(['ReferenceSequence']),
-        'secondReferenceSequence': set(['ReferenceSequence']),
-        'modification': set(['PhysicalEntity', 'ReferenceEntity']),
-        'psiMod': set(['PsiMod']),
+        #'secondReferenceSequence': set(['ReferenceSequence']),
+        #'modification': set(['PhysicalEntity', 'ReferenceEntity']),
+        #'psiMod': set(['PsiMod']),
     }
 
     def __init__(self, name):

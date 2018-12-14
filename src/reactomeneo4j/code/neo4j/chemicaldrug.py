@@ -1,4 +1,4 @@
-"""Reactome PhysicalEntity Neo4j Node.
+"""Reactome ChemicalDrug Neo4j Node.
 
     - PhysicalEntity (dcnt=13)
     -- Drug (dcnt=3)
@@ -19,25 +19,25 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.physicalentity import PhysicalEntity
+from reactomeneo4j.code.neo4j.drug import Drug
 
 
 # pylint: disable=too-few-public-methods
-class Drug(PhysicalEntity):
-    """Drugs."""
+class ChemicalDrug(Drug):
+    """ChemicalDrug."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     # params: oldStId 
 
     relationships = {
-        **PhysicalEntity.relationships, 
+        **Drug.relationships, 
         **{
-            'referenceTherapeutic': set(['referenceTherapeutic']),
+            'referenceEntity': set(['referenceMolecule']),
         }
     }
 
-    def __init__(self, name):
-        super(Drug, self).__init__(name)
+    def __init__(self):
+        super(ChemicalDrug, self).__init__('ChemicalDrug')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

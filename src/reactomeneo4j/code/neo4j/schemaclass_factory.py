@@ -12,6 +12,7 @@ from reactomeneo4j.code.neo4j.candidateset import CandidateSet
 from reactomeneo4j.code.neo4j.definedset import DefinedSet
 from reactomeneo4j.code.neo4j.openset import OpenSet
 from reactomeneo4j.code.neo4j.drug import Drug
+from reactomeneo4j.code.neo4j.chemicaldrug import ChemicalDrug
 from reactomeneo4j.code.neo4j.genomeencodedentity import GenomeEncodedEntity
 from reactomeneo4j.code.neo4j.entitywithaccessionedsequence import EntityWithAccessionedSequence
 from reactomeneo4j.code.neo4j.complex import Complex
@@ -20,7 +21,11 @@ from reactomeneo4j.code.neo4j.polymer import Polymer
 from reactomeneo4j.code.neo4j.simpleentity import SimpleEntity
 from reactomeneo4j.code.neo4j.event import Event
 from reactomeneo4j.code.neo4j.reactionlikeevent import ReactionLikeEvent
+from reactomeneo4j.code.neo4j.depolymerisation import Depolymerisation
+from reactomeneo4j.code.neo4j.polymerisation import Polymerisation
+from reactomeneo4j.code.neo4j.blackboxevent import BlackBoxEvent
 from reactomeneo4j.code.neo4j.reaction import Reaction
+from reactomeneo4j.code.neo4j.failedreaction import FailedReaction
 from reactomeneo4j.code.neo4j.pathway import Pathway
 from reactomeneo4j.code.neo4j.toplevelpathway import TopLevelPathway
 from reactomeneo4j.code.neo4j.regulation import Regulation
@@ -40,12 +45,17 @@ from reactomeneo4j.code.neo4j.literaturereference import LiteratureReference
 from reactomeneo4j.code.neo4j.book import Book
 from reactomeneo4j.code.neo4j.url import URL
 from reactomeneo4j.code.neo4j.go_term import GOTerm
+from reactomeneo4j.code.neo4j.go_biologicalprocess import GO_BiologicalProcess
 from reactomeneo4j.code.neo4j.go_molecularfunction import GO_MolecularFunction
 from reactomeneo4j.code.neo4j.externalontology import ExternalOntology
+from reactomeneo4j.code.neo4j.abstractmodifiedresidue import AbstractModifiedResidue
 from reactomeneo4j.code.neo4j.fragmentmodification import FragmentModification
 from reactomeneo4j.code.neo4j.fragmentreplacedmodification import FragmentReplacedModification
-from reactomeneo4j.code.neo4j.abstractmodifiedresidue import AbstractModifiedResidue
+from reactomeneo4j.code.neo4j.replacedresidue import ReplacedResidue
+from reactomeneo4j.code.neo4j.translationalmodification import TranslationalModification
 from reactomeneo4j.code.neo4j.crosslinkedresidue import CrosslinkedResidue
+from reactomeneo4j.code.neo4j.interchaincrosslinkedresidue import InterChainCrosslinkedResidue
+from reactomeneo4j.code.neo4j.groupmodifiedresidue import GroupModifiedResidue
 from reactomeneo4j.code.neo4j.undirectedinteraction import UndirectedInteraction
 from reactomeneo4j.code.neo4j.taxon import Taxon
 from reactomeneo4j.code.neo4j.species import Species
@@ -80,7 +90,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     ('CandidateSet', CandidateSet()),
     ('DefinedSet', DefinedSet()),
     ('OpenSet', OpenSet()),
-    ('ChemicalDrug', Drug('ChemicalDrug')),  # ChemicalDrug()
+    ('ChemicalDrug', ChemicalDrug()),
     ('ProteinDrug', Drug('ProteinDrug')),   # ProteinDrug()
     ('GenomeEncodedEntity', GenomeEncodedEntity()),
     ('EntityWithAccessionedSequence', EntityWithAccessionedSequence()),
@@ -99,13 +109,13 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > -- Pathway (dcnt=1)
     # > --- TopLevelPathway (dcnt=0)
     ('Event', Event()),
-    ('BlackBoxEvent', ReactionLikeEvent('BlackBoxEvent')),        # BlackBoxEvent
-    ('Depolymerisation', ReactionLikeEvent('Depolymerisation')),  # Depolymerisation
-    ('FailedReaction', ReactionLikeEvent('FailedReaction')),      # FailedReaction
-    ('Polymerisation', ReactionLikeEvent('Polymerisation')),      # Polymerisation
-    ('Reaction', Reaction()),                   # Reaction
-    ('Pathway', Pathway()),                     # Pathway
-    ('TopLevelPathway', TopLevelPathway()),     # TopLevelPathway
+    ('BlackBoxEvent', BlackBoxEvent()),
+    ('Depolymerisation', Depolymerisation()),
+    ('FailedReaction', FailedReaction()),
+    ('Polymerisation', Polymerisation()),
+    ('Reaction', Reaction()),
+    ('Pathway', Pathway()),
+    ('TopLevelPathway', TopLevelPathway()),
 
     #   - Regulation (dcnt=5)
     # > -- PositiveRegulation (dcnt=2)
@@ -135,11 +145,11 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     ('FragmentDeletionModification' , FragmentModification('FragmentDeletionModification')),
     ('FragmentInsertionModification' , FragmentModification('FragmentInsertionModification')),
     ('FragmentReplacedModification' , FragmentReplacedModification()),
-    ('ReplacedResidue' , AbstractModifiedResidue('ReplacedResidue')),
-    ('InterChainCrosslinkedResidue' , CrosslinkedResidue('InterChainCrosslinkedResidue')),
+    ('ReplacedResidue' , ReplacedResidue()),
+    ('InterChainCrosslinkedResidue' , InterChainCrosslinkedResidue()),
     ('IntraChainCrosslinkedResidue' , CrosslinkedResidue('IntraChainCrosslinkedResidue')),
-    ('GroupModifiedResidue' , AbstractModifiedResidue('GroupModifiedResidue')),
-    ('ModifiedResidue' , AbstractModifiedResidue('ModifiedResidue')),
+    ('GroupModifiedResidue' , GroupModifiedResidue()),
+    ('ModifiedResidue' , TranslationalModification('ModifiedResidue')),
 
     #   - Interaction (dcnt=1)
     # > -- UndirectedInteraction (dcnt=0)
@@ -178,7 +188,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > -- GO_MolecularFunction (dcnt=0)
     ('GO_CellularComponent' , GOTerm('GO_CellularComponent')),
     ('Compartment' , GOTerm('Compartment')),
-    ('GO_BiologicalProcess' , GOTerm('GO_BiologicalProcess')),
+    ('GO_BiologicalProcess' , GO_BiologicalProcess()),
     ('GO_MolecularFunction' , GO_MolecularFunction()),
 
     #   - ExternalOntology (dcnt=3)
