@@ -12,7 +12,7 @@ class Neo4jNode():
     """Holds data extracted from Neo4j."""
 
     # Query to determine Nodes in this item's relationships
-    qrypat = 'MATCH (src)-[rel:{REL}]-(dst) WHERE ID(src) = {ID} RETURN src, rel, dst'
+    qrypat = 'MATCH (src:{{dbId:"{DBID}"}})-[rel:{REL}]-(dst) RETURN src, rel, dst'
 
     def __init__(self, neo4jnode, **kws):  # gdbdr=None, prtfmt=None):
         # kws: gdbdr prtfmt
@@ -40,7 +40,7 @@ class Neo4jNode():
 
     def __init_rels(self, rel, exp_sch, gdbdr):
         """Query for objects at the end of this relationship."""
-        qry = self.qrypat.format(ID=self.ntp.Node_id, REL=rel)
+        qry = self.qrypat.format(DBID=self.ntp.dbId, REL=rel)
         #print(qry)
         with gdbdr.session() as session:
             for idx, rec in enumerate(session.run(qry).records()):
