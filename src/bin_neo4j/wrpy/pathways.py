@@ -16,16 +16,15 @@ from neo4j import GraphDatabase
 # import textwrap
 # from reactomeneo4j.data.species import SPECIES
 from reactomeneo4j.code.wrpy.pathway_query import PathwayQuery
-from reactomeneo4j.code.wrpy.query_general import Query
 from reactomeneo4j.code.wrpy.wrpy_general import WrPy
 from reactomeneo4j.code.wrpy.pathway_wrpy import PathwayWrPy
 from reactomeneo4j.code.species import Species
+from reactomeneo4j.code.neo4j.query_fnc import get_version
 
 def main(password):
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
-    objqry = Query(gdbdr)
     objwr = WrPy()
-    objwr.wrpy_version('src/reactomeneo4j/data/reactome_version.py', objqry.get_version())
+    objwr.wrpy_version('src/reactomeneo4j/data/reactome_version.py', get_version(gdbdr))
     orgs = [
         'Homo sapiens',
         'Mus musculus',
