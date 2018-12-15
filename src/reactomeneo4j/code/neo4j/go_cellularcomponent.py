@@ -16,26 +16,22 @@ from reactomeneo4j.code.neo4j.go_term import GOTerm
 
 
 # pylint: disable=too-few-public-methods
-class GO_MolecularFunction(GOTerm):
+class GO_CellularComponent(GOTerm):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName | accession databaseName definition name url
-    params_opt = GOTerm.params_opt + ['ecNumber']
 
     relationships = {
         **GOTerm.relationships,
         **{
-            'hasPart': set(['GO_MolecularFunction']),
-            'componentOf': set(['GO_BiologicalProcess']),
-            'instanceOf': set(['GO_MolecularFunction']),
-            'regulate': set(['GO_MolecularFunction']),
-            'negativelyRegulate': set(['GO_MolecularFunction']),
-            'positivelyRegulate': set(['GO_MolecularFunction']),
+            'hasPart': set(['Compartment', 'GO_CellularComponent']),
+            'componentOf': set(['Compartment', 'GO_CellularComponent']),
+            'instanceOf': set(['Compartment', 'GO_CellularComponent']),
         }
     }
 
-    def __init__(self):
-        super(GO_MolecularFunction, self).__init__('GO_MolecularFunction')
+    def __init__(self, name='GO_CellularComponent'):
+        super(GO_CellularComponent, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

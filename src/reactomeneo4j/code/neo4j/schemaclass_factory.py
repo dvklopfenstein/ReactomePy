@@ -20,7 +20,6 @@ from reactomeneo4j.code.neo4j.otherentity import OtherEntity
 from reactomeneo4j.code.neo4j.polymer import Polymer
 from reactomeneo4j.code.neo4j.simpleentity import SimpleEntity
 from reactomeneo4j.code.neo4j.event import Event
-from reactomeneo4j.code.neo4j.reactionlikeevent import ReactionLikeEvent
 from reactomeneo4j.code.neo4j.depolymerisation import Depolymerisation
 from reactomeneo4j.code.neo4j.polymerisation import Polymerisation
 from reactomeneo4j.code.neo4j.blackboxevent import BlackBoxEvent
@@ -44,11 +43,11 @@ from reactomeneo4j.code.neo4j.entityfunctionalstatus import EntityFunctionalStat
 from reactomeneo4j.code.neo4j.literaturereference import LiteratureReference
 from reactomeneo4j.code.neo4j.book import Book
 from reactomeneo4j.code.neo4j.url import URL
-from reactomeneo4j.code.neo4j.go_term import GOTerm
+from reactomeneo4j.code.neo4j.compartment import Compartment
+from reactomeneo4j.code.neo4j.go_cellularcomponent import GO_CellularComponent
 from reactomeneo4j.code.neo4j.go_biologicalprocess import GO_BiologicalProcess
 from reactomeneo4j.code.neo4j.go_molecularfunction import GO_MolecularFunction
 from reactomeneo4j.code.neo4j.externalontology import ExternalOntology
-from reactomeneo4j.code.neo4j.abstractmodifiedresidue import AbstractModifiedResidue
 from reactomeneo4j.code.neo4j.fragmentmodification import FragmentModification
 from reactomeneo4j.code.neo4j.fragmentreplacedmodification import FragmentReplacedModification
 from reactomeneo4j.code.neo4j.replacedresidue import ReplacedResidue
@@ -186,8 +185,8 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > --- Compartment (dcnt=0)
     # > -- GO_BiologicalProcess (dcnt=0)
     # > -- GO_MolecularFunction (dcnt=0)
-    ('GO_CellularComponent' , GOTerm('GO_CellularComponent')),
-    ('Compartment' , GOTerm('Compartment')),
+    ('GO_CellularComponent' , GO_CellularComponent()),
+    ('Compartment' , Compartment()),
     ('GO_BiologicalProcess' , GO_BiologicalProcess()),
     ('GO_MolecularFunction' , GO_MolecularFunction()),
 

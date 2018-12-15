@@ -21,10 +21,10 @@ class GOTerm(DatabaseObject):
     """Params seen on all Physical Entities."""
 
     sch2ns = {
-         'GO_CellularComponent': 'CC',
-         'Compartment': 'CC',
-         'GO_BiologicalProcess': 'BP',
-         'GO_MolecularFunction': 'MF'
+        'GO_CellularComponent': 'CC',
+        'Compartment': 'CC',
+        'GO_BiologicalProcess': 'BP',
+        'GO_MolecularFunction': 'MF'
     }
 
     # params: dbId schemaClass displayName
@@ -35,9 +35,9 @@ class GOTerm(DatabaseObject):
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
-        'hasPart': set(['GO_Term']),
-        'componentOf': set(['GO_Term']),
-        'instanceOf': set(['GO_Term']),
+        #'hasPart': set(['GO_Term']),
+        #'componentOf': set(['GO_Term']),
+        #'instanceOf': set(['GO_Term']),
         #'regulate': set(['GO_Term']),
         #'negativelyRegulate': set(['GO_Term']),
         #'positivelyRegulate': set(['GO_Term']),

@@ -12,30 +12,24 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.go_term import GOTerm
+from reactomeneo4j.code.neo4j.go_cellularcomponent import GO_CellularComponent
 
 
 # pylint: disable=too-few-public-methods
-class GO_MolecularFunction(GOTerm):
+class Compartment(GO_CellularComponent):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName | accession databaseName definition name url
-    params_opt = GOTerm.params_opt + ['ecNumber']
 
     relationships = {
-        **GOTerm.relationships,
+        **GO_CellularComponent.relationships,
         **{
-            'hasPart': set(['GO_MolecularFunction']),
-            'componentOf': set(['GO_BiologicalProcess']),
-            'instanceOf': set(['GO_MolecularFunction']),
-            'regulate': set(['GO_MolecularFunction']),
-            'negativelyRegulate': set(['GO_MolecularFunction']),
-            'positivelyRegulate': set(['GO_MolecularFunction']),
+            'hasPart': set(['GO_CellularComponent']),
         }
     }
 
     def __init__(self):
-        super(GO_MolecularFunction, self).__init__('GO_MolecularFunction')
+        super(Compartment, self).__init__('Compartment')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

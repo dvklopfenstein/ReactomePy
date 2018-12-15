@@ -6,7 +6,7 @@
   > -- GO_BiologicalProcess (dcnt=0)
   > -- GO_MolecularFunction (dcnt=0)
 
-    5,532 GO_Term  2038 GO_MolecularFunction  1232   2038  0.6045 ecNumber             
+    5,532 GO_Term  2038 GO_MolecularFunction  1232   2038  0.6045 ecNumber
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -24,6 +24,9 @@ class GO_BiologicalProcess(GOTerm):
     relationships = {
         **GOTerm.relationships,
         **{
+            'hasPart': set(['GO_BiologicalProcess', 'GO_MolecularFunction']),
+            'componentOf': set(['GO_BiologicalProcess']),
+            'instanceOf': set(['GO_BiologicalProcess']),
             'regulate': set(['GO_MolecularFunction', 'GO_BiologicalProcess']),
             'negativelyRegulate': set(['GO_MolecularFunction', 'GO_BiologicalProcess']),
             'positivelyRegulate': set(['GO_MolecularFunction', 'GO_BiologicalProcess']),
