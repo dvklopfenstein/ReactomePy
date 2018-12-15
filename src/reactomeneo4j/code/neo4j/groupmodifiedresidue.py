@@ -40,7 +40,6 @@ class GroupModifiedResidue(TranslationalModification):
 
     # params_req: dbId schemaClass displayName
     # params_opt: coordinate
-    # params_opt = TranslationalModification.params_opt + ['secondCoordinate']
 
     relationships = {
         **TranslationalModification.relationships, 
