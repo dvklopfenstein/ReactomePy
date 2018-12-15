@@ -49,7 +49,7 @@ class GenomeEncodedEntity(PhysicalEntity):
         **PhysicalEntity.relationships, 
         **{
             'species': set(['Species']),
-            'inferredTo': set(['PhysicalEntity']),
+            'inferredTo': set(['GenomeEncodedEntity']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
         }
     }

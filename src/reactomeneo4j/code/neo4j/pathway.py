@@ -44,6 +44,7 @@ class Pathway(Event):
     relationships = {
         **Event.relationships,
         **{
+            'inferredTo': set(['Pathway']),
             'figure': set(['Figure']),
             'precedingEvent': set(['Event']),
             'relatedSpecies': set(['Species']),

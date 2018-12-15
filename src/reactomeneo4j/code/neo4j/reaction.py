@@ -33,6 +33,7 @@ class Reaction(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships, 
         **{
+            'inferredTo': set(['Reaction', 'BlackBoxEvent']),
             'figure': set(['Figure']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
             'requiredInputComponent': set(['PhysicalEntity']),

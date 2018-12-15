@@ -47,7 +47,7 @@ class OpenSet(EntitySet):
         **EntitySet.relationships, 
         **{
             'referenceEntity'    : set(['ReferenceMolecule']),
-            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+            'goCellularComponent': set(['GO_CellularComponent']),
         }
     }
 

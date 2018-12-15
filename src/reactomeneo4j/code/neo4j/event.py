@@ -63,7 +63,7 @@ class Event(DatabaseObject):
         'compartment'        : set(['Compartment']),
         #'goBiologicalProcess': set(['GO_BiologicalProcess']),
         'disease'            : set(['Disease']),
-        'inferredTo'         : set(['Event']),
+        #'inferredTo'         : set(['Event']),
         'species'            : set(['Species']),
         #'relatedSpecies'     : set(['Species']),
         'summation'          : set(['Summation']),

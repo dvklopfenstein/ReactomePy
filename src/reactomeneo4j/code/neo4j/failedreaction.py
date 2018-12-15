@@ -32,6 +32,7 @@ class FailedReaction(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships, 
         **{
+            'inferredTo': set(['FailedReaction']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
             'entityOnOtherCell': set(['PhysicalEntity']),
             'normalReaction': set(['Reaction', 'BlackBoxEvent']),

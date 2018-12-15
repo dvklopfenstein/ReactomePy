@@ -32,6 +32,7 @@ class Depolymerisation(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships, 
         **{
+            'inferredTo': set(['Depolymerisation']),
             'evidenceType': set(['EvidenceType']),
         }
     }

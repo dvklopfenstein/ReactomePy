@@ -20,7 +20,7 @@ class CatalystActivity(DatabaseObject):
 
     relationships = {
         'physicalEntity': set(['PhysicalEntity']),
-        'activeUnit': set(['PhysicalEntity']),
+        'activeUnit': set(['Complex', 'EntitySet', 'GenomeEncodedEntity']),
         'activity': set(['GO_MolecularFunction']),
     }
 

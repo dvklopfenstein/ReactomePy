@@ -44,6 +44,7 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
     relationships = {
         **GenomeEncodedEntity.relationships,
         **{
+            'inferredTo': set(['EntityWithAccessionedSequence', 'GenomeEncodedEntity', 'DefinedSet']),
             'hasModifiedResidue': set(['AbstractModifiedResidue']),
             'referenceEntity': set(['ReferenceSequence']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),

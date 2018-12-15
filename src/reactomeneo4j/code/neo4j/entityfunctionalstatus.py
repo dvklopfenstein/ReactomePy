@@ -17,7 +17,7 @@ class EntityFunctionalStatus(DatabaseObject):
     # params: dbId schemaName displayName
 
     relationships = {
-        'physicalEntity': set(['PhysicalEntity']),
+        'physicalEntity': set(['EntitySet', 'EntityWithAccessionedSequence', 'Complex']),
         'functionalStatus': set(['FunctionalStatus']),
     }
 

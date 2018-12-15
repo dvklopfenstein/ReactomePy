@@ -45,7 +45,7 @@ class Complex(PhysicalEntity):
             'figure': set(['Figure']),
             'species': set(['Species']),
             'relatedSpecies': set(['Species']),
-            'inferredTo': set(['PhysicalEntity']),
+            'inferredTo': set(['Complex']),
             'hasComponent': set(['PhysicalEntity']),
             'entityOnOtherCell': set(['PhysicalEntity']),
             'includedLocation': set(['Compartment']),
