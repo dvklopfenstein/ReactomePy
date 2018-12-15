@@ -40,6 +40,28 @@ class DataSchemaHier(object):
         names.add(name)
         return names
 
+    def get_ids_lte_all(self, names):
+        """Return a set containing current data schema names ID and their descendants."""
+        names_all = set()
+        for name in names:
+            names_all.update(self.name2obj[name].descendants)
+        names_all.update(names)
+        return names_all
+
+    def get_ids_gte_all(self, names):
+        """Return a set containing current data schema names ID and their ancestors."""
+        names_all = set()
+        for name in names:
+            names_all.update(self.name2obj[name].ancestors)
+        names_all.update(names)
+        return names_all
+
+    def get_ids_gte(self, name):
+        """Return a set containing current data schema name ID and its ancestors."""
+        names = set(self.name2obj[name].descendants)
+        names.add(name)
+        return names
+
     def get_ancestor_d1(self, schema):
         """Get the ancestor at the depth-01 for given schema."""
         return self.get_ancestor_dn(schema, 1)

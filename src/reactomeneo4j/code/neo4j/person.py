@@ -19,7 +19,7 @@ class Person(DatabaseObject):
     params_opt = DatabaseObject.params_opt + ['firstname', 'orcidId', 'project']
 
     relationships = {
-        'author'         : set(['InstanceEdit']),
+        'author'         : set(['Publication', 'InstanceEdit']),
         'crossReference' : set(['DatabaseIdentifier']),
         'affiliation'    : set(['Affiliation']),
     }

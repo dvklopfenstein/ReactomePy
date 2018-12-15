@@ -26,7 +26,7 @@ class Taxon(DatabaseObject):
     fmtpat = '{schemaClass}: {displayName}'
 
     relationships = {
-        'crossReference' : set(['Taxon']),
+        'crossReference' : set(['Taxon', 'DatabaseIdentifier']),
         'superTaxon'     : set(['Taxon']),
     }
 
