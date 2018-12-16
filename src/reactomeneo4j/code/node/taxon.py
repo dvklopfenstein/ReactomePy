@@ -26,8 +26,8 @@ class Taxon(DatabaseObject):
     fmtpat = '{schemaClass}: {displayName}'
 
     relationships = {
-        'crossReference' : set(['Taxon', 'DatabaseIdentifier']),
-        'superTaxon'     : set(['Taxon']),
+        'crossReference' : set(['DatabaseIdentifier']),
+        'superTaxon'     : set(['Taxon', 'Species']),
     }
 
     def __init__(self, name="Taxon"):
