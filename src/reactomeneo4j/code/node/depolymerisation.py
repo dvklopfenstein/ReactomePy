@@ -18,7 +18,7 @@ Hier: Event:ReactionLikeEvent:Polymerisation
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.reactionlikeevent import ReactionLikeEvent
+from reactomeneo4j.code.node.reactionlikeevent import ReactionLikeEvent
 
 
 # pylint: disable=too-few-public-methods

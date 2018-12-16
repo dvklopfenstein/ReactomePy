@@ -25,7 +25,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.event import Event
+from reactomeneo4j.code.node.event import Event
 
 
 # pylint: disable=too-few-public-methods

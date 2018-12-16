@@ -22,7 +22,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.publication import Publication
+from reactomeneo4j.code.node.publication import Publication
 
 
 # pylint: disable=too-few-public-methods

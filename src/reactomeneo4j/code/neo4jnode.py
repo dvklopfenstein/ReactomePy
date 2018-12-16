@@ -4,7 +4,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # import os
-from reactomeneo4j.code.neo4j.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
+from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 
 
 # pylint: disable=too-many-instance-attributes,too-few-public-methods

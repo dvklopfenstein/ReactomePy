@@ -12,7 +12,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.go_cellularcomponent import GO_CellularComponent
+from reactomeneo4j.code.node.go_cellularcomponent import GO_CellularComponent
 
 
 # pylint: disable=too-few-public-methods

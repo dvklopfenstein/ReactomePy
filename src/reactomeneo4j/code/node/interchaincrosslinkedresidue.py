@@ -31,7 +31,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.crosslinkedresidue import CrosslinkedResidue
+from reactomeneo4j.code.node.crosslinkedresidue import CrosslinkedResidue
 
 
 # pylint: disable=too-few-public-methods

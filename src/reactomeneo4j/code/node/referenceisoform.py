@@ -16,7 +16,7 @@ Hier: ReferenceEntity:ReferenceSequence:ReferenceGeneProduct:ReferenceIsoform
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.neo4j.referencegeneproduct import ReferenceGeneProduct
+from reactomeneo4j.code.node.referencegeneproduct import ReferenceGeneProduct
 
 # pylint: disable=too-few-public-methods
 class ReferenceIsoform(ReferenceGeneProduct):
