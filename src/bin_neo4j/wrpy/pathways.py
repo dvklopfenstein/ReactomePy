@@ -19,7 +19,7 @@ from reactomeneo4j.code.wrpy.pathway_query import PathwayQuery
 from reactomeneo4j.code.wrpy.wrpy_general import WrPy
 from reactomeneo4j.code.wrpy.pathway_wrpy import PathwayWrPy
 from reactomeneo4j.code.species import Species
-from reactomeneo4j.code.neo4j.query_fnc import get_version
+from reactomeneo4j.code.query.functions import get_version
 
 def main(password):
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
