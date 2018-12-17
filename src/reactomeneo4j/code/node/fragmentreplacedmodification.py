@@ -29,6 +29,13 @@ class FragmentReplacedModification(FragmentModification):
     #     startPositionInReferenceSequence endPositionInReferenceSequence
     params_opt = FragmentModification.params_opt + ['alteredAminoAcidFragment']
 
+    relationships = {
+        **FragmentModification.relationships, 
+        **{
+            'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceIsoform']),
+        }
+    }
+
     def __init__(self):
         super(FragmentReplacedModification, self).__init__('FragmentReplacedModification')
 

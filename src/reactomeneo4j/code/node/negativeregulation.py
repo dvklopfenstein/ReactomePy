@@ -7,20 +7,20 @@
   > -- NegativeRegulation (dcnt=1)
   > --- NegativeGeneExpressionRegulation (dcnt=0)
 
-  5,262 Regulation   1963 PositiveRegulation                   42   1963  0.0214 name
-  5,262 Regulation   1963 PositiveRegulation                  373   1963  0.1900 oldStId
-  5,262 Regulation   1963 PositiveRegulation                  588   1963  0.2995 stId
-  5,262 Regulation   1963 PositiveRegulation                  588   1963  0.2995 stIdVersion
+  5,262 Regulation   1963 NegativeRegulation                   42   1963  0.0214 name
+  5,262 Regulation   1963 NegativeRegulation                  373   1963  0.1900 oldStId
+  5,262 Regulation   1963 NegativeRegulation                  588   1963  0.2995 stId
+  5,262 Regulation   1963 NegativeRegulation                  588   1963  0.2995 stIdVersion
 
   5,262 Regulation   1835 NegativeRegulation                   37   1835  0.0202 name
   5,262 Regulation   1835 NegativeRegulation                  245   1835  0.1335 oldStId
   5,262 Regulation   1835 NegativeRegulation                  443   1835  0.2414 stId
   5,262 Regulation   1835 NegativeRegulation                  443   1835  0.2414 stIdVersion
 
-  5,262 Regulation    672 PositiveGeneExpressionRegulation     82    672  0.1220 name
-  5,262 Regulation    672 PositiveGeneExpressionRegulation    324    672  0.4821 oldStId
-  5,262 Regulation    672 PositiveGeneExpressionRegulation    569    672  0.8467 stId
-  5,262 Regulation    672 PositiveGeneExpressionRegulation    569    672  0.8467 stIdVersion
+  5,262 Regulation    672 NegativeGeneExpressionRegulation     82    672  0.1220 name
+  5,262 Regulation    672 NegativeGeneExpressionRegulation    324    672  0.4821 oldStId
+  5,262 Regulation    672 NegativeGeneExpressionRegulation    569    672  0.8467 stId
+  5,262 Regulation    672 NegativeGeneExpressionRegulation    569    672  0.8467 stIdVersion
 
   5,262 Regulation    595 Requirement                          12    595  0.0202 name
   5,262 Regulation    595 Requirement                          84    595  0.1412 oldStId
@@ -36,24 +36,28 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.databaseobject import DatabaseObject
+from reactomeneo4j.code.node.regulation import Regulation
 
 
 # pylint: disable=too-few-public-methods
-class Regulation(DatabaseObject):
+class NegativeRegulation(Regulation):
     """Params seen on all Physical Entities."""
 
     # params_req: dbId schemaClass displayName
-    params_opt = ['oldStId', 'name', 'stId', 'stIdVersion']
+    # params_opt:= oldStId name stId stIdVersion
 
     relationships = {
-        'literatureReference': set(['LiteratureReference']),
-        #'regulator': set(['PhysicalEntity']),
-        'summation': set(['Summation']),
+        **Regulation.relationships,
+        **{
+            'regulator': set(['CandidateSet', 'DefinedSet',
+                              'ChemicalDrug',
+                              'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                              'Complex', 'Polymer', 'SimpleEntity']),
+        }
     }
 
-    def __init__(self, name):
-        super(Regulation, self).__init__(name)
+    def __init__(self, name='NegativeRegulation'):
+        super(NegativeRegulation, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

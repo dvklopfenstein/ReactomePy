@@ -24,7 +24,7 @@ class UndirectedInteraction(DatabaseObject):
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
-        'interactor': set(['ReferenceEntity']),
+        'interactor': set(['ReferenceMolecule', 'ReferenceGeneProduct', 'ReferenceIsoform']),
     }
 
     def __init__(self):

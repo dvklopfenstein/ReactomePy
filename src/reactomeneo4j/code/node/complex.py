@@ -42,12 +42,20 @@ class Complex(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
+            'literatureReference': set(['LiteratureReference', 'Book']),
             'figure': set(['Figure']),
             'species': set(['Species']),
             'relatedSpecies': set(['Species']),
             'inferredTo': set(['Complex']),
-            'hasComponent': set(['PhysicalEntity']),
-            'entityOnOtherCell': set(['PhysicalEntity']),
+            'hasComponent': set([
+                'CandidateSet', 'DefinedSet', 'OpenSet',
+                'ChemicalDrug',
+                'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
+            'entityOnOtherCell': set([
+                'DefinedSet', 'OpenSet',
+                'EntityWithAccessionedSequence',
+                'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
             'includedLocation': set(['Compartment']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
         }

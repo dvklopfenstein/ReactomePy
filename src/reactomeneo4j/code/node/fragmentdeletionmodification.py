@@ -13,33 +13,31 @@
 > ---- IntraChainFragmentModification (dcnt=0)
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
-
-   78,581 AbstractModifiedResidue     95 FragmentReplacedModification     86     95  0.9053 alteredAminoAcidFragment
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.geneticallymodifiedresidue import GeneticallyModifiedResidue
+from reactomeneo4j.code.node.fragmentmodification import FragmentModification
 
 
 # pylint: disable=too-few-public-methods
-class FragmentModification(GeneticallyModifiedResidue):
-    """FragmentModification."""
+class FragmentDeletionModification(FragmentModification):
+    """FragmentDeletionModification."""
 
-    # params: dbId schemaClass displayName | coordinate
-    params_req = GeneticallyModifiedResidue.params_req + [
-        'startPositionInReferenceSequence',
-        'endPositionInReferenceSequence']
+    # params: dbId schemaClass displayName | coordinate |
+    #     startPositionInReferenceSequence endPositionInReferenceSequence
+    #### params_opt = FragmentModification.params_opt + ['alteredAminoAcidFragment']
 
-    # relationships = {
-    #     **GeneticallyModifiedResidue.relationships,
-    #     **{
-    #     }
-    # }
+    relationships = {
+        **FragmentModification.relationships, 
+        **{
+            'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceDNASequence', 'ReferenceIsoform']),
+        }
+    }
 
-    def __init__(self, name):
-        super(FragmentModification, self).__init__(name)
+    def __init__(self):
+        super(FragmentDeletionModification, self).__init__('FragmentDeletionModification')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -30,8 +30,9 @@ class Depolymerisation(ReactionLikeEvent):
     # params_opt: oldStId releaseStatus | isChimeric systematicName
 
     relationships = {
-        **ReactionLikeEvent.relationships, 
+        **ReactionLikeEvent.relationships,
         **{
+            'literatureReference': set(['LiteratureReference']),
             'inferredTo': set(['Depolymerisation']),
             'evidenceType': set(['EvidenceType']),
         }

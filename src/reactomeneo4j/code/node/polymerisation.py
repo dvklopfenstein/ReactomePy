@@ -32,6 +32,7 @@ class Polymerisation(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships, 
         **{
+            'literatureReference': set(['LiteratureReference']),
             'inferredTo': set(['Polymerisation', 'BlackBoxEvent']),
             'requiredInputComponent': set(['Complex', 'EntityWithAccessionedSequence']),
             'evidenceType': set(['EvidenceType']),

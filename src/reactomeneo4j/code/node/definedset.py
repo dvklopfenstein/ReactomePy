@@ -1,19 +1,19 @@
 """Reactome DefinedSet Neo4j Node.
 
-    - PhysicalEntity(dcnt=13)
-    -- EntitySet(dcnt=3)
-  > --- CandidateSet(dcnt=0)
-  > --- DefinedSet(dcnt=0)
-  > --- OpenSet(dcnt=0)
-    -- Drug(dcnt=2)
-  > --- ChemicalDrug(dcnt=0)
-  > --- ProteinDrug(dcnt=0)
-  > -- GenomeEncodedEntity(dcnt=1)
-  > --- EntityWithAccessionedSequence(dcnt=0)
-  > -- Complex(dcnt=0)
-  > -- OtherEntity(dcnt=0)
-  > -- Polymer(dcnt=0)
-  > -- SimpleEntity(dcnt=0)
+    - PhysicalEntity (dcnt=13)
+    -- EntitySet (dcnt=3)
+  > --- CandidateSet (dcnt=0)
+  > --- DefinedSet (dcnt=0)
+  > --- OpenSet (dcnt=0)
+    -- Drug (dcnt=2)
+  > --- ChemicalDrug (dcnt=0)
+  > --- ProteinDrug (dcnt=0)
+  > -- GenomeEncodedEntity (dcnt=1)
+  > --- EntityWithAccessionedSequence (dcnt=0)
+  > -- Complex (dcnt=0)
+  > -- OtherEntity (dcnt=0)
+  > -- Polymer (dcnt=0)
+  > -- SimpleEntity (dcnt=0)
 
   574,228 PhysicalEntity   87271 DefinedSet        74 87271  0.0008 isOrdered
   574,228 PhysicalEntity   87271 DefinedSet     86795 87271  0.9945 speciesName
@@ -42,10 +42,18 @@ class DefinedSet(EntitySet):
     # params: oldStId | speciesName isOrdered systematicName
 
     relationships = {
-        **EntitySet.relationships, 
+        **EntitySet.relationships,
         **{
+            'literatureReference': set(['LiteratureReference', 'URL']),
             'figure': set(['Figure']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+            'hasMember': set(['DefinedSet', 'CandidateSet', 'OpenSet',
+                              'ChemicalDrug', 'ProteinDrug',
+                              'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                              'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
+            'inferredTo': set(['DefinedSet', 'CandidateSet',
+                               'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                               'Complex', 'Polymer']),
         }
     }
 

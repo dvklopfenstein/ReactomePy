@@ -19,7 +19,7 @@ class Summation(DatabaseObject):
     fmtpat = '{schemaClass}: {text}'
 
     relationships = {
-        'literatureReference': set(['Publication']),
+        'literatureReference': set(['LiteratureReference', 'Book', 'URL']),
     }
 
     def __init__(self):

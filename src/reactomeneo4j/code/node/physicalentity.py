@@ -69,7 +69,7 @@ class PhysicalEntity(DatabaseObject):
     fmtpat = '{stId:13} {schemaClass:17} {aart} {displayName}'
 
     relationships = {
-        'literatureReference': set(['Publication']),
+        #'literatureReference': set(['Publication']),
         'crossReference'     : set(['DatabaseIdentifier']),
         'compartment'        : set(['Compartment']),
         #'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),

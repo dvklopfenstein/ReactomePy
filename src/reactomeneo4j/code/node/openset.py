@@ -44,10 +44,12 @@ class OpenSet(EntitySet):
     # params: oldStId | speciesName isOrdered definition
 
     relationships = {
-        **EntitySet.relationships, 
+        **EntitySet.relationships,
         **{
             'referenceEntity'    : set(['ReferenceMolecule']),
             'goCellularComponent': set(['GO_CellularComponent']),
+            'hasMember': set(['Polymer', 'EntityWithAccessionedSequence']),
+            'inferredTo': set(['OpenSet']),
         }
     }
 

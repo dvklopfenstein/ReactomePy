@@ -46,8 +46,9 @@ class GenomeEncodedEntity(PhysicalEntity):
     params_opt = PhysicalEntity.params_opt + ['definition']
 
     relationships = {
-        **PhysicalEntity.relationships, 
+        **PhysicalEntity.relationships,
         **{
+            'literatureReference': set(['LiteratureReference']),
             'species': set(['Species']),
             'inferredTo': set(['GenomeEncodedEntity']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),

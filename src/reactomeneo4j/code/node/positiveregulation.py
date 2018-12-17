@@ -36,24 +36,35 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.databaseobject import DatabaseObject
+from reactomeneo4j.code.node.regulation import Regulation
 
 
 # pylint: disable=too-few-public-methods
-class Regulation(DatabaseObject):
+class PositiveRegulation(Regulation):
     """Params seen on all Physical Entities."""
 
     # params_req: dbId schemaClass displayName
-    params_opt = ['oldStId', 'name', 'stId', 'stIdVersion']
+    # params_opt:= oldStId name stId stIdVersion
 
     relationships = {
-        'literatureReference': set(['LiteratureReference']),
-        #'regulator': set(['PhysicalEntity']),
-        'summation': set(['Summation']),
+        **Regulation.relationships,
+        **{
+            'literatureReference': set(['LiteratureReference', 'Book']),
+            'regulator': set([
+                'CandidateSet', 'DefinedSet',
+                #'ChemicalDrug',
+                #'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'EntityWithAccessionedSequence',
+                #'Complex', 'Polymer', 'SimpleEntity']),
+                'Complex', # 'Polymer', 'SimpleEntity']),
+                'OtherEntity',
+                'SimpleEntity',
+            ]),
+        }
     }
 
-    def __init__(self, name):
-        super(Regulation, self).__init__(name)
+    def __init__(self, name='PositiveRegulation'):
+        super(PositiveRegulation, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

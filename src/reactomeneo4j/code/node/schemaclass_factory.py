@@ -3,6 +3,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+# pylint: disable=line-too-long
 from collections import OrderedDict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.node.instanceedit import InstanceEdit
@@ -27,7 +28,11 @@ from reactomeneo4j.code.node.reaction import Reaction
 from reactomeneo4j.code.node.failedreaction import FailedReaction
 from reactomeneo4j.code.node.pathway import Pathway
 from reactomeneo4j.code.node.toplevelpathway import TopLevelPathway
-from reactomeneo4j.code.node.regulation import Regulation
+from reactomeneo4j.code.node.positiveregulation import PositiveRegulation
+from reactomeneo4j.code.node.positivegeneexpressionregulation import PositiveGeneExpressionRegulation
+from reactomeneo4j.code.node.requirement import Requirement
+from reactomeneo4j.code.node.negativeregulation import NegativeRegulation
+from reactomeneo4j.code.node.negativegeneexpressionregulation import NegativeGeneExpressionRegulation
 from reactomeneo4j.code.node.referenceentity import ReferenceEntity
 from reactomeneo4j.code.node.referencesequence import ReferenceSequence
 from reactomeneo4j.code.node.referencegeneproduct import ReferenceGeneProduct
@@ -48,13 +53,14 @@ from reactomeneo4j.code.node.go_cellularcomponent import GO_CellularComponent
 from reactomeneo4j.code.node.go_biologicalprocess import GO_BiologicalProcess
 from reactomeneo4j.code.node.go_molecularfunction import GO_MolecularFunction
 from reactomeneo4j.code.node.externalontology import ExternalOntology
-from reactomeneo4j.code.node.fragmentmodification import FragmentModification
+from reactomeneo4j.code.node.fragmentdeletionmodification import FragmentDeletionModification
+from reactomeneo4j.code.node.fragmentinsertionmodification import FragmentInsertionModification
 from reactomeneo4j.code.node.fragmentreplacedmodification import FragmentReplacedModification
 from reactomeneo4j.code.node.replacedresidue import ReplacedResidue
-from reactomeneo4j.code.node.translationalmodification import TranslationalModification
-from reactomeneo4j.code.node.crosslinkedresidue import CrosslinkedResidue
 from reactomeneo4j.code.node.interchaincrosslinkedresidue import InterChainCrosslinkedResidue
+from reactomeneo4j.code.node.intrachaincrosslinkedresidue import IntraChainCrosslinkedResidue
 from reactomeneo4j.code.node.groupmodifiedresidue import GroupModifiedResidue
+from reactomeneo4j.code.node.modifiedresidue import ModifiedResidue
 from reactomeneo4j.code.node.undirectedinteraction import UndirectedInteraction
 from reactomeneo4j.code.node.taxon import Taxon
 from reactomeneo4j.code.node.species import Species
@@ -122,11 +128,11 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > --- Requirement (dcnt=0)
     # > -- NegativeRegulation (dcnt=1)
     # > --- NegativeGeneExpressionRegulation (dcnt=0)
-    ('PositiveRegulation'              , Regulation('PositiveRegulation')),
-    ('PositiveGeneExpressionRegulation', Regulation('PositiveGeneExpressionRegulation')),
-    ('Requirement'                     , Regulation('Requirement')),
-    ('NegativeRegulation'              , Regulation('NegativeRegulation')),
-    ('NegativeGeneExpressionRegulation', Regulation('NegativeGeneExpressionRegulation')),
+    ('PositiveRegulation'              , PositiveRegulation()),
+    ('PositiveGeneExpressionRegulation', PositiveGeneExpressionRegulation()),
+    ('Requirement'                     , Requirement()),
+    ('NegativeRegulation'              , NegativeRegulation()),
+    ('NegativeGeneExpressionRegulation', NegativeGeneExpressionRegulation()),
 
     #   - AbstractModifiedResidue (dcnt=12)
     #   -- GeneticallyModifiedResidue (dcnt=5)
@@ -141,14 +147,14 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > ---- IntraChainCrosslinkedResidue (dcnt=0)
     # > --- GroupModifiedResidue (dcnt=0)
     # > --- ModifiedResidue (dcnt=0)
-    ('FragmentDeletionModification' , FragmentModification('FragmentDeletionModification')),
-    ('FragmentInsertionModification' , FragmentModification('FragmentInsertionModification')),
+    ('FragmentDeletionModification' , FragmentDeletionModification()),
+    ('FragmentInsertionModification' , FragmentInsertionModification()),
     ('FragmentReplacedModification' , FragmentReplacedModification()),
     ('ReplacedResidue' , ReplacedResidue()),
     ('InterChainCrosslinkedResidue' , InterChainCrosslinkedResidue()),
-    ('IntraChainCrosslinkedResidue' , CrosslinkedResidue('IntraChainCrosslinkedResidue')),
+    ('IntraChainCrosslinkedResidue' , IntraChainCrosslinkedResidue()),
     ('GroupModifiedResidue' , GroupModifiedResidue()),
-    ('ModifiedResidue' , TranslationalModification('ModifiedResidue')),
+    ('ModifiedResidue' , ModifiedResidue()),
 
     #   - Interaction (dcnt=1)
     # > -- UndirectedInteraction (dcnt=0)

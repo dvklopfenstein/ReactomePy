@@ -36,8 +36,9 @@ class Polymer(PhysicalEntity):
         ['speciesName', 'minUnitCount', 'maxUnitCount', 'definition']
 
     relationships = {
-        **PhysicalEntity.relationships, 
+        **PhysicalEntity.relationships,
         **{
+            'literatureReference': set(['LiteratureReference']),
             'species': set(['Species']),
             'inferredTo': set(['Polymer']),
             'repeatedUnit': set(['PhysicalEntity']),

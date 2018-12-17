@@ -44,6 +44,7 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
     relationships = {
         **GenomeEncodedEntity.relationships,
         **{
+            'literatureReference': set(['LiteratureReference', 'Book']),
             'inferredTo': set(['EntityWithAccessionedSequence', 'GenomeEncodedEntity', 'DefinedSet']),
             'hasModifiedResidue': set(['AbstractModifiedResidue']),
             'referenceEntity': set(['ReferenceSequence']),

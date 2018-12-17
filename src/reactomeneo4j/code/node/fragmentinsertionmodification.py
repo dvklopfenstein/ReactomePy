@@ -5,7 +5,7 @@
   --- FragmentModification (dcnt=3)
 > ---- FragmentDeletionModification (dcnt=0)
 > ---- FragmentInsertionModification (dcnt=0)
-> ---- FragmentReplacedModification (dcnt=0)
+> ---- FragmentInsertionModification (dcnt=0)
 > --- ReplacedResidue (dcnt=0)
   -- TranslationalModification (dcnt=5)
   --- FragmentModification (dcnt=2)
@@ -13,33 +13,31 @@
 > ---- IntraChainFragmentModification (dcnt=0)
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
-
-   78,581 AbstractModifiedResidue     95 FragmentReplacedModification     86     95  0.9053 alteredAminoAcidFragment
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.geneticallymodifiedresidue import GeneticallyModifiedResidue
+from reactomeneo4j.code.node.fragmentmodification import FragmentModification
 
 
 # pylint: disable=too-few-public-methods
-class FragmentModification(GeneticallyModifiedResidue):
-    """FragmentModification."""
+class FragmentInsertionModification(FragmentModification):
+    """FragmentInsertionModification."""
 
-    # params: dbId schemaClass displayName | coordinate
-    params_req = GeneticallyModifiedResidue.params_req + [
-        'startPositionInReferenceSequence',
-        'endPositionInReferenceSequence']
+    # params: dbId schemaClass displayName | coordinate |
+    #     startPositionInReferenceSequence endPositionInReferenceSequence
+    #### params_opt = FragmentModification.params_opt + ['alteredAminoAcidFragment']
 
-    # relationships = {
-    #     **GeneticallyModifiedResidue.relationships,
-    #     **{
-    #     }
-    # }
+    relationships = {
+        **FragmentModification.relationships, 
+        **{
+            'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceIsoform']),
+        }
+    }
 
-    def __init__(self, name):
-        super(FragmentModification, self).__init__(name)
+    def __init__(self):
+        super(FragmentInsertionModification, self).__init__('FragmentInsertionModification')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

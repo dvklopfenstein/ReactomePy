@@ -39,8 +39,9 @@ class TopLevelPathway(Event):
     params_opt = Event.params_opt + ['doi']
 
     relationships = {
-        **Event.relationships, 
+        **Event.relationships,
         **{
+            'literatureReference': set(['LiteratureReference', 'Book']),
             'inferredTo': set(['TopLevelPathway']),
             'figure': set(['Figure']),
             'hasEvent': set(['Reaction', 'BlackBoxEvent', 'Pathway']),

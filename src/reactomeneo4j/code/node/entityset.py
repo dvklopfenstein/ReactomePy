@@ -47,8 +47,6 @@ class EntitySet(PhysicalEntity):
         **{
             'species': set(['Species']),
             'relatedSpecies': set(['Species']),
-            'hasMember': set(['PhysicalEntity']),
-            'inferredTo': set(['PhysicalEntity']),
         }
     }
 

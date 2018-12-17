@@ -31,8 +31,9 @@ class BlackBoxEvent(ReactionLikeEvent):
     # params_opt = ReactionLikeEvent.params_opt + ['definition']
 
     relationships = {
-        **ReactionLikeEvent.relationships, 
+        **ReactionLikeEvent.relationships,
         **{
+            'literatureReference': set(['LiteratureReference', 'Book']),
             'inferredTo': set(['BlackBoxEvent', 'Reaction']),
             'figure': set(['Figure']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),

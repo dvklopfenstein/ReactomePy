@@ -58,7 +58,7 @@ class Event(DatabaseObject):
     fmtpat = '{stId:13} {schemaClass:17} {aart} {abc} {releaseDate} {displayName}'
 
     relationships = {
-        'literatureReference': set(['Publication']),
+        #'literatureReference': set(['Publication']),
         #'precedingEvent'     : set(['Event']),
         'compartment'        : set(['Compartment']),
         #'goBiologicalProcess': set(['GO_BiologicalProcess']),

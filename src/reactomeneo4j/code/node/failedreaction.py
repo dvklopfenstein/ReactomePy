@@ -30,8 +30,9 @@ class FailedReaction(ReactionLikeEvent):
     # params_opt: oldStId releaseStatus | isChimeric systematicName
 
     relationships = {
-        **ReactionLikeEvent.relationships, 
+        **ReactionLikeEvent.relationships,
         **{
+            'literatureReference': set(['LiteratureReference']),
             'inferredTo': set(['FailedReaction']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
             'entityOnOtherCell': set(['PhysicalEntity']),

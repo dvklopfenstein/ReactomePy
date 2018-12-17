@@ -36,24 +36,27 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.databaseobject import DatabaseObject
+from reactomeneo4j.code.node.negativeregulation import NegativeRegulation
 
 
 # pylint: disable=too-few-public-methods
-class Regulation(DatabaseObject):
+class NegativeGeneExpressionRegulation(NegativeRegulation):
     """Params seen on all Physical Entities."""
 
     # params_req: dbId schemaClass displayName
-    params_opt = ['oldStId', 'name', 'stId', 'stIdVersion']
+    # params_opt:= oldStId name stId stIdVersion
 
     relationships = {
-        'literatureReference': set(['LiteratureReference']),
-        #'regulator': set(['PhysicalEntity']),
-        'summation': set(['Summation']),
+        **NegativeRegulation.relationships,
+        **{
+            'regulator': set(['CandidateSet', 'DefinedSet',
+                              'EntityWithAccessionedSequence',
+                              'Complex']),
+        }
     }
 
-    def __init__(self, name):
-        super(Regulation, self).__init__(name)
+    def __init__(self):
+        super(NegativeGeneExpressionRegulation, self).__init__('NegativeGeneExpressionRegulation')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

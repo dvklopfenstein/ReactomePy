@@ -31,27 +31,26 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.geneticallymodifiedresidue import GeneticallyModifiedResidue
+from reactomeneo4j.code.node.translationalmodification import TranslationalModification
 
 
 # pylint: disable=too-few-public-methods
-class ReplacedResidue(GeneticallyModifiedResidue):
-    """ReplacedResidue."""
+class ModifiedResidue(TranslationalModification):
+    """ModifiedResidue."""
 
     # params_req: dbId schemaClass displayName
     # params_opt: coordinate
-    # params_opt = AbstractReplacedResidue.params_opt + ['secondCoordinate']
+    # params_opt = AbstractModifiedResidue.params_opt + ['secondCoordinate']
 
     relationships = {
-        **GeneticallyModifiedResidue.relationships,
+        **TranslationalModification.relationships,
         **{
             'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceIsoform']),
-            'psiMod': set(['PsiMod']),
         }
     }
 
     def __init__(self):
-        super(ReplacedResidue, self).__init__('ReplacedResidue')
+        super(ModifiedResidue, self).__init__('ModifiedResidue')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

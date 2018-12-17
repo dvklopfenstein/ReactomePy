@@ -31,6 +31,13 @@ class OtherEntity(PhysicalEntity):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = PhysicalEntity.params_opt + ['definition']
 
+    relationships = {
+        **PhysicalEntity.relationships,
+        **{
+            'literatureReference': set(['LiteratureReference']),
+        }
+    }
+
     def __init__(self):
         super(OtherEntity, self).__init__('OtherEntity')
 

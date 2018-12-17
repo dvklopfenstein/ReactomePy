@@ -43,9 +43,17 @@ class CandidateSet(EntitySet):
     params_opt = EntitySet.params_opt + ['definition']
 
     relationships = {
-        **EntitySet.relationships, 
+        **EntitySet.relationships,
         **{
+            'literatureReference': set(['LiteratureReference', 'URL', 'Book']),
             'hasCandidate': set(['PhysicalEntity']),
+            'hasMember': set(['CandidateSet', 'DefinedSet',
+                              'ChemicalDrug',
+                              'EntityWithAccessionedSequence',
+                              'Complex', 'Polymer', 'SimpleEntity']),
+            'inferredTo': set(['CandidateSet', 'DefinedSet',
+                               'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                               'Complex']),
         }
     }
 

@@ -27,11 +27,12 @@ class ChemicalDrug(Drug):
     """ChemicalDrug."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    # params: oldStId 
+    # params: oldStId
 
     relationships = {
-        **Drug.relationships, 
+        **Drug.relationships,
         **{
+            'literatureReference': set(['LiteratureReference']),
             'referenceEntity': set(['ReferenceMolecule']),
         }
     }
