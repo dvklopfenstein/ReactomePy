@@ -46,7 +46,12 @@ class CandidateSet(EntitySet):
         **EntitySet.relationships,
         **{
             'literatureReference': set(['LiteratureReference', 'URL', 'Book']),
-            'hasCandidate': set(['PhysicalEntity']),
+            # 'hasCandidate': set(['PhysicalEntity']),
+            'hasCandidate': set([
+                'CandidateSet', 'DefinedSet',
+                'ChemicalDrug',
+                'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'Complex', 'Polymer', 'SimpleEntity']),
             'hasMember': set(['CandidateSet', 'DefinedSet',
                               'ChemicalDrug',
                               'EntityWithAccessionedSequence',

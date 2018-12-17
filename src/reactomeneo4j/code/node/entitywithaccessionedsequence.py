@@ -16,14 +16,14 @@
   > -- Polymer (dcnt=0)
   > -- SimpleEntity (dcnt=0)
 
-  574,228 GenomeEncodedEntity   6094 GenomeEncodedEntity                  3   6094 0.0005 definition
-  574,228 GenomeEncodedEntity   6094 GenomeEncodedEntity               6094   6094 1.0000 speciesName
+574,228 GenomeEncodedEntity   6094 GenomeEncodedEntity                3   6094 0.0 definition
+574,228 GenomeEncodedEntity   6094 GenomeEncodedEntity             6094   6094 1.0 speciesName
 
-  574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence       12 363352 0.0000 definition
-  574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence   356700 363352 0.9817 endCoordinate
-  574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence   363352 363352 1.0000 referenceType
-  574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence   363352 363352 1.0000 speciesName
-  574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence   356088 363352 0.9800 startCoordinate
+574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence     12 363352 0.0 definition
+574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence 356700 363352 0.9 endCoordinate
+574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence 363352 363352 1.0 referenceType
+574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence 363352 363352 1.0 speciesName
+574,228 GenomeEncodedEntity 363352 EntityWithAccessionedSequence 356088 363352 0.9 startCoordinate
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -46,9 +46,23 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
         **{
             'literatureReference': set(['LiteratureReference', 'Book']),
             'inferredTo': set(['EntityWithAccessionedSequence', 'GenomeEncodedEntity', 'DefinedSet']),
-            'hasModifiedResidue': set(['AbstractModifiedResidue']),
-            'referenceEntity': set(['ReferenceSequence']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+            # 'hasModifiedResidue': set(['AbstractModifiedResidue']),
+            'hasModifiedResidue': set([
+                'FragmentDeletionModification',
+                'FragmentInsertionModification',
+                'FragmentReplacedModification',
+                'ReplacedResidue',
+                'InterChainCrosslinkedResidue',
+                'IntraChainCrosslinkedResidue',
+                'GroupModifiedResidue',
+                'ModifiedResidue']),
+            # 'referenceEntity': set(['ReferenceSequence']),
+            'referenceEntity': set([
+                'ReferenceGeneProduct',
+                'ReferenceIsoform',
+                'ReferenceDNASequence',
+                'ReferenceRNASequence']),
         }
     }
 

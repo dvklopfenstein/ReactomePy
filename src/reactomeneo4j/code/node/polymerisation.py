@@ -30,12 +30,15 @@ class Polymerisation(ReactionLikeEvent):
     # params_opt: oldStId releaseStatus | isChimeric systematicName
 
     relationships = {
-        **ReactionLikeEvent.relationships, 
+        **ReactionLikeEvent.relationships,
         **{
             'literatureReference': set(['LiteratureReference']),
             'inferredTo': set(['Polymerisation', 'BlackBoxEvent']),
             'requiredInputComponent': set(['Complex', 'EntityWithAccessionedSequence']),
             'evidenceType': set(['EvidenceType']),
+            'input': set(['Complex', 'SimpleEntity', 'CandidateSet', 'DefinedSet', 'Polymer', 'EntityWithAccessionedSequence']),
+            'output': set(['Complex', 'SimpleEntity', 'CandidateSet', 'DefinedSet', 'Polymer']),
+            'precedingEvent': set(['Polymerisation', 'BlackBoxEvent', 'Reaction']),
         }
     }
 

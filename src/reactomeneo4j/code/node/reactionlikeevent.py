@@ -34,10 +34,10 @@ class ReactionLikeEvent(Event):
     relationships = {
         **Event.relationships,
         **{
-            'precedingEvent': set(['Event']),
+            #'precedingEvent': set(['Event']),
             'relatedSpecies': set(['Species']),
-            'input': set(['PhysicalEntity']),
-            'output': set(['PhysicalEntity']),
+            #'input': set(['PhysicalEntity']),
+            #'output': set(['PhysicalEntity']),
             #'requiredInputComponent': set(['PhysicalEntity']),
             'catalystActivity': set(['CatalystActivity']),
             #'entityFunctionalStatus': set(['EntityFunctionalStatus']),

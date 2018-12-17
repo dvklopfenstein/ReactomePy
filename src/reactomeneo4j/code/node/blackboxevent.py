@@ -38,11 +38,17 @@ class BlackBoxEvent(ReactionLikeEvent):
             'figure': set(['Figure']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
             'requiredInputComponent': set(['Complex', 'EntityWithAccessionedSequence']),
-            'entityOnOtherCell': set(['PhysicalEntity']),
             'normalReaction': set(['Reaction', 'BlackBoxEvent']),
             'goBiologicalProcess': set(['GO_BiologicalProcess']),
-            'regulatedBy': set(['Regulation']),
             'evidenceType'       : set(['EvidenceType']),
+
+            # 'entityOnOtherCell': set(['PhysicalEntity']),
+            'entityOnOtherCell': set(['SimpleEntity', 'DefinedSet', 'OpenSet', 'Polymer', 'EntityWithAccessionedSequence']),
+            'input': set(['Complex', 'SimpleEntity', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'OtherEntity', 'OpenSet', 'Polymer', 'EntityWithAccessionedSequence']),
+            'output': set(['Complex', 'SimpleEntity', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'OtherEntity', 'Polymer', 'EntityWithAccessionedSequence']),
+            'precedingEvent': set(['Polymerisation', 'Pathway', 'BlackBoxEvent', 'Reaction']),
+            # 'regulatedBy': set(['Regulation']),
+            'regulatedBy': set(['NegativeRegulation', 'PositiveGeneExpressionRegulation', 'Requirement', 'PositiveRegulation', 'NegativeGeneExpressionRegulation']),
         }
     }
 

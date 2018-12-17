@@ -31,20 +31,50 @@ class Reaction(ReactionLikeEvent):
     params_opt = ReactionLikeEvent.params_opt + ['definition']
 
     relationships = {
-        **ReactionLikeEvent.relationships, 
+        **ReactionLikeEvent.relationships,
         **{
             'literatureReference': set(['LiteratureReference', 'Book', 'URL']),
             'inferredTo': set(['Reaction', 'BlackBoxEvent']),
             'figure': set(['Figure']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
-            'requiredInputComponent': set(['PhysicalEntity']),
             'crossReference': set(['DatabaseIdentifier']),
             'reverseReaction': set(['Reaction']),
-            'entityOnOtherCell': set(['PhysicalEntity']),
             'normalReaction': set(['Reaction']),
             'goBiologicalProcess': set(['GO_BiologicalProcess']),
-            'regulatedBy': set(['Regulation']),
             'evidenceType': set(['EvidenceType']),
+
+            # 'entityOnOtherCell': set(['PhysicalEntity']),
+            'entityOnOtherCell': set([
+                'CandidateSet', 'DefinedSet',
+                'EntityWithAccessionedSequence',
+                'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
+            'input': set([
+                'CandidateSet', 'DefinedSet',
+                'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'ChemicalDrug',
+                'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
+            'output': set([
+                'CandidateSet', 'DefinedSet',
+                'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
+            'precedingEvent': set([
+                'BlackBoxEvent',
+                'Polymerisation',
+                'Depolymerisation',
+                'Reaction',
+                'Pathway']),
+            # 'regulatedBy': set(['Regulation']),
+            'regulatedBy': set([
+                'PositiveRegulation',
+                'PositiveGeneExpressionRegulation',
+                'Requirement',
+                'NegativeRegulation',
+                'NegativeGeneExpressionRegulation']),
+            # 'requiredInputComponent': set(['PhysicalEntity']),
+            'requiredInputComponent': set([
+                'CandidateSet',
+                'EntityWithAccessionedSequence',
+                'Complex', 'OtherEntity', 'SimpleEntity']),
         }
     }
 

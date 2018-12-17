@@ -35,9 +35,15 @@ class FailedReaction(ReactionLikeEvent):
             'literatureReference': set(['LiteratureReference']),
             'inferredTo': set(['FailedReaction']),
             'entityFunctionalStatus': set(['EntityFunctionalStatus']),
-            'entityOnOtherCell': set(['PhysicalEntity']),
             'normalReaction': set(['Reaction', 'BlackBoxEvent']),
-            'regulatedBy': set(['Regulation']),
+
+            # 'entityOnOtherCell': set(['PhysicalEntity']),
+            'entityOnOtherCell': set(['EntityWithAccessionedSequence']),
+            'input': set(['SimpleEntity', 'Complex', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'OtherEntity', 'Polymer', 'EntityWithAccessionedSequence']),
+            'output': set(['Complex', 'EntityWithAccessionedSequence']),
+            'precedingEvent': set(['Reaction']),
+            # 'regulatedBy': set(['Regulation']),
+            'regulatedBy': set(['NegativeRegulation']),
         }
     }
 

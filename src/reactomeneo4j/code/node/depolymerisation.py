@@ -35,6 +35,10 @@ class Depolymerisation(ReactionLikeEvent):
             'literatureReference': set(['LiteratureReference']),
             'inferredTo': set(['Depolymerisation']),
             'evidenceType': set(['EvidenceType']),
+
+            'input': set(['SimpleEntity', 'Complex', 'Polymer']),
+            'output': set(['SimpleEntity', 'Complex', 'CandidateSet', 'DefinedSet', 'Polymer', 'EntityWithAccessionedSequence']),
+            'precedingEvent': set(['Reaction']),
         }
     }
 

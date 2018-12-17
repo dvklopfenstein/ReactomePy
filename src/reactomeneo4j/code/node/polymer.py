@@ -41,7 +41,8 @@ class Polymer(PhysicalEntity):
             'literatureReference': set(['LiteratureReference']),
             'species': set(['Species']),
             'inferredTo': set(['Polymer']),
-            'repeatedUnit': set(['PhysicalEntity']),
+            # 'repeatedUnit': set(['PhysicalEntity']),
+            'repeatedUnit': set(['Complex', 'SimpleEntity', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'Polymer', 'EntityWithAccessionedSequence']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
         }
     }
