@@ -66,7 +66,7 @@ class PhysicalEntity(DatabaseObject):
     params_req = DatabaseObject.params_req + ['stId', 'stIdVersion', 'isInDisease', 'name']
     params_opt = ['oldStId']
 
-    fmtpat = '{stId:13} {schemaClass:17} {aart} {displayName}'
+    fmtpat = '{stId:13} {schemaClass:17} {aart} {abc} {displayName}'
 
     relationships = {
         #'literatureReference': set(['Publication']),
@@ -85,15 +85,18 @@ class PhysicalEntity(DatabaseObject):
 
     def __init__(self, name='PhysicalEntity'):
         super(PhysicalEntity, self).__init__(name)
-        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart optional')
+        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""
         k2v = DatabaseObject.get_dict(self, node)
         k2v['aart'] = 'D' if k2v['isInDisease'] else '.'
+        _opt = k2v['optional']
+        k2v['abc'] = self._get_abc(_opt)
         return k2v
 
     def get_nt(self, node):
+        """Add succinct fields."""
         return self.ntobj(**self.get_dict(node))
 
 

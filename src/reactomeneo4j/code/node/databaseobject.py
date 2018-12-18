@@ -39,5 +39,11 @@ class DatabaseObject():
         """Return a Python namedtuple containing all Neo4j Node parameters."""
         return self.ntobj(**self.get_dict(node))
 
+    def _get_abc(self, k2vopt):
+        if 'speciesName' in k2vopt:
+            species = k2vopt['speciesName']
+            return self.species2nt[species].abbreviation if species in self.species2nt else 'nnn'
+        return '...'
+
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

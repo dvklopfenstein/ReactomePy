@@ -6,6 +6,15 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 
+def get_dbids(gdbdr, nodestr='Complex{stId:"R-HSA-167199"}'):
+    """Get DatabaseObject dbId, which is present on all Nodes."""
+    dbids = set()
+    query = 'MATCH (n:NODESTR) RETURN n'.format(NODESTR=nodestr)
+    with gdbdr.session() as session:
+        for rec in session.run(query).records():
+            dbids.add(rec['n']['dbId'])
+    return dbids
+
 def get_version(gdbdr):
     """Get Reactome version."""
     version = None
