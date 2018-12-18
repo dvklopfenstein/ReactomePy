@@ -26,7 +26,6 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from collections import namedtuple
 from reactomeneo4j.code.node.physicalentity import PhysicalEntity
 
 
@@ -63,15 +62,17 @@ class Complex(PhysicalEntity):
 
     def __init__(self):
         super(Complex, self).__init__('Complex')
-        #### self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
 
     def get_nt(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""
-        k2v = self.get_dict(node)
+        return self.ntobj(**PhysicalEntity.get_dict(self, node))
+
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = PhysicalEntity.get_dict(self, node)
         _opt = k2v['optional']
         k2v['aart'] = k2v['aart'] + self._get_ischimeric(_opt)
-        #### k2v['abc'] = self._get_abc(_opt)
-        return self.ntobj(**k2v)
+        return k2v
 
     @staticmethod
     def _get_ischimeric(k2vopt):

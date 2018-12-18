@@ -112,7 +112,6 @@ class Init(object):
 
     def _add_children(self):
         """From relationships loaded, extract children."""
-        dbids_hier = set(self.dbid2node.keys())
         seen = set()
         for dbid, node in self.dbid2node.items():
             if not seen:

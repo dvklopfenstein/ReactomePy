@@ -4,7 +4,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # import os
-from collections import namedtuple
+from collections import defaultdict
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 
 
@@ -12,16 +12,13 @@ from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 class Neo4jNode():
     """Holds data extracted from Neo4j."""
 
-    # Query to determine Nodes in this item's relationships
-    qrypat = 'MATCH (src:DatabaseObject{{dbId:{DBID}}})-[rel]->(dst) RETURN src, rel, dst'
-    ntrel = namedtuple('NtRel', 'rel dst')
 
     def __init__(self, neo4jnode, **kws):  # gdbdr=None, prtfmt=None):
-        # kws: gdbdr prtfmt
-        self.objsch = self._init_objsch(neo4jnode['schemaClass'])
-        self.rel_excl = kws['rel_excl'] if 'rel_excl' in kws else {'inferredTo'}
-        self.ntrels = self._init_ntrels(neo4jnode['dbId'], kws.get('gdbdr'))
-        self.ntp = self.objsch.get_nt(neo4jnode)
+        # kws: gdbdr prtfmt rel_excl
+        _ini = _Init(neo4jnode['dbId'], neo4jnode['schemaClass'], **kws)
+        self.objsch = _ini.get_objsch()  # derived from DatabaseObject
+        self.rel2nodes = _ini.get_rel2nodes()
+        self.ntp = _ini.get_nt(neo4jnode, self.rel2nodes, self.objsch)
         self.fmtpat = kws['prtfmt'] if 'prtfmt' in kws else self.objsch.fmtpat
 
     def __str__(self):
@@ -29,10 +26,11 @@ class Neo4jNode():
 
     def prt_verbose(self, prt):
         """Return a string with all details of the Node and its relationships."""
-        prt.write('\n{NT}\n'.format(NT=self.ntp)) 
-        prt.write('\n{O}\n'.format(O=self)) 
-        for ntrel in self.ntrels:
-            prt.write('DDDD {REL:20} {D}\n'.format(REL=ntrel.rel, D=ntrel.dst))
+        prt.write('\n{NT}\n'.format(NT=self.ntp))
+        prt.write('\n{O}\n'.format(O=self))
+        for rel, nodes in self.rel2nodes.items():
+            for dst in nodes:
+                prt.write('DDDD {REL:20} {D}\n'.format(REL=rel, D=dst))
 
     # def _init_rels(self, **kws):
     #     """Collect all Neo4j Nodes at the end of this object's relationships."""
@@ -46,32 +44,56 @@ class Neo4jNode():
     #                 rel2nodes[rel] = self.__init_rels(rel, exp_sch, gdbdr)
     #     return rel2nodes
 
-    def __init_ntrels(self, dbid, gdbdr):
-        """Query for objects at the end of this relationship."""
-        rels = []
-        qryrel = '|'.join(self.objsch.relationships.keys())
-        qry = self.qrypat.format(DBID=dbid, REL=qryrel)
-        #print('\n{Q}'.format(Q=qry))
-        with gdbdr.session() as session:
-            _ntrel = self.ntrel
-            for idx, rec in enumerate(session.run(qry).records()):
-                rel = rec['rel'].type
-                if rel not in self.rel_excl:
-                    #print('{IDX} {REL:19} {NODE}'.format(IDX=idx, REL=rec['rel'].type, NODE=rec['dst']))
-                    rels.append(_ntrel(rel=rel, dst=Neo4jNode(rec['dst'])))
-        return rels
 
-    def _init_ntrels(self, dbid, gdbdr):
-        """Initialize relationships."""
-        ntrels = []
-        if gdbdr:
-            return self.__init_ntrels(dbid, gdbdr)
-        return ntrels
+class _Init():
+    """Initialize a Python Node from a neo4j.node."""
 
-    @staticmethod
-    def _init_objsch(sch):
+    # Query to determine Nodes in this item's relationships
+    qrypat = 'MATCH (src:DatabaseObject{{dbId:{DBID}}})-[rel]->(dst) RETURN src, rel, dst'
+
+    def __init__(self, dbid, schemaclass, **kws):
+        self.dbid = dbid
+        self.sch = schemaclass
+        self.kws = kws  # kws: gdbdr rel_excl
+        self.rel_excl = kws['rel_excl'] if 'rel_excl' in kws else {'inferredTo'}
+
+    def get_nt(self, neo4jnode, rel2nodes, objsch):
+        """Fill in data nt w/data from relationships, if provided."""
+        if rel2nodes:
+            k2v = objsch.get_dict(neo4jnode)
+            if 'abc' in k2v and 'species' in rel2nodes:
+                abc = self._get_abc(k2v['abc'], rel2nodes['species'], objsch)
+                k2v['abc'] = abc
+            return objsch.ntobj(**k2v)
+        return objsch.get_nt(neo4jnode)
+
+    def get_rel2nodes(self):
+        """Query for objects at the end of this Node's relationships."""
+        if 'gdbdr' in self.kws:
+            rel2nodes = defaultdict(list)
+            qry = self.qrypat.format(DBID=self.dbid)
+            #print('\n{Q}'.format(Q=qry))
+            with self.kws['gdbdr'].session() as session:
+                for rec in session.run(qry).records():
+                    rel = rec['rel'].type
+                    if rel not in self.rel_excl:
+                        #print('{I} {R:19} {NOD}'.format(I=idx, R=rec['rel'].type, NOD=rec['dst']))
+                        rel2nodes[rel].append(Neo4jNode(rec['dst']))
+            return {rel:o for rel, o in rel2nodes.items()}
+        return {}
+
+    def get_objsch(self):
         """Given schemaClass, create data framework object."""
-        assert sch in SCHEMACLASS2CONSTRUCTOR, '**FATAL: BAD schemaClass({S})'.format(S=sch)
-        return SCHEMACLASS2CONSTRUCTOR[sch]
+        assert self.sch in SCHEMACLASS2CONSTRUCTOR, '**FATAL: BAD schemaClass({S})'.format(S=self.sch)
+        return SCHEMACLASS2CONSTRUCTOR[self.sch]
+
+    def _get_abc(self, abc_param, species_nodes, objsch):
+        """Return a value for abc."""
+        abc_rel = '-'.join(objsch.species2nt.get(o.ntp.displayName, '???').abbreviation for o in species_nodes)
+        if abc_param == '...' or abc_param == abc_rel:
+            return abc_rel
+        print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
+            DBID=self.dbid, SCH=self.sch, P=abc_param, R=abc_rel))
+        return 'XXX'
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

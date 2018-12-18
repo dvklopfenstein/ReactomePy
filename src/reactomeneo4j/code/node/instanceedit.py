@@ -42,7 +42,7 @@ class InstanceEdit(DatabaseObject):
 
     def get_nt(self, node):
         """Query Reactome database for all edit dates."""
-        k2v = self.get_dict()
+        k2v = DatabaseObject.get_dict(self, node)
         k2v['dateTime'] = datetime.strptime(k2v['dateTime'].split('.')[0], self.timefmt)
         return self.ntobj(**k2v)
 
