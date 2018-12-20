@@ -24,15 +24,23 @@ class DataSchemaHier(object):
         prt.write('TOP DATA SCHEMA: DatabaseObject\n')
         prt.write('------------------------------------\n')
         self.prt_data_schema('DatabaseObject', prt, max_indent=2, **kws)
-        # Get Data Schema depth-01 nodes which have descendents
-        objs_d1_all = [o for o in self.name2obj.values() if o.depth == 1 and o.dcnt != 0]
-        objs_d1_sel = [o for o in sorted(objs_d1_all, key=self.sortby)]
         # Print hierarchies for depth-01 data schema
         prt.write('\nDEPTH-01 DATA SCHEMA: DatabaseObject\n')
         prt.write('------------------------------------\n')
-        for node_obj in objs_d1_sel:
+        # Print the descnedants of Data Schema depth-01 nodes
+        for node_obj in self.get_objs_d1_top():
             prt.write('\n')
             self.prt_data_schema(node_obj.item_id, prt, **kws)
+
+    def get_objs_d1_top(self):
+        """Get D1 schemaClasses that have other schemaClasses below them."""
+        objs_d1_all = [o for o in self.name2obj.values() if o.depth == 1 and o.dcnt != 0]
+        return sorted(objs_d1_all, key=self.sortby)
+
+    def get_objs_d1_dcnt0(self):
+        """Get D1 schemaClasses that have other schemaClasses below them."""
+        objs_d1_all = [o for o in self.name2obj.values() if o.depth == 1 and o.dcnt == 0]
+        return sorted(objs_d1_all, key=self.sortby)
 
     def get_ids_lte(self, name):
         """Return a set containing current data schema name ID and its descendants."""
