@@ -7,7 +7,7 @@ __author__ = "DV Klopfenstein"
 
 import timeit
 import datetime
-from collections import Counter
+# from collections import Counter
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 
@@ -20,9 +20,6 @@ class NodeHier():
               'dst.dbId AS dst_dbId, dst.schemaClass AS dst_schemaClass')
               #'rels, '
 
-    patrel = ('MATCH (src:DatabaseObject{dbId:DBID})-[rel]->(dst) '
-              'RETURN src, rel, dst.dbId AS dst_dbId')
-
     # inferredTo increases query times greatly, so exclude
     excl_rel_dft = {'inferredTo'}
 
@@ -31,45 +28,62 @@ class NodeHier():
         self.excl_rel = self.excl_rel_dft if excl_rel is None else set(excl_rel)
 
     def add_values(self, dbid2nodebasic):
-        tic = timeit.default_timer()
+        """Add parameter values and relationships w/their destination dbIds."""
         with self.gdbdr.session() as session:
-            for dbid, nodebasic in dbid2nodebasic.items():
-                qry = self.patrel.replace('DBID', str(dbid))
-                for rec in session.run(qry).records():
-                    nodebasic.set_dict(rec['src'])
-                    # print(rec)
-                    # print(rec['rel'].type)
-                    nodebasic.set_rel(rec['rel'].type, rec['dst_dbId'])
-        print('  HMS: {HMS} {N} dbIds: {Q}'.format(HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
+            pat = 'MATCH (s:DatabaseObject{dbId:ID})-[r]->(d) RETURN s, r, d.dbId AS d_Id'
+            id2node_norel = self._addval_src_rel_dst(pat, dbid2nodebasic, session)
+            pat = 'MATCH (src:DatabaseObject{dbId:DBID}) RETURN src'
+            self._addval_src_norel(pat, id2node_norel, session)
 
-    def get_dbid2nodebasic(self, schemaclass, paramstr, exclude=None):
+    def _addval_src_norel(self, pat, id2node_norel, session):
+        """Add paramter values for node IDs that have no relationships."""
+        tic = timeit.default_timer()
+        for dbid, nodebasic in id2node_norel.items():
+            qry = pat.replace('DBID', str(dbid))
+            for rec in session.run(qry).records():
+                nodebasic.set_dict(rec['src'])
+        print('  HMS: {HMS} {N} dbIds: {Q}'.format(
+            HMS=self.get_hms(tic), N=len(id2node_norel), Q=qry))
+
+    def _addval_src_rel_dst(self, pat, dbid2nodebasic, session):
+        """Add parameter values and relationships w/their destination dbIds."""
+        dbid2nodenorel = {}
+        tic = timeit.default_timer()
+        for dbid, nodebasic in dbid2nodebasic.items():
+            qry = pat.replace('ID', str(dbid))
+            for rec in session.run(qry).records():
+                nodebasic.set_dict(rec['s'])
+                rel = rec['r'].type
+                if rel not in self.excl_rel:
+                    nodebasic.set_rel(rel, dbid2nodebasic[rec['d_Id']])
+            if not nodebasic.relationship:
+                dbid2nodenorel[dbid] = nodebasic
+        print('  HMS: {HMS} {N} dbIds: {Q}'.format(
+            HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
+        return dbid2nodenorel
+
+    def get_dbid2nodebasic(self, schemaclass, paramstr):
         """Get the schemaClasses and dbIds for all nodes below the specified node."""
+        # MATCH (src{USERVALS})-[rels:RELS*]->(dst) RETURN DISTINCT ...
         dbid2nodebasic = {}
         tic = timeit.default_timer()
-        qry = self.get_query(schemaclass, paramstr, self.patini, exclude)
-        relctr = Counter()
+        qry = self.get_query(schemaclass, paramstr, self.patini)
         with self.gdbdr.session() as session:
             for rec in session.run(qry).records():
                 if rec['src_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['src_dbId'], rec['src_schemaClass'])
                 if rec['dst_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
-                #print('RRRRRRRRRRRRRR DST {SCH:32}'.format(SCH=rec['dst_schemaClass']), [r.type for r in rec['rels']])
-        print('  HMS: {HMS} {N} dbIds: {Q}'.format(HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
-        #self._prt_summary(tic, dbid2nodebasic, relctr)
+        print('  HMS: {HMS} {N} dbIds: {Q}'.format(
+            HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
         return dbid2nodebasic
-
-    def _prt_summary(tic, dbid2nodebasic, relctr):
-        """Print nodes and relationships found by query."""
-        # for rel, cnt in rectr.items():
-        #     print('  {N} {REL}'.format(N=cnt, REL=rel))
 
     @staticmethod
     def _add_id2nodeb(dbid2nodebasic, dbid, schemaclass):
         """Add a Neo4jNodeBasic node to the dbId dict."""
         dbid2nodebasic[dbid] = Neo4jNodeBasic(dbid, schemaclass)
 
-    def get_query(self, schemaclass, paramstr, qrypat, exclude):
+    def get_query(self, schemaclass, paramstr, qrypat):
         """Get query to return all lower-level nodes."""
         # query = qrypat.replace('SCH', schemaclass)
         query = qrypat.replace('PARAMS', paramstr)
