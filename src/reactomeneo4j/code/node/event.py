@@ -81,8 +81,8 @@ class Event(DatabaseObject):
         k2v = DatabaseObject.get_dict(self, node)
         k2v['releaseDate'] = datetime.strptime(k2v['releaseDate'], self.datefmt).date()
         k2v['aart'] = ''.join([
-            'D' if k2v['isInDisease'] else '.',
-            'I' if k2v['isInferred'] else '.'])
+            self.P2A['D'] if k2v['isInDisease'] else '.',
+            self.P2A['I'] if k2v['isInferred'] else '.'])
         species = k2v['speciesName']
         k2v['abc'] = self.species2nt[species].abbreviation if species in self.species2nt else '...'
         return k2v

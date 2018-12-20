@@ -53,6 +53,7 @@ from reactomeneo4j.code.node.go_cellularcomponent import GO_CellularComponent
 from reactomeneo4j.code.node.go_biologicalprocess import GO_BiologicalProcess
 from reactomeneo4j.code.node.go_molecularfunction import GO_MolecularFunction
 from reactomeneo4j.code.node.externalontology import ExternalOntology
+from reactomeneo4j.code.node.abstractmodifiedresidue import AbstractModifiedResidue
 from reactomeneo4j.code.node.fragmentdeletionmodification import FragmentDeletionModification
 from reactomeneo4j.code.node.fragmentinsertionmodification import FragmentInsertionModification
 from reactomeneo4j.code.node.fragmentreplacedmodification import FragmentReplacedModification
@@ -95,6 +96,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     ('CandidateSet', CandidateSet()),
     ('DefinedSet', DefinedSet()),
     ('OpenSet', OpenSet()),
+    ('Drug', Drug()),
     ('ChemicalDrug', ChemicalDrug()),
     ('ProteinDrug', Drug('ProteinDrug')),   # ProteinDrug()
     ('GenomeEncodedEntity', GenomeEncodedEntity()),
@@ -147,6 +149,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > ---- IntraChainCrosslinkedResidue (dcnt=0)
     # > --- GroupModifiedResidue (dcnt=0)
     # > --- ModifiedResidue (dcnt=0)
+    ('AbstractModifiedResidue' , AbstractModifiedResidue()),
     ('FragmentDeletionModification' , FragmentDeletionModification()),
     ('FragmentInsertionModification' , FragmentInsertionModification()),
     ('FragmentReplacedModification' , FragmentReplacedModification()),
@@ -154,6 +157,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     ('InterChainCrosslinkedResidue' , InterChainCrosslinkedResidue()),
     ('IntraChainCrosslinkedResidue' , IntraChainCrosslinkedResidue()),
     ('GroupModifiedResidue' , GroupModifiedResidue()),
+    ('160G' , ModifiedResidue()),
     ('ModifiedResidue' , ModifiedResidue()),
 
     #   - Interaction (dcnt=1)
@@ -182,6 +186,7 @@ SCHEMACLASS2CONSTRUCTOR = OrderedDict([
     # > -- LiteratureReference (dcnt=0)
     # > -- Book (dcnt=0)
     # > -- URL  (dcnt=0)
+    ('LiteratureReference', LiteratureReference()),
     ('LiteratureReference', LiteratureReference()),
     ('Book', Book()),
     ('URL', URL()),

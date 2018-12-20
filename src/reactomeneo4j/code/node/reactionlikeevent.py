@@ -50,5 +50,20 @@ class ReactionLikeEvent(Event):
     def __init__(self, name):
         super(ReactionLikeEvent, self).__init__(name)
 
+    def get_nt(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        return self.ntobj(**Event.get_dict(self, node))
+
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = Event.get_dict(self, node)
+        _opt = k2v['optional']
+        k2v['aart'] = k2v['aart'] + self._get_ischimeric(_opt)
+        return k2v
+
+    def _get_ischimeric(self, k2vopt):
+        if 'isChimeric' not in k2vopt:
+            return '.'
+        return self.P2A['isChimeric'] if k2vopt['isChimeric'] else 'n'
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

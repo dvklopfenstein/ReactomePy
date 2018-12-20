@@ -40,7 +40,7 @@ class EntitySet(PhysicalEntity):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     # params: oldStId
-    params_opt = PhysicalEntity.params_opt + ['speciesName', 'isOrdered', 'systematicName']
+    params_opt = PhysicalEntity.params_opt + ['isOrdered', 'systematicName']
 
     relationships = {
         **PhysicalEntity.relationships,
@@ -53,5 +53,16 @@ class EntitySet(PhysicalEntity):
     def __init__(self, name='EntitySet'):
         super(EntitySet, self).__init__(name)
 
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = PhysicalEntity.get_dict(self, node)
+        _opt = k2v['optional']
+        k2v['aart'] = k2v['aart'] + self._get_isordered(_opt)
+        return k2v
+
+    def _get_isordered(self, k2vopt):
+        if 'isOrdered' not in k2vopt:
+            return '.'
+        return self.P2A['isOrdered'] if k2vopt['isOrdered'] else 'n'
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

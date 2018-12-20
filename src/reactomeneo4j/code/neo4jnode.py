@@ -31,6 +31,8 @@ class Neo4jNode():
         for rel, nodes in self.rel2nodes.items():
             for dst in nodes:
                 prt.write('DDDD {REL:20} {D}\n'.format(REL=rel, D=dst))
+                if rel in set(['referenceEntity']):
+                    prt.write('---- {NT}\n'.format(NT=dst.ntp))
 
     # def _init_rels(self, **kws):
     #     """Collect all Neo4j Nodes at the end of this object's relationships."""
@@ -62,8 +64,7 @@ class _Init():
         if rel2nodes:
             k2v = objsch.get_dict(neo4jnode)
             if 'abc' in k2v and 'species' in rel2nodes:
-                abc = self._get_abc(k2v['abc'], rel2nodes['species'], objsch)
-                k2v['abc'] = abc
+                k2v['abc'] = self._get_abc(k2v['abc'], rel2nodes['species'], objsch)
             return objsch.ntobj(**k2v)
         return objsch.get_nt(neo4jnode)
 
@@ -90,7 +91,8 @@ class _Init():
     def _get_abc(self, abc_param, species_nodes, objsch):
         """Return a value for abc."""
         abc_rel = '-'.join(objsch.species2nt.get(o.ntp.displayName, '???').abbreviation for o in species_nodes)
-        if abc_param == '...' or abc_param == abc_rel:
+        # if abc_param == '...' or abc_param == abc_rel:
+        if abc_param in {'...', abc_rel}:
             return abc_rel
         print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
             DBID=self.dbid, SCH=self.sch, P=abc_param, R=abc_rel))

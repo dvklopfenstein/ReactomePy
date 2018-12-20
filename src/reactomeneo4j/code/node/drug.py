@@ -36,7 +36,7 @@ class Drug(PhysicalEntity):
         }
     }
 
-    def __init__(self, name):
+    def __init__(self, name='Drug'):
         super(Drug, self).__init__(name)
 
 

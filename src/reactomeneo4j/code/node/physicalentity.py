@@ -90,7 +90,7 @@ class PhysicalEntity(DatabaseObject):
     def get_dict(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""
         k2v = DatabaseObject.get_dict(self, node)
-        k2v['aart'] = 'D' if k2v['isInDisease'] else '.'
+        k2v['aart'] = self.P2A['isInDisease'] if k2v['isInDisease'] else '.'
         _opt = k2v['optional']
         k2v['abc'] = self._get_abc(_opt)
         return k2v

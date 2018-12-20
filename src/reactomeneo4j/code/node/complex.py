@@ -36,8 +36,6 @@ class Complex(PhysicalEntity):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = PhysicalEntity.params_opt + ['speciesName', 'isChimeric', 'systematicName']
 
-    #### fmtpat = '{stId:13} {schemaClass:17} {aart} {abc} {displayName}'
-
     relationships = {
         **PhysicalEntity.relationships,
         **{
@@ -74,11 +72,10 @@ class Complex(PhysicalEntity):
         k2v['aart'] = k2v['aart'] + self._get_ischimeric(_opt)
         return k2v
 
-    @staticmethod
-    def _get_ischimeric(k2vopt):
+    def _get_ischimeric(self, k2vopt):
         if 'isChimeric' not in k2vopt:
             return '.'
-        return 'C' if k2vopt['isChimeric'] else 'n'
+        return self.P2A['isChimeric'] if k2vopt['isChimeric'] else 'n'
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

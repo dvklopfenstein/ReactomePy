@@ -17,11 +17,13 @@ class DatabaseObject():
     species2nt = {nt.displayName:nt for nt in SPECIES}
 
     # 'is' params:
-    #     18  C isInDisease
-    #      7  I isInferred
-    #      6  C isChimeric
-    #      2  S isSequenceChanged
-    #      2  O isOrdered
+    P2A = {  # Parameter-to-letter
+        'isInDisease': 'C',
+        'isInferred': 'I',
+        'isChimeric': 'C',
+        'isSequenceChanged': 'S',
+        'isOrdered': 'O'
+    }
 
     relationships = {}
 
