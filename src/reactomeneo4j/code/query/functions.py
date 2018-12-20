@@ -14,29 +14,48 @@ from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 class NodeHier():
     """Create, collect, and report a Node hierarchy."""
 
-    patini = ('MATCH (src:SCH{PARAMS})-[rels:RELS*]->'
-              '(dst) RETURN DISTINCT '
+    patini = ('MATCH (src:DatabaseObject{PARAMS})-[rels:RELS*]->(dst) '
+              'RETURN DISTINCT '
               'src.dbId AS src_dbId, src.schemaClass AS src_schemaClass, '
               'dst.dbId AS dst_dbId, dst.schemaClass AS dst_schemaClass')
               #'rels, '
 
-    def __init__(self, gdbdr):
+    patrel = ('MATCH (src:DatabaseObject{dbId:DBID})-[rel]->(dst) '
+              'RETURN src, rel, dst.dbId AS dst_dbId')
+
+    # inferredTo increases query times greatly, so exclude
+    excl_rel_dft = {'inferredTo'}
+
+    def __init__(self, gdbdr, excl_rel=None):
         self.gdbdr = gdbdr
+        self.excl_rel = self.excl_rel_dft if excl_rel is None else set(excl_rel)
+
+    def add_values(self, dbid2nodebasic):
+        tic = timeit.default_timer()
+        with self.gdbdr.session() as session:
+            for dbid, nodebasic in dbid2nodebasic.items():
+                qry = self.patrel.replace('DBID', str(dbid))
+                for rec in session.run(qry).records():
+                    nodebasic.set_dict(rec['src'])
+                    # print(rec)
+                    # print(rec['rel'].type)
+                    nodebasic.set_rel(rec['rel'].type, rec['dst_dbId'])
+        print('  HMS: {HMS} {N} dbIds: {Q}'.format(HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
 
     def get_dbid2nodebasic(self, schemaclass, paramstr, exclude=None):
-        """Get the schemaClasses and dbIds for all nodes below cyphnode."""
+        """Get the schemaClasses and dbIds for all nodes below the specified node."""
         dbid2nodebasic = {}
         tic = timeit.default_timer()
-        query = self.get_query(schemaclass, paramstr, self.patini, exclude)
+        qry = self.get_query(schemaclass, paramstr, self.patini, exclude)
         relctr = Counter()
         with self.gdbdr.session() as session:
-            for rec in session.run(query).records():
+            for rec in session.run(qry).records():
                 if rec['src_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['src_dbId'], rec['src_schemaClass'])
                 if rec['dst_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
                 #print('RRRRRRRRRRRRRR DST {SCH:32}'.format(SCH=rec['dst_schemaClass']), [r.type for r in rec['rels']])
-        print('  HMS: {HMS} {N} dbIds'.format(HMS=self.get_hms(tic), N=len(dbid2nodebasic)))
+        print('  HMS: {HMS} {N} dbIds: {Q}'.format(HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
         #self._prt_summary(tic, dbid2nodebasic, relctr)
         return dbid2nodebasic
 
@@ -52,23 +71,12 @@ class NodeHier():
 
     def get_query(self, schemaclass, paramstr, qrypat, exclude):
         """Get query to return all lower-level nodes."""
-        query = qrypat.replace('SCH', schemaclass)
-        query = query.replace('PARAMS', paramstr)
-        rels = self.get_rels(schemaclass, exclude)
-        query = query.replace('RELS', '|'.join(sorted(rels)))
-        print('QQQQQQQQQQQQQQ', query)
-        return query
-
-    @staticmethod
-    def get_rels(schemaclass, exclude):
-        """Get relationships to query."""
+        # query = qrypat.replace('SCH', schemaclass)
+        query = qrypat.replace('PARAMS', paramstr)
         rels = get_relationships_lte(schemaclass)
-        if exclude is None:
-            # inferredTo increases query times greatly, so exclude
-            rels.discard('inferredTo')
-        else:
-            rels.discard(exclude)
-        return rels
+        rels.difference_update(self.excl_rel)
+        query = query.replace('RELS', '|'.join(sorted(rels)))
+        return query
 
     @staticmethod
     def get_hms(tic):

@@ -4,7 +4,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # import os
-# from collections import defaultdict
+from collections import defaultdict
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR as S2C
 
 
@@ -18,9 +18,41 @@ class Neo4jNodeBasic():
         self.dbid = dbid
         self.sch = schemaclass
         self.objsch = self._init_objsch()    # derived from DatabaseObject
+        self.dct = {}
+        self.relationship = defaultdict(set)
+
+    def set_dict(self, neo4jnode):
+        """Extract parameter values from a neo4j.Node.""" 
+        self.dct = self.objsch.get_dict(neo4jnode)
+
+    def set_rel(self, reltype, dst_dbid):
+        """Add relationship to dbId."""
+        self.relationship[reltype].add(dst_dbid)
+        
+
+    #### def set_nt(self, neo4jnode, rel2nodes):
+    ####     """Fill in data nt w/data from relationships, if provided."""
+    ####     if rel2nodes:
+    ####         k2v = self.objsch.get_dict(neo4jnode)
+    ####         if 'abc' in k2v and 'species' in rel2nodes:
+    ####             k2v['abc'] = self._get_abc(k2v['abc'], rel2nodes['species'])
+    ####         return self.objsch.ntobj(**k2v)
+    ####     return self.objsch.get_nt(neo4jnode)
 
     def __str__(self):
-        return '{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.sch)
+        # txt = ['{dbId} {schemaClass} {displayName}'.format(
+        #             dbId=self.dbid, schemaClass=self.sch, displayName=self.dct['displayName'])]
+        txt = ['{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.sch)]
+        if not self.dct:
+            txt = [txt[0] + ' YYYYYYY']
+        excl = {'dbId', 'schemaClass', 'displayName', 'optional'}
+        dctlst = ['{K}({V})'.format(K=k, V=v) for k, v in sorted(self.dct.items()) if k not in excl]
+        if dctlst:
+            txt.append(' '.join(dctlst))
+        if 'optional' in self.dct:
+            optlst = ['{K}({V})'.format(K=k, V=v) for k, v in sorted(self.dct['optional'].items())]
+            txt.append(' '.join(optlst))
+        return '\n'.join(txt)
 
     #### def prt_verbose(self, prt):
     ####     """Return a string with all details of the Node and its relationships."""

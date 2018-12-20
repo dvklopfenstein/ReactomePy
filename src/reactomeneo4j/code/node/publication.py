@@ -29,7 +29,7 @@ from reactomeneo4j.code.node.databaseobject import DatabaseObject
 class Publication(DatabaseObject):
     """Params seen on all Publication."""
 
-    # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
+    # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['title']
 
     def __init__(self, name):
