@@ -66,23 +66,31 @@ class NodeHier():
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
         self.add_values(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
-        self.collapse_relationships(dbid2node)
+        popped = self.collapse_relationships(dbid2node)
+        # for rel, item in popped.items():
+        #     print(rel)
         for node in dbid2node.values():
             node.ntp = node.objsch.get_nt_g_dct(node.dct)
         return dbid2node
 
     def collapse_relationships(self, dbid2node):
         """Collapse specfied relationships into the main node dict."""
-        for node in dbid2node.values():
+        popped = {}
+        for dbid, node in dbid2node.items():
             k2v = node.dct
             rel = node.relationship
             if 'abc' in k2v and 'species' in rel:
                 abc = self._get_abc(k2v['abc'], rel['species'])
                 k2v['abc'] = abc
                 assert abc not in {'???', 'XXX'}
-                rel.pop('species')
+                popped[(dbid, 'species')] = rel.pop('species')
             if 'compartment' in rel:
-                pass
+                for comp in rel['compartment']:
+                    if comp.dct['displayName'] not in node.dct['displayName']:
+                        print('ADDING COMPARTMENT', node)
+                        node.dct['displayName'] += '[{COMP}]'.format(COMP=comp.dct['displayName'])
+                popped[(dbid, 'compartment')] = rel.pop('compartment')
+        return popped
                
     @staticmethod
     def _get_abc(abc_param, species_nodes):
