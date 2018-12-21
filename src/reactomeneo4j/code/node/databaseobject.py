@@ -41,6 +41,11 @@ class DatabaseObject():
         """Return a Python namedtuple containing all Neo4j Node parameters."""
         return self.ntobj(**self.get_dict(node))
 
+    def get_nt_g_dct(self, dct):
+        """Return a Python namedtuple using key-value pairs in dct."""
+        k2v = {f:dct[f] for f in self.ntobj._fields}
+        return self.ntobj(**k2v)
+
     def _get_abc(self, k2vopt):
         if 'speciesName' in k2vopt:
             species = k2vopt['speciesName']

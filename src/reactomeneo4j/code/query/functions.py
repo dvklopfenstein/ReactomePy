@@ -11,6 +11,7 @@ import datetime
 import collections as cx
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
+from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 class NodeHier():
     """Create, collect, and report a Node hierarchy."""
@@ -32,12 +33,13 @@ class NodeHier():
         """Write all nodes."""
         with open(fout_txt, 'w') as prt:
             for nodebasic in id2node.values():
-                prt.write('\n{NODE}\n'.format(NODE=nodebasic))
+                prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
                     for dst in dst_dbnodes:
                         param_vals = sorted(id2node[dst.dbid].dct.items())
                         dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
                         prt.write('REL {R} {DST}\n'.format(R=rel, DST=' '.join(dctlst)))
+                prt.write('<<<<<<<\n')
             print('  {N:,} nodes WROTE: {TXT}'.format(N=len(id2node), TXT=fout_txt))
 
     @staticmethod
@@ -60,10 +62,39 @@ class NodeHier():
     def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"'):
         """Find user-specfied Node and return it and all Nodes below it."""
         print('FIND ALL LOWER-LEVEL NODE IDS...')
-        id2node = self.get_dbid2nodebasic(schemaclass, paramvalstr)
+        dbid2node = self.get_dbid2nodebasic(schemaclass, paramvalstr)
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
-        self.add_values(id2node)
-        return id2node
+        self.add_values(dbid2node)
+        print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
+        self.collapse_relationships(dbid2node)
+        for node in dbid2node.values():
+            node.ntp = node.objsch.get_nt_g_dct(node.dct)
+        return dbid2node
+
+    def collapse_relationships(self, dbid2node):
+        """Collapse specfied relationships into the main node dict."""
+        for node in dbid2node.values():
+            k2v = node.dct
+            rel = node.relationship
+            if 'abc' in k2v and 'species' in rel:
+                abc = self._get_abc(k2v['abc'], rel['species'])
+                k2v['abc'] = abc
+                assert abc not in {'???', 'XXX'}
+                rel.pop('species')
+            if 'compartment' in rel:
+                pass
+               
+    @staticmethod
+    def _get_abc(abc_param, species_nodes):
+        """Return a value for abc."""
+        _abc = DatabaseObject.species2nt.get
+        abc_rel = '-'.join(_abc(o.dct['displayName'], '???').abbreviation for o in species_nodes)
+        # if abc_param == '...' or abc_param == abc_rel:
+        if abc_param in {'...', abc_rel}:
+            return abc_rel
+        print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
+            DBID=node.dbid, SCH=node.sch, P=abc_param, R=abc_rel))
+        return 'XXX'
 
     def add_values(self, dbid2nodebasic):
         """Add parameter values and relationships w/their destination dbIds."""
