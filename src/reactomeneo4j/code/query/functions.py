@@ -116,8 +116,6 @@ class NodeHier():
                 rel = rec['r'].type
                 if rel not in self.excl_rel:
                     nodebasic.relationship[rel].add(dbid2nodebasic[rec['d_Id']])
-                    #### self.relationship[reltype].add(dst_dbid)
-                    #### nodebasic.set_rel(rel, dbid2nodebasic[rec['d_Id']])
             if not nodebasic.relationship:
                 dbid2nodenorel[dbid] = nodebasic
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
