@@ -5,12 +5,10 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-import os
 import sys
 import timeit
 import datetime
 import collections as cx
-from pkgreactome.consts import REPO
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 
@@ -32,7 +30,7 @@ class NodeHier():
     @staticmethod
     def wr_dbid2node(fout_txt, id2node):
         """Write all nodes."""
-        with open(os.path.join(REPO, fout_txt), 'w') as prt:
+        with open(fout_txt, 'w') as prt:
             for nodebasic in id2node.values():
                 prt.write('\n{NODE}\n'.format(NODE=nodebasic))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
@@ -54,10 +52,10 @@ class NodeHier():
         prt.write('  {N:6} nodes\n'.format(N=len(dbid2node)))
         prt.write('  {N:6} schemaClasses used:\n'.format(N=len(ctrsch)))
         for sch, cnt in ctrsch.most_common():
-          prt.write('        {N:6} {SCH}\n'.format(N=cnt, SCH=sch))
+            prt.write('        {N:6} {SCH}\n'.format(N=cnt, SCH=sch))
         prt.write('  {N:6} relationship types:\n'.format(N=len(ctrrel)))
         for rel, cnt in ctrrel.most_common():
-          prt.write('        {N:6} {REL}\n'.format(N=cnt, REL=rel))
+            prt.write('        {N:6} {REL}\n'.format(N=cnt, REL=rel))
 
     def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"'):
         """Find user-specfied Node and return it and all Nodes below it."""
@@ -103,7 +101,7 @@ class NodeHier():
         for dbid, nodebasic in id2node_norel.items():
             qry = pat.replace('DBID', str(dbid))
             for rec in session.run(qry).records():
-                nodebasic.set_dict(rec['src'])
+                nodebasic.dct = nodebasic.objsch.get_dict(rec['src'])
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
             HMS=self.get_hms(tic), N=len(id2node_norel), Q=qry))
 
@@ -114,10 +112,12 @@ class NodeHier():
         for dbid, nodebasic in dbid2nodebasic.items():
             qry = pat.replace('ID', str(dbid))
             for rec in session.run(qry).records():
-                nodebasic.set_dict(rec['s'])
+                nodebasic.dct = nodebasic.objsch.get_dict(rec['s'])
                 rel = rec['r'].type
                 if rel not in self.excl_rel:
-                    nodebasic.set_rel(rel, dbid2nodebasic[rec['d_Id']])
+                    nodebasic.relationship[rel].add(dbid2nodebasic[rec['d_Id']])
+                    #### self.relationship[reltype].add(dst_dbid)
+                    #### nodebasic.set_rel(rel, dbid2nodebasic[rec['d_Id']])
             if not nodebasic.relationship:
                 dbid2nodenorel[dbid] = nodebasic
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(

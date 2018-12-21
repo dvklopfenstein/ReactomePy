@@ -21,14 +21,6 @@ class Neo4jNodeBasic():
         self.dct = {}
         self.relationship = defaultdict(set)
 
-    def set_dict(self, neo4jnode):
-        """Extract parameter values from a neo4j.Node."""
-        self.dct = self.objsch.get_dict(neo4jnode)
-
-    def set_rel(self, reltype, dst_dbid):
-        """Add relationship to dbId."""
-        self.relationship[reltype].add(dst_dbid)
-
 
     #### def set_nt(self, neo4jnode, rel2nodes):
     ####     """Fill in data nt w/data from relationships, if provided."""
