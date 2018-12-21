@@ -6,9 +6,10 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
+import sys
 import timeit
 import datetime
-# from collections import Counter
+import collections as cx
 from pkgreactome.consts import REPO
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
@@ -40,6 +41,23 @@ class NodeHier():
                         dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
                         prt.write('REL {R} {DST}\n'.format(R=rel, DST=' '.join(dctlst)))
             print('  {N:,} nodes WROTE: {TXT}'.format(N=len(id2node), TXT=fout_txt))
+
+    @staticmethod
+    def prt_summary(dbid2node, prt=sys.stdout):
+        """Print query summary."""
+        ctrsch = cx.Counter()
+        ctrrel = cx.Counter()
+        for node in dbid2node.values():
+            ctrsch[node.sch] += 1
+            for rel in node.relationship:
+                ctrrel[rel] += 1
+        prt.write('  {N:6} nodes\n'.format(N=len(dbid2node)))
+        prt.write('  {N:6} schemaClasses used:\n'.format(N=len(ctrsch)))
+        for sch, cnt in ctrsch.most_common():
+          prt.write('        {N:6} {SCH}\n'.format(N=cnt, SCH=sch))
+        prt.write('  {N:6} relationship types:\n'.format(N=len(ctrrel)))
+        for rel, cnt in ctrrel.most_common():
+          prt.write('        {N:6} {REL}\n'.format(N=cnt, REL=rel))
 
     def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"'):
         """Find user-specfied Node and return it and all Nodes below it."""
