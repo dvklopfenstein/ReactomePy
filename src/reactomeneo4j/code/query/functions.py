@@ -5,17 +5,18 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+import os
 import timeit
 import datetime
 # from collections import Counter
+from pkgreactome.consts import REPO
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 
 class NodeHier():
     """Create, collect, and report a Node hierarchy."""
 
-    patini = ('MATCH (src:DatabaseObject{PARAMS})-[rels:RELS*]->(dst) '
-              'RETURN DISTINCT '
+    patini = ('MATCH (src:DatabaseObject{PARAMS})-[rels:RELS*]->(dst) RETURN DISTINCT '
               'src.dbId AS src_dbId, src.schemaClass AS src_schemaClass, '
               'dst.dbId AS dst_dbId, dst.schemaClass AS dst_schemaClass')
               #'rels, '
@@ -27,6 +28,27 @@ class NodeHier():
         self.gdbdr = gdbdr
         self.excl_rel = self.excl_rel_dft if excl_rel is None else set(excl_rel)
 
+    @staticmethod
+    def wr_dbid2node(fout_txt, id2node):
+        """Write all nodes."""
+        with open(os.path.join(REPO, fout_txt), 'w') as prt:
+            for nodebasic in id2node.values():
+                prt.write('\n{NODE}\n'.format(NODE=nodebasic))
+                for rel, dst_dbnodes in nodebasic.relationship.items():
+                    for dst in dst_dbnodes:
+                        param_vals = sorted(id2node[dst.dbid].dct.items())
+                        dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
+                        prt.write('REL {R} {DST}\n'.format(R=rel, DST=' '.join(dctlst)))
+            print('  {N:,} nodes WROTE: {TXT}'.format(N=len(id2node), TXT=fout_txt))
+
+    def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"'):
+        """Find user-specfied Node and return it and all Nodes below it."""
+        print('FIND ALL LOWER-LEVEL NODE IDS...')
+        id2node = self.get_dbid2nodebasic(schemaclass, paramvalstr)
+        print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
+        self.add_values(id2node)
+        return id2node
+
     def add_values(self, dbid2nodebasic):
         """Add parameter values and relationships w/their destination dbIds."""
         with self.gdbdr.session() as session:
@@ -35,6 +57,28 @@ class NodeHier():
             pat = 'MATCH (src:DatabaseObject{dbId:DBID}) RETURN src'
             self._addval_src_norel(pat, id2node_norel, session)
 
+    def get_dbid2nodebasic(self, schemaclass, paramstr):
+        """Get the schemaClasses and dbIds for all nodes below the specified node."""
+        # MATCH (src{USERVALS})-[rels:RELS*]->(dst) RETURN DISTINCT ...
+        dbid2nodebasic = {}
+        tic = timeit.default_timer()
+        qry = self.get_query(schemaclass, paramstr, self.patini)
+        with self.gdbdr.session() as session:
+            for rec in session.run(qry).records():
+                if rec['src_dbId'] not in dbid2nodebasic:
+                    self._add_id2nodeb(dbid2nodebasic, rec['src_dbId'], rec['src_schemaClass'])
+                if rec['dst_dbId'] not in dbid2nodebasic:
+                    self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
+        print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
+            HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
+        return dbid2nodebasic
+
+    @staticmethod
+    def _add_id2nodeb(dbid2nodebasic, dbid, schemaclass):
+        """Add a Neo4jNodeBasic node to the dbId dict."""
+        if dbid not in dbid2nodebasic:
+            dbid2nodebasic[dbid] = Neo4jNodeBasic(dbid, schemaclass)
+
     def _addval_src_norel(self, pat, id2node_norel, session):
         """Add paramter values for node IDs that have no relationships."""
         tic = timeit.default_timer()
@@ -42,7 +86,7 @@ class NodeHier():
             qry = pat.replace('DBID', str(dbid))
             for rec in session.run(qry).records():
                 nodebasic.set_dict(rec['src'])
-        print('  HMS: {HMS} {N} dbIds: {Q}'.format(
+        print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
             HMS=self.get_hms(tic), N=len(id2node_norel), Q=qry))
 
     def _addval_src_rel_dst(self, pat, dbid2nodebasic, session):
@@ -58,30 +102,9 @@ class NodeHier():
                     nodebasic.set_rel(rel, dbid2nodebasic[rec['d_Id']])
             if not nodebasic.relationship:
                 dbid2nodenorel[dbid] = nodebasic
-        print('  HMS: {HMS} {N} dbIds: {Q}'.format(
-            HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
+        print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
+            HMS=self.get_hms(tic), N=len(dbid2nodebasic)-len(dbid2nodenorel), Q=qry))
         return dbid2nodenorel
-
-    def get_dbid2nodebasic(self, schemaclass, paramstr):
-        """Get the schemaClasses and dbIds for all nodes below the specified node."""
-        # MATCH (src{USERVALS})-[rels:RELS*]->(dst) RETURN DISTINCT ...
-        dbid2nodebasic = {}
-        tic = timeit.default_timer()
-        qry = self.get_query(schemaclass, paramstr, self.patini)
-        with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
-                if rec['src_dbId'] not in dbid2nodebasic:
-                    self._add_id2nodeb(dbid2nodebasic, rec['src_dbId'], rec['src_schemaClass'])
-                if rec['dst_dbId'] not in dbid2nodebasic:
-                    self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
-        print('  HMS: {HMS} {N} dbIds: {Q}'.format(
-            HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
-        return dbid2nodebasic
-
-    @staticmethod
-    def _add_id2nodeb(dbid2nodebasic, dbid, schemaclass):
-        """Add a Neo4jNodeBasic node to the dbId dict."""
-        dbid2nodebasic[dbid] = Neo4jNodeBasic(dbid, schemaclass)
 
     def get_query(self, schemaclass, paramstr, qrypat):
         """Get query to return all lower-level nodes."""
@@ -123,8 +146,8 @@ def get_relationships_lte(schemaclass):
     schs_all = set()
     seen = set()
     _get_relationships_lte(schemaclass, seen, rels_all, schs_all)
-    for rel in sorted(rels_all):
-        print('REL', rel)
+    # for rel in sorted(rels_all):
+    #     print('REL', rel)
     # print('SCH', schs_all)
     return rels_all
 
