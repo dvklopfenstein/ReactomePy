@@ -23,6 +23,7 @@ Hier: ReferenceEntity:ReferenceTherapeutic
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.referenceentity import ReferenceEntity
 
 # pylint: disable=too-few-public-methods
@@ -32,6 +33,7 @@ class ReferenceTherapeutic(ReferenceEntity):
     params_req = ReferenceEntity.params_req + ['approved']
     params_opt = ReferenceEntity.params_opt + [
         'approvalSource', 'type', 'name', 'inn', 'abbreviation']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self):
         super(ReferenceTherapeutic, self).__init__('ReferenceTherapeutic')

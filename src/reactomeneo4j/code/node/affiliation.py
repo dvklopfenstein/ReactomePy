@@ -3,8 +3,8 @@
   - DatabaseObject (dcnt=80)
 > -- Affiliation (dcnt=0)
 
-      266 Affiliation  266 Affiliation   206 266  0.7744 address              
-      266 Affiliation  266 Affiliation   266 266  1.0000 name                 
+      266 Affiliation  266 Affiliation   206 266  0.7744 address
+      266 Affiliation  266 Affiliation   266 266  1.0000 name
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."

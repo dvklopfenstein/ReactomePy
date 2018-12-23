@@ -20,6 +20,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.geneticallymodifiedresidue import GeneticallyModifiedResidue
 
 
@@ -31,6 +32,7 @@ class FragmentModification(GeneticallyModifiedResidue):
     params_req = GeneticallyModifiedResidue.params_req + [
         'startPositionInReferenceSequence',
         'endPositionInReferenceSequence']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     # relationships = {
     #     **GeneticallyModifiedResidue.relationships,
@@ -39,6 +41,7 @@ class FragmentModification(GeneticallyModifiedResidue):
     # }
 
     def __init__(self, name):
+        # pylint: disable=useless-super-delegation
         super(FragmentModification, self).__init__(name)
 
 

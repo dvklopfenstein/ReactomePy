@@ -7,6 +7,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 
@@ -17,6 +18,7 @@ class Summation(DatabaseObject):
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['text']
     fmtpat = '{schemaClass}: {text}'
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
         'literatureReference': set(['LiteratureReference', 'Book', 'URL']),

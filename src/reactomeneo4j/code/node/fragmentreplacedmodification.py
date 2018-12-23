@@ -30,7 +30,7 @@ class FragmentReplacedModification(FragmentModification):
     params_opt = FragmentModification.params_opt + ['alteredAminoAcidFragment']
 
     relationships = {
-        **FragmentModification.relationships, 
+        **FragmentModification.relationships,
         **{
             'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceIsoform']),
         }

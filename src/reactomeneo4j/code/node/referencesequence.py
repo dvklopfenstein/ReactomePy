@@ -50,7 +50,7 @@ class ReferenceSequence(ReferenceEntity):
     params_opt = ReferenceEntity.params_opt + ['description', 'name', 'geneName']
 
     relationships = {
-        **ReferenceEntity.relationships, 
+        **ReferenceEntity.relationships,
         **{
             'referenceGene': set(['ReferenceDNASequence']),
         }

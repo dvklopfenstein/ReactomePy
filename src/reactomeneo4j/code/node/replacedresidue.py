@@ -14,6 +14,7 @@
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
 
+pylint: disable=line-too-long
    78,581 AbstractModifiedResidue   3006 InterChainCrosslinkedResidue    388   3006  0.1291 secondCoordinate
    78,581 AbstractModifiedResidue    329 IntraChainCrosslinkedResidue     49    329  0.1489 secondCoordinate
 

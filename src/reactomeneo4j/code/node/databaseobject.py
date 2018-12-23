@@ -27,9 +27,10 @@ class DatabaseObject():
 
     relationships = {}
 
+    ntobj = namedtuple('NtOpj', ' '.join(params_req + ['optional']))
+
     def __init__(self, name):
         self.name = name
-        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req + ['optional']))
 
     def get_dict(self, node):
         """Return a Python dict containing all Neo4j Node parameters."""

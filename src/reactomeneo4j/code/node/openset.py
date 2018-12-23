@@ -32,6 +32,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.entityset import EntitySet
 
 
@@ -42,6 +43,7 @@ class OpenSet(EntitySet):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_req = EntitySet.params_req + ['referenceType']
     # params: oldStId | speciesName isOrdered definition
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' aart abc optional')
 
     relationships = {
         **EntitySet.relationships,

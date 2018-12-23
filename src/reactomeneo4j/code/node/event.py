@@ -72,9 +72,10 @@ class Event(DatabaseObject):
         #'crossReference'     : set(['DatabaseIdentifier']),
     }
 
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' aart abc optional')
+
     def __init__(self, name='Event'):
         super(Event, self).__init__(name)
-        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

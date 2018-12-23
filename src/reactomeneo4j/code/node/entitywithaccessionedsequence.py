@@ -29,6 +29,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.genomeencodedentity import GenomeEncodedEntity
 
 
@@ -40,6 +41,7 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
     params_req = GenomeEncodedEntity.params_req + ['referenceType']
     # oldStId definition
     params_opt = GenomeEncodedEntity.params_opt + ['startCoordinate', 'endCoordinate', 'definition']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' aart abc optional')
 
     relationships = {
         **GenomeEncodedEntity.relationships,

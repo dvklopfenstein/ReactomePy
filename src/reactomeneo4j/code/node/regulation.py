@@ -53,6 +53,7 @@ class Regulation(DatabaseObject):
     }
 
     def __init__(self, name):
+        # pylint: disable=useless-super-delegation
         super(Regulation, self).__init__(name)
 
 

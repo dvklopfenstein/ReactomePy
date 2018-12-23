@@ -10,6 +10,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 
@@ -21,12 +22,14 @@ class ExternalOntology(DatabaseObject):
     params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'name', 'url']
     params_opt = DatabaseObject.params_opt + ['definition', 'synonym']
     fmtpat = '{schemaClass}: {displayName}'
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
     }
 
     def __init__(self, name):
+        # pylint: disable=useless-super-delegation
         super(ExternalOntology, self).__init__(name)
 
 

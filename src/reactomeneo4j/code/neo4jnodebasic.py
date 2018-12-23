@@ -36,6 +36,8 @@ class Neo4jNodeBasic():
             if 'optional' in self.dct:
                 optlst = ['{}({})'.format(k, v) for k, v in sorted(self.dct['optional'].items())]
                 msg.append(' '.join(optlst))
+        print(self.objsch.fmtpat)
+        print(self.ntp._asdict())
         msg.append('NT: {NT}'.format(NT=self.objsch.fmtpat.format(**self.ntp._asdict())))
         msg.append('NT: {NT}'.format(NT=self.ntp))
         return '\n'.join(msg)

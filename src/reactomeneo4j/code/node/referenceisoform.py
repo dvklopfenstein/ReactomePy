@@ -16,6 +16,7 @@ Hier: ReferenceEntity:ReferenceSequence:ReferenceGeneProduct:ReferenceIsoform
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.referencegeneproduct import ReferenceGeneProduct
 
 # pylint: disable=too-few-public-methods
@@ -23,9 +24,10 @@ class ReferenceIsoform(ReferenceGeneProduct):
     """Lists parameters seen on all ReferenceGeneProduct."""
 
     params_req = ReferenceGeneProduct.params_req + ['variantIdentifier']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        **ReferenceGeneProduct.relationships, 
+        **ReferenceGeneProduct.relationships,
         **{
             'isoformParent': set(['ReferenceGeneProduct']),
         }

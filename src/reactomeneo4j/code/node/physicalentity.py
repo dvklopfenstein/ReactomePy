@@ -82,10 +82,10 @@ class PhysicalEntity(DatabaseObject):
         #'figure'             : set(['Figure']),
     }
 
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' aart abc optional')
 
     def __init__(self, name='PhysicalEntity'):
         super(PhysicalEntity, self).__init__(name)
-        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req) + ' aart abc optional')
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""

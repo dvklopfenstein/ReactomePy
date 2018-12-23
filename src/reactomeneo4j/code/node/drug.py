@@ -27,10 +27,10 @@ class Drug(PhysicalEntity):
     """Drugs."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    # params: oldStId 
+    # params: oldStId
 
     relationships = {
-        **PhysicalEntity.relationships, 
+        **PhysicalEntity.relationships,
         **{
             'referenceTherapeutic': set(['ReferenceTherapeutic']),
         }

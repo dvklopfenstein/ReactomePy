@@ -7,6 +7,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 # pylint: disable=too-few-public-methods
@@ -15,6 +16,7 @@ class ReferenceDatabase(DatabaseObject):
 
     # req: dbId displayName schemaClass
     params_req = DatabaseObject.params_req + ['accessUrl', 'name', 'url']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self):
         super(ReferenceDatabase, self).__init__('ReferenceDatabase')

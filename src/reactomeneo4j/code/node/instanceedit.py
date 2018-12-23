@@ -15,6 +15,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from datetime import datetime
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
@@ -27,6 +28,7 @@ class InstanceEdit(DatabaseObject):
     params_req = DatabaseObject.params_req + ['dateTime']
     params_opt = DatabaseObject.params_opt + ['note']
     timefmt = '%Y-%m-%d %H:%M:%S'
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
         'created' : set(['DatabaseObject']),

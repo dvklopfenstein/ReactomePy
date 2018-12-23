@@ -28,6 +28,7 @@ Hier: Event:Pathway
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.event import Event
 
 
@@ -40,6 +41,7 @@ class Pathway(Event):
     params_req = Event.params_req + ['hasDiagram']
     # params: oldStId releaseStatus
     params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
         **Event.relationships,

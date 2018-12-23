@@ -26,6 +26,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.physicalentity import PhysicalEntity
 
 
@@ -36,6 +37,7 @@ class SimpleEntity(PhysicalEntity):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_req = PhysicalEntity.params_req + ['referenceType']
     params_opt = PhysicalEntity.params_opt + ['definition']
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' aart abc optional')
 
     relationships = {
         **PhysicalEntity.relationships,

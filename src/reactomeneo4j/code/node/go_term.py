@@ -43,9 +43,11 @@ class GOTerm(DatabaseObject):
         #'positivelyRegulate': set(['GO_Term']),
     }
 
+    ntobj = namedtuple('NtOpj', ' '.join(params_req + [' NS optional']))
+
     def __init__(self, name):
+        # pylint: disable=useless-super-delegation
         super(GOTerm, self).__init__(name)
-        self.ntobj = namedtuple('NtOpj', ' '.join(self.params_req + [' NS optional']))
 
     def get_dict(self, node):
         """Return a Python dict containing all Neo4j Node parameters."""

@@ -28,17 +28,18 @@ class NodeHier():
         self.gdbdr = gdbdr
         self.excl_rel = self.excl_rel_dft if excl_rel is None else set(excl_rel)
 
-    @staticmethod
-    def wr_dbid2node(fout_txt, id2node):
+    def wr_dbid2node(self, fout_txt, id2node):
         """Write all nodes."""
         with open(fout_txt, 'w') as prt:
+            self.prt_summary(id2node, prt)
             for nodebasic in id2node.values():
                 prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
                     for dst in dst_dbnodes:
                         param_vals = sorted(id2node[dst.dbid].dct.items())
                         dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
-                        prt.write('REL {R} {DST}\n'.format(R=rel, DST=' '.join(dctlst)))
+                        prt.write('{SRC} REL {R} {DST}\n'.format(
+                            SRC=nodebasic.sch, R=rel, DST=' '.join(dctlst)))
                 prt.write('<<<<<<<\n')
             print('  {N:,} nodes WROTE: {TXT}'.format(N=len(id2node), TXT=fout_txt))
 
@@ -66,7 +67,8 @@ class NodeHier():
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
         self.add_values(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
-        popped = self.collapse_relationships(dbid2node)
+        self.collapse_relationships(dbid2node)
+        # popped = self.collapse_relationships(dbid2node)
         # for rel, item in popped.items():
         #     print(rel)
         for node in dbid2node.values():
@@ -80,7 +82,7 @@ class NodeHier():
             k2v = node.dct
             rel = node.relationship
             if 'abc' in k2v and 'species' in rel:
-                abc = self._get_abc(k2v['abc'], rel['species'])
+                abc = self._get_abc(k2v['abc'], rel['species'], node)
                 k2v['abc'] = abc
                 assert abc not in {'???', 'XXX'}
                 popped[(dbid, 'species')] = rel.pop('species')
@@ -91,9 +93,9 @@ class NodeHier():
                         node.dct['displayName'] += '[{COMP}]'.format(COMP=comp.dct['displayName'])
                 popped[(dbid, 'compartment')] = rel.pop('compartment')
         return popped
-               
+
     @staticmethod
-    def _get_abc(abc_param, species_nodes):
+    def _get_abc(abc_param, species_nodes, node):
         """Return a value for abc."""
         _abc = DatabaseObject.species2nt.get
         abc_rel = '-'.join(_abc(o.dct['displayName'], '???').abbreviation for o in species_nodes)
