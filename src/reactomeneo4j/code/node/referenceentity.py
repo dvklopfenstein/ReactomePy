@@ -68,6 +68,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 # pylint: disable=too-few-public-methods
@@ -82,8 +83,21 @@ class ReferenceEntity(DatabaseObject):
         'species'          : set(['Taxon']),
     }
 
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' abc optional')
+
     def __init__(self, name='ReferenceEntity'):
         super(ReferenceEntity, self).__init__(name)
+
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = DatabaseObject.get_dict(self, node)
+        # speciesName is not a param, but species may be found through relationship
+        k2v['abc'] = '...'
+        return k2v
+
+    def get_nt(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        return self.ntobj(**self.get_dict(node))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
