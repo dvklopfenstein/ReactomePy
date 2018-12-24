@@ -25,19 +25,8 @@ class Neo4jNodeBasic():
     def __str__(self):
         # Parameters on all Nodes
         msg = ['{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.sch)]
-        #### if self.dct:
-        ####     # Required Parameters on this Node
-        ####     msg[0] += ' ' + self.dct['displayName']
-        ####     excl = {'dbId', 'schemaClass', 'displayName', 'optional'}
-        ####     dctlst = ['{}({})'.format(k, v) for k, v in sorted(self.dct.items()) if k not in excl]
-        ####     if dctlst:
-        ####         msg.append(' '.join(dctlst))
-        ####     # Optional Parameters on this Node
-        ####     if 'optional' in self.dct:
-        ####         optlst = ['{}({})'.format(k, v) for k, v in sorted(self.dct['optional'].items())]
-        ####         msg.append(' '.join(optlst))
-        print(self.objsch.fmtpat)
-        print(self.ntp._asdict())
+        # print('FMTPAT', self.objsch.fmtpat)
+        # print('NT', self.ntp._asdict())
         msg.append('NT: {NT}'.format(NT=self.objsch.fmtpat.format(**self.ntp._asdict())))
         msg.append('NT: {NT}'.format(NT=self.ntp))
         return '\n'.join(msg)

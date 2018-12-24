@@ -36,6 +36,8 @@ class NodeHier():
             self.prt_summary(id2node, prt)
             for nodebasic in id2node.values():
                 prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
+                dct = dbid2dct[nodebasic.dbid]
+                prt.write('DCT: {DCT}\n'.format(DCT=self.getstr_dct(dct)))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
                     for dst in dst_dbnodes:
                         param_vals = sorted(dbid2dct[dst.dbid].items())
@@ -158,6 +160,21 @@ class NodeHier():
         query = query.replace('RELS', '|'.join(sorted(rels)))
         return query
 
+    @staticmethod
+    def getstr_dct(dct):
+        """Print params dct of one node."""
+        # Required Parameters on this Node
+        msg = ['{dbId} {schemaClass}'.format(dbId=dct['dbId'], schemaClass=dct['schemaClass'])]
+        msg[0] += ' ' + dct['displayName']
+        excl = {'dbId', 'schemaClass', 'displayName', 'optional'}
+        dctlst = ['{}({})'.format(k, v) for k, v in sorted(dct.items()) if k not in excl]
+        if dctlst:
+            msg.append(' '.join(dctlst))
+        # Optional Parameters on this Node
+        if 'optional' in dct:
+            optlst = ['{}({})'.format(k, v) for k, v in sorted(dct['optional'].items())]
+            msg.append(' '.join(optlst))
+        return ' '.join(msg)
 
 def get_version(gdbdr):
     """Get Reactome version."""

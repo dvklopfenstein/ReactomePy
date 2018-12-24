@@ -60,5 +60,19 @@ class RelationshipCollapse():
             DBID=dct['dbId'], SCH=dct['schemaClass'], P=abc_param, R=abc_rel))
         return 'XXX'
 
+    @staticmethod
+    def prt_dct(dct):
+        """Print params dct of one node."""
+        # Required Parameters on this Node
+        msg = ['{dbId} {schemaClass}'.format(dbId=dct['dbId'], schemaClass=dct['schemaClass'])]
+        msg[0] += ' ' + dct['displayName']
+        excl = {'dbId', 'schemaClass', 'displayName', 'optional'}
+        dctlst = ['{}({})'.format(k, v) for k, v in sorted(dct.items()) if k not in excl]
+        if dctlst:
+            msg.append(' '.join(dctlst))
+        # Optional Parameters on this Node
+        if 'optional' in dct:
+            optlst = ['{}({})'.format(k, v) for k, v in sorted(dct['optional'].items())]
+            msg.append(' '.join(optlst))
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
