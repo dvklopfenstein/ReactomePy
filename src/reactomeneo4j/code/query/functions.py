@@ -8,10 +8,11 @@ __author__ = "DV Klopfenstein"
 import sys
 import timeit
 import collections as cx
-from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
-from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.utils import get_hms
+from reactomeneo4j.code.query.relationship_agg import RelationshipCollapse
+from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
+from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 class NodeHier():
     """Create, collect, and report a Node hierarchy."""
@@ -61,14 +62,14 @@ class NodeHier():
         for rel, cnt in ctrrel.most_common():
             prt.write('        {N:6} {REL}\n'.format(N=cnt, REL=rel))
 
-    def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"'):
+    def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"', exact=True):
         """Find user-specfied Node and return it and all Nodes below it."""
         print('FIND ALL LOWER-LEVEL NODE IDS...')
         dbid2node = self.get_dbid2nodebasic(schemaclass, paramvalstr)
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
         dbid2dct = self.get_relationship_dcts(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
-        self.collapse_relationships(dbid2node, dbid2dct)
+        RelationshipCollapse(dbid2node, dbid2dct, exact)
         # popped = self.collapse_relationships(dbid2node)
         # for rel, item in popped.items():
         #     print(rel)
@@ -76,39 +77,6 @@ class NodeHier():
             node = dbid2node[dbid]
             node.ntp = node.objsch.get_nt_g_dct(dct)
         return dbid2node, dbid2dct
-
-    def collapse_relationships(self, dbid2node, dbid2dct):
-        """Collapse specfied relationships into the main node dict."""
-        popped = {}
-        for dbid, node in dbid2node.items():
-            k2v = dbid2dct[dbid]
-            rel = node.relationship
-            if 'abc' in k2v and 'species' in rel:
-                abc = self._get_abc(k2v['abc'], rel['species'], dbid2dct, k2v)
-                k2v['abc'] = abc
-                assert abc not in {'???', 'XXX'}
-                popped[(dbid, 'species')] = rel.pop('species')
-            if 'compartment' in rel:
-                for comp in rel['compartment']:
-                    comp_dct = dbid2dct[comp.dbid]
-                    if comp_dct['displayName'] not in k2v['displayName']:
-                        print('ADDING COMPARTMENT', node)
-                        k2v['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
-                popped[(dbid, 'compartment')] = rel.pop('compartment')
-        return popped
-
-    @staticmethod
-    def _get_abc(abc_param, species_nodes, dbid2dct, dct):
-        """Return a value for abc."""
-        _abc = DatabaseObject.species2nt.get
-        # pylint: disable=line-too-long
-        abc_rel = '-'.join(_abc(dbid2dct[o.dbid]['displayName'], '???').abbreviation for o in species_nodes)
-        # if abc_param == '...' or abc_param == abc_rel:
-        if abc_param in {'...', abc_rel}:
-            return abc_rel
-        print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
-            DBID=dct['dbId'], SCH=dct['schemaClass'], P=abc_param, R=abc_rel))
-        return 'XXX'
 
     def get_relationship_dcts(self, dbid2nodebasic):
         """Add parameter values and relationships w/their destination dbIds."""
