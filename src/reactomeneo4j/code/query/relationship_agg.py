@@ -18,8 +18,8 @@ class RelationshipCollapse():
         self.dbid2dct = dbid2dct
         self.all_details = all_details
         self.rel2fnc = {
-            'species': self._exe_species,
-            'compartment': self._exe_compartment,
+            'species': self._get_abc,
+            'compartment': self._get_compartment
         }
         self._collapse_relationships()
 
@@ -31,19 +31,11 @@ class RelationshipCollapse():
             k2v = _dbid2dct[dbid]
             for rel, dstnodes in node.relationship.items():
                 if rel in self.rel2fnc:
-                    self.rel2fnc[rel](dstnodes, k2v)
+                    self.rel2fnc[rel](k2v, dstnodes)
             for rel in set(node.relationship).intersection(self.rel2fnc):
                 if rel in self.rel2fnc:
                     popped[(dbid, rel)] = node.relationship.pop(rel)
         return popped
-
-    def _exe_species(self, dstnodes, k2v):
-        self._get_abc(dstnodes, k2v)
-        #### popped[(dbid, 'species')] = rel.pop('species')
-
-    def _exe_compartment(self, dstnodes, k2v):
-        self._get_compartment(k2v, dstnodes)
-        #### popped[(dbid, 'compartment')] = rel.pop('compartment')
 
     def _get_compartment(self, dct, compartments):
         """Push compartment displayName onto parent."""
@@ -53,7 +45,7 @@ class RelationshipCollapse():
                 # print('ADDING COMPARTMENT', node)
                 dct['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
 
-    def _get_abc(self, species_nodes, dct):
+    def _get_abc(self, dct, species_nodes):
         """Return a value for abc."""
         abc = self.__get_abc(dct['abc'], species_nodes, dct)
         dct['abc'] = abc
