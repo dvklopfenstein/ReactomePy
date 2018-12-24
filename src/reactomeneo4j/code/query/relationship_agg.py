@@ -12,10 +12,15 @@ from reactomeneo4j.code.node.databaseobject import DatabaseObject
 class RelationshipCollapse():
     """Pull data from lower-level relationship nodes. Rm rels."""
 
+
     def __init__(self, dbid2node, dbid2dct, all_details=True):
         self.dbid2node = dbid2node
         self.dbid2dct = dbid2dct
         self.all_details = all_details
+        self.rel2fnc = {
+            'species': self._exe_species,
+            'compartment': self._exe_compartment,
+        }
         self._collapse_relationships()
 
     def _collapse_relationships(self):
@@ -24,14 +29,21 @@ class RelationshipCollapse():
         _dbid2dct = self.dbid2dct
         for dbid, node in self.dbid2node.items():
             k2v = _dbid2dct[dbid]
-            rel = node.relationship
-            if 'abc' in k2v and 'species' in rel:
-                self._get_abc(rel['species'], _dbid2dct, k2v)
-                popped[(dbid, 'species')] = rel.pop('species')
-            if 'compartment' in rel:
-                self._get_compartment(k2v, rel['compartment'])
-                popped[(dbid, 'compartment')] = rel.pop('compartment')
+            for rel, dstnodes in node.relationship.items():
+                if rel in self.rel2fnc:
+                    self.rel2fnc[rel](dstnodes, k2v)
+            for rel in set(node.relationship).intersection(self.rel2fnc):
+                if rel in self.rel2fnc:
+                    popped[(dbid, rel)] = node.relationship.pop(rel)
         return popped
+
+    def _exe_species(self, dstnodes, k2v):
+        self._get_abc(dstnodes, k2v)
+        #### popped[(dbid, 'species')] = rel.pop('species')
+
+    def _exe_compartment(self, dstnodes, k2v):
+        self._get_compartment(k2v, dstnodes)
+        #### popped[(dbid, 'compartment')] = rel.pop('compartment')
 
     def _get_compartment(self, dct, compartments):
         """Push compartment displayName onto parent."""
@@ -41,18 +53,17 @@ class RelationshipCollapse():
                 # print('ADDING COMPARTMENT', node)
                 dct['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
 
-    def _get_abc(self, species_nodes, dbid2dct, dct):
+    def _get_abc(self, species_nodes, dct):
         """Return a value for abc."""
-        abc = self.__get_abc(dct['abc'], species_nodes, dbid2dct, dct)
+        abc = self.__get_abc(dct['abc'], species_nodes, dct)
         dct['abc'] = abc
         assert abc not in {'???', 'XXX'}
 
-    @staticmethod
-    def __get_abc(abc_param, species_nodes, dbid2dct, dct):
+    def __get_abc(self, abc_param, species_nodes, dct):
         """Return a value for abc."""
         _abc = DatabaseObject.species2nt.get
         # pylint: disable=line-too-long
-        abc_rel = '-'.join(_abc(dbid2dct[o.dbid]['displayName'], '???').abbreviation for o in species_nodes)
+        abc_rel = '-'.join(_abc(self.dbid2dct[o.dbid]['displayName'], '???').abbreviation for o in species_nodes)
         # if abc_param == '...' or abc_param == abc_rel:
         if abc_param in {'...', abc_rel}:
             return abc_rel
