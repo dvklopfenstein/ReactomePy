@@ -7,11 +7,11 @@ __author__ = "DV Klopfenstein"
 
 import sys
 import timeit
-import datetime
 import collections as cx
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
+from reactomeneo4j.code.utils import get_hms
 
 class NodeHier():
     """Create, collect, and report a Node hierarchy."""
@@ -24,11 +24,12 @@ class NodeHier():
     # inferredTo increases query times greatly, so exclude
     excl_rel_dft = {'inferredTo'}
 
-    def __init__(self, gdbdr, excl_rel=None):
+    def __init__(self, gdbdr, excl_rel=None, all_details=True):
         self.gdbdr = gdbdr
         self.excl_rel = self.excl_rel_dft if excl_rel is None else set(excl_rel)
+        self.all_details = all_details
 
-    def wr_dbid2node(self, fout_txt, id2node):
+    def wr_dbid2node(self, fout_txt, id2node, dbid2dct):
         """Write all nodes."""
         with open(fout_txt, 'w') as prt:
             self.prt_summary(id2node, prt)
@@ -36,7 +37,7 @@ class NodeHier():
                 prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
                     for dst in dst_dbnodes:
-                        param_vals = sorted(id2node[dst.dbid].dct.items())
+                        param_vals = sorted(dbid2dct[dst.dbid].items())
                         dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
                         prt.write('{SRC} REL {R} {DST}\n'.format(
                             SRC=nodebasic.sch, R=rel, DST=' '.join(dctlst)))
@@ -65,54 +66,63 @@ class NodeHier():
         print('FIND ALL LOWER-LEVEL NODE IDS...')
         dbid2node = self.get_dbid2nodebasic(schemaclass, paramvalstr)
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
-        self.add_values(dbid2node)
+        dbid2dct = self.get_relationship_dcts(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
-        self.collapse_relationships(dbid2node)
+        self.collapse_relationships(dbid2node, dbid2dct)
         # popped = self.collapse_relationships(dbid2node)
         # for rel, item in popped.items():
         #     print(rel)
-        for node in dbid2node.values():
-            node.ntp = node.objsch.get_nt_g_dct(node.dct)
-        return dbid2node
+        for dbid, dct in dbid2dct.items():
+            node = dbid2node[dbid]
+            node.ntp = node.objsch.get_nt_g_dct(dct)
+        return dbid2node, dbid2dct
 
-    def collapse_relationships(self, dbid2node):
+    def collapse_relationships(self, dbid2node, dbid2dct):
         """Collapse specfied relationships into the main node dict."""
         popped = {}
         for dbid, node in dbid2node.items():
-            k2v = node.dct
+            k2v = dbid2dct[dbid]
             rel = node.relationship
             if 'abc' in k2v and 'species' in rel:
-                abc = self._get_abc(k2v['abc'], rel['species'], node)
+                abc = self._get_abc(k2v['abc'], rel['species'], dbid2dct, k2v)
                 k2v['abc'] = abc
                 assert abc not in {'???', 'XXX'}
                 popped[(dbid, 'species')] = rel.pop('species')
             if 'compartment' in rel:
                 for comp in rel['compartment']:
-                    if comp.dct['displayName'] not in node.dct['displayName']:
+                    comp_dct = dbid2dct[comp.dbid]
+                    if comp_dct['displayName'] not in k2v['displayName']:
                         print('ADDING COMPARTMENT', node)
-                        node.dct['displayName'] += '[{COMP}]'.format(COMP=comp.dct['displayName'])
+                        k2v['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
                 popped[(dbid, 'compartment')] = rel.pop('compartment')
         return popped
 
     @staticmethod
-    def _get_abc(abc_param, species_nodes, node):
+    def _get_abc(abc_param, species_nodes, dbid2dct, dct):
         """Return a value for abc."""
         _abc = DatabaseObject.species2nt.get
-        abc_rel = '-'.join(_abc(o.dct['displayName'], '???').abbreviation for o in species_nodes)
+        # pylint: disable=line-too-long
+        abc_rel = '-'.join(_abc(dbid2dct[o.dbid]['displayName'], '???').abbreviation for o in species_nodes)
         # if abc_param == '...' or abc_param == abc_rel:
         if abc_param in {'...', abc_rel}:
             return abc_rel
         print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
-            DBID=node.dbid, SCH=node.sch, P=abc_param, R=abc_rel))
+            DBID=dct['dbId'], SCH=dct['schemaClass'], P=abc_param, R=abc_rel))
         return 'XXX'
 
-    def add_values(self, dbid2nodebasic):
+    def get_relationship_dcts(self, dbid2nodebasic):
         """Add parameter values and relationships w/their destination dbIds."""
         with self.gdbdr.session() as session:
             pat = 'MATCH (s:DatabaseObject{dbId:ID})-[r]->(d) RETURN s, r, d.dbId AS d_Id'
-            id2node_norel = self._addval_src_rel_dst(pat, dbid2nodebasic, session)
+            #### id2node_norel = self._addval_src_rel_dst(pat, dbid2nodebasic, session)
+            dbid2dct = self._addval_src_rel_dst(pat, dbid2nodebasic, session)
             pat = 'MATCH (src:DatabaseObject{dbId:DBID}) RETURN src'
-            self._addval_src_norel(pat, id2node_norel, session)
+            dbid2node_missing = {n:o for n, o in dbid2nodebasic.items() if not o.relationship}
+            assert not set(dbid2dct).issubset(dbid2node_missing)
+            #### self._addval_src_norel(pat, id2node_norel, session)
+            dbid2dct.update(self._addval_src_norel(pat, dbid2node_missing, session))
+            assert len(dbid2dct) == len(dbid2nodebasic)
+            return dbid2dct
 
     def get_dbid2nodebasic(self, schemaclass, paramstr):
         """Get the schemaClasses and dbIds for all nodes below the specified node."""
@@ -127,7 +137,7 @@ class NodeHier():
                 if rec['dst_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
-            HMS=self.get_hms(tic), N=len(dbid2nodebasic), Q=qry))
+            HMS=get_hms(tic), N=len(dbid2nodebasic), Q=qry))
         return dbid2nodebasic
 
     @staticmethod
@@ -136,32 +146,40 @@ class NodeHier():
         if dbid not in dbid2nodebasic:
             dbid2nodebasic[dbid] = Neo4jNodeBasic(dbid, schemaclass)
 
-    def _addval_src_norel(self, pat, id2node_norel, session):
+    #### def _addval_src_norel(self, pat, id2node_norel, session):
+    @staticmethod
+    def _addval_src_norel(pat, dbid2node_missing, session):
         """Add paramter values for node IDs that have no relationships."""
+        dbid2dct = {}
         tic = timeit.default_timer()
-        for dbid, nodebasic in id2node_norel.items():
+        for dbid, nodebasic in dbid2node_missing.items():
             qry = pat.replace('DBID', str(dbid))
             for rec in session.run(qry).records():
-                nodebasic.dct = nodebasic.objsch.get_dict(rec['src'])
+                dbid2dct[dbid] = nodebasic.objsch.get_dict(rec['src'])
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
-            HMS=self.get_hms(tic), N=len(id2node_norel), Q=qry))
+            HMS=get_hms(tic), N=len(dbid2node_missing,), Q=qry))
+        return dbid2dct
 
     def _addval_src_rel_dst(self, pat, dbid2nodebasic, session):
-        """Add parameter values and relationships w/their destination dbIds."""
-        dbid2nodenorel = {}
+        """Get dict w/parameter values and relationships w/their destination dbIds."""
+        dbid2dct = {}
+        #### dbid2nodenorel = {}
         tic = timeit.default_timer()
         for dbid, nodebasic in dbid2nodebasic.items():
             qry = pat.replace('ID', str(dbid))
             for rec in session.run(qry).records():
-                nodebasic.dct = nodebasic.objsch.get_dict(rec['s'])
+                #### nodebasic.dct = nodebasic.objsch.get_dict(rec['s'])
+                dbid2dct[dbid] = nodebasic.objsch.get_dict(rec['s'])
                 rel = rec['r'].type
                 if rel not in self.excl_rel:
                     nodebasic.relationship[rel].add(dbid2nodebasic[rec['d_Id']])
-            if not nodebasic.relationship:
-                dbid2nodenorel[dbid] = nodebasic
-        print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
-            HMS=self.get_hms(tic), N=len(dbid2nodebasic)-len(dbid2nodenorel), Q=qry))
-        return dbid2nodenorel
+            #### if not nodebasic.relationship:
+            ####     dbid2nodenorel[dbid] = nodebasic
+        print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(HMS=get_hms(tic), N=len(dbid2dct), Q=qry))
+        #### print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
+        ####     HMS=get_hms(tic), N=len(dbid2nodebasic)-len(dbid2nodenorel), Q=qry))
+        #### return dbid2nodenorel
+        return dbid2dct
 
     def get_query(self, schemaclass, paramstr, qrypat):
         """Get query to return all lower-level nodes."""
@@ -172,10 +190,6 @@ class NodeHier():
         query = query.replace('RELS', '|'.join(sorted(rels)))
         return query
 
-    @staticmethod
-    def get_hms(tic):
-        """Get hours, minutes, seconds."""
-        return str(datetime.timedelta(seconds=(timeit.default_timer()-tic)))
 
 def get_version(gdbdr):
     """Get Reactome version."""
