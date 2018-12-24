@@ -10,6 +10,8 @@ Explore peer-reviewed biological pathways in Reactome using Python to run neo4j 
     * Extract Reactome data using Neo4j. Save in Python modules used by scripts in [src/bin](src/bin):    
       * [src/bin_neo4j/wrpy](src/bin_neo4j/wrpy)
 
+## Prerequisites
+  * Python 3.5 or greater
 
 ## Reactome Links
   * **Publications**
