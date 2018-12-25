@@ -80,13 +80,15 @@ class NodeHier():
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
         dbid2dct = self.get_relationship_dcts(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
-        RelationshipCollapse(dbid2node, dbid2dct, exact)
+        objrel = RelationshipCollapse(dbid2node, dbid2dct, exact)
         # popped = self.collapse_relationships(dbid2node)
         # for rel, item in popped.items():
         #     print(rel)
         for dbid, dct in dbid2dct.items():
             node = dbid2node[dbid]
             node.ntp = node.objsch.get_nt_g_dct(dct)
+        print('COLLAPSE HIERARCHY RELATIONSHIPS INTO CHILDREN')
+        objrel.mv_children_parents(dbid2node)
         return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels, 'query':query}
 
     def get_relationship_dcts(self, dbid2nodebasic):

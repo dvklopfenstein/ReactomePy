@@ -20,6 +20,8 @@ class Neo4jNodeBasic():
         self.objsch = self._init_objsch()    # derived from DatabaseObject
         #### self.dct = {}  # TBD: Make this ntp. Store init dct in ntp. dict->nt
         self.ntp = None
+        self.children = set()
+        self.parents = set()
         self.relationship = defaultdict(set)
 
     def __str__(self):

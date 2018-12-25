@@ -7,6 +7,7 @@ __author__ = "DV Klopfenstein"
 
 from collections import defaultdict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
+from reactomeneo4j.code.relationships import Relationships
 
 
 # pylint: disable=too-few-public-methods
@@ -23,7 +24,27 @@ class RelationshipCollapse():
             'compartment': self._get_compartment,
             'referenceDatabase': self._get_db,
         }
+        # Relationships to child PhysicalENtity
+        # self.relhier2fnc = {
+        #     'hasMember': self._get_hier_pe,
+        #     'hasComponent': self._get_hier_pe,
+        #     'hasCandidate': self._get_hier_pe,
+        #     'repeatedUnit': self._get_hier_pe,
+        #     'entityOnOtherCell': self._get_hier_pe,
+        # }
         self._collapse_relationships()
+
+    def mv_children_parents(self, dbid2node):
+        """Move children from relationships to children parameters for ALL nodes."""
+        for srcnode in dbid2node.values():
+            relationships = Relationships.physicalentity_hier.intersection(srcnode.relationship)
+            for rel, dstnodes in srcnode.relationship.items():
+                srcnode.children.update(dstnodes)
+                for dstnode in dstnodes:
+                    dstnode.parents.add(srcnode)
+
+    # def _mv_children(self, node, rel, dstnodes):
+    #     """Move children from relationships to children parameters for ONE node."""
 
     def _collapse_relationships(self):
         """Collapse specfied relationships into the main node dict."""
