@@ -18,11 +18,16 @@ class DatabaseObject():
 
     # 'is' params:
     P2A = {  # Parameter-to-letter
-        'isInDisease': 'C',
+        'isInDisease': 'D',
         'isInferred': 'I',
         'isChimeric': 'C',
         'isSequenceChanged': 'S',
         'isOrdered': 'O'
+    }
+    # If these relationships exist, add aliases to ASCII art markers
+    R2A = {
+        'figure': 'F',
+        'disease': 'D',
     }
 
     relationships = {}
