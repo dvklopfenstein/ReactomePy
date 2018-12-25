@@ -5,6 +5,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import defaultdict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 
@@ -19,37 +20,62 @@ class RelationshipCollapse():
         self.all_details = all_details
         self.rel2fnc = {
             'species': self._get_abc,
-            'compartment': self._get_compartment
+            'compartment': self._get_compartment,
+            'referenceDatabase': self._get_db,
         }
         self._collapse_relationships()
 
     def _collapse_relationships(self):
         """Collapse specfied relationships into the main node dict."""
         popped = {}
-        _dbid2dct = self.dbid2dct
-        for dbid, node in self.dbid2node.items():
-            k2v = _dbid2dct[dbid]
+        for dbid_src, node in self.dbid2node.items():
+            k2v = self.dbid2dct[dbid_src]
+            # Merge relationship destination node info into current node
+            rel2dstdbids_rm = {}
             for rel, dstnodes in node.relationship.items():
                 if rel in self.rel2fnc:
-                    self.rel2fnc[rel](k2v, dstnodes)
-            for rel in set(node.relationship).intersection(self.rel2fnc):
-                if rel in self.rel2fnc:
-                    popped[(dbid, rel)] = node.relationship.pop(rel)
+                    rel2dstdbids_rm[rel] = self.rel2fnc[rel](k2v, dstnodes)
+            for rel, dstdbids_rm in rel2dstdbids_rm.items():
+                node.relationship[rel] = set(o for o in node.relationship[rel] if o.dbid not in dstdbids_rm)
+            rels_rm = set(r for r, objs in node.relationship.items() if not objs)
+            # print('RRRRR REMOVING COLLAPSED RELATIONSHIPS', rels_rm)
+
+            # print('DDDDDDDDDDDDDDDD', dbid_src, rel, dstdbidsrm)
+            # # Remove relationships when thier info has been merged into parent node
+            # for dbid_node in dstnodes:
+            #     if dbid_node.dbid in dstdbidsrm:
+            #         node.relationship[rel]
+            for rel in rels_rm:
+                popped[(dbid_src, rel)] = node.relationship.pop(rel)
         return popped
 
+    def _get_db(self, sdct, referencedatabases):
+        """Push database displayName onto parent."""
+        dbids_rm = set()
+        for odst in referencedatabases:
+            ddct = self.dbid2dct[odst.dbid]
+            if 'identifier' in sdct:
+                sdct['displayName'] = '{DB}:{ID}'.format(DB=ddct['displayName'], ID=sdct['identifier'])
+                dbids_rm.add(odst.dbid)
+            elif ddct['displayName'] == 'GO' and 'GO' in sdct['displayName']:
+                dbids_rm.add(odst.dbid)
+        return dbids_rm
+
     def _get_compartment(self, dct, compartments):
-        """Push compartment displayName onto parent."""
+        """Push compartment displayName onto parent, if necessary."""
         for comp in compartments:
             comp_dct = self.dbid2dct[comp.dbid]
             if comp_dct['displayName'] not in dct['displayName']:
                 # print('ADDING COMPARTMENT', node)
                 dct['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
+        return set(o.dbid for o in compartments)
 
     def _get_abc(self, dct, species_nodes):
         """Return a value for abc."""
         abc = self.__get_abc(dct['abc'], species_nodes, dct)
         dct['abc'] = abc
         assert abc not in {'???', 'XXX'}
+        return set(o.dbid for o in species_nodes)
 
     def __get_abc(self, abc_param, species_nodes, dct):
         """Return a value for abc."""

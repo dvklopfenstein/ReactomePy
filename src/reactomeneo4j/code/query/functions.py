@@ -30,14 +30,20 @@ class NodeHier():
         self.excl_rel = self.excl_rel_dft if excl_rel is None else set(excl_rel)
         self.all_details = all_details
 
-    def wr_dbid2node(self, fout_txt, id2node, dbid2dct):
+    def wr_dbid2node(self, fout_txt, dct_full):
         """Write all nodes."""
         with open(fout_txt, 'w') as prt:
-            self.prt_summary(id2node, prt)
-            for nodebasic in id2node.values():
+            prt.write('{Q}\n\n'.format(Q=dct_full['query']))
+            prt.write('Relationships in query:\n')
+            for rel in sorted(dct_full['relationships']):
+                prt.write("    '{REL}',\n".format(REL=rel))
+            prt.write('\n\n')
+            dbid2dct = dct_full['dbid2dct']
+            self.prt_summary(dct_full['dbid2node'], prt)
+            for nodebasic in dct_full['dbid2node'].values():
                 prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
-                dct = dbid2dct[nodebasic.dbid]
-                prt.write('DCT: {DCT}\n'.format(DCT=self.getstr_dct(dct)))
+                dct_cur = dbid2dct[nodebasic.dbid]
+                prt.write('DCT: {DCT}\n'.format(DCT=self.getstr_dct(dct_cur)))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
                     for dst in dst_dbnodes:
                         param_vals = sorted(dbid2dct[dst.dbid].items())
@@ -45,7 +51,7 @@ class NodeHier():
                         prt.write('{SRC} REL {R} {DST}\n'.format(
                             SRC=nodebasic.sch, R=rel, DST=' '.join(dctlst)))
                 prt.write('<<<<<<<\n')
-            print('  {N:,} nodes WROTE: {TXT}'.format(N=len(id2node), TXT=fout_txt))
+            print('  {N:,} nodes WROTE: {TXT}'.format(N=len(dct_full['dbid2node']), TXT=fout_txt))
 
     @staticmethod
     def prt_summary(dbid2node, prt=sys.stdout):
@@ -67,7 +73,10 @@ class NodeHier():
     def get_dbid2node(self, schemaclass='Complex', paramvalstr='stId:"R-HSA-167199"', exact=True):
         """Find user-specfied Node and return it and all Nodes below it."""
         print('FIND ALL LOWER-LEVEL NODE IDS...')
-        dbid2node = self.get_dbid2nodebasic(schemaclass, paramvalstr)
+        rels = self.get_rels(schemaclass)
+        query = self.get_query(rels, paramvalstr, self.patini)
+        print(query)
+        dbid2node = self.get_dbid2nodebasic(query)
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
         dbid2dct = self.get_relationship_dcts(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
@@ -78,7 +87,7 @@ class NodeHier():
         for dbid, dct in dbid2dct.items():
             node = dbid2node[dbid]
             node.ntp = node.objsch.get_nt_g_dct(dct)
-        return dbid2node, dbid2dct
+        return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels, 'query':query}
 
     def get_relationship_dcts(self, dbid2nodebasic):
         """Add parameter values and relationships w/their destination dbIds."""
@@ -94,20 +103,19 @@ class NodeHier():
             assert len(dbid2dct) == len(dbid2nodebasic)
             return dbid2dct
 
-    def get_dbid2nodebasic(self, schemaclass, paramstr):
+    def get_dbid2nodebasic(self, query):
         """Get the schemaClasses and dbIds for all nodes below the specified node."""
         # MATCH (src{USERVALS})-[rels:RELS*]->(dst) RETURN DISTINCT ...
         dbid2nodebasic = {}
         tic = timeit.default_timer()
-        qry = self.get_query(schemaclass, paramstr, self.patini)
         with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(query).records():
                 if rec['src_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['src_dbId'], rec['src_schemaClass'])
                 if rec['dst_dbId'] not in dbid2nodebasic:
                     self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
-            HMS=get_hms(tic), N=len(dbid2nodebasic), Q=qry))
+            HMS=get_hms(tic), N=len(dbid2nodebasic), Q=query))
         return dbid2nodebasic
 
     @staticmethod
@@ -151,12 +159,15 @@ class NodeHier():
         #### return dbid2nodenorel
         return dbid2dct
 
-    def get_query(self, schemaclass, paramstr, qrypat):
-        """Get query to return all lower-level nodes."""
-        # query = qrypat.replace('SCH', schemaclass)
-        query = qrypat.replace('PARAMS', paramstr)
+    def get_rels(self, schemaclass):
+        """Get relationships to return all lower-level nodes."""
         rels = get_relationships_lte(schemaclass)
         rels.difference_update(self.excl_rel)
+        return rels
+
+    def get_query(self, rels, paramstr, qrypat):
+        """Get query to return all lower-level nodes."""
+        query = qrypat.replace('PARAMS', paramstr)
         query = query.replace('RELS', '|'.join(sorted(rels)))
         return query
 
