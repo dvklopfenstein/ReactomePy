@@ -5,11 +5,11 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from collections import defaultdict
+# from collections import defaultdict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.relationships import Relationships
 from reactomeneo4j.code.query.node_tasks import get_id2children
-from reactomeneo4j.code.query.node_tasks import get_id2children
+from reactomeneo4j.code.query.node_tasks import get_id2parents
 
 
 # pylint: disable=too-few-public-methods
@@ -35,11 +35,12 @@ class RelationshipCollapse():
         # }
         self._collapse_relationships()
 
-    def mv_children_parents(self, dbid2node):
-        """Move children from relationships to children parameters for ALL nodes."""
-        for srcnode in dbid2node.values():
+    def mv_children_parents(self):
+        """Move children from selected relationships to children parameters for ALL nodes."""
+        for srcnode in self.dbid2node.values():
             relationships = Relationships.physicalentity_hier.intersection(srcnode.relationship)
-            for rel, dstnodes in srcnode.relationship.items():
+            for rel in relationships:
+                dstnodes = srcnode.relationship[rel]
                 srcnode.children.update(dstnodes)
                 for dstnode in dstnodes:
                     dstnode.parents.add(srcnode)
