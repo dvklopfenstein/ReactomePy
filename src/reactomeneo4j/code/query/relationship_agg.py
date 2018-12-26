@@ -8,12 +8,13 @@ __author__ = "DV Klopfenstein"
 from collections import defaultdict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.relationships import Relationships
+from reactomeneo4j.code.query.node_tasks import get_id2children
+from reactomeneo4j.code.query.node_tasks import get_id2children
 
 
 # pylint: disable=too-few-public-methods
 class RelationshipCollapse():
     """Pull data from lower-level relationship nodes. Rm rels."""
-
 
     def __init__(self, dbid2node, dbid2dct, all_details=True):
         self.dbid2node = dbid2node
@@ -42,6 +43,21 @@ class RelationshipCollapse():
                 srcnode.children.update(dstnodes)
                 for dstnode in dstnodes:
                     dstnode.parents.add(srcnode)
+
+    def set_dcnt(self):
+        """Initialize descendant count."""
+        id2descendants = get_id2children(self.dbid2node.values())
+        for dbid, descendants in id2descendants.items():
+            node = self.dbid2node[dbid]
+            node.descendants = descendants
+            node.dcnt = len(descendants)
+
+    def set_ancestors(self):
+        """Initialize ancestors count."""
+        id2ancestors = get_id2parents(self.dbid2node.values())
+        for id_, ancestors in id2ancestors.items():
+            node = self.dbid2node[id_]
+            node.ancestors = ancestors
 
     # def _mv_children(self, node, rel, dstnodes):
     #     """Move children from relationships to children parameters for ONE node."""
@@ -124,5 +140,6 @@ class RelationshipCollapse():
         if 'optional' in dct:
             optlst = ['{}({})'.format(k, v) for k, v in sorted(dct['optional'].items())]
             msg.append(' '.join(optlst))
+
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

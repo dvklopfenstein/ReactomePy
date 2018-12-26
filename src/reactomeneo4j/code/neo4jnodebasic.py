@@ -23,6 +23,10 @@ class Neo4jNodeBasic():
         self.children = set()
         self.parents = set()
         self.relationship = defaultdict(set)
+        self.depth = None
+        self.dcnt = None
+        self.descendants = set()
+        self.ancestors = set()
 
     def __str__(self):
         # Parameters on all Nodes
