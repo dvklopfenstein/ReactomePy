@@ -49,7 +49,7 @@ class NodeHier():
                         param_vals = sorted(dbid2dct[dst.dbid].items())
                         dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
                         prt.write('{SRC} REL {R} {DST}\n'.format(
-                            SRC=nodebasic.sch, R=rel, DST=' '.join(dctlst)))
+                            SRC=nodebasic.objsch.name, R=rel, DST=' '.join(dctlst)))
                 prt.write('<<<<<<<\n')
             print('  {N:,} nodes WROTE: {TXT}'.format(N=len(dct_full['dbid2node']), TXT=fout_txt))
 
@@ -59,7 +59,7 @@ class NodeHier():
         ctrsch = cx.Counter()
         ctrrel = cx.Counter()
         for node in dbid2node.values():
-            ctrsch[node.sch] += 1
+            ctrsch[node.objsch.name] += 1
             for rel in node.relationship:
                 ctrrel[rel] += 1
         prt.write('  {N:6} nodes\n'.format(N=len(dbid2node)))

@@ -14,8 +14,8 @@ class Neo4jNodeBasic():
 
     def __init__(self, dbid, schemaclass):
         self.dbid = dbid
-        self.sch = schemaclass
-        self.objsch = self._init_objsch()    # derived from DatabaseObject
+        #### self.sch = schemaclass
+        self.objsch = self._init_objsch(schemaclass)    # derived from DatabaseObject
         self.prtfmt = self.objsch.prtfmt
         #### self.dct = {}  # TBD: Make this ntp. Store init dct in ntp. dict->nt
         self.ntp = None
@@ -29,7 +29,7 @@ class Neo4jNodeBasic():
 
     def __str__(self):
         # Parameters on all Nodes
-        msg = ['{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.sch)]
+        msg = ['{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.objsch.name)]
         # print('FMTPAT', self.objsch.prtfmt)
         # print('NT', self.ntp._asdict())
         msg.append('NT: {NT}'.format(NT=self.objsch.prtfmt.format(**self.ntp._asdict())))
@@ -46,10 +46,11 @@ class Neo4jNodeBasic():
     ####             if rel in set(['referenceEntity']):
     ####                 prt.write('---- {NT}\n'.format(NT=dst.ntp))
 
-    def _init_objsch(self):
+    @staticmethod
+    def _init_objsch(sch):
         """Given schemaClass, create data framework object."""
-        assert self.sch in S2C, '**FATAL: BAD schemaClass({S})'.format(S=self.sch)
-        return S2C[self.sch]
+        assert sch in S2C, '**FATAL: BAD schemaClass({S})'.format(S=sch)
+        return S2C[sch]
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
