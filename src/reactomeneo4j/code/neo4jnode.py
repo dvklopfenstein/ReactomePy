@@ -19,10 +19,10 @@ class Neo4jNode():
         self.objsch = _ini.get_objsch()  # derived from DatabaseObject
         self.rel2nodes = _ini.get_rel2nodes()
         self.ntp = _ini.get_nt(neo4jnode, self.rel2nodes, self.objsch)
-        self.fmtpat = kws['prtfmt'] if 'prtfmt' in kws else self.objsch.fmtpat
+        self.prtfmt = kws['prtfmt'] if 'prtfmt' in kws else self.objsch.fmtpat
 
     def __str__(self):
-        return self.fmtpat.format(**self.ntp._asdict())
+        return self.prtfmt.format(**self.ntp._asdict())
 
     def prt_verbose(self, prt):
         """Return a string with all details of the Node and its relationships."""

@@ -88,7 +88,7 @@ class NodeHier():
             node = dbid2node[dbid]
             node.ntp = node.objsch.get_nt_g_dct(dct)
         print('COLLAPSE HIERARCHY RELATIONSHIPS INTO CHILDREN')
-        objrel.mv_children_parents(dbid2node)
+        objrel.mv_children_parents()
         objrel.set_dcnt()
         objrel.set_ancestors()
         return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels, 'query':query}

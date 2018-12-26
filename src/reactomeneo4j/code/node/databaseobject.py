@@ -13,7 +13,7 @@ class DatabaseObject():
 
     params_req = ['dbId', 'schemaClass', 'displayName']
     params_opt = []
-    fmtpat = '{dbId:7} {schemaClass:32} {displayName}'
+    prtfmt = '{dbId:7} {schemaClass:32} {displayName}'
     species2nt = {nt.displayName:nt for nt in SPECIES}
 
     # 'is' params:

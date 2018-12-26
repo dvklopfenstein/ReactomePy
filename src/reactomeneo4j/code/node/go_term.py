@@ -31,7 +31,7 @@ class GOTerm(DatabaseObject):
     params_req = DatabaseObject.params_req + [
         'accession', 'databaseName', 'definition', 'name', 'url']
 
-    fmtpat = '{NS} {databaseName}:{accession} {name} -> {definition}'
+    prtfmt = '{NS} {databaseName}:{accession} {name} -> {definition}'
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),

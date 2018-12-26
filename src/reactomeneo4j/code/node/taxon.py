@@ -23,7 +23,7 @@ class Taxon(DatabaseObject):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = DatabaseObject.params_opt + ['taxId', 'name']
-    fmtpat = '{schemaClass}: {displayName}'
+    prtfmt = '{schemaClass}: {displayName}'
 
     relationships = {
         'crossReference' : set(['DatabaseIdentifier']),

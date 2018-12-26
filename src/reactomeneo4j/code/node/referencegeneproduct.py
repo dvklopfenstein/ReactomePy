@@ -32,7 +32,7 @@ class ReferenceGeneProduct(ReferenceSequence):
         'sequenceLength', 'chain', 'checksum', 'comment', 'isSequenceChanged',
         'keyword', 'secondaryIdentifier', 'otherIdentifier']
 
-    fmtpat = '{schemaClass:17} {aart} {displayName}'
+    prtfmt = '{schemaClass:17} {aart} {displayName}'
 
     relationships = {
         **ReferenceSequence.relationships,

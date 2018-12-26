@@ -12,12 +12,11 @@ from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR 
 class Neo4jNodeBasic():
     """Neo4jNode built in steps using groups of dbIds, avoiding duplicate queries."""
 
-    patfmt = '{dbId} {schemaClass}'
-
     def __init__(self, dbid, schemaclass):
         self.dbid = dbid
         self.sch = schemaclass
         self.objsch = self._init_objsch()    # derived from DatabaseObject
+        self.prtfmt = self.objsch.prtfmt
         #### self.dct = {}  # TBD: Make this ntp. Store init dct in ntp. dict->nt
         self.ntp = None
         self.children = set()
@@ -31,9 +30,9 @@ class Neo4jNodeBasic():
     def __str__(self):
         # Parameters on all Nodes
         msg = ['{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.sch)]
-        # print('FMTPAT', self.objsch.fmtpat)
+        # print('FMTPAT', self.objsch.prtfmt)
         # print('NT', self.ntp._asdict())
-        msg.append('NT: {NT}'.format(NT=self.objsch.fmtpat.format(**self.ntp._asdict())))
+        msg.append('NT: {NT}'.format(NT=self.objsch.prtfmt.format(**self.ntp._asdict())))
         msg.append('NT: {NT}'.format(NT=self.ntp))
         return '\n'.join(msg)
 

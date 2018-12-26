@@ -33,7 +33,7 @@ class LiteratureReference(Publication):
     # params: dbId schemaClass displayName | title
     params_req = Publication.params_req + ['journal', 'year']
     params_opt = Publication.params_opt + ['pubMedIdentifier', 'volume', 'pages']
-    fmtpat = '{schemaClass}: {year} ({journal}) {displayName}'
+    prtfmt = '{schemaClass}: {year} ({journal}) {displayName}'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self):

@@ -17,7 +17,7 @@ class Summation(DatabaseObject):
 
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['text']
-    fmtpat = '{schemaClass}: {text}'
+    prtfmt = '{schemaClass}: {text}'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
