@@ -11,7 +11,8 @@ import collections as cx
 from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 from reactomeneo4j.code.utils import get_hms
 from reactomeneo4j.code.query.relationship_agg import RelationshipCollapse
-from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
+from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CLS
+from reactomeneo4j.code.node.schemaclass_factory import new_inst
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 
 class NodeHier():
@@ -206,8 +207,8 @@ def get_version(gdbdr):
 def get_relationships(schemaclass):
     """Given a DatabaseObject in code.node, return relationships of derived nodes."""
     rels_all = set()
-    obj = SCHEMACLASS2CONSTRUCTOR[schemaclass]
-    for rels_cur in obj.relationships:
+    cls = SCHEMACLASS2CLS[schemaclass]
+    for rels_cur in cls.relationships:
         rels_all.add(rels_cur)
     return rels_all
 
@@ -227,8 +228,8 @@ def _get_relationships_lte(schemaclass, seen, rels_all, schs_all):
         return
     # print('PPPPPPPP', schemaclass)
     seen.add(schemaclass)
-    obj = SCHEMACLASS2CONSTRUCTOR[schemaclass]
-    for rels_cur, schs_cur in obj.relationships.items():
+    cls = SCHEMACLASS2CLS[schemaclass]
+    for rels_cur, schs_cur in cls.relationships.items():
         rels_all.add(rels_cur)
         schs_all.update(schs_cur)
     for sch in schs_all.difference(seen):

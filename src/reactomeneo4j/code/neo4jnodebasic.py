@@ -5,7 +5,7 @@ __author__ = "DV Klopfenstein"
 
 # import os
 from collections import defaultdict
-from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR as S2C
+from reactomeneo4j.code.node.schemaclass_factory import new_inst
 
 
 # pylint: disable=too-many-instance-attributes,too-few-public-methods
@@ -15,7 +15,7 @@ class Neo4jNodeBasic():
     def __init__(self, dbid, schemaclass):
         self.dbid = dbid
         #### self.sch = schemaclass
-        self.objsch = self._init_objsch(schemaclass)    # derived from DatabaseObject
+        self.objsch = new_inst(schemaclass, dbid)    # derived from DatabaseObject
         self.prtfmt = self.objsch.prtfmt
         #### self.dct = {}  # TBD: Make this ntp. Store init dct in ntp. dict->nt
         self.ntp = None
@@ -46,11 +46,11 @@ class Neo4jNodeBasic():
     ####             if rel in set(['referenceEntity']):
     ####                 prt.write('---- {NT}\n'.format(NT=dst.ntp))
 
-    @staticmethod
-    def _init_objsch(sch):
-        """Given schemaClass, create data framework object."""
-        assert sch in S2C, '**FATAL: BAD schemaClass({S})'.format(S=sch)
-        return S2C[sch]
+    #### @staticmethod
+    #### def _init_objsch(sch, dbid):
+    ####     """Given schemaClass, create data framework object."""
+    ####     assert sch in S2C, '**FATAL: BAD schemaClass({S})'.format(S=sch)
+    ####     return S2C[sch]
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -83,7 +83,8 @@ class ReferenceEntity(DatabaseObject):
         'species'          : set(['Taxon']),
     }
 
-    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' abc optional')
+    flds_last = ' abc optional'
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + flds_last)
 
     def __init__(self, name='ReferenceEntity', dbid=None):
         super(ReferenceEntity, self).__init__(name, dbid)

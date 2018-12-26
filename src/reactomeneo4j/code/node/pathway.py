@@ -41,7 +41,7 @@ class Pathway(Event):
     params_req = Event.params_req + ['hasDiagram']
     # params: oldStId releaseStatus
     params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
-    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + Event.flds_last)
 
     relationships = {
         **Event.relationships,

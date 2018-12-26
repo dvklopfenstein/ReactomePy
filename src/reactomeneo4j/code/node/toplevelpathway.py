@@ -38,7 +38,7 @@ class TopLevelPathway(Event):
     params_req = Event.params_req + ['hasDiagram', 'diagramHeight', 'diagramWidth']
     # params: oldStId releaseStatus
     params_opt = Event.params_opt + ['doi']
-    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + Event.flds_last)
 
     relationships = {
         **Event.relationships,
