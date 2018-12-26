@@ -14,6 +14,7 @@ from reactomeneo4j.code.query.relationship_agg import RelationshipCollapse
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CLS
 from reactomeneo4j.code.node.schemaclass_factory import new_inst
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
+from reactomeneo4j.code.relationships import Relationships
 
 class NodeHier():
     """Create, collect, and report a Node hierarchy."""
@@ -33,6 +34,7 @@ class NodeHier():
 
     def wr_dbid2node(self, fout_txt, dct_full):
         """Write all nodes."""
+        excl = {'ReferenceDatabase'}
         with open(fout_txt, 'w') as prt:
             prt.write('{Q}\n\n'.format(Q=dct_full['query']))
             prt.write('Relationships in query:\n')
@@ -42,15 +44,24 @@ class NodeHier():
             dbid2dct = dct_full['dbid2dct']
             self.prt_summary(dct_full['dbid2node'], prt)
             for nodebasic in dct_full['dbid2node'].values():
+                if nodebasic.objsch.name in excl:
+                    continue
                 prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
                 dct_cur = dbid2dct[nodebasic.item_id]
                 prt.write('DCT: {DCT}\n'.format(DCT=self.getstr_dct(dct_cur)))
+                prt.write('=======\n')
                 for rel, dst_dbnodes in nodebasic.relationship.items():
-                    for dst in dst_dbnodes:
-                        param_vals = sorted(dbid2dct[dst.item_id].items())
-                        dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
+                    if rel in Relationships.physicalentity_hier:
+                        ctr = cx.Counter(o.objsch.name for o in dst_dbnodes)
+                        ctrmsg = ['{N}:{S}'.format(S=k, N=v) for k, v in ctr.most_common()]
                         prt.write('{SRC} REL {R} {DST}\n'.format(
-                            SRC=nodebasic.objsch.name, R=rel, DST=' '.join(dctlst)))
+                            SRC=nodebasic.objsch.name, R=rel, DST=' '.join(ctrmsg)))
+                    else:
+                        for dst in dst_dbnodes:
+                            param_vals = sorted(dbid2dct[dst.item_id].items())
+                            dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
+                            prt.write('{SRC} REL {R} {DST}\n'.format(
+                                SRC=nodebasic.objsch.name, R=rel, DST='\n    '.join(dctlst)))
                 prt.write('<<<<<<<\n')
             print('  {N:,} nodes WROTE: {TXT}'.format(N=len(dct_full['dbid2node']), TXT=fout_txt))
 
@@ -78,13 +89,15 @@ class NodeHier():
         query = self.get_query(rels, paramvalstr, self.patini)
         print(query)
         dbid2node, src_dbids = self.get_dbid2nodebasic(query)
-        print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
+        print('FILL DICT WITH PARAMETER VALUES AND RELATIONSHIP DESTINATION NODES')
         dbid2dct = self.get_relationship_dcts(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
         objrel = RelationshipCollapse(dbid2node, dbid2dct, exact)
+        objrel.merge_dctvals()
         # popped = self.collapse_relationships(dbid2node)
         # for rel, item in popped.items():
         #     print(rel)
+        print('FROM DICT MAKE NAMEDTUPLE ON NODE')
         for dbid, dct in dbid2dct.items():
             node = dbid2node[dbid]
             node.ntp = node.objsch.get_nt_g_dct(dct)
@@ -190,12 +203,12 @@ class NodeHier():
         excl = {'dbId', 'schemaClass', 'displayName', 'optional'}
         dctlst = ['{}({})'.format(k, v) for k, v in sorted(dct.items()) if k not in excl]
         if dctlst:
-            msg.append(' '.join(dctlst))
+            msg.append('\n    '.join(dctlst))
         # Optional Parameters on this Node
         if 'optional' in dct:
             optlst = ['{}({})'.format(k, v) for k, v in sorted(dct['optional'].items())]
-            msg.append(' '.join(optlst))
-        return ' '.join(msg)
+            msg.append('\n    '.join(optlst))
+        return '\n    '.join(msg)
 
 def get_version(gdbdr):
     """Get Reactome version."""

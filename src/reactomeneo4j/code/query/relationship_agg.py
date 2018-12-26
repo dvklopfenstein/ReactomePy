@@ -24,6 +24,7 @@ class RelationshipCollapse():
         self.all_details = all_details
         self.rel2fnc = {
             'species': self._get_abc,
+            'relatedSpecies': self._get_abc_related,
             'compartment': self._get_compartment,
             'referenceDatabase': self._get_db,
         }
@@ -75,6 +76,7 @@ class RelationshipCollapse():
             for rel, dstnodes in node.relationship.items():
                 if rel in self.rel2fnc:
                     rel2dstdbids_rm[rel] = self.rel2fnc[rel](k2v, dstnodes)
+            # Remove relationships and destination nodes for info placed in dct and node
             for rel, dstdbids_rm in rel2dstdbids_rm.items():
                 node.relationship[rel] = set(o for o in node.relationship[rel] if o.item_id not in dstdbids_rm)
             rels_rm = set(r for r, objs in node.relationship.items() if not objs)
@@ -87,7 +89,16 @@ class RelationshipCollapse():
             #         node.relationship[rel]
             for rel in rels_rm:
                 popped[(dbid_src, rel)] = node.relationship.pop(rel)
+            # Merge dct fields
         return popped
+
+    def merge_dctvals(self):
+        """Example: Copy relatedSpecies info into abc."""
+        for k2v in self.dbid2dct.values():
+            if 'relatedSpecies' in k2v:
+                assert 'abc' in k2v
+                print('VVVVVVVVVVVVVVVVVVVV', k2v)
+                k2v['abc'] += '->{ABC}'.format(ABC=k2v['relatedSpecies'])
 
     def _get_db(self, sdct, referencedatabases):
         """Push database displayName onto parent."""
@@ -110,6 +121,13 @@ class RelationshipCollapse():
                 dct['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
         return set(o.item_id for o in compartments)
 
+    def _get_abc_related(self, dct, species_nodes):
+        """Return an abc value for a relatedSpecies."""
+        abc = self._get_abc_from_relationship(species_nodes)
+        dct['relatedSpecies'] = abc
+        assert abc not in {'???', 'XXX'}
+        return set(o.item_id for o in species_nodes)
+
     def _get_abc(self, dct, species_nodes):
         """Return a value for abc."""
         abc = self.__get_abc(dct['abc'], species_nodes, dct)
@@ -119,15 +137,22 @@ class RelationshipCollapse():
 
     def __get_abc(self, abc_param, species_nodes, dct):
         """Return a value for abc."""
-        _abc = DatabaseObject.species2nt.get
-        # pylint: disable=line-too-long
-        abc_rel = '-'.join(_abc(self.dbid2dct[o.item_id]['displayName'], '???').abbreviation for o in species_nodes)
+        abc_rel = self._get_abc_from_relationship(species_nodes)
         # if abc_param == '...' or abc_param == abc_rel:
         if abc_param in {'...', abc_rel}:
             return abc_rel
         print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
             DBID=dct['dbId'], SCH=dct['schemaClass'], P=abc_param, R=abc_rel))
         return 'XXX'
+
+    def _get_abc_from_relationship(self, species_nodes):
+        """Get abc for each Species/Taxon at a relationship destination node."""
+        abcs = set()
+        _abc = DatabaseObject.species2nt.get
+        for node in species_nodes:
+            ntd = _abc(self.dbid2dct[node.item_id]['displayName'], '???')
+            abcs.add(ntd.abbreviation)
+        return '-'.join(sorted(abcs))
 
     @staticmethod
     def prt_dct(dct):
