@@ -27,8 +27,8 @@ class DatabaseIdentifier(DatabaseObject):
         'referenceDatabase': set(['ReferenceDatabase']),
     }
 
-    def __init__(self):
-        super(DatabaseIdentifier, self).__init__('DatabaseIdentifier')
+    def __init__(self, dbid=None):
+        super(DatabaseIdentifier, self).__init__('DatabaseIdentifier', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -26,8 +26,8 @@ class Person(DatabaseObject):
         'affiliation'    : set(['Affiliation']),
     }
 
-    def __init__(self):
-        super(Person, self).__init__('Person')
+    def __init__(self, dbid=None):
+        super(Person, self).__init__('Person', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

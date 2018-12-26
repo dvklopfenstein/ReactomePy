@@ -68,8 +68,8 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
         }
     }
 
-    def __init__(self):
-        super(EntityWithAccessionedSequence, self).__init__('EntityWithAccessionedSequence')
+    def __init__(self, dbid=None):
+        super(EntityWithAccessionedSequence, self).__init__('EntityWithAccessionedSequence', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

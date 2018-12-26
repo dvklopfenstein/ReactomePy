@@ -32,8 +32,8 @@ class ReferenceMolecule(ReferenceEntity):
     params_opt = ReferenceEntity.params_opt + [
         'secondaryIdentifier', 'otherIdentifier', 'name', 'formula', 'trivial', 'geneName']
 
-    def __init__(self):
-        super(ReferenceMolecule, self).__init__('ReferenceMolecule')
+    def __init__(self, dbid=None):
+        super(ReferenceMolecule, self).__init__('ReferenceMolecule', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

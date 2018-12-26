@@ -49,8 +49,8 @@ class CrosslinkedResidue(TranslationalModification):
         }
     }
 
-    def __init__(self, name):
-        super(CrosslinkedResidue, self).__init__(name)
+    def __init__(self, name, dbid=None):
+        super(CrosslinkedResidue, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

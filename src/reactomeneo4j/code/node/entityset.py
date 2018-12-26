@@ -50,8 +50,8 @@ class EntitySet(PhysicalEntity):
         }
     }
 
-    def __init__(self, name='EntitySet'):
-        super(EntitySet, self).__init__(name)
+    def __init__(self, name='EntitySet', dbid=None):
+        super(EntitySet, self).__init__(name, dbid)
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

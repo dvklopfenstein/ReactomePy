@@ -28,9 +28,9 @@ class ExternalOntology(DatabaseObject):
         'referenceDatabase': set(['ReferenceDatabase']),
     }
 
-    def __init__(self, name):
+    def __init__(self, name, dbid=None):
         # pylint: disable=useless-super-delegation
-        super(ExternalOntology, self).__init__(name)
+        super(ExternalOntology, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

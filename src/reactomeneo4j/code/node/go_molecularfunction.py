@@ -34,8 +34,8 @@ class GO_MolecularFunction(GOTerm):
         }
     }
 
-    def __init__(self):
-        super(GO_MolecularFunction, self).__init__('GO_MolecularFunction')
+    def __init__(self, dbid=None):
+        super(GO_MolecularFunction, self).__init__('GO_MolecularFunction', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

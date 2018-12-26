@@ -38,8 +38,8 @@ class OtherEntity(PhysicalEntity):
         }
     }
 
-    def __init__(self):
-        super(OtherEntity, self).__init__('OtherEntity')
+    def __init__(self, dbid=None):
+        super(OtherEntity, self).__init__('OtherEntity', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

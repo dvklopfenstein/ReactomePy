@@ -49,8 +49,8 @@ class ModifiedResidue(TranslationalModification):
         }
     }
 
-    def __init__(self):
-        super(ModifiedResidue, self).__init__('ModifiedResidue')
+    def __init__(self, dbid=None):
+        super(ModifiedResidue, self).__init__('ModifiedResidue', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

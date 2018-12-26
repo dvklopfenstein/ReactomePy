@@ -36,8 +36,8 @@ class FragmentDeletionModification(FragmentModification):
         }
     }
 
-    def __init__(self):
-        super(FragmentDeletionModification, self).__init__('FragmentDeletionModification')
+    def __init__(self, dbid=None):
+        super(FragmentDeletionModification, self).__init__('FragmentDeletionModification', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

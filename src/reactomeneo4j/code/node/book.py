@@ -39,8 +39,8 @@ class Book(Publication):
         'publisher': set(['Affiliation']),
     }
 
-    def __init__(self):
-        super(Book, self).__init__('Book')
+    def __init__(self, dbid=None):
+        super(Book, self).__init__('Book', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

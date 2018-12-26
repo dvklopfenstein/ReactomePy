@@ -21,8 +21,8 @@ class EntityFunctionalStatus(DatabaseObject):
         'functionalStatus': set(['FunctionalStatus']),
     }
 
-    def __init__(self):
-        super(EntityFunctionalStatus, self).__init__('EntityFunctionalStatus')
+    def __init__(self, dbid=None):
+        super(EntityFunctionalStatus, self).__init__('EntityFunctionalStatus', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

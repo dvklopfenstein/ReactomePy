@@ -53,8 +53,8 @@ class TopLevelPathway(Event):
         }
     }
 
-    def __init__(self):
-        super(TopLevelPathway, self).__init__('TopLevelPathway')
+    def __init__(self, dbid=None):
+        super(TopLevelPathway, self).__init__('TopLevelPathway', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

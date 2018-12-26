@@ -56,8 +56,8 @@ class ReferenceSequence(ReferenceEntity):
         }
     }
 
-    def __init__(self, name):
-        super(ReferenceSequence, self).__init__(name)
+    def __init__(self, name, dbid=None):
+        super(ReferenceSequence, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

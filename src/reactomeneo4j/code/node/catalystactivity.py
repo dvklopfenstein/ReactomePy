@@ -26,8 +26,8 @@ class CatalystActivity(DatabaseObject):
         'physicalEntity': set(['Complex', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'OtherEntity', 'Polymer', 'EntityWithAccessionedSequence']),
     }
 
-    def __init__(self):
-        super(CatalystActivity, self).__init__('CatalystActivity')
+    def __init__(self, dbid=None):
+        super(CatalystActivity, self).__init__('CatalystActivity', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -37,8 +37,8 @@ class ChemicalDrug(Drug):
         }
     }
 
-    def __init__(self):
-        super(ChemicalDrug, self).__init__('ChemicalDrug')
+    def __init__(self, dbid=None):
+        super(ChemicalDrug, self).__init__('ChemicalDrug', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

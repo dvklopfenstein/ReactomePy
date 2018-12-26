@@ -34,8 +34,8 @@ class URL(Publication):
     params_req = Publication.params_req + ['uniformResourceLocator']
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
-    def __init__(self):
-        super(URL, self).__init__('URL')
+    def __init__(self, dbid=None):
+        super(URL, self).__init__('URL', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

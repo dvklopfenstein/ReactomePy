@@ -56,8 +56,8 @@ class NegativeRegulation(Regulation):
         }
     }
 
-    def __init__(self, name='NegativeRegulation'):
-        super(NegativeRegulation, self).__init__(name)
+    def __init__(self, name='NegativeRegulation', dbid=None):
+        super(NegativeRegulation, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

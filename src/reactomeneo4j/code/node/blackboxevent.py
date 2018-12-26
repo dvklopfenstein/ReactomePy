@@ -52,8 +52,8 @@ class BlackBoxEvent(ReactionLikeEvent):
         }
     }
 
-    def __init__(self):
-        super(BlackBoxEvent, self).__init__('BlackBoxEvent')
+    def __init__(self, dbid=None):
+        super(BlackBoxEvent, self).__init__('BlackBoxEvent', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

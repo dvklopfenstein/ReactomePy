@@ -34,8 +34,9 @@ class DatabaseObject():
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req + ['optional']))
 
-    def __init__(self, name):
+    def __init__(self, name, dbid=None):
         self.name = name
+        self.dbid = dbid
 
     def get_dict(self, node):
         """Return a Python dict containing all Neo4j Node parameters."""

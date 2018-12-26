@@ -34,9 +34,9 @@ class Publication(DatabaseObject):
     params_req = DatabaseObject.params_req + ['title']
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
-    def __init__(self, name):
+    def __init__(self, name, dbid=None):
         # pylint: disable=useless-super-delegation
-        super(Publication, self).__init__(name)
+        super(Publication, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

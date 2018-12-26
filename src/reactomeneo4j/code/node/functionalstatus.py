@@ -22,8 +22,8 @@ class FunctionalStatus(DatabaseObject):
         'structuralVariant': set(['SequenceOntology']),
     }
 
-    def __init__(self):
-        super(FunctionalStatus, self).__init__('FunctionalStatus')
+    def __init__(self, dbid=None):
+        super(FunctionalStatus, self).__init__('FunctionalStatus', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

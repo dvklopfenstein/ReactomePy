@@ -49,8 +49,8 @@ class AbstractModifiedResidue(DatabaseObject):
         #'psiMod': set(['PsiMod']),
     }
 
-    def __init__(self, name='AbstractModifiedResidue'):
-        super(AbstractModifiedResidue, self).__init__(name)
+    def __init__(self, name='AbstractModifiedResidue', dbid=None):
+        super(AbstractModifiedResidue, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -47,8 +47,8 @@ class FailedReaction(ReactionLikeEvent):
         }
     }
 
-    def __init__(self):
-        super(FailedReaction, self).__init__('FailedReaction')
+    def __init__(self, dbid=None):
+        super(FailedReaction, self).__init__('FailedReaction', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

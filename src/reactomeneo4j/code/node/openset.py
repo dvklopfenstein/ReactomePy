@@ -55,8 +55,8 @@ class OpenSet(EntitySet):
         }
     }
 
-    def __init__(self):
-        super(OpenSet, self).__init__('OpenSet')
+    def __init__(self, dbid=None):
+        super(OpenSet, self).__init__('OpenSet', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

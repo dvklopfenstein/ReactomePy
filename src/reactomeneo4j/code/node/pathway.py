@@ -60,8 +60,8 @@ class Pathway(Event):
         }
     }
 
-    def __init__(self):
-        super(Pathway, self).__init__('Pathway')
+    def __init__(self, dbid=None):
+        super(Pathway, self).__init__('Pathway', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

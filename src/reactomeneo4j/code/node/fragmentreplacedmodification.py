@@ -36,8 +36,8 @@ class FragmentReplacedModification(FragmentModification):
         }
     }
 
-    def __init__(self):
-        super(FragmentReplacedModification, self).__init__('FragmentReplacedModification')
+    def __init__(self, dbid=None):
+        super(FragmentReplacedModification, self).__init__('FragmentReplacedModification', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

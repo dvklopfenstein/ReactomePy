@@ -36,8 +36,8 @@ class LiteratureReference(Publication):
     prtfmt = '{schemaClass}: {year} ({journal}) {displayName}'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
-    def __init__(self):
-        super(LiteratureReference, self).__init__('LiteratureReference')
+    def __init__(self, dbid=None):
+        super(LiteratureReference, self).__init__('LiteratureReference', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

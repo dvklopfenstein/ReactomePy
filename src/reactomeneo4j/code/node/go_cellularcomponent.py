@@ -30,8 +30,8 @@ class GO_CellularComponent(GOTerm):
         }
     }
 
-    def __init__(self, name='GO_CellularComponent'):
-        super(GO_CellularComponent, self).__init__(name)
+    def __init__(self, name='GO_CellularComponent', dbid=None):
+        super(GO_CellularComponent, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

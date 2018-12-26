@@ -57,8 +57,8 @@ class GenomeEncodedEntity(PhysicalEntity):
         }
     }
 
-    def __init__(self, name='GenomeEncodedEntity'):
-        super(GenomeEncodedEntity, self).__init__(name)
+    def __init__(self, name='GenomeEncodedEntity', dbid=None):
+        super(GenomeEncodedEntity, self).__init__(name, dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

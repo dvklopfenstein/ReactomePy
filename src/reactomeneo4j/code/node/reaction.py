@@ -78,8 +78,8 @@ class Reaction(ReactionLikeEvent):
         }
     }
 
-    def __init__(self):
-        super(Reaction, self).__init__('Reaction')
+    def __init__(self, dbid=None):
+        super(Reaction, self).__init__('Reaction', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

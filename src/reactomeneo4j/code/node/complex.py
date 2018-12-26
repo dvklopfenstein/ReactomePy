@@ -58,8 +58,8 @@ class Complex(PhysicalEntity):
         }
     }
 
-    def __init__(self):
-        super(Complex, self).__init__('Complex')
+    def __init__(self, dbid=None):
+        super(Complex, self).__init__('Complex', dbid)
 
     def get_nt(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""

@@ -26,8 +26,8 @@ class Species(Taxon):
     params_opt = Taxon.params_opt + ['abbreviation']
     prtfmt = '{schemaClass}: {displayName}'
 
-    def __init__(self):
-        super(Species, self).__init__('Species')
+    def __init__(self, dbid=None):
+        super(Species, self).__init__('Species', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

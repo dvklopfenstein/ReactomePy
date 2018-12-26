@@ -41,8 +41,8 @@ class ReferenceGroup(ReferenceEntity):
 
     params_opt = ReferenceEntity.params_opt + ['name', 'formula']
 
-    def __init__(self):
-        super(ReferenceGroup, self).__init__('ReferenceGroup')
+    def __init__(self, dbid=None):
+        super(ReferenceGroup, self).__init__('ReferenceGroup', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

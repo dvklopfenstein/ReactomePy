@@ -59,8 +59,8 @@ class Requirement(PositiveRegulation):
         }
     }
 
-    def __init__(self):
-        super(Requirement, self).__init__('Requirement')
+    def __init__(self, dbid=None):
+        super(Requirement, self).__init__('Requirement', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

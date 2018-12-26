@@ -29,8 +29,8 @@ class UndirectedInteraction(DatabaseObject):
         'interactor': set(['ReferenceMolecule', 'ReferenceGeneProduct', 'ReferenceIsoform']),
     }
 
-    def __init__(self):
-        super(UndirectedInteraction, self).__init__('UndirectedInteraction')
+    def __init__(self, dbid=None):
+        super(UndirectedInteraction, self).__init__('UndirectedInteraction', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -35,8 +35,8 @@ class ReferenceTherapeutic(ReferenceEntity):
         'approvalSource', 'type', 'name', 'inn', 'abbreviation']
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
-    def __init__(self):
-        super(ReferenceTherapeutic, self).__init__('ReferenceTherapeutic')
+    def __init__(self, dbid=None):
+        super(ReferenceTherapeutic, self).__init__('ReferenceTherapeutic', dbid)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
