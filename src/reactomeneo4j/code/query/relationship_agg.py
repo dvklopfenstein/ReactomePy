@@ -8,8 +8,10 @@ __author__ = "DV Klopfenstein"
 # from collections import defaultdict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.relationships import Relationships
-from reactomeneo4j.code.query.node_tasks import get_id2children
-from reactomeneo4j.code.query.node_tasks import get_id2parents
+# from reactomeneo4j.code.query.node_tasks import get_id2children
+# from reactomeneo4j.code.query.node_tasks import get_id2parents
+from goatools.godag.go_tasks import get_id2children
+from goatools.godag.go_tasks import get_id2parents
 
 
 # pylint: disable=too-few-public-methods
@@ -74,14 +76,14 @@ class RelationshipCollapse():
                 if rel in self.rel2fnc:
                     rel2dstdbids_rm[rel] = self.rel2fnc[rel](k2v, dstnodes)
             for rel, dstdbids_rm in rel2dstdbids_rm.items():
-                node.relationship[rel] = set(o for o in node.relationship[rel] if o.dbid not in dstdbids_rm)
+                node.relationship[rel] = set(o for o in node.relationship[rel] if o.item_id not in dstdbids_rm)
             rels_rm = set(r for r, objs in node.relationship.items() if not objs)
             # print('RRRRR REMOVING COLLAPSED RELATIONSHIPS', rels_rm)
 
             # print('DDDDDDDDDDDDDDDD', dbid_src, rel, dstdbidsrm)
             # # Remove relationships when thier info has been merged into parent node
             # for dbid_node in dstnodes:
-            #     if dbid_node.dbid in dstdbidsrm:
+            #     if dbid_node.item_id in dstdbidsrm:
             #         node.relationship[rel]
             for rel in rels_rm:
                 popped[(dbid_src, rel)] = node.relationship.pop(rel)
@@ -91,35 +93,35 @@ class RelationshipCollapse():
         """Push database displayName onto parent."""
         dbids_rm = set()
         for odst in referencedatabases:
-            ddct = self.dbid2dct[odst.dbid]
+            ddct = self.dbid2dct[odst.item_id]
             if 'identifier' in sdct:
                 sdct['displayName'] = '{DB}:{ID}'.format(DB=ddct['displayName'], ID=sdct['identifier'])
-                dbids_rm.add(odst.dbid)
+                dbids_rm.add(odst.item_id)
             elif ddct['displayName'] == 'GO' and 'GO' in sdct['displayName']:
-                dbids_rm.add(odst.dbid)
+                dbids_rm.add(odst.item_id)
         return dbids_rm
 
     def _get_compartment(self, dct, compartments):
         """Push compartment displayName onto parent, if necessary."""
         for comp in compartments:
-            comp_dct = self.dbid2dct[comp.dbid]
+            comp_dct = self.dbid2dct[comp.item_id]
             if comp_dct['displayName'] not in dct['displayName']:
                 # print('ADDING COMPARTMENT', node)
                 dct['displayName'] += '[{COMP}]'.format(COMP=comp_dct['displayName'])
-        return set(o.dbid for o in compartments)
+        return set(o.item_id for o in compartments)
 
     def _get_abc(self, dct, species_nodes):
         """Return a value for abc."""
         abc = self.__get_abc(dct['abc'], species_nodes, dct)
         dct['abc'] = abc
         assert abc not in {'???', 'XXX'}
-        return set(o.dbid for o in species_nodes)
+        return set(o.item_id for o in species_nodes)
 
     def __get_abc(self, abc_param, species_nodes, dct):
         """Return a value for abc."""
         _abc = DatabaseObject.species2nt.get
         # pylint: disable=line-too-long
-        abc_rel = '-'.join(_abc(self.dbid2dct[o.dbid]['displayName'], '???').abbreviation for o in species_nodes)
+        abc_rel = '-'.join(_abc(self.dbid2dct[o.item_id]['displayName'], '???').abbreviation for o in species_nodes)
         # if abc_param == '...' or abc_param == abc_rel:
         if abc_param in {'...', abc_rel}:
             return abc_rel

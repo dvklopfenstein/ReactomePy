@@ -54,7 +54,7 @@ class _Init():
     qrypat = 'MATCH (src:DatabaseObject{{dbId:{DBID}}})-[rel]->(dst) RETURN src, rel, dst'
 
     def __init__(self, dbid, schemaclass, **kws):
-        self.dbid = dbid
+        self.item_id = dbid
         self.sch = schemaclass
         self.kws = kws  # kws: gdbdr rel_excl
         self.rel_excl = kws['rel_excl'] if 'rel_excl' in kws else {'inferredTo'}
@@ -72,7 +72,7 @@ class _Init():
         """Query for objects at the end of this Node's relationships."""
         if 'gdbdr' in self.kws:
             rel2nodes = defaultdict(list)
-            qry = self.qrypat.format(DBID=self.dbid)
+            qry = self.qrypat.format(DBID=self.item_id)
             #print('\n{Q}'.format(Q=qry))
             with self.kws['gdbdr'].session() as session:
                 for rec in session.run(qry).records():
@@ -95,7 +95,7 @@ class _Init():
         if abc_param in {'...', abc_rel}:
             return abc_rel
         print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
-            DBID=self.dbid, SCH=self.sch, P=abc_param, R=abc_rel))
+            DBID=self.item_id, SCH=self.sch, P=abc_param, R=abc_rel))
         return 'XXX'
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

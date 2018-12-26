@@ -43,11 +43,11 @@ class NodeHier():
             self.prt_summary(dct_full['dbid2node'], prt)
             for nodebasic in dct_full['dbid2node'].values():
                 prt.write('\n>>>>>>>\n{NODE}\n-------\n'.format(NODE=nodebasic))
-                dct_cur = dbid2dct[nodebasic.dbid]
+                dct_cur = dbid2dct[nodebasic.item_id]
                 prt.write('DCT: {DCT}\n'.format(DCT=self.getstr_dct(dct_cur)))
                 for rel, dst_dbnodes in nodebasic.relationship.items():
                     for dst in dst_dbnodes:
-                        param_vals = sorted(dbid2dct[dst.dbid].items())
+                        param_vals = sorted(dbid2dct[dst.item_id].items())
                         dctlst = ['{}({})'.format(k, v) for k, v in param_vals]
                         prt.write('{SRC} REL {R} {DST}\n'.format(
                             SRC=nodebasic.objsch.name, R=rel, DST=' '.join(dctlst)))
@@ -77,7 +77,7 @@ class NodeHier():
         rels = self.get_rels(schemaclass)
         query = self.get_query(rels, paramvalstr, self.patini)
         print(query)
-        dbid2node = self.get_dbid2nodebasic(query)
+        dbid2node, src_dbids = self.get_dbid2nodebasic(query)
         print('FILL NODES WITH PARAMETER VALUES AND RELATIONSHIPS')
         dbid2dct = self.get_relationship_dcts(dbid2node)
         print('COLLAPSE SOME RELATIONSHIPS INTO MAIN DICT')
@@ -92,7 +92,8 @@ class NodeHier():
         objrel.mv_children_parents()
         objrel.set_dcnt()
         objrel.set_ancestors()
-        return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels, 'query':query}
+        return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels,
+                'query':query, 'src_dbids':src_dbids}
 
     def get_relationship_dcts(self, dbid2nodebasic):
         """Add parameter values and relationships w/their destination dbIds."""
@@ -112,16 +113,20 @@ class NodeHier():
         """Get the schemaClasses and dbIds for all nodes below the specified node."""
         # MATCH (src{USERVALS})-[rels:RELS*]->(dst) RETURN DISTINCT ...
         dbid2nodebasic = {}
+        src_dbids = set()
         tic = timeit.default_timer()
         with self.gdbdr.session() as session:
             for rec in session.run(query).records():
-                if rec['src_dbId'] not in dbid2nodebasic:
-                    self._add_id2nodeb(dbid2nodebasic, rec['src_dbId'], rec['src_schemaClass'])
-                if rec['dst_dbId'] not in dbid2nodebasic:
-                    self._add_id2nodeb(dbid2nodebasic, rec['dst_dbId'], rec['dst_schemaClass'])
+                src_dbId = rec['src_dbId']
+                dst_dbId = rec['dst_dbId']
+                src_dbids.add(src_dbId)
+                if src_dbId not in dbid2nodebasic:
+                    self._add_id2nodeb(dbid2nodebasic, src_dbId, rec['src_schemaClass'])
+                if dst_dbId not in dbid2nodebasic:
+                    self._add_id2nodeb(dbid2nodebasic, dst_dbId, rec['dst_schemaClass'])
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
             HMS=get_hms(tic), N=len(dbid2nodebasic), Q=query))
-        return dbid2nodebasic
+        return dbid2nodebasic, src_dbids
 
     @staticmethod
     def _add_id2nodeb(dbid2nodebasic, dbid, schemaclass):

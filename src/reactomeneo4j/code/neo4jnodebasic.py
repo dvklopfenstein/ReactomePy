@@ -5,6 +5,8 @@ __author__ = "DV Klopfenstein"
 
 # import os
 from collections import defaultdict
+#### from reactomeneo4j.code.node.databaseobject import DatabaseObject
+#### from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CLS
 from reactomeneo4j.code.node.schemaclass_factory import new_inst
 
 
@@ -13,10 +15,11 @@ class Neo4jNodeBasic():
     """Neo4jNode built in steps using groups of dbIds, avoiding duplicate queries."""
 
     def __init__(self, dbid, schemaclass):
-        self.dbid = dbid
+        #### super().__init__(schemaclass, dbid)
+        self.item_id = dbid
         #### self.sch = schemaclass
-        self.objsch = new_inst(schemaclass, dbid)    # derived from DatabaseObject
-        self.prtfmt = self.objsch.prtfmt
+        self.objsch = new_inst(schemaclass)    # derived from DatabaseObject
+        #### self.prtfmt = self.objsch.prtfmt
         #### self.dct = {}  # TBD: Make this ntp. Store init dct in ntp. dict->nt
         self.ntp = None
         self.children = set()
@@ -29,11 +32,12 @@ class Neo4jNodeBasic():
 
     def __str__(self):
         # Parameters on all Nodes
-        msg = ['{dbId} {schemaClass}'.format(dbId=self.dbid, schemaClass=self.objsch.name)]
+        msg = [self.objsch.prtfmt.format(**self.ntp._asdict())]
+        # msg = ['{dbId} {schemaClass}'.format(dbId=self.item_id, schemaClass=self.objsch.name)]
         # print('FMTPAT', self.objsch.prtfmt)
         # print('NT', self.ntp._asdict())
-        msg.append('NT: {NT}'.format(NT=self.objsch.prtfmt.format(**self.ntp._asdict())))
-        msg.append('NT: {NT}'.format(NT=self.ntp))
+        # msg.append('NT: {NT}'.format(NT=self.objsch.prtfmt.format(**self.ntp._asdict())))
+        # msg.append('NT: {NT}'.format(NT=self.ntp))
         return '\n'.join(msg)
 
     #### def prt_verbose(self, prt):
