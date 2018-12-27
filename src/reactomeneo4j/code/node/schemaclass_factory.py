@@ -262,34 +262,22 @@ SCHEMACLASS2CLS = OrderedDict([
     ('EvidenceType', DatabaseObject),
 ])
 
-ARGSCH = {
-    #'PhysicalEntity',
-    #'EntitySet',
-    #'GenomeEncodedEntity',
-    #'Drug',
-    'ProteinDrug',
-    #'AbstractModifiedResidue',
-    #'PositiveRegulation',
-    #'NegativeRegulation',
-    #'Event',
-    #'ReferenceEntity',
-    #'ReferenceGeneProduct',
-    'ReferenceRNASequence',
-    'Disease',
-    'PsiMod',
-    'SequenceOntology',
-    'EvidenceType',
-    #'GO_CellularComponent',
-    #'Taxon',
-}
-
-def new_inst(schemaclass):
+def _new_inst(schemaclass):
     """Create and return the requested object."""
-    assert schemaclass in SCHEMACLASS2CLS, '**FATAL: BAD schemaClass({S})'.format(S=schemaclass)
+    ARGSCH = {
+        'ProteinDrug',
+        'ReferenceRNASequence',
+        'Disease',
+        'PsiMod',
+        'SequenceOntology',
+        'EvidenceType',
+    }
     cls = SCHEMACLASS2CLS[schemaclass]
     if schemaclass not in ARGSCH:
         return cls()
     return cls(schemaclass)
+
+SCHEMACLASS2OBJ = OrderedDict([(s, _new_inst(s)) for s in SCHEMACLASS2CLS])
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

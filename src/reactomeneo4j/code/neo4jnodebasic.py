@@ -3,11 +3,8 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-# import os
 from collections import defaultdict
-#### from reactomeneo4j.code.node.databaseobject import DatabaseObject
-#### from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CLS
-from reactomeneo4j.code.node.schemaclass_factory import new_inst
+from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2OBJ
 
 
 # pylint: disable=too-many-instance-attributes,too-few-public-methods
@@ -18,7 +15,7 @@ class Neo4jNodeBasic():
         #### super().__init__(schemaclass, dbid)
         self.item_id = dbid
         #### self.sch = schemaclass
-        self.objsch = new_inst(schemaclass)    # derived from DatabaseObject
+        self.objsch = SCHEMACLASS2OBJ[schemaclass]    # derived from DatabaseObject
         #### self.prtfmt = self.objsch.prtfmt
         #### self.dct = {}  # TBD: Make this ntp. Store init dct in ntp. dict->nt
         self.ntp = None

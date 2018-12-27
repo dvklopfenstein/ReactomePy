@@ -5,7 +5,7 @@ __author__ = "DV Klopfenstein"
 
 # import os
 from collections import defaultdict
-from reactomeneo4j.code.node.schemaclass_factory import new_inst
+from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2OBJ
 
 
 # pylint: disable=too-many-instance-attributes,too-few-public-methods
@@ -16,7 +16,7 @@ class Neo4jNode():
     def __init__(self, neo4jnode, **kws):  # gdbdr=None, prtfmt=None):
         # kws: gdbdr prtfmt rel_excl
         _ini = _Init(neo4jnode['dbId'], neo4jnode['schemaClass'], **kws)
-        self.objsch = new_inst(neo4jnode['schemaClass'])  # derived from DatabaseObject
+        self.objsch = SCHEMACLASS2OBJ[neo4jnode['schemaClass']]  # derived from DatabaseObject
         self.rel2nodes = _ini.get_rel2nodes()
         self.ntp = _ini.get_nt(neo4jnode, self.rel2nodes, self.objsch)
         self.prtfmt = kws['prtfmt'] if 'prtfmt' in kws else self.objsch.prtfmt

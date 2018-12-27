@@ -36,6 +36,7 @@ class DatabaseObject():
 
     def __init__(self, name):
         self.name = name
+        print('CREATING {S}'.format(S=name))
 
     def get_dict(self, node):
         """Return a Python dict containing all Neo4j Node parameters."""

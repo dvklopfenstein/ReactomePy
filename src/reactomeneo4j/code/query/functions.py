@@ -12,8 +12,6 @@ from reactomeneo4j.code.neo4jnodebasic import Neo4jNodeBasic
 from reactomeneo4j.code.utils import get_hms
 from reactomeneo4j.code.query.relationship_agg import RelationshipCollapse
 from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CLS
-# from reactomeneo4j.code.node.schemaclass_factory import new_inst
-# from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.relationships import Relationships
 
 class NodeHier():
