@@ -25,8 +25,8 @@ class FunctionalStatusType(DatabaseObject):
     # params: dbId schemaClass displayName
     params_opt = ['name']
 
-    def __init__(self, dbid=None):
-        super(FunctionalStatusType, self).__init__('FunctionalStatusType', dbid)
+    def __init__(self):
+        super(FunctionalStatusType, self).__init__('FunctionalStatusType')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

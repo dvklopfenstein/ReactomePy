@@ -20,8 +20,8 @@ class Affiliation(DatabaseObject):
     # params: dbId schemaClass displayName
     params_opt = ['name', 'address']
 
-    def __init__(self, dbid=None):
-        super(Affiliation, self).__init__('Affiliation', dbid)
+    def __init__(self):
+        super(Affiliation, self).__init__('Affiliation')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -55,8 +55,8 @@ class NegativeGeneExpressionRegulation(NegativeRegulation):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(NegativeGeneExpressionRegulation, self).__init__('NegativeGeneExpressionRegulation', dbid)
+    def __init__(self):
+        super(NegativeGeneExpressionRegulation, self).__init__('NegativeGeneExpressionRegulation')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

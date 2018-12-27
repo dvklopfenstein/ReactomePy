@@ -47,8 +47,8 @@ class ReactionLikeEvent(Event):
         }
     }
 
-    def __init__(self, name, dbid=None):
-        super(ReactionLikeEvent, self).__init__(name, dbid)
+    def __init__(self, name):
+        super(ReactionLikeEvent, self).__init__(name)
 
     def get_nt(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""

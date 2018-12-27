@@ -75,8 +75,8 @@ class Event(DatabaseObject):
     flds_last = ' aart abc optional'
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + flds_last)
 
-    def __init__(self, name='Event', dbid=None):
-        super(Event, self).__init__(name, dbid)
+    def __init__(self, name='Event'):
+        super(Event, self).__init__(name)
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

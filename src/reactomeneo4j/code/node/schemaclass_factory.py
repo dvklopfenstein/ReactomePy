@@ -157,7 +157,6 @@ SCHEMACLASS2CLS = OrderedDict([
     ('InterChainCrosslinkedResidue', InterChainCrosslinkedResidue),
     ('IntraChainCrosslinkedResidue', IntraChainCrosslinkedResidue),
     ('GroupModifiedResidue', GroupModifiedResidue),
-    ('160G', ModifiedResidue),
     ('ModifiedResidue', ModifiedResidue),
 
     #   - Interaction (dcnt=1)
@@ -264,33 +263,33 @@ SCHEMACLASS2CLS = OrderedDict([
 ])
 
 ARGSCH = {
-    'PhysicalEntity',
-    'EntitySet',
-    'GenomeEncodedEntity',
-    'Drug',
+    #'PhysicalEntity',
+    #'EntitySet',
+    #'GenomeEncodedEntity',
+    #'Drug',
     'ProteinDrug',
-    'AbstractModifiedResidue',
-    'PositiveRegulation',
-    'NegativeRegulation',
-    'Event',
-    'ReferenceEntity',
-    'ReferenceGeneProduct',
+    #'AbstractModifiedResidue',
+    #'PositiveRegulation',
+    #'NegativeRegulation',
+    #'Event',
+    #'ReferenceEntity',
+    #'ReferenceGeneProduct',
     'ReferenceRNASequence',
     'Disease',
     'PsiMod',
     'SequenceOntology',
     'EvidenceType',
-    'GO_CellularComponent',
-    'Taxon',
+    #'GO_CellularComponent',
+    #'Taxon',
 }
 
-def new_inst(schemaclass, dbid=None):
+def new_inst(schemaclass):
     """Create and return the requested object."""
     assert schemaclass in SCHEMACLASS2CLS, '**FATAL: BAD schemaClass({S})'.format(S=schemaclass)
     cls = SCHEMACLASS2CLS[schemaclass]
     if schemaclass not in ARGSCH:
-        return cls(dbid)
-    return cls(schemaclass, dbid)
+        return cls()
+    return cls(schemaclass)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

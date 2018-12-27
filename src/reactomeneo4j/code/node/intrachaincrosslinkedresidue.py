@@ -50,8 +50,8 @@ class IntraChainCrosslinkedResidue(CrosslinkedResidue):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(IntraChainCrosslinkedResidue, self).__init__('IntraChainCrosslinkedResidue', dbid)
+    def __init__(self):
+        super(IntraChainCrosslinkedResidue, self).__init__('IntraChainCrosslinkedResidue')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

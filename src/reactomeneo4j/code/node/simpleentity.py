@@ -49,8 +49,8 @@ class SimpleEntity(PhysicalEntity):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(SimpleEntity, self).__init__('SimpleEntity', dbid)
+    def __init__(self):
+        super(SimpleEntity, self).__init__('SimpleEntity')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

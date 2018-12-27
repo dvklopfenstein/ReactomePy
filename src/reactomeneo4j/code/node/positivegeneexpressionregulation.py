@@ -59,8 +59,8 @@ class PositiveGeneExpressionRegulation(PositiveRegulation):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(PositiveGeneExpressionRegulation, self).__init__('PositiveGeneExpressionRegulation', dbid)
+    def __init__(self):
+        super(PositiveGeneExpressionRegulation, self).__init__('PositiveGeneExpressionRegulation')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

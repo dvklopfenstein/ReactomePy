@@ -43,8 +43,8 @@ class ReferenceGeneProduct(ReferenceSequence):
 
     ntobj = namedtuple('NtOpj', ' '.join(ReferenceSequence.params_req) + ' abc aart optional')
 
-    def __init__(self, name="ReferenceGeneProduct", dbid=None):
-        super(ReferenceGeneProduct, self).__init__(name, dbid)
+    def __init__(self, name="ReferenceGeneProduct"):
+        super(ReferenceGeneProduct, self).__init__(name)
 
     def get_nt(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""

@@ -62,8 +62,8 @@ class CandidateSet(EntitySet):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(CandidateSet, self).__init__('CandidateSet', dbid)
+    def __init__(self):
+        super(CandidateSet, self).__init__('CandidateSet')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

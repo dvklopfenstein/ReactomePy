@@ -52,9 +52,9 @@ class Regulation(DatabaseObject):
         'summation': set(['Summation']),
     }
 
-    def __init__(self, name, dbid=None):
+    def __init__(self, name):
         # pylint: disable=useless-super-delegation
-        super(Regulation, self).__init__(name, dbid)
+        super(Regulation, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

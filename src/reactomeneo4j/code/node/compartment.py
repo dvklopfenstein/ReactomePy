@@ -28,8 +28,8 @@ class Compartment(GO_CellularComponent):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(Compartment, self).__init__('Compartment', dbid)
+    def __init__(self):
+        super(Compartment, self).__init__('Compartment')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

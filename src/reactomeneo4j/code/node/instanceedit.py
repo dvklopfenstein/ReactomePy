@@ -41,8 +41,8 @@ class InstanceEdit(DatabaseObject):
 
     }
 
-    def __init__(self, dbid=None):
-        super(InstanceEdit, self).__init__('InstanceEdit', dbid)
+    def __init__(self):
+        super(InstanceEdit, self).__init__('InstanceEdit')
 
     def get_nt(self, node):
         """Query Reactome database for all edit dates."""

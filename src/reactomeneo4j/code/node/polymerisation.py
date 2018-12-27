@@ -42,8 +42,8 @@ class Polymerisation(ReactionLikeEvent):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(Polymerisation, self).__init__('Polymerisation', dbid)
+    def __init__(self):
+        super(Polymerisation, self).__init__('Polymerisation')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

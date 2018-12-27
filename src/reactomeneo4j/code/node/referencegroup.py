@@ -47,8 +47,8 @@ class ReferenceGroup(ReferenceEntity):
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' firstName' + ReferenceEntity.flds_last)
 
-    def __init__(self, dbid=None):
-        super(ReferenceGroup, self).__init__('ReferenceGroup', dbid)
+    def __init__(self):
+        super(ReferenceGroup, self).__init__('ReferenceGroup')
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

@@ -18,8 +18,8 @@ class ReferenceDatabase(DatabaseObject):
     params_req = DatabaseObject.params_req + ['accessUrl', 'name', 'url']
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
-    def __init__(self, dbid=None):
-        super(ReferenceDatabase, self).__init__('ReferenceDatabase', dbid)
+    def __init__(self):
+        super(ReferenceDatabase, self).__init__('ReferenceDatabase')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

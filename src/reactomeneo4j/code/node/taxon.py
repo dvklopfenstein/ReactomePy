@@ -30,8 +30,8 @@ class Taxon(DatabaseObject):
         'superTaxon'     : set(['Taxon', 'Species']),
     }
 
-    def __init__(self, name="Taxon", dbid=None):
-        super(Taxon, self).__init__(name, dbid)
+    def __init__(self, name="Taxon"):
+        super(Taxon, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

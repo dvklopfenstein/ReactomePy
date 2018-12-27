@@ -36,8 +36,8 @@ class ReferenceIsoform(ReferenceGeneProduct):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(ReferenceIsoform, self).__init__('ReferenceIsoform', dbid)
+    def __init__(self):
+        super(ReferenceIsoform, self).__init__('ReferenceIsoform')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

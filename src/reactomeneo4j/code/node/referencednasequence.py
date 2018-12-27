@@ -27,8 +27,8 @@ class ReferenceDNASequence(ReferenceSequence):
     params_opt = ReferenceSequence.params_opt + [
         'sequenceLength', 'otherIdentifier', 'keyword', 'comment']
 
-    def __init__(self, dbid=None):
-        super(ReferenceDNASequence, self).__init__('ReferenceDNASequence', dbid)
+    def __init__(self):
+        super(ReferenceDNASequence, self).__init__('ReferenceDNASequence')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

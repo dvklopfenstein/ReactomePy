@@ -19,8 +19,8 @@ class Figure(DatabaseObject):
     params_req = DatabaseObject.params_req + ['url']
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
-    def __init__(self, dbid=None):
-        super(Figure, self).__init__('Figure', dbid)
+    def __init__(self):
+        super(Figure, self).__init__('Figure')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

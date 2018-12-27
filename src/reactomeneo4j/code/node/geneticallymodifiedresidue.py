@@ -38,8 +38,8 @@ class GeneticallyModifiedResidue(AbstractModifiedResidue):
     #    }
     #}
 
-    def __init__(self, name, dbid=None):
-        super(GeneticallyModifiedResidue, self).__init__(name, dbid)
+    def __init__(self, name):
+        super(GeneticallyModifiedResidue, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

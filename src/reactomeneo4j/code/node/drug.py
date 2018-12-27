@@ -36,8 +36,8 @@ class Drug(PhysicalEntity):
         }
     }
 
-    def __init__(self, name='Drug', dbid=None):
-        super(Drug, self).__init__(name, dbid)
+    def __init__(self, name='Drug'):
+        super(Drug, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

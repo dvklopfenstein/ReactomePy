@@ -48,8 +48,8 @@ class ReferenceMolecule(ReferenceEntity):
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' firstName' + ReferenceEntity.flds_last)
 
-    def __init__(self, dbid=None):
-        super(ReferenceMolecule, self).__init__('ReferenceMolecule', dbid)
+    def __init__(self):
+        super(ReferenceMolecule, self).__init__('ReferenceMolecule')
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

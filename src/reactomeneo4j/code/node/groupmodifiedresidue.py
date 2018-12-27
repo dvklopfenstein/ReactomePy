@@ -49,8 +49,8 @@ class GroupModifiedResidue(TranslationalModification):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(GroupModifiedResidue, self).__init__('GroupModifiedResidue', dbid)
+    def __init__(self):
+        super(GroupModifiedResidue, self).__init__('GroupModifiedResidue')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

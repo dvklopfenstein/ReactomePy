@@ -47,8 +47,8 @@ class Polymer(PhysicalEntity):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(Polymer, self).__init__('Polymer', dbid)
+    def __init__(self):
+        super(Polymer, self).__init__('Polymer')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -88,8 +88,8 @@ class ReferenceEntity(DatabaseObject):
     flds_last = ' abc optional'
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + flds_last)
 
-    def __init__(self, name='ReferenceEntity', dbid=None):
-        super(ReferenceEntity, self).__init__(name, dbid)
+    def __init__(self, name='ReferenceEntity'):
+        super(ReferenceEntity, self).__init__(name)
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

@@ -33,8 +33,8 @@ class GO_BiologicalProcess(GOTerm):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(GO_BiologicalProcess, self).__init__('GO_BiologicalProcess', dbid)
+    def __init__(self):
+        super(GO_BiologicalProcess, self).__init__('GO_BiologicalProcess')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

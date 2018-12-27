@@ -38,9 +38,9 @@ class TranslationalModification(AbstractModifiedResidue):
         }
     }
 
-    def __init__(self, name, dbid=None):
+    def __init__(self, name):
         # pylint: disable=useless-super-delegation
-        super(TranslationalModification, self).__init__(name, dbid)
+        super(TranslationalModification, self).__init__(name)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

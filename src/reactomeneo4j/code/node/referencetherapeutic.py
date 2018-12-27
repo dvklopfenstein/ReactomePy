@@ -40,8 +40,8 @@ class ReferenceTherapeutic(ReferenceEntity):
 
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' firstName' + ReferenceEntity.flds_last)
 
-    def __init__(self, dbid=None):
-        super(ReferenceTherapeutic, self).__init__('ReferenceTherapeutic', dbid)
+    def __init__(self):
+        super(ReferenceTherapeutic, self).__init__('ReferenceTherapeutic')
 
     def get_dict(self, node):
         """Given a Neo4j Node, return a dict containing parameters."""

@@ -36,8 +36,8 @@ class FragmentInsertionModification(FragmentModification):
         }
     }
 
-    def __init__(self, dbid=None):
-        super(FragmentInsertionModification, self).__init__('FragmentInsertionModification', dbid)
+    def __init__(self):
+        super(FragmentInsertionModification, self).__init__('FragmentInsertionModification')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

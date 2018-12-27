@@ -24,8 +24,8 @@ class Summation(DatabaseObject):
         'literatureReference': set(['LiteratureReference', 'Book', 'URL']),
     }
 
-    def __init__(self, dbid=None):
-        super(Summation, self).__init__('Summation', dbid)
+    def __init__(self):
+        super(Summation, self).__init__('Summation')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
