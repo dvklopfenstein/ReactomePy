@@ -5,7 +5,7 @@ __author__ = "DV Klopfenstein"
 
 # import os
 from collections import defaultdict
-from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2CONSTRUCTOR
+from reactomeneo4j.code.node.schemaclass_factory import new_inst
 
 
 # pylint: disable=too-many-instance-attributes,too-few-public-methods
@@ -16,13 +16,14 @@ class Neo4jNode():
     def __init__(self, neo4jnode, **kws):  # gdbdr=None, prtfmt=None):
         # kws: gdbdr prtfmt rel_excl
         _ini = _Init(neo4jnode['dbId'], neo4jnode['schemaClass'], **kws)
-        self.objsch = _ini.get_objsch()  # derived from DatabaseObject
+        self.objsch = new_inst(neo4jnode['schemaClass'])  # derived from DatabaseObject
         self.rel2nodes = _ini.get_rel2nodes()
         self.ntp = _ini.get_nt(neo4jnode, self.rel2nodes, self.objsch)
-        self.prtfmt = kws['prtfmt'] if 'prtfmt' in kws else self.objsch.fmtpat
+        self.prtfmt = kws['prtfmt'] if 'prtfmt' in kws else self.objsch.prtfmt
 
     def __str__(self):
-        return self.prtfmt.format(**self.ntp._asdict())
+        opt = self.objsch.get_optstr(self.ntp.optional)
+        return self.prtfmt.format(**self.ntp._asdict(), **opt)
 
     def prt_verbose(self, prt):
         """Return a string with all details of the Node and its relationships."""
@@ -83,11 +84,6 @@ class _Init():
             return {rel:o for rel, o in rel2nodes.items()}
         return {}
 
-    def get_objsch(self):
-        """Given schemaClass, create data framework object."""
-        assert self.sch in SCHEMACLASS2CONSTRUCTOR, '**FATAL: BAD schemaClass({S})'.format(S=self.sch)
-        return SCHEMACLASS2CONSTRUCTOR[self.sch]
-
     def _get_abc(self, abc_param, species_nodes, objsch):
         """Return a value for abc."""
         abc_rel = '-'.join(objsch.species2nt.get(o.ntp.displayName, '???').abbreviation for o in species_nodes)
@@ -97,5 +93,6 @@ class _Init():
         print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
             DBID=self.item_id, SCH=self.sch, P=abc_param, R=abc_rel))
         return 'XXX'
+
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -22,6 +22,8 @@ from reactomeneo4j.code.node.referencesequence import ReferenceSequence
 class ReferenceDNASequence(ReferenceSequence):
     """Lists parameters seen on all ReferenceDNASequence."""
 
+    # req: dbId schemaClass displayName | databaseName identifier url
+    # opt: description name geneName
     params_opt = ReferenceSequence.params_opt + [
         'sequenceLength', 'otherIdentifier', 'keyword', 'comment']
 

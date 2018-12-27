@@ -27,7 +27,7 @@ class ReferenceGeneProduct(ReferenceSequence):
     """Lists parameters seen on all ReferenceGeneProduct."""
 
     # req: dbId schemaClass displayName | databaseName identifier url
-    # opt: description | name | geneName
+    # opt: description name geneName
     params_opt = ReferenceSequence.params_opt + [
         'sequenceLength', 'chain', 'checksum', 'comment', 'isSequenceChanged',
         'keyword', 'secondaryIdentifier', 'otherIdentifier']

@@ -13,7 +13,7 @@ class DatabaseObject():
 
     params_req = ['dbId', 'schemaClass', 'displayName']
     params_opt = []
-    prtfmt = '{dbId:7} {schemaClass:32} {displayName}'
+    prtfmt = '{dbId:8} {schemaClass:32} {displayName}'
     species2nt = {nt.displayName:nt for nt in SPECIES}
 
     # 'is' params:
@@ -43,6 +43,11 @@ class DatabaseObject():
         k2v = {p:node[p] for p in self.params_req}
         k2v['optional'] = {o:node[o] for o in self.params_opt if o in node}
         return k2v
+
+    @staticmethod
+    def get_optstr(optional_dct):
+        """Given optional dictionary, return printable strings."""
+        return {}
 
     def get_nt(self, node):
         """Return a Python namedtuple containing all Neo4j Node parameters."""

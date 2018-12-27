@@ -7,6 +7,7 @@ import timeit
 import datetime
 import collections as cx
 from docopt import docopt
+from neo4j import GraphDatabase
 
 
 def chk_unique(dcts, fld2expunique):
@@ -19,6 +20,11 @@ def chk_unique(dcts, fld2expunique):
     for fld, items in fld2sets.items():
         actually_unique = len(items) == num_dcts
         assert actually_unique == fld2expunique[fld]
+
+def get_gdbdr(docstr):
+    """Return GraphDatabase driver given user args."""
+    args = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
+    return GraphDatabase.driver(args[0], auth=(args[1], args[2]))
 
 def get_args(docstr, fields):
     """Given a doc string and desired fields, return a namedtuple w/user values."""

@@ -23,6 +23,9 @@ from reactomeneo4j.code.node.referencegeneproduct import ReferenceGeneProduct
 class ReferenceIsoform(ReferenceGeneProduct):
     """Lists parameters seen on all ReferenceGeneProduct."""
 
+    # req: dbId schemaClass displayName | databaseName identifier url
+    # opt: description name geneName | sequenceLength chain checksum comment isSequenceChanged
+    #                                  keyword secondaryIdentifier otherIdentifier
     params_req = ReferenceGeneProduct.params_req + ['variantIdentifier']
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 

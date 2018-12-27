@@ -75,7 +75,9 @@ from reactomeneo4j.code.node.databaseobject import DatabaseObject
 class ReferenceEntity(DatabaseObject):
     """Lists parameters seen on all ReferenceEntity."""
 
+    # req: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'url']
+    prtfmt = '{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {displayName}'
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),
@@ -98,6 +100,9 @@ class ReferenceEntity(DatabaseObject):
 
     def get_nt(self, node):
         """Given a Neo4j Node, return a namedtuple containing parameters."""
+        # print('FMTFFFFFFFFFFFFFF', self.prtfmt)
+        # print('NTFLDSNNNNNNNNNNN', self.ntobj._fields)
+        # print('DICTDDDDDDDDDDDDD', self.get_dict(node))
         return self.ntobj(**self.get_dict(node))
 
 

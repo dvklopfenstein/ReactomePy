@@ -33,16 +33,37 @@ Hier: ReferenceEntity:ReferenceGroup
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.referenceentity import ReferenceEntity
 
 # pylint: disable=too-few-public-methods
 class ReferenceGroup(ReferenceEntity):
     """Lists parameters seen on all ReferenceGroup."""
 
-    params_opt = ReferenceEntity.params_opt + ['name', 'formula']
+    # req: dbId schemaClass displayName | databaseName identifier url
+    params_req = ReferenceEntity.params_req + ['name']
+    params_opt = ReferenceEntity.params_opt + ['formula']
+    prtfmt = '{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {firstName} {formula}'
+
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' firstName' + ReferenceEntity.flds_last)
 
     def __init__(self, dbid=None):
         super(ReferenceGroup, self).__init__('ReferenceGroup', dbid)
 
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = ReferenceEntity.get_dict(self, node)
+        k2v['firstName'] = k2v['name'][0]
+        return k2v
+
+    def get_optstr(self, optional_dct):
+        """Given optional dictionary, return printable strings."""
+        if 'formula' not in optional_dct:
+            return {'formula': ''}
+        return {'formula': '| {FORMULA}'.format(FORMULA=optional_dct['formula'])}
+
+    def get_nt(self, node):
+        """Given a Neo4j Node, return a namedtuple containing parameters."""
+        return self.ntobj(**self.get_dict(node))
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

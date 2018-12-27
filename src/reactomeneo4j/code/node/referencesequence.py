@@ -47,6 +47,7 @@ from reactomeneo4j.code.node.referenceentity import ReferenceEntity
 class ReferenceSequence(ReferenceEntity):
     """Lists parameters seen on all ReferenceSequence."""
 
+    # req: dbId schemaClass displayName | databaseName identifier url
     params_opt = ReferenceEntity.params_opt + ['description', 'name', 'geneName']
 
     relationships = {
