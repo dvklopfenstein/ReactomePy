@@ -66,4 +66,5 @@ class ReferenceGroup(ReferenceEntity):
         """Given a Neo4j Node, return a namedtuple containing parameters."""
         return self.ntobj(**self.get_dict(node))
 
+
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

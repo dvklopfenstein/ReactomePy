@@ -41,6 +41,7 @@ Hier: ReferenceEntity:ReferenceSequence:...
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomeneo4j.code.node.referenceentity import ReferenceEntity
 
 # pylint: disable=too-few-public-methods
@@ -48,7 +49,16 @@ class ReferenceSequence(ReferenceEntity):
     """Lists parameters seen on all ReferenceSequence."""
 
     # req: dbId schemaClass displayName | databaseName identifier url
-    params_opt = ReferenceEntity.params_opt + ['description', 'name', 'geneName']
+    params_opt = ReferenceEntity.params_opt + [
+        'geneName', 'name',
+        'description', 'comment',
+        'sequenceLength', 'otherIdentifier', 'keyword']
+    prtfmt = ('{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {firstName}'
+              '{div}{sequenceLength}')
+    optstr_dflt = {'div':'', 'sequenceLength':''}
+
+    flds_last = ' firstName' + ReferenceEntity.flds_last
+    ntobj = namedtuple('NtObj', ' '.join(ReferenceEntity.params_req) + flds_last)
 
     relationships = {
         **ReferenceEntity.relationships,
@@ -59,6 +69,33 @@ class ReferenceSequence(ReferenceEntity):
 
     def __init__(self, name):
         super(ReferenceSequence, self).__init__(name)
+
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        k2v = ReferenceEntity.get_dict(self, node)
+        k2v['firstName'] = self._get_firstname(k2v['optional'], k2v)
+        return k2v
+
+    @staticmethod
+    def _get_firstname(optional, k2v):
+        """Get first name to be used as the display name."""
+        if 'geneName' in optional:
+            return optional['geneName'][0]
+        if 'name' in optional:
+            names = optional['name']
+            name = names[0] if k2v['databaseName'][:9] != 'KEGG Gene' else names[-1]
+            return name if k2v['identifier'] != name else ''
+        return ''
+
+    def get_optstr(self, optional_dct):
+        """Given optional dictionary, return printable strings."""
+        k2v = dict(self.optstr_dflt)
+        # pylint: disable=no-member
+        if not self.optstr_dflt.keys().isdisjoint(optional_dct):
+            k2v['div'] = ' |'
+        if 'sequenceLength' in optional_dct:
+            k2v['sequenceLength'] = ' {BPs} bps'.format(BPs=optional_dct['sequenceLength'])
+        return k2v
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

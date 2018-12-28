@@ -24,10 +24,11 @@ class ReferenceIsoform(ReferenceGeneProduct):
     """Lists parameters seen on all ReferenceGeneProduct."""
 
     # req: dbId schemaClass displayName | databaseName identifier url
-    # opt: description name geneName | sequenceLength chain checksum comment isSequenceChanged
-    #                                  keyword secondaryIdentifier otherIdentifier
+    # opt: geneName otherIdentifier description name comment sequenceLength keyword |
+    #      chain checksum isSequenceChanged secondaryIdentifier
     params_req = ReferenceGeneProduct.params_req + ['variantIdentifier']
-    ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
+
+    ntobj = namedtuple('NtObj', ' '.join(params_req) + ReferenceGeneProduct.flds_last)
 
     relationships = {
         **ReferenceGeneProduct.relationships,
@@ -39,5 +40,8 @@ class ReferenceIsoform(ReferenceGeneProduct):
     def __init__(self):
         super(ReferenceIsoform, self).__init__('ReferenceIsoform')
 
+    def get_dict(self, node):
+        """Given a Neo4j Node, return a dict containing parameters."""
+        return ReferenceGeneProduct.get_dict(self, node)
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
