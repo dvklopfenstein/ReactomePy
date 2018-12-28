@@ -29,13 +29,20 @@ class Neo4jNodeBasic():
 
     def __str__(self):
         # Parameters on all Nodes
-        msg = [self.objsch.prtfmt.format(**self.ntp._asdict())]
-        # msg = ['{dbId} {schemaClass}'.format(dbId=self.item_id, schemaClass=self.objsch.name)]
-        # print('FMTPAT', self.objsch.prtfmt)
-        # print('NT', self.ntp._asdict())
-        # msg.append('NT: {NT}'.format(NT=self.objsch.prtfmt.format(**self.ntp._asdict())))
-        # msg.append('NT: {NT}'.format(NT=self.ntp))
-        return '\n'.join(msg)
+        try:
+            #### msg = [self.objsch.prtfmt.format(**self.ntp._asdict())]
+            msg = [self.objsch.prtfmt.format(**self.ntp._asdict(), **self.objsch.get_optstr(self.ntp.optional))]
+            # msg = ['{dbId} {schemaClass}'.format(dbId=self.item_id, schemaClass=self.objsch.name)]
+            # print('FMTPAT', self.objsch.prtfmt)
+            # print('NT', self.ntp._asdict())
+            # msg.append('NT: {NT}'.format(NT=self.objsch.prtfmt.format(**self.ntp._asdict())))
+            # msg.append('NT: {NT}'.format(NT=self.ntp))
+            return '\n'.join(msg)
+        except Exception:
+            print('SCHEMACLASS:', self.objsch.name)
+            print('FORMAT:', self.objsch.prtfmt)
+            print('NAMEDTUPLE:', self.ntp)
+            raise
 
     #### def prt_verbose(self, prt):
     ####     """Return a string with all details of the Node and its relationships."""
