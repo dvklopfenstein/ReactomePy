@@ -27,6 +27,7 @@ class RelationshipCollapse():
             'relatedSpecies': self._get_abc_related,
             'compartment': self._get_compartment,
             'referenceDatabase': self._get_db,
+            'referenceEntity': self._get_referenceentity,
         }
         # Relationships to child PhysicalENtity
         # self.relhier2fnc = {
@@ -70,27 +71,31 @@ class RelationshipCollapse():
         """Collapse specfied relationships into the main node dict."""
         popped = {}
         for dbid_src, node in self.dbid2node.items():
-            k2v = self.dbid2dct[dbid_src]
-            # Merge relationship destination node info into current node
-            rel2dstdbids_rm = {}
-            for rel, dstnodes in node.relationship.items():
-                if rel in self.rel2fnc:
-                    rel2dstdbids_rm[rel] = self.rel2fnc[rel](k2v, dstnodes)
-            # Remove relationships and destination nodes for info placed in dct and node
-            for rel, dstdbids_rm in rel2dstdbids_rm.items():
-                node.relationship[rel] = set(o for o in node.relationship[rel] if o.item_id not in dstdbids_rm)
-            rels_rm = set(r for r, objs in node.relationship.items() if not objs)
-            # print('RRRRR REMOVING COLLAPSED RELATIONSHIPS', rels_rm)
-
-            # print('DDDDDDDDDDDDDDDD', dbid_src, rel, dstdbidsrm)
-            # # Remove relationships when thier info has been merged into parent node
-            # for dbid_node in dstnodes:
-            #     if dbid_node.item_id in dstdbidsrm:
-            #         node.relationship[rel]
-            for rel in rels_rm:
-                popped[(dbid_src, rel)] = node.relationship.pop(rel)
-            # Merge dct fields
+            self._collapse_rel(popped, dbid_src, node)
         return popped
+
+    def _collapse_rel(self, popped, dbid_src, node):
+        """Collapse specfied relationships into the main node dict."""
+        k2v = self.dbid2dct[dbid_src]
+        # Merge relationship destination node info into current node
+        rel2dstdbids_rm = {}
+        for rel, dstnodes in node.relationship.items():
+            if rel in self.rel2fnc:
+                rel2dstdbids_rm[rel] = self.rel2fnc[rel](k2v, dstnodes)
+        # Remove relationships and destination nodes for info placed in dct and node
+        for rel, dstdbids_rm in rel2dstdbids_rm.items():
+            node.relationship[rel] = set(o for o in node.relationship[rel] if o.item_id not in dstdbids_rm)
+        rels_rm = set(r for r, objs in node.relationship.items() if not objs)
+        # print('RRRRR REMOVING COLLAPSED RELATIONSHIPS', rels_rm)
+
+        # print('DDDDDDDDDDDDDDDD', dbid_src, rel, dstdbidsrm)
+        # # Remove relationships when thier info has been merged into parent node
+        # for dbid_node in dstnodes:
+        #     if dbid_node.item_id in dstdbidsrm:
+        #         node.relationship[rel]
+        for rel in rels_rm:
+            popped[(dbid_src, rel)] = node.relationship.pop(rel)
+        # Merge dct fields
 
     def merge_dctvals(self):
         """Example: Copy relatedSpecies info into abc."""
@@ -100,13 +105,25 @@ class RelationshipCollapse():
                 print('VVVVVVVVVVVVVVVVVVVV', k2v)
                 k2v['abc'] += '->{ABC}'.format(ABC=k2v['relatedSpecies'])
 
+    def _get_referenceentity(self, sdct, refents):
+        """Push ReferenceEntity info on parent."""
+        dbids_rm = set()
+        for odst in refents:
+            ddct = self.dbid2dct[odst.item_id]
+            dobj = self.dbid2node[odst.item_id]
+            opt = dobj.objsch.get_optstr(ddct['optional'])
+            sdct['displayName'] = sdct['displayName'] + dobj.objsch.prtfmt.format(**ddct, **opt)
+            dbids_rm.add(odst.item_id)
+        return dbids_rm
+
     def _get_db(self, sdct, referencedatabases):
         """Push database displayName onto parent."""
         dbids_rm = set()
         for odst in referencedatabases:
             ddct = self.dbid2dct[odst.item_id]
             if 'identifier' in sdct:
-                sdct['displayName'] = '{DB}:{ID}'.format(DB=ddct['displayName'], ID=sdct['identifier'])
+                sdct['displayName'] = '{DB}:{ID}'.format(
+                    DB=ddct['displayName'], ID=sdct['identifier'])
                 dbids_rm.add(odst.item_id)
             elif ddct['displayName'] == 'GO' and 'GO' in sdct['displayName']:
                 dbids_rm.add(odst.item_id)
@@ -132,16 +149,17 @@ class RelationshipCollapse():
         """Return a value for abc."""
         abc = self.__get_abc(dct['abc'], species_nodes, dct)
         dct['abc'] = abc
-        assert abc not in {'???', 'XXX'}
+        assert abc not in {'???', 'XXX'}, 'DICT: {}\nSPECIES_NODES: {}\nABC({})'.format(
+            dct, {self.dbid2dct[o.item_id]['displayName'] for o in species_nodes}, abc)
         return set(o.item_id for o in species_nodes)
 
     def __get_abc(self, abc_param, species_nodes, dct):
         """Return a value for abc."""
         abc_rel = self._get_abc_from_relationship(species_nodes)
         # if abc_param == '...' or abc_param == abc_rel:
-        if abc_param in {'...', abc_rel}:
+        if abc_param in {'...', '', '... ', abc_rel}:
             return abc_rel
-        print('**ERROR: {SCH}{{dbId:{DBID}}} PARAMETER({P}) != species RELATIONSHIP({R})'.format(
+        print('**ERROR: {SCH}{{dbId:{DBID}}} PARAM VAL({P}) != species RELATIONSHIP({R})'.format(
             DBID=dct['dbId'], SCH=dct['schemaClass'], P=abc_param, R=abc_rel))
         return 'XXX'
 

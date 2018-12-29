@@ -42,7 +42,7 @@ class ReferenceMolecule(ReferenceEntity):
     params_req = ReferenceEntity.params_req + ['name']
     params_opt = ReferenceEntity.params_opt + [
         'secondaryIdentifier', 'otherIdentifier', 'formula', 'trivial', 'geneName']
-    prtfmt = ('{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {firstName}'
+    prtfmt = ('{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {firstName}'
               '{div}{formula}{trivial}')
     optstr_dflt = {'div':'', 'formula':'', 'trivial':''}
 

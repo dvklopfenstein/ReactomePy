@@ -43,7 +43,7 @@ class ReferenceGroup(ReferenceEntity):
     # req: dbId schemaClass displayName | databaseName identifier url
     params_req = ReferenceEntity.params_req + ['name']
     params_opt = ReferenceEntity.params_opt + ['formula']
-    prtfmt = '{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {firstName} {formula}'
+    prtfmt = '{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {firstName} {formula}'
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' firstName' + ReferenceEntity.flds_last)
 

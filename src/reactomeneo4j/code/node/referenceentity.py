@@ -77,7 +77,7 @@ class ReferenceEntity(DatabaseObject):
 
     # req: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'url']
-    prtfmt = '{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {displayName}'
+    prtfmt = '{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {displayName}'
 
     relationships = {
         'referenceDatabase': set(['ReferenceDatabase']),

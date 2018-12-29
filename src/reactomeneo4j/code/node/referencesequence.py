@@ -53,7 +53,7 @@ class ReferenceSequence(ReferenceEntity):
         'geneName', 'name',
         'description', 'comment',
         'sequenceLength', 'otherIdentifier', 'keyword']
-    prtfmt = ('{dbId:7} {schemaClass:32} {abc} {databaseName}:{identifier} {firstName}'
+    prtfmt = ('{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {firstName}'
               '{div}{sequenceLength}')
     optstr_dflt = {'div':'', 'sequenceLength':''}
 
