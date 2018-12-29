@@ -5,6 +5,7 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from reactomeneo4j.code.schema.hier import DataSchemaHier
 # from collections import defaultdict
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.relationships import Relationships
@@ -19,6 +20,7 @@ class RelationshipCollapse():
     """Pull data from lower-level relationship nodes. Rm rels."""
 
     def __init__(self, dbid2node, dbid2dct, all_details=True):
+        self.objhier = DataSchemaHier()
         self.dbid2node = dbid2node
         self.dbid2dct = dbid2dct
         self.all_details = all_details
@@ -70,9 +72,28 @@ class RelationshipCollapse():
     def _collapse_relationships(self):
         """Collapse specfied relationships into the main node dict."""
         popped = {}
-        for dbid_src, node in self.dbid2node.items():
+        # 1) ReferenceEntity: Collapse relationships into main Node body
+        dbid2refent, dbid2node = self._split_dbid2node('ReferenceEntity', self.dbid2node)
+        for dbid_src, node in dbid2refent.items():
+            self._collapse_rel(popped, dbid_src, node)
+        # 2) Other: Collapse relationships into main Node body
+        for dbid_src, node in dbid2node.items():
             self._collapse_rel(popped, dbid_src, node)
         return popped
+
+    def _split_dbid2node(self, schemaclass, dbid2node_all):
+        """Split dbid2node dict into two based on schemaClass."""
+        dbid2refent = {}
+        dbid2node_sub = {}
+        names_mtch = self.objhier.get_ids_lte(schemaclass)
+        for node in dbid2node_all.values():
+            if node.objsch.name in names_mtch:
+                dbid2refent[node.item_id] = node
+            else:
+                dbid2node_sub[node.item_id] = node
+        print('{N} {SCH}, {M} other schemaClasses in dbid2node'.format(
+            SCH=schemaclass, N=len(dbid2refent), M=len(dbid2node_sub)))
+        return dbid2refent, dbid2node_sub
 
     def _collapse_rel(self, popped, dbid_src, node):
         """Collapse specfied relationships into the main node dict."""
@@ -84,7 +105,8 @@ class RelationshipCollapse():
                 rel2dstdbids_rm[rel] = self.rel2fnc[rel](k2v, dstnodes)
         # Remove relationships and destination nodes for info placed in dct and node
         for rel, dstdbids_rm in rel2dstdbids_rm.items():
-            node.relationship[rel] = set(o for o in node.relationship[rel] if o.item_id not in dstdbids_rm)
+            node.relationship[rel] = set(
+                o for o in node.relationship[rel] if o.item_id not in dstdbids_rm)
         rels_rm = set(r for r, objs in node.relationship.items() if not objs)
         # print('RRRRR REMOVING COLLAPSED RELATIONSHIPS', rels_rm)
 
