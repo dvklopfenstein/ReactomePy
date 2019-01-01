@@ -63,8 +63,8 @@ class PhysicalEntity(DatabaseObject):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['stId', 'stIdVersion', 'isInDisease', 'name']
-    params_opt = ['oldStId']
+    params_req = DatabaseObject.params_req + ('stId', 'stIdVersion', 'isInDisease', 'name')
+    params_opt = ('oldStId',)
 
     prtfmt = '{stId:13} {schemaClass:17} {aart} {abc} {displayName}'
 

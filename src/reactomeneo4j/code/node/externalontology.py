@@ -19,8 +19,8 @@ class ExternalOntology(DatabaseObject):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'name', 'url']
-    params_opt = DatabaseObject.params_opt + ['definition', 'synonym']
+    params_req = DatabaseObject.params_req + ('databaseName', 'identifier', 'name', 'url')
+    params_opt = DatabaseObject.params_opt + ('definition', 'synonym')
     prtfmt = '{schemaClass}: {displayName}'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 

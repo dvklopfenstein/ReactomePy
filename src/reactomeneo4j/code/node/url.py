@@ -31,7 +31,7 @@ class URL(Publication):
     """Params seen on all URL."""
 
     # params: dbId schemaClass displayName | title
-    params_req = Publication.params_req + ['uniformResourceLocator']
+    params_req = Publication.params_req + ('uniformResourceLocator',)
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self):

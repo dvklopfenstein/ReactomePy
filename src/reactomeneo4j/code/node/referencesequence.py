@@ -49,10 +49,10 @@ class ReferenceSequence(ReferenceEntity):
     """Lists parameters seen on all ReferenceSequence."""
 
     # req: dbId schemaClass displayName | databaseName identifier url
-    params_opt = ReferenceEntity.params_opt + [
+    params_opt = ReferenceEntity.params_opt + (
         'geneName', 'name',
         'description', 'comment',
-        'sequenceLength', 'otherIdentifier', 'keyword']
+        'sequenceLength', 'otherIdentifier', 'keyword')
     prtfmt = ('{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {firstName}'
               '{div}{sequenceLength}')
     optstr_dflt = {'div':'', 'sequenceLength':''}

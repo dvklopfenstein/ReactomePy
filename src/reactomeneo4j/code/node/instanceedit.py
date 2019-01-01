@@ -25,8 +25,8 @@ class InstanceEdit(DatabaseObject):
     """Report the dates that a pathway was edited."""
 
     # params: dbId schemaName displayName
-    params_req = DatabaseObject.params_req + ['dateTime']
-    params_opt = DatabaseObject.params_opt + ['note']
+    params_req = DatabaseObject.params_req + ('dateTime',)
+    params_opt = DatabaseObject.params_opt + ('note',)
     timefmt = '%Y-%m-%d %H:%M:%S'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 

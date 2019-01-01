@@ -43,8 +43,8 @@ class GenomeEncodedEntity(PhysicalEntity):
     """Reactome GenomeEncodedEntity Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    params_req = PhysicalEntity.params_req + ['speciesName']
-    params_opt = PhysicalEntity.params_opt + ['definition']
+    params_req = PhysicalEntity.params_req + ('speciesName',)
+    params_opt = PhysicalEntity.params_opt + ('definition',)
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' aart abc optional')
 
     relationships = {

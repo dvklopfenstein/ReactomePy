@@ -27,7 +27,7 @@ class FragmentReplacedModification(FragmentModification):
 
     # params: dbId schemaClass displayName | coordinate |
     #     startPositionInReferenceSequence endPositionInReferenceSequence
-    params_opt = FragmentModification.params_opt + ['alteredAminoAcidFragment']
+    params_opt = FragmentModification.params_opt + ('alteredAminoAcidFragment',)
 
     relationships = {
         **FragmentModification.relationships,

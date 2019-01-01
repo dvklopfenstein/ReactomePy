@@ -28,7 +28,7 @@ class Reaction(ReactionLikeEvent):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name |
     #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
     # params_opt: oldStId releaseStatus | isChimeric systematicName
-    params_opt = ReactionLikeEvent.params_opt + ['definition']
+    params_opt = ReactionLikeEvent.params_opt + ('definition',)
 
     relationships = {
         **ReactionLikeEvent.relationships,

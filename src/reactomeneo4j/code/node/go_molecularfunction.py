@@ -16,11 +16,11 @@ from reactomeneo4j.code.node.go_term import GOTerm
 
 
 # pylint: disable=too-few-public-methods
-class GO_MolecularFunction(GOTerm):
+class GOMolecularFunction(GOTerm):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName | accession databaseName definition name url
-    params_opt = GOTerm.params_opt + ['ecNumber']
+    params_opt = GOTerm.params_opt + ('ecNumber',)
 
     relationships = {
         **GOTerm.relationships,
@@ -35,7 +35,7 @@ class GO_MolecularFunction(GOTerm):
     }
 
     def __init__(self):
-        super(GO_MolecularFunction, self).__init__('GO_MolecularFunction')
+        super(GOMolecularFunction, self).__init__('GO_MolecularFunction')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

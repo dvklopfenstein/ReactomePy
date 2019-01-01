@@ -15,7 +15,7 @@ class ReferenceDatabase(DatabaseObject):
     """Lists parameters seen on all ReferenceEntity."""
 
     # req: dbId displayName schemaClass
-    params_req = DatabaseObject.params_req + ['accessUrl', 'name', 'url']
+    params_req = DatabaseObject.params_req + ('accessUrl', 'name', 'url')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self):

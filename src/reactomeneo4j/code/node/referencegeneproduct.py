@@ -30,7 +30,7 @@ class ReferenceGeneProduct(ReferenceSequence):
     # req: dbId schemaClass displayName | databaseName identifier url
     # opt: geneName otherIdentifier description name comment sequenceLength keyword
     params_opt = ReferenceSequence.params_opt + \
-        ['chain', 'checksum', 'isSequenceChanged', 'secondaryIdentifier']  # params_opt =
+        ('chain', 'checksum', 'isSequenceChanged', 'secondaryIdentifier')  # params_opt =
 
     prtfmt_gene = '{div}{sequenceLength}{checksum}{chain}'
     prtfmt = '{dbId:8} {schemaClass:32} {abc}{aart} {displayName}' + prtfmt_gene

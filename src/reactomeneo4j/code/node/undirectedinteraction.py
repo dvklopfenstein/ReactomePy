@@ -21,7 +21,7 @@ class UndirectedInteraction(DatabaseObject):
     """UndirectedInteraction."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['databaseName', 'accession', 'url', 'score']
+    params_req = DatabaseObject.params_req + ('databaseName', 'accession', 'url', 'score')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {

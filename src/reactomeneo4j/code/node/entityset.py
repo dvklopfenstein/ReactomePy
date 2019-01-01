@@ -40,7 +40,7 @@ class EntitySet(PhysicalEntity):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     # params: oldStId
-    params_opt = PhysicalEntity.params_opt + ['isOrdered', 'systematicName']
+    params_opt = PhysicalEntity.params_opt + ('isOrdered', 'systematicName')
 
     relationships = {
         **PhysicalEntity.relationships,

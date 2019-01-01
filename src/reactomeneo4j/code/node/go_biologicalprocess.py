@@ -16,7 +16,7 @@ from reactomeneo4j.code.node.go_term import GOTerm
 
 
 # pylint: disable=too-few-public-methods
-class GO_BiologicalProcess(GOTerm):
+class GOBiologicalProcess(GOTerm):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName | accession databaseName definition name url
@@ -34,7 +34,7 @@ class GO_BiologicalProcess(GOTerm):
     }
 
     def __init__(self):
-        super(GO_BiologicalProcess, self).__init__('GO_BiologicalProcess')
+        super(GOBiologicalProcess, self).__init__('GO_BiologicalProcess')
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

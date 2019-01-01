@@ -16,8 +16,8 @@ class Person(DatabaseObject):
     """Person."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['surname', 'initial']
-    params_opt = DatabaseObject.params_opt + ['firstname', 'orcidId', 'project']
+    params_req = DatabaseObject.params_req + ('surname', 'initial')
+    params_opt = DatabaseObject.params_opt + ('firstname', 'orcidId', 'project')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {

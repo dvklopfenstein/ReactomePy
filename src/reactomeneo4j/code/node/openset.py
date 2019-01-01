@@ -41,7 +41,7 @@ class OpenSet(EntitySet):
     """Params seen on all EntitySets."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    params_req = EntitySet.params_req + ['referenceType']
+    params_req = EntitySet.params_req + ('referenceType',)
     # params: oldStId | speciesName isOrdered definition
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' aart abc optional')
 

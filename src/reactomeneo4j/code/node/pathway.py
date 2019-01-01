@@ -38,9 +38,9 @@ class Pathway(Event):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
-    params_req = Event.params_req + ['hasDiagram']
+    params_req = Event.params_req + ('hasDiagram',)
     # params: oldStId releaseStatus
-    params_opt = Event.params_opt + ['doi', 'diagramHeight', 'diagramWidth', 'definition']
+    params_opt = Event.params_opt + ('doi', 'diagramHeight', 'diagramWidth', 'definition')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + Event.flds_last)
 
     relationships = {
@@ -51,7 +51,9 @@ class Pathway(Event):
             'figure': set(['Figure']),
             'relatedSpecies': set(['Species']),
             'crossReference': set(['DatabaseIdentifier']),
-            'hasEvent': set(['Pathway', 'Reaction', 'FailedReaction', 'BlackBoxEvent', 'Depolymerisation', 'Polymerisation']),
+            'hasEvent': set(['Pathway',
+                             'Reaction', 'FailedReaction', 'BlackBoxEvent',
+                             'Depolymerisation', 'Polymerisation']),
             'precedingEvent': set(['Pathway', 'Reaction', 'BlackBoxEvent']),
             'hasEncapsulatedEvent': set(['Pathway']),
             'normalPathway': set(['Pathway']),

@@ -22,7 +22,7 @@ class Taxon(DatabaseObject):
     """Params seen on all Taxon."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    params_opt = DatabaseObject.params_opt + ['taxId', 'name']
+    params_opt = DatabaseObject.params_opt + ('taxId', 'name')
     prtfmt = '{schemaClass}: {displayName}'
 
     relationships = {

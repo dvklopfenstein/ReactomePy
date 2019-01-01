@@ -16,7 +16,7 @@ class Figure(DatabaseObject):
     """Figure."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['url']
+    params_req = DatabaseObject.params_req + ('url',)
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self):

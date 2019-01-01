@@ -26,7 +26,7 @@ class ReferenceIsoform(ReferenceGeneProduct):
     # req: dbId schemaClass displayName | databaseName identifier url
     # opt: geneName otherIdentifier description name comment sequenceLength keyword |
     #      chain checksum isSequenceChanged secondaryIdentifier
-    params_req = ReferenceGeneProduct.params_req + ['variantIdentifier']
+    params_req = ReferenceGeneProduct.params_req + ('variantIdentifier',)
 
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ReferenceGeneProduct.flds_last)
 

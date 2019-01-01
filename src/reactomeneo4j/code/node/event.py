@@ -51,8 +51,8 @@ class Event(DatabaseObject):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_req = DatabaseObject.params_req + \
-        ['stId', 'stIdVersion', 'name', 'isInDisease', 'isInferred', 'releaseDate', 'speciesName']
-    params_opt = ['oldStId', 'releaseStatus']
+        ('stId', 'stIdVersion', 'name', 'isInDisease', 'isInferred', 'releaseDate', 'speciesName')
+    params_opt = ('oldStId', 'releaseStatus')
     datefmt = '%Y-%m-%d'
 
     prtfmt = '{stId:13} {schemaClass:17} {aart} {abc} {releaseDate} {displayName}'

@@ -76,7 +76,7 @@ class ReferenceEntity(DatabaseObject):
     """Lists parameters seen on all ReferenceEntity."""
 
     # req: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'url']
+    params_req = DatabaseObject.params_req + ('databaseName', 'identifier', 'url')
     prtfmt = '{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {displayName}'
 
     relationships = {

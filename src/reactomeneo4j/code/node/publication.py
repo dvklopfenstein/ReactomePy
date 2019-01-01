@@ -31,7 +31,7 @@ class Publication(DatabaseObject):
     """Params seen on all Publication."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['title']
+    params_req = DatabaseObject.params_req + ('title',)
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     def __init__(self, name):

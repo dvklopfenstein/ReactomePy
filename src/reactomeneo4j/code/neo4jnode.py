@@ -12,7 +12,6 @@ from reactomeneo4j.code.node.schemaclass_factory import SCHEMACLASS2OBJ
 class Neo4jNode():
     """Holds data extracted from Neo4j."""
 
-
     def __init__(self, neo4jnode, **kws):  # gdbdr=None, prtfmt=None):
         # kws: gdbdr prtfmt rel_excl
         _ini = _Init(neo4jnode['dbId'], neo4jnode['schemaClass'], **kws)

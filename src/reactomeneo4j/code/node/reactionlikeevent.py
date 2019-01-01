@@ -29,7 +29,7 @@ class ReactionLikeEvent(Event):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name |
     #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
     # params_opt: oldStId releaseStatus
-    params_opt = Event.params_opt + ['isChimeric', 'systematicName']
+    params_opt = Event.params_opt + ('isChimeric', 'systematicName')
 
     relationships = {
         **Event.relationships,

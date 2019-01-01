@@ -33,7 +33,7 @@ class Polymer(PhysicalEntity):
 
     # pe params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     params_opt = PhysicalEntity.params_opt + \
-        ['speciesName', 'minUnitCount', 'maxUnitCount', 'definition']
+        ('speciesName', 'minUnitCount', 'maxUnitCount', 'definition')
 
     relationships = {
         **PhysicalEntity.relationships,
@@ -42,7 +42,10 @@ class Polymer(PhysicalEntity):
             'species': set(['Species']),
             'inferredTo': set(['Polymer']),
             # 'repeatedUnit': set(['PhysicalEntity']),
-            'repeatedUnit': set(['Complex', 'SimpleEntity', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'Polymer', 'EntityWithAccessionedSequence']),
+            'repeatedUnit': set([
+                'CandidateSet', 'DefinedSet',
+                'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'Complex', 'Polymer', 'SimpleEntity']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
         }
     }

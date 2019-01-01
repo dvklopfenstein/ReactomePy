@@ -28,8 +28,8 @@ class GOTerm(DatabaseObject):
     }
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + [
-        'accession', 'databaseName', 'definition', 'name', 'url']
+    params_req = DatabaseObject.params_req + (
+        'accession', 'databaseName', 'definition', 'name', 'url')
 
     prtfmt = '{NS} {databaseName}:{accession} {name} -> {definition}'
 
@@ -43,7 +43,7 @@ class GOTerm(DatabaseObject):
         #'positivelyRegulate': set(['GO_Term']),
     }
 
-    ntobj = namedtuple('NtOpj', ' '.join(params_req + [' NS optional']))
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' NS optional')
 
     def __init__(self, name):
         # pylint: disable=useless-super-delegation

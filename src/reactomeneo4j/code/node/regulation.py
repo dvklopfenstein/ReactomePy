@@ -44,7 +44,7 @@ class Regulation(DatabaseObject):
     """Params seen on all Physical Entities."""
 
     # params_req: dbId schemaClass displayName
-    params_opt = ['oldStId', 'name', 'stId', 'stIdVersion']
+    params_opt = ('oldStId', 'name', 'stId', 'stIdVersion')
 
     relationships = {
         'literatureReference': set(['LiteratureReference']),

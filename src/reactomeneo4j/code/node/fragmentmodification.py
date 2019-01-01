@@ -13,8 +13,6 @@
 > ---- IntraChainFragmentModification (dcnt=0)
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
-
-   78,581 AbstractModifiedResidue     95 FragmentReplacedModification     86     95  0.9053 alteredAminoAcidFragment
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -29,9 +27,9 @@ class FragmentModification(GeneticallyModifiedResidue):
     """FragmentModification."""
 
     # params: dbId schemaClass displayName | coordinate
-    params_req = GeneticallyModifiedResidue.params_req + [
+    params_req = GeneticallyModifiedResidue.params_req + (
         'startPositionInReferenceSequence',
-        'endPositionInReferenceSequence']
+        'endPositionInReferenceSequence')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     # relationships = {

@@ -49,9 +49,9 @@ from reactomeneo4j.code.node.literaturereference import LiteratureReference
 from reactomeneo4j.code.node.book import Book
 from reactomeneo4j.code.node.url import URL
 from reactomeneo4j.code.node.compartment import Compartment
-from reactomeneo4j.code.node.go_cellularcomponent import GO_CellularComponent
-from reactomeneo4j.code.node.go_biologicalprocess import GO_BiologicalProcess
-from reactomeneo4j.code.node.go_molecularfunction import GO_MolecularFunction
+from reactomeneo4j.code.node.go_cellularcomponent import GOCellularComponent
+from reactomeneo4j.code.node.go_biologicalprocess import GOBiologicalProcess
+from reactomeneo4j.code.node.go_molecularfunction import GOMolecularFunction
 from reactomeneo4j.code.node.externalontology import ExternalOntology
 from reactomeneo4j.code.node.abstractmodifiedresidue import AbstractModifiedResidue
 from reactomeneo4j.code.node.fragmentdeletionmodification import FragmentDeletionModification
@@ -194,10 +194,10 @@ SCHEMACLASS2CLS = OrderedDict([
     # > --- Compartment (dcnt=0)
     # > -- GO_BiologicalProcess (dcnt=0)
     # > -- GO_MolecularFunction (dcnt=0)
-    ('GO_CellularComponent', GO_CellularComponent),
+    ('GO_CellularComponent', GOCellularComponent),
     ('Compartment', Compartment),
-    ('GO_BiologicalProcess', GO_BiologicalProcess),
-    ('GO_MolecularFunction', GO_MolecularFunction),
+    ('GO_BiologicalProcess', GOBiologicalProcess),
+    ('GO_MolecularFunction', GOMolecularFunction),
 
     #   - ExternalOntology (dcnt=3)
     # > -- Disease (dcnt=0)
@@ -264,7 +264,7 @@ SCHEMACLASS2CLS = OrderedDict([
 
 def _new_inst(schemaclass):
     """Create and return the requested object."""
-    ARGSCH = {
+    argsch = {
         'ProteinDrug',
         'ReferenceRNASequence',
         'Disease',
@@ -273,7 +273,7 @@ def _new_inst(schemaclass):
         'EvidenceType',
     }
     cls = SCHEMACLASS2CLS[schemaclass]
-    if schemaclass not in ARGSCH:
+    if schemaclass not in argsch:
         return cls()
     return cls(schemaclass)
 

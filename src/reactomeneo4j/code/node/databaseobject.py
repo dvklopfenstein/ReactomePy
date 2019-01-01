@@ -13,8 +13,8 @@ class DatabaseObject():
     """Lists parameters seen on all DatabaseObjects."""
 
     objhier = DataSchemaHier()
-    params_req = ['dbId', 'schemaClass', 'displayName']
-    params_opt = []
+    params_req = ('dbId', 'schemaClass', 'displayName')
+    params_opt = ()
     prtfmt = '{dbId:8} {schemaClass:32} {displayName}'
     species2nt = {nt.displayName:nt for nt in SPECIES}
 
@@ -34,7 +34,7 @@ class DatabaseObject():
 
     relationships = {}
 
-    ntobj = namedtuple('NtOpj', ' '.join(params_req + ['optional']))
+    ntobj = namedtuple('NtOpj', ' '.join(params_req + ('optional',)))
 
     def __init__(self, name):
         self.name = name
@@ -46,6 +46,7 @@ class DatabaseObject():
         k2v['optional'] = {o:node[o] for o in self.params_opt if o in node}
         return k2v
 
+    # pylint: disable=unused-argument
     @staticmethod
     def get_optstr(optional_dct):
         """Given optional dictionary, return printable strings."""

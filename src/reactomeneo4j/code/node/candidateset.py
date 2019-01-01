@@ -40,7 +40,7 @@ class CandidateSet(EntitySet):
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     # params: oldStId | speciesName isOrdered systematicName
-    params_opt = EntitySet.params_opt + ['definition']
+    params_opt = EntitySet.params_opt + ('definition',)
 
     relationships = {
         **EntitySet.relationships,

@@ -20,7 +20,7 @@ class DatabaseIdentifier(DatabaseObject):
     """DatabaseIdentifier."""
 
     # params: dbId schemaClass displayName
-    params_req = DatabaseObject.params_req + ['databaseName', 'identifier', 'url']
+    params_req = DatabaseObject.params_req + ('databaseName', 'identifier', 'url')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {

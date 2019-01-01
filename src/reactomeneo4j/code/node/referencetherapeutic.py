@@ -32,8 +32,8 @@ class ReferenceTherapeutic(ReferenceEntity):
     """Lists parameters seen on all ReferenceTherapeutic."""
 
     # req: dbId schemaClass displayName | databaseName identifier url
-    params_req = ReferenceEntity.params_req + ['name', 'approved']
-    params_opt = ReferenceEntity.params_opt + ['approvalSource', 'type', 'inn', 'abbreviation']
+    params_req = ReferenceEntity.params_req + ('name', 'approved')
+    params_opt = ReferenceEntity.params_opt + ('approvalSource', 'type', 'inn', 'abbreviation')
     prtfmt = ('{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {firstName}'
               '{abbreviation}{type}{approvalSource}')
     optstr_dflt = {'abbreviation': '', 'type':'', 'approvalSource':''}

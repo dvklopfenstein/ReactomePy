@@ -38,16 +38,17 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
     """Reactome EntityWithAccessionedSequence Neo4j Node."""
 
     # dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name | speciesName
-    params_req = GenomeEncodedEntity.params_req + ['referenceType']
+    params_req = GenomeEncodedEntity.params_req + ('referenceType',)
     # oldStId definition
-    params_opt = GenomeEncodedEntity.params_opt + ['startCoordinate', 'endCoordinate', 'definition']
+    params_opt = GenomeEncodedEntity.params_opt + ('startCoordinate', 'endCoordinate', 'definition')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' aart abc optional')
 
     relationships = {
         **GenomeEncodedEntity.relationships,
         **{
             'literatureReference': set(['LiteratureReference', 'Book']),
-            'inferredTo': set(['EntityWithAccessionedSequence', 'GenomeEncodedEntity', 'DefinedSet']),
+            'inferredTo': set(['DefinedSet',
+                               'GenomeEncodedEntity', 'EntityWithAccessionedSequence']),
             'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
             # 'hasModifiedResidue': set(['AbstractModifiedResidue']),
             'hasModifiedResidue': set([

@@ -39,9 +39,9 @@ class ReferenceMolecule(ReferenceEntity):
     """Lists parameters seen on all ReferenceMolecule."""
 
     # req: dbId schemaClass displayName | databaseName identifier url
-    params_req = ReferenceEntity.params_req + ['name']
-    params_opt = ReferenceEntity.params_opt + [
-        'secondaryIdentifier', 'otherIdentifier', 'formula', 'trivial', 'geneName']
+    params_req = ReferenceEntity.params_req + ('name',)
+    params_opt = ReferenceEntity.params_opt + (
+        'secondaryIdentifier', 'otherIdentifier', 'formula', 'trivial', 'geneName')
     prtfmt = ('{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {firstName}'
               '{div}{formula}{trivial}')
     optstr_dflt = {'div':'', 'formula':'', 'trivial':''}

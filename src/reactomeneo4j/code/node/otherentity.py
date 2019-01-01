@@ -29,7 +29,7 @@ class OtherEntity(PhysicalEntity):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    params_opt = PhysicalEntity.params_opt + ['definition']
+    params_opt = PhysicalEntity.params_opt + ('definition',)
 
     relationships = {
         **PhysicalEntity.relationships,

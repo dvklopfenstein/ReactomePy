@@ -23,7 +23,7 @@ class FunctionalStatusType(DatabaseObject):
     """FunctionalStatusType."""
 
     # params: dbId schemaClass displayName
-    params_opt = ['name']
+    params_opt = ('name',)
 
     def __init__(self):
         super(FunctionalStatusType, self).__init__('FunctionalStatusType')

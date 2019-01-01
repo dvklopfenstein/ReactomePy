@@ -18,7 +18,7 @@ class Affiliation(DatabaseObject):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName
-    params_opt = ['name', 'address']
+    params_opt = ('name', 'address')
 
     def __init__(self):
         super(Affiliation, self).__init__('Affiliation')

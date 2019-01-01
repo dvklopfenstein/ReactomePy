@@ -31,8 +31,8 @@ class Book(Publication):
     """Params seen on all Book."""
 
     # params: dbId schemaClass displayName | title
-    params_req = Publication.params_req + ['year']
-    params_opt = Publication.params_opt + ['ISBN', 'chapterTitle', 'pages']
+    params_req = Publication.params_req + ('year',)
+    params_opt = Publication.params_opt + ('ISBN', 'chapterTitle', 'pages')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
