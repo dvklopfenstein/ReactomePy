@@ -5,12 +5,14 @@ __author__ = "DV Klopfenstein"
 
 from collections import namedtuple
 from reactomeneo4j.data.species import SPECIES
+from reactomeneo4j.code.schema.hier import DataSchemaHier
 
 
 # pylint: disable=too-few-public-methods
 class DatabaseObject():
     """Lists parameters seen on all DatabaseObjects."""
 
+    objhier = DataSchemaHier()
     params_req = ['dbId', 'schemaClass', 'displayName']
     params_opt = []
     prtfmt = '{dbId:8} {schemaClass:32} {displayName}'
@@ -36,7 +38,7 @@ class DatabaseObject():
 
     def __init__(self, name):
         self.name = name
-        print('CREATING {S}'.format(S=name))
+        # print('CREATING {S}'.format(S=name))
 
     def get_dict(self, node):
         """Return a Python dict containing all Neo4j Node parameters."""
