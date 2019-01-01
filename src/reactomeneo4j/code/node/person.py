@@ -21,9 +21,9 @@ class Person(DatabaseObject):
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        'author'         : set(['InstanceEdit', 'LiteratureReference', 'URL', 'Book']),
-        'crossReference' : set(['DatabaseIdentifier']),
-        'affiliation'    : set(['Affiliation']),
+        'author'         : frozenset(['InstanceEdit', 'LiteratureReference', 'URL', 'Book']),
+        'crossReference' : frozenset(['DatabaseIdentifier']),
+        'affiliation'    : frozenset(['Affiliation']),
     }
 
     def __init__(self):

@@ -63,7 +63,7 @@ class ReferenceSequence(ReferenceEntity):
     relationships = {
         **ReferenceEntity.relationships,
         **{
-            'referenceGene': set(['ReferenceDNASequence']),
+            'referenceGene': frozenset(['ReferenceDNASequence']),
         }
     }
 

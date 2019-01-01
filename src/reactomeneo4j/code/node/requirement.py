@@ -49,13 +49,13 @@ class Requirement(PositiveRegulation):
     relationships = {
         **PositiveRegulation.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'regulator': set(['CandidateSet',
-                              'DefinedSet',
-                              'EntityWithAccessionedSequence',
-                              'Complex',
-                              'SimpleEntity',
-                              ]),
+            'literatureReference': frozenset(['LiteratureReference']),
+            'regulator': frozenset(['CandidateSet',
+                                    'DefinedSet',
+                                    'EntityWithAccessionedSequence',
+                                    'Complex',
+                                    'SimpleEntity',
+                                    ]),
         }
     }
 

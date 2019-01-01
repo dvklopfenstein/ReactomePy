@@ -46,19 +46,19 @@ class Pathway(Event):
     relationships = {
         **Event.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'Book', 'URL']),
-            'inferredTo': set(['Pathway']),
-            'figure': set(['Figure']),
-            'relatedSpecies': set(['Species']),
-            'crossReference': set(['DatabaseIdentifier']),
-            'hasEvent': set(['Pathway',
-                             'Reaction', 'FailedReaction', 'BlackBoxEvent',
-                             'Depolymerisation', 'Polymerisation']),
-            'precedingEvent': set(['Pathway', 'Reaction', 'BlackBoxEvent']),
-            'hasEncapsulatedEvent': set(['Pathway']),
-            'normalPathway': set(['Pathway']),
-            'goBiologicalProcess': set(['GO_BiologicalProcess']),
-            'evidenceType': set(['EvidenceType']),
+            'literatureReference': frozenset(['LiteratureReference', 'Book', 'URL']),
+            'inferredTo': frozenset(['Pathway']),
+            'figure': frozenset(['Figure']),
+            'relatedSpecies': frozenset(['Species']),
+            'crossReference': frozenset(['DatabaseIdentifier']),
+            'hasEvent': frozenset(['Pathway',
+                                   'Reaction', 'FailedReaction', 'BlackBoxEvent',
+                                   'Depolymerisation', 'Polymerisation']),
+            'precedingEvent': frozenset(['Pathway', 'Reaction', 'BlackBoxEvent']),
+            'hasEncapsulatedEvent': frozenset(['Pathway']),
+            'normalPathway': frozenset(['Pathway']),
+            'goBiologicalProcess': frozenset(['GO_BiologicalProcess']),
+            'evidenceType': frozenset(['EvidenceType']),
         }
     }
 

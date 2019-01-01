@@ -49,9 +49,9 @@ class NegativeGeneExpressionRegulation(NegativeRegulation):
     relationships = {
         **NegativeRegulation.relationships,
         **{
-            'regulator': set(['CandidateSet', 'DefinedSet',
-                              'EntityWithAccessionedSequence',
-                              'Complex']),
+            'regulator': frozenset(['CandidateSet', 'DefinedSet',
+                                    'EntityWithAccessionedSequence',
+                                    'Complex']),
         }
     }
 

@@ -34,7 +34,7 @@ class OtherEntity(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
+            'literatureReference': frozenset(['LiteratureReference']),
         }
     }
 

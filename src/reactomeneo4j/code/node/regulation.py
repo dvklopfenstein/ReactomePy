@@ -47,9 +47,9 @@ class Regulation(DatabaseObject):
     params_opt = ('oldStId', 'name', 'stId', 'stIdVersion')
 
     relationships = {
-        'literatureReference': set(['LiteratureReference']),
-        #'regulator': set(['PhysicalEntity']),
-        'summation': set(['Summation']),
+        'literatureReference': frozenset(['LiteratureReference']),
+        #'regulator': frozenset(['PhysicalEntity']),
+        'summation': frozenset(['Summation']),
     }
 
     def __init__(self, name):

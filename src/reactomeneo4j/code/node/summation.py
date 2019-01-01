@@ -21,7 +21,7 @@ class Summation(DatabaseObject):
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        'literatureReference': set(['LiteratureReference', 'Book', 'URL']),
+        'literatureReference': frozenset(['LiteratureReference', 'Book', 'URL']),
     }
 
     def __init__(self):

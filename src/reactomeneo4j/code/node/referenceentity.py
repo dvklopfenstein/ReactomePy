@@ -80,9 +80,9 @@ class ReferenceEntity(DatabaseObject):
     prtfmt = '{dbId:7} {schemaClass:32} {abc}{databaseName}:{identifier} {displayName}'
 
     relationships = {
-        'referenceDatabase': set(['ReferenceDatabase']),
-        'crossReference'   : set(['DatabaseIdentifier']),
-        'species'          : set(['Taxon']),
+        'referenceDatabase': frozenset(['ReferenceDatabase']),
+        'crossReference'   : frozenset(['DatabaseIdentifier']),
+        'species'          : frozenset(['Taxon']),
     }
 
     flds_last = ' abc optional'

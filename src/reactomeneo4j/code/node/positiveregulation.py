@@ -49,8 +49,8 @@ class PositiveRegulation(Regulation):
     relationships = {
         **Regulation.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'Book']),
-            'regulator': set([
+            'literatureReference': frozenset(['LiteratureReference', 'Book']),
+            'regulator': frozenset([
                 'CandidateSet', 'DefinedSet',
                 #'ChemicalDrug',
                 #'GenomeEncodedEntity', 'EntityWithAccessionedSequence',

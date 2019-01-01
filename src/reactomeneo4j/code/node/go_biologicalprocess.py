@@ -24,12 +24,12 @@ class GOBiologicalProcess(GOTerm):
     relationships = {
         **GOTerm.relationships,
         **{
-            'hasPart': set(['GO_BiologicalProcess', 'GO_MolecularFunction']),
-            'componentOf': set(['GO_BiologicalProcess']),
-            'instanceOf': set(['GO_BiologicalProcess']),
-            'regulate': set(['GO_MolecularFunction', 'GO_BiologicalProcess']),
-            'negativelyRegulate': set(['GO_MolecularFunction', 'GO_BiologicalProcess']),
-            'positivelyRegulate': set(['GO_MolecularFunction', 'GO_BiologicalProcess']),
+            'hasPart': frozenset(['GO_BiologicalProcess', 'GO_MolecularFunction']),
+            'componentOf': frozenset(['GO_BiologicalProcess']),
+            'instanceOf': frozenset(['GO_BiologicalProcess']),
+            'regulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
+            'negativelyRegulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
+            'positivelyRegulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
         }
     }
 

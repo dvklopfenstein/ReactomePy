@@ -19,11 +19,17 @@ class CatalystActivity(DatabaseObject):
     # params: dbId schemaName displayName
 
     relationships = {
-        'activity': set(['GO_MolecularFunction']),
+        'activity': frozenset(['GO_MolecularFunction']),
 
-        'activeUnit': set(['Complex', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'EntityWithAccessionedSequence']),
-        # 'physicalEntity': set(['PhysicalEntity']),
-        'physicalEntity': set(['Complex', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'OtherEntity', 'Polymer', 'EntityWithAccessionedSequence']),
+        'activeUnit': frozenset([
+            'CandidateSet', 'DefinedSet',
+            'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+            'Complex']),
+        # 'physicalEntity': frozenset(['PhysicalEntity']),
+        'physicalEntity': frozenset([
+            'CandidateSet', 'DefinedSet',
+            'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+            'Complex', 'OtherEntity', 'Polymer']),
     }
 
     def __init__(self):

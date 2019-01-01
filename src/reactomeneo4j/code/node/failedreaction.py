@@ -32,18 +32,21 @@ class FailedReaction(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'inferredTo': set(['FailedReaction']),
-            'entityFunctionalStatus': set(['EntityFunctionalStatus']),
-            'normalReaction': set(['Reaction', 'BlackBoxEvent']),
+            'literatureReference': frozenset(['LiteratureReference']),
+            'inferredTo': frozenset(['FailedReaction']),
+            'entityFunctionalStatus': frozenset(['EntityFunctionalStatus']),
+            'normalReaction': frozenset(['Reaction', 'BlackBoxEvent']),
 
-            # 'entityOnOtherCell': set(['PhysicalEntity']),
-            'entityOnOtherCell': set(['EntityWithAccessionedSequence']),
-            'input': set(['SimpleEntity', 'Complex', 'CandidateSet', 'GenomeEncodedEntity', 'DefinedSet', 'OtherEntity', 'Polymer', 'EntityWithAccessionedSequence']),
-            'output': set(['Complex', 'EntityWithAccessionedSequence']),
-            'precedingEvent': set(['Reaction']),
-            # 'regulatedBy': set(['Regulation']),
-            'regulatedBy': set(['NegativeRegulation']),
+            # 'entityOnOtherCell': frozenset(['PhysicalEntity']),
+            'entityOnOtherCell': frozenset(['EntityWithAccessionedSequence']),
+            'input': frozenset([
+                'CandidateSet', 'DefinedSet',
+                'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                'SimpleEntity', 'Complex', 'OtherEntity', 'Polymer']),
+            'output': frozenset(['Complex', 'EntityWithAccessionedSequence']),
+            'precedingEvent': frozenset(['Reaction']),
+            # 'regulatedBy': frozenset(['Regulation']),
+            'regulatedBy': frozenset(['NegativeRegulation']),
         }
     }
 

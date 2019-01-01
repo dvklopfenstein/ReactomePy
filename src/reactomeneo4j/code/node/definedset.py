@@ -44,16 +44,16 @@ class DefinedSet(EntitySet):
     relationships = {
         **EntitySet.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'URL']),
-            'figure': set(['Figure']),
-            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
-            'hasMember': set(['DefinedSet', 'CandidateSet', 'OpenSet',
-                              'ChemicalDrug', 'ProteinDrug',
-                              'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                              'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
-            'inferredTo': set(['DefinedSet', 'CandidateSet',
-                               'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                               'Complex', 'Polymer']),
+            'literatureReference': frozenset(['LiteratureReference', 'URL']),
+            'figure': frozenset(['Figure']),
+            'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
+            'hasMember': frozenset(['DefinedSet', 'CandidateSet', 'OpenSet',
+                                    'ChemicalDrug', 'ProteinDrug',
+                                    'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                                    'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
+            'inferredTo': frozenset(['DefinedSet', 'CandidateSet',
+                                     'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                                     'Complex', 'Polymer']),
         }
     }
 

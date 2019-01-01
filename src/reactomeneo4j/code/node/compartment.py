@@ -12,19 +12,19 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.node.go_cellularcomponent import GO_CellularComponent
+from reactomeneo4j.code.node.go_cellularcomponent import GOCellularComponent
 
 
 # pylint: disable=too-few-public-methods
-class Compartment(GO_CellularComponent):
+class Compartment(GOCellularComponent):
     """Params seen on all Physical Entities."""
 
     # params: dbId schemaClass displayName | accession databaseName definition name url
 
     relationships = {
-        **GO_CellularComponent.relationships,
+        **GOCellularComponent.relationships,
         **{
-            'hasPart': set(['GO_CellularComponent']),
+            'hasPart': frozenset(['GO_CellularComponent']),
         }
     }
 

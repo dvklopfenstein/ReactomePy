@@ -32,13 +32,16 @@ class Depolymerisation(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'inferredTo': set(['Depolymerisation']),
-            'evidenceType': set(['EvidenceType']),
+            'literatureReference': frozenset(['LiteratureReference']),
+            'inferredTo': frozenset(['Depolymerisation']),
+            'evidenceType': frozenset(['EvidenceType']),
 
-            'input': set(['SimpleEntity', 'Complex', 'Polymer']),
-            'output': set(['SimpleEntity', 'Complex', 'CandidateSet', 'DefinedSet', 'Polymer', 'EntityWithAccessionedSequence']),
-            'precedingEvent': set(['Reaction']),
+            'input': frozenset(['SimpleEntity', 'Complex', 'Polymer']),
+            'output': frozenset([
+                'CandidateSet', 'DefinedSet',
+                'EntityWithAccessionedSequence',
+                'SimpleEntity', 'Complex', 'Polymer']),
+            'precedingEvent': frozenset(['Reaction']),
         }
     }
 

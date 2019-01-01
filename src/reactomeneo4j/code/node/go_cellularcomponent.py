@@ -24,9 +24,9 @@ class GOCellularComponent(GOTerm):
     relationships = {
         **GOTerm.relationships,
         **{
-            'hasPart': set(['Compartment', 'GO_CellularComponent']),
-            'componentOf': set(['Compartment', 'GO_CellularComponent']),
-            'instanceOf': set(['Compartment', 'GO_CellularComponent']),
+            'hasPart': frozenset(['Compartment', 'GO_CellularComponent']),
+            'componentOf': frozenset(['Compartment', 'GO_CellularComponent']),
+            'instanceOf': frozenset(['Compartment', 'GO_CellularComponent']),
         }
     }
 

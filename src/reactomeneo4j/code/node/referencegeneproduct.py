@@ -39,7 +39,7 @@ class ReferenceGeneProduct(ReferenceSequence):
     relationships = {
         **ReferenceSequence.relationships,
         **{
-            'referenceTranscript': set(['ReferenceRNASequence']),
+            'referenceTranscript': frozenset(['ReferenceRNASequence']),
         }
     }
 

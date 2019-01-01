@@ -42,10 +42,10 @@ class SimpleEntity(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'Book']),
-            'figure': set(['Figure']),
-            'referenceEntity': set(['ReferenceMolecule']),
-            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+            'literatureReference': frozenset(['LiteratureReference', 'Book']),
+            'figure': frozenset(['Figure']),
+            'referenceEntity': frozenset(['ReferenceMolecule']),
+            'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
         }
     }
 

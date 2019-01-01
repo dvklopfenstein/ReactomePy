@@ -32,13 +32,16 @@ class Polymerisation(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'inferredTo': set(['Polymerisation', 'BlackBoxEvent']),
-            'requiredInputComponent': set(['Complex', 'EntityWithAccessionedSequence']),
-            'evidenceType': set(['EvidenceType']),
-            'input': set(['Complex', 'SimpleEntity', 'CandidateSet', 'DefinedSet', 'Polymer', 'EntityWithAccessionedSequence']),
-            'output': set(['Complex', 'SimpleEntity', 'CandidateSet', 'DefinedSet', 'Polymer']),
-            'precedingEvent': set(['Polymerisation', 'BlackBoxEvent', 'Reaction']),
+            'literatureReference': frozenset(['LiteratureReference']),
+            'inferredTo': frozenset(['Polymerisation', 'BlackBoxEvent']),
+            'requiredInputComponent': frozenset(['Complex', 'EntityWithAccessionedSequence']),
+            'evidenceType': frozenset(['EvidenceType']),
+            'input': frozenset(['CandidateSet', 'DefinedSet',
+                                'EntityWithAccessionedSequence',
+                                'Complex', 'SimpleEntity', 'Polymer']),
+            'output': frozenset(['CandidateSet', 'DefinedSet',
+                                 'Complex', 'SimpleEntity', 'Polymer']),
+            'precedingEvent': frozenset(['Polymerisation', 'BlackBoxEvent', 'Reaction']),
         }
     }
 

@@ -32,8 +32,8 @@ class ChemicalDrug(Drug):
     relationships = {
         **Drug.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'referenceEntity': set(['ReferenceMolecule']),
+            'literatureReference': frozenset(['LiteratureReference']),
+            'referenceEntity': frozenset(['ReferenceMolecule']),
         }
     }
 

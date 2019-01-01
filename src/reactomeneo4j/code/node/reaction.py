@@ -33,45 +33,45 @@ class Reaction(ReactionLikeEvent):
     relationships = {
         **ReactionLikeEvent.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'Book', 'URL']),
-            'inferredTo': set(['Reaction', 'BlackBoxEvent']),
-            'figure': set(['Figure']),
-            'entityFunctionalStatus': set(['EntityFunctionalStatus']),
-            'crossReference': set(['DatabaseIdentifier']),
-            'reverseReaction': set(['Reaction']),
-            'normalReaction': set(['Reaction']),
-            'goBiologicalProcess': set(['GO_BiologicalProcess']),
-            'evidenceType': set(['EvidenceType']),
+            'literatureReference': frozenset(['LiteratureReference', 'Book', 'URL']),
+            'inferredTo': frozenset(['Reaction', 'BlackBoxEvent']),
+            'figure': frozenset(['Figure']),
+            'entityFunctionalStatus': frozenset(['EntityFunctionalStatus']),
+            'crossReference': frozenset(['DatabaseIdentifier']),
+            'reverseReaction': frozenset(['Reaction']),
+            'normalReaction': frozenset(['Reaction']),
+            'goBiologicalProcess': frozenset(['GO_BiologicalProcess']),
+            'evidenceType': frozenset(['EvidenceType']),
 
-            # 'entityOnOtherCell': set(['PhysicalEntity']),
-            'entityOnOtherCell': set([
+            # 'entityOnOtherCell': frozenset(['PhysicalEntity']),
+            'entityOnOtherCell': frozenset([
                 'CandidateSet', 'DefinedSet',
                 'EntityWithAccessionedSequence',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
-            'input': set([
+            'input': frozenset([
                 'CandidateSet', 'DefinedSet',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'ChemicalDrug',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
-            'output': set([
+            'output': frozenset([
                 'CandidateSet', 'DefinedSet',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
-            'precedingEvent': set([
+            'precedingEvent': frozenset([
                 'BlackBoxEvent',
                 'Polymerisation',
                 'Depolymerisation',
                 'Reaction',
                 'Pathway']),
-            # 'regulatedBy': set(['Regulation']),
-            'regulatedBy': set([
+            # 'regulatedBy': frozenset(['Regulation']),
+            'regulatedBy': frozenset([
                 'PositiveRegulation',
                 'PositiveGeneExpressionRegulation',
                 'Requirement',
                 'NegativeRegulation',
                 'NegativeGeneExpressionRegulation']),
-            # 'requiredInputComponent': set(['PhysicalEntity']),
-            'requiredInputComponent': set([
+            # 'requiredInputComponent': frozenset(['PhysicalEntity']),
+            'requiredInputComponent': frozenset([
                 'CandidateSet',
                 'EntityWithAccessionedSequence',
                 'Complex', 'OtherEntity', 'SimpleEntity']),

@@ -46,12 +46,12 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
     relationships = {
         **GenomeEncodedEntity.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'Book']),
-            'inferredTo': set(['DefinedSet',
-                               'GenomeEncodedEntity', 'EntityWithAccessionedSequence']),
-            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
-            # 'hasModifiedResidue': set(['AbstractModifiedResidue']),
-            'hasModifiedResidue': set([
+            'literatureReference': frozenset(['LiteratureReference', 'Book']),
+            'inferredTo': frozenset(['DefinedSet',
+                                     'GenomeEncodedEntity', 'EntityWithAccessionedSequence']),
+            'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
+            # 'hasModifiedResidue': frozenset(['AbstractModifiedResidue']),
+            'hasModifiedResidue': frozenset([
                 'FragmentDeletionModification',
                 'FragmentInsertionModification',
                 'FragmentReplacedModification',
@@ -60,8 +60,8 @@ class EntityWithAccessionedSequence(GenomeEncodedEntity):
                 'IntraChainCrosslinkedResidue',
                 'GroupModifiedResidue',
                 'ModifiedResidue']),
-            # 'referenceEntity': set(['ReferenceSequence']),
-            'referenceEntity': set([
+            # 'referenceEntity': frozenset(['ReferenceSequence']),
+            'referenceEntity': frozenset([
                 'ReferenceGeneProduct',
                 'ReferenceIsoform',
                 'ReferenceDNASequence',

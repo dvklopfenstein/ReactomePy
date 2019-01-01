@@ -58,18 +58,18 @@ class Event(DatabaseObject):
     prtfmt = '{stId:13} {schemaClass:17} {aart} {abc} {releaseDate} {displayName}'
 
     relationships = {
-        #'literatureReference': set(['Publication']),
-        #'precedingEvent'     : set(['Event']),
-        'compartment'        : set(['Compartment']),
-        #'goBiologicalProcess': set(['GO_BiologicalProcess']),
-        'disease'            : set(['Disease']),
-        #'inferredTo'         : set(['Event']),
-        'species'            : set(['Species']),
-        #'relatedSpecies'     : set(['Species']),
-        'summation'          : set(['Summation']),
-        #'figure'             : set(['Figure']),
-        #'evidenceType'       : set(['EvidenceType']),
-        #'crossReference'     : set(['DatabaseIdentifier']),
+        #'literatureReference': frozenset(['Publication']),
+        #'precedingEvent'     : frozenset(['Event']),
+        'compartment'        : frozenset(['Compartment']),
+        #'goBiologicalProcess': frozenset(['GO_BiologicalProcess']),
+        'disease'            : frozenset(['Disease']),
+        #'inferredTo'         : frozenset(['Event']),
+        'species'            : frozenset(['Species']),
+        #'relatedSpecies'     : frozenset(['Species']),
+        'summation'          : frozenset(['Summation']),
+        #'figure'             : frozenset(['Figure']),
+        #'evidenceType'       : frozenset(['EvidenceType']),
+        #'crossReference'     : frozenset(['DatabaseIdentifier']),
     }
 
     flds_last = ' aart abc optional'

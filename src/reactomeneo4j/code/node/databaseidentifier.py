@@ -24,7 +24,7 @@ class DatabaseIdentifier(DatabaseObject):
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        'referenceDatabase': set(['ReferenceDatabase']),
+        'referenceDatabase': frozenset(['ReferenceDatabase']),
     }
 
     def __init__(self):

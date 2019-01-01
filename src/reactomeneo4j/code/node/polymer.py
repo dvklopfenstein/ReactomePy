@@ -38,15 +38,15 @@ class Polymer(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'species': set(['Species']),
-            'inferredTo': set(['Polymer']),
-            # 'repeatedUnit': set(['PhysicalEntity']),
-            'repeatedUnit': set([
+            'literatureReference': frozenset(['LiteratureReference']),
+            'species': frozenset(['Species']),
+            'inferredTo': frozenset(['Polymer']),
+            # 'repeatedUnit': frozenset(['PhysicalEntity']),
+            'repeatedUnit': frozenset([
                 'CandidateSet', 'DefinedSet',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'Complex', 'Polymer', 'SimpleEntity']),
-            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+            'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
         }
     }
 

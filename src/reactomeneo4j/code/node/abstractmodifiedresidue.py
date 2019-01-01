@@ -14,7 +14,6 @@
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
 
-pylint: disable=line-too-long
 78,581 AbstractModifiedResidue:
 3006 InterChainCrosslinkedResidue  388 3006  0.1291 secondCoordinate
  329 IntraChainCrosslinkedResidue   49  329  0.1489 secondCoordinate
@@ -44,10 +43,10 @@ class AbstractModifiedResidue(DatabaseObject):
     params_opt = DatabaseObject.params_opt + ('coordinate',)
 
     relationships = {
-        #'referenceSequence': set(['ReferenceSequence']),
-        #'secondReferenceSequence': set(['ReferenceSequence']),
-        #'modification': set(['PhysicalEntity', 'ReferenceEntity']),
-        #'psiMod': set(['PsiMod']),
+        #'referenceSequence': frozenset(['ReferenceSequence']),
+        #'secondReferenceSequence': frozenset(['ReferenceSequence']),
+        #'modification': frozenset(['PhysicalEntity', 'ReferenceEntity']),
+        #'psiMod': frozenset(['PsiMod']),
     }
 
     def __init__(self, name='AbstractModifiedResidue'):

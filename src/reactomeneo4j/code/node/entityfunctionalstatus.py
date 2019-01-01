@@ -17,8 +17,9 @@ class EntityFunctionalStatus(DatabaseObject):
     # params: dbId schemaName displayName
 
     relationships = {
-        'physicalEntity': set(['CandidateSet', 'DefinedSet', 'EntityWithAccessionedSequence', 'Complex']),
-        'functionalStatus': set(['FunctionalStatus']),
+        'physicalEntity': frozenset(['CandidateSet', 'DefinedSet',
+                                     'EntityWithAccessionedSequence', 'Complex']),
+        'functionalStatus': frozenset(['FunctionalStatus']),
     }
 
     def __init__(self):

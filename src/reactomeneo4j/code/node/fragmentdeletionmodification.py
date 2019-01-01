@@ -32,7 +32,8 @@ class FragmentDeletionModification(FragmentModification):
     relationships = {
         **FragmentModification.relationships,
         **{
-            'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceDNASequence', 'ReferenceIsoform']),
+            'referenceSequence': frozenset(['ReferenceGeneProduct', 'ReferenceIsoform',
+                                            'ReferenceDNASequence']),
         }
     }
 

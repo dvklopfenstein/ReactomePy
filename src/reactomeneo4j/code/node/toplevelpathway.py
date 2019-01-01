@@ -43,13 +43,13 @@ class TopLevelPathway(Event):
     relationships = {
         **Event.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'Book']),
-            'inferredTo': set(['TopLevelPathway']),
-            'figure': set(['Figure']),
-            'hasEvent': set(['Reaction', 'BlackBoxEvent', 'Pathway']),
-            'hasEncapsulatedEvent': set(['Pathway', 'TopLevelPathway']),
-            'goBiologicalProcess': set(['GO_BiologicalProcess']),
-            'evidenceType': set(['EvidenceType']),
+            'literatureReference': frozenset(['LiteratureReference', 'Book']),
+            'inferredTo': frozenset(['TopLevelPathway']),
+            'figure': frozenset(['Figure']),
+            'hasEvent': frozenset(['Reaction', 'BlackBoxEvent', 'Pathway']),
+            'hasEncapsulatedEvent': frozenset(['Pathway', 'TopLevelPathway']),
+            'goBiologicalProcess': frozenset(['GO_BiologicalProcess']),
+            'evidenceType': frozenset(['EvidenceType']),
         }
     }
 

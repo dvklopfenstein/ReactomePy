@@ -50,10 +50,10 @@ class GenomeEncodedEntity(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'species': set(['Species']),
-            'inferredTo': set(['GenomeEncodedEntity']),
-            'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
+            'literatureReference': frozenset(['LiteratureReference']),
+            'species': frozenset(['Species']),
+            'inferredTo': frozenset(['GenomeEncodedEntity']),
+            'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
         }
     }
 

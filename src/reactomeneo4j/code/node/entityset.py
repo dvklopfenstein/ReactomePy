@@ -45,8 +45,8 @@ class EntitySet(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
-            'species': set(['Species']),
-            'relatedSpecies': set(['Species']),
+            'species': frozenset(['Species']),
+            'relatedSpecies': frozenset(['Species']),
         }
     }
 

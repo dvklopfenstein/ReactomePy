@@ -31,12 +31,12 @@ class InstanceEdit(DatabaseObject):
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        'created' : set(['DatabaseObject']),
-        'modified': set(['DatabaseObject']),
-        'authored': set(['PhysicalEntity', 'Event']),
-        'edited'  : set(['PhysicalEntity', 'Event']),
-        'reviewed': set(['PhysicalEntity', 'Event']),
-        'revised' : set(['PhysicalEntity', 'Event']),
+        'created' : frozenset(['DatabaseObject']),
+        'modified': frozenset(['DatabaseObject']),
+        'authored': frozenset(['PhysicalEntity', 'Event']),
+        'edited'  : frozenset(['PhysicalEntity', 'Event']),
+        'reviewed': frozenset(['PhysicalEntity', 'Event']),
+        'revised' : frozenset(['PhysicalEntity', 'Event']),
 
 
     }

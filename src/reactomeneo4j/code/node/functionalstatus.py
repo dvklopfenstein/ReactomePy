@@ -17,9 +17,9 @@ class FunctionalStatus(DatabaseObject):
     # params: dbId schemaClass displayName
 
     relationships = {
-        'referenceDatabase': set(['ReferenceDatabase']),
-        'functionalStatusType': set(['FunctionalStatusType']),
-        'structuralVariant': set(['SequenceOntology']),
+        'referenceDatabase': frozenset(['ReferenceDatabase']),
+        'functionalStatusType': frozenset(['FunctionalStatusType']),
+        'structuralVariant': frozenset(['SequenceOntology']),
     }
 
     def __init__(self):

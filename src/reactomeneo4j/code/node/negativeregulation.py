@@ -49,10 +49,10 @@ class NegativeRegulation(Regulation):
     relationships = {
         **Regulation.relationships,
         **{
-            'regulator': set(['CandidateSet', 'DefinedSet',
-                              'ChemicalDrug',
-                              'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                              'Complex', 'Polymer', 'SimpleEntity']),
+            'regulator': frozenset(['CandidateSet', 'DefinedSet',
+                                    'ChemicalDrug',
+                                    'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                                    'Complex', 'Polymer', 'SimpleEntity']),
         }
     }
 

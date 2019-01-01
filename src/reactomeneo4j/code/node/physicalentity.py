@@ -69,17 +69,17 @@ class PhysicalEntity(DatabaseObject):
     prtfmt = '{stId:13} {schemaClass:17} {aart} {abc} {displayName}'
 
     relationships = {
-        #'literatureReference': set(['Publication']),
-        'crossReference'     : set(['DatabaseIdentifier']),
-        'compartment'        : set(['Compartment']),
-        #'goCellularComponent': set(['GO_CellularComponent', 'Compartment']),
-        'disease'            : set(['Disease']),
-        #'inferredTo'         : set(['PhysicalEntity']),
-        #'species'            : set(['Species']),
-        #'relatedSpecies'     : set(['Species']),
-        'summation'          : set(['Summation']),
-        #'referenceEntity'    : set(['ReferenceEntity']),
-        #'figure'             : set(['Figure']),
+        #'literatureReference': frozenset(['Publication']),
+        'crossReference'     : frozenset(['DatabaseIdentifier']),
+        'compartment'        : frozenset(['Compartment']),
+        #'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
+        'disease'            : frozenset(['Disease']),
+        #'inferredTo'         : frozenset(['PhysicalEntity']),
+        #'species'            : frozenset(['Species']),
+        #'relatedSpecies'     : frozenset(['Species']),
+        'summation'          : frozenset(['Summation']),
+        #'referenceEntity'    : frozenset(['ReferenceEntity']),
+        #'figure'             : frozenset(['Figure']),
     }
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' aart abc optional')

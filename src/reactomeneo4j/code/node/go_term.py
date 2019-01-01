@@ -34,13 +34,13 @@ class GOTerm(DatabaseObject):
     prtfmt = '{NS} {databaseName}:{accession} {name} -> {definition}'
 
     relationships = {
-        'referenceDatabase': set(['ReferenceDatabase']),
-        #'hasPart': set(['GO_Term']),
-        #'componentOf': set(['GO_Term']),
-        #'instanceOf': set(['GO_Term']),
-        #'regulate': set(['GO_Term']),
-        #'negativelyRegulate': set(['GO_Term']),
-        #'positivelyRegulate': set(['GO_Term']),
+        'referenceDatabase': frozenset(['ReferenceDatabase']),
+        #'hasPart': frozenset(['GO_Term']),
+        #'componentOf': frozenset(['GO_Term']),
+        #'instanceOf': frozenset(['GO_Term']),
+        #'regulate': frozenset(['GO_Term']),
+        #'negativelyRegulate': frozenset(['GO_Term']),
+        #'positivelyRegulate': frozenset(['GO_Term']),
     }
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' NS optional')

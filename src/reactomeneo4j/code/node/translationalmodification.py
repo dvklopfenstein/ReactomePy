@@ -13,8 +13,6 @@
 > ---- IntraChainTranslationalModification (dcnt=0)
 > --- GroupModifiedResidue (dcnt=0)
 > --- ModifiedResidue (dcnt=0)
-
-78,581 AbstractModifiedResidue 95 FragmentReplacedModification 86 95 0.9053 alteredAminoAcidFragment
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -34,7 +32,7 @@ class TranslationalModification(AbstractModifiedResidue):
     relationships = {
         **AbstractModifiedResidue.relationships,
         **{
-            'psiMod': set(['PsiMod']),
+            'psiMod': frozenset(['PsiMod']),
         }
     }
 

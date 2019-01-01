@@ -25,8 +25,8 @@ class UndirectedInteraction(DatabaseObject):
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        'referenceDatabase': set(['ReferenceDatabase']),
-        'interactor': set(['ReferenceMolecule', 'ReferenceGeneProduct', 'ReferenceIsoform']),
+        'referenceDatabase': frozenset(['ReferenceDatabase']),
+        'interactor': frozenset(['ReferenceMolecule', 'ReferenceGeneProduct', 'ReferenceIsoform']),
     }
 
     def __init__(self):

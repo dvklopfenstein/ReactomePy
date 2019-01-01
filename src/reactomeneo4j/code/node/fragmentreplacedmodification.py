@@ -32,7 +32,7 @@ class FragmentReplacedModification(FragmentModification):
     relationships = {
         **FragmentModification.relationships,
         **{
-            'referenceSequence': set(['ReferenceGeneProduct', 'ReferenceIsoform']),
+            'referenceSequence': frozenset(['ReferenceGeneProduct', 'ReferenceIsoform']),
         }
     }
 

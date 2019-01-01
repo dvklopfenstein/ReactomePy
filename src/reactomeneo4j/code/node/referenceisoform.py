@@ -33,7 +33,7 @@ class ReferenceIsoform(ReferenceGeneProduct):
     relationships = {
         **ReferenceGeneProduct.relationships,
         **{
-            'isoformParent': set(['ReferenceGeneProduct']),
+            'isoformParent': frozenset(['ReferenceGeneProduct']),
         }
     }
 

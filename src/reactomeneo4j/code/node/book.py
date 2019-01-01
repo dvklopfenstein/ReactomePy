@@ -36,7 +36,7 @@ class Book(Publication):
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
-        'publisher': set(['Affiliation']),
+        'publisher': frozenset(['Affiliation']),
     }
 
     def __init__(self):

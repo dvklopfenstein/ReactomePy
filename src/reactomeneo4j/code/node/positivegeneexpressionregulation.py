@@ -49,8 +49,8 @@ class PositiveGeneExpressionRegulation(PositiveRegulation):
     relationships = {
         **PositiveRegulation.relationships,
         **{
-            'literatureReference': set(['LiteratureReference']),
-            'regulator': set([#'CandidateSet', 'DefinedSet',
+            'literatureReference': frozenset(['LiteratureReference']),
+            'regulator': frozenset([#'CandidateSet', 'DefinedSet',
                 'DefinedSet',
                 'EntityWithAccessionedSequence',
                 'Complex',

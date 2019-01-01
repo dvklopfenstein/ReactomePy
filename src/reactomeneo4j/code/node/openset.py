@@ -48,10 +48,10 @@ class OpenSet(EntitySet):
     relationships = {
         **EntitySet.relationships,
         **{
-            'referenceEntity'    : set(['ReferenceMolecule']),
-            'goCellularComponent': set(['GO_CellularComponent']),
-            'hasMember': set(['Polymer', 'EntityWithAccessionedSequence']),
-            'inferredTo': set(['OpenSet']),
+            'referenceEntity'    : frozenset(['ReferenceMolecule']),
+            'goCellularComponent': frozenset(['GO_CellularComponent']),
+            'hasMember': frozenset(['Polymer', 'EntityWithAccessionedSequence']),
+            'inferredTo': frozenset(['OpenSet']),
         }
     }
 

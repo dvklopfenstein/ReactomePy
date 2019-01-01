@@ -45,20 +45,20 @@ class CandidateSet(EntitySet):
     relationships = {
         **EntitySet.relationships,
         **{
-            'literatureReference': set(['LiteratureReference', 'URL', 'Book']),
-            # 'hasCandidate': set(['PhysicalEntity']),
-            'hasCandidate': set([
+            'literatureReference': frozenset(['LiteratureReference', 'URL', 'Book']),
+            # 'hasCandidate': frozenset(['PhysicalEntity']),
+            'hasCandidate': frozenset([
                 'CandidateSet', 'DefinedSet',
                 'ChemicalDrug',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'Complex', 'Polymer', 'SimpleEntity']),
-            'hasMember': set(['CandidateSet', 'DefinedSet',
-                              'ChemicalDrug',
-                              'EntityWithAccessionedSequence',
-                              'Complex', 'Polymer', 'SimpleEntity']),
-            'inferredTo': set(['CandidateSet', 'DefinedSet',
-                               'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                               'Complex']),
+            'hasMember': frozenset(['CandidateSet', 'DefinedSet',
+                                    'ChemicalDrug',
+                                    'EntityWithAccessionedSequence',
+                                    'Complex', 'Polymer', 'SimpleEntity']),
+            'inferredTo': frozenset(['CandidateSet', 'DefinedSet',
+                                     'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                                     'Complex']),
         }
     }
 
