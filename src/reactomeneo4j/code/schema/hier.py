@@ -9,6 +9,7 @@ import sys
 # import os
 from collections import namedtuple
 ## from dvkbiodnld.data.hgnc.famid2name import FAMILYID2NAME
+from reactomeneo4j.code.schema.data_schema import ITEM2CHILDREN
 from reactomeneo4j.code.schema.hier_init import Init
 from PyBiocode.graph.hier_wr import WrHier
 
@@ -17,7 +18,7 @@ class DataSchemaHier(object):
     """Hold all data schema name hierarchies."""
 
     def __init__(self):
-        self.name2obj = Init().name2obj
+        self.name2obj = Init(ITEM2CHILDREN).name2obj
 
     def prt_data_schema_all(self, prt, **kws):
         """Print all data schema in a readable format."""

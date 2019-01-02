@@ -93,6 +93,13 @@ class NodeHier():
         return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels,
                 'query':query, 'src_dbids':src_dbids}
 
+    @staticmethod
+    def get_query(rels, paramstr, qrypat):
+        """Get query to return all lower-level nodes."""
+        query = qrypat.replace('PARAMS', paramstr)
+        query = query.replace('RELS', '|'.join(sorted(rels)))
+        return query
+
     def get_dbid2dct(self, dbid2node, exact=True):
         """Find user-specfied Node and return it and all Nodes below it."""
         dbid2dct = self.get_relationship_dcts(dbid2node)
@@ -214,13 +221,6 @@ class NodeHier():
         rels = get_relationships_lte(schemaclass)
         rels.difference_update(self.excl_rel)
         return rels
-
-    @staticmethod
-    def get_query(rels, paramstr, qrypat):
-        """Get query to return all lower-level nodes."""
-        query = qrypat.replace('PARAMS', paramstr)
-        query = query.replace('RELS', '|'.join(sorted(rels)))
-        return query
 
     @staticmethod
     def getstr_dct(dct):
