@@ -3,6 +3,7 @@
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+import sys
 import timeit
 import datetime
 import collections as cx
@@ -33,6 +34,10 @@ def get_args(docstr, fields):
         'neo4j_username': '--neo4j_username',
         'neo4j_password': '<neo4j_password>',
     }
+    # If user provided no options, print help screen
+    if len(sys.argv) == 1 and 'neo4j_password' in fields:
+        sys.argv.append('-h')
+    # Get user args matching doc-string
     args = docopt(docstr)
     dct = {}
     for usrfld in fields:
