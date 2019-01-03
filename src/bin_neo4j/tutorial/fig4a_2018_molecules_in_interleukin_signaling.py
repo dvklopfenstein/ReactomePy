@@ -4,6 +4,13 @@
 From Figure 4a in:
     Reactome graph database: Efficient access to complex pathway data
     https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968
+
+Usage: test_args.py <neo4j_password> [options]
+
+Options:
+  -h --help  Show usage
+  -u --neo4j_username=USER  Neo4j Reactome username [default: neo4j]
+  --url=URL                 Neo4j Reactome local url [default: bolt://localhost:7687]
 """
 
 from __future__ import print_function
@@ -11,11 +18,11 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-import sys
 from neo4j import GraphDatabase
+from reactomeneo4j.code.utils import get_args
 
 # pylint: disable=line-too-long
-def main(password):
+def main():
     """Which molecules participate in Interleukin-4 and 13 signaling (R-HSA-678-6785807?"""
     fout_txt = 'fig4a_pathway_molecules_IL_sig_R-HSA-6785807.txt'
 
@@ -25,7 +32,7 @@ def main(password):
            '(pe)-[:referenceEntity]->(re:ReferenceEntity)-[:referenceDatabase]->(rd:ReferenceDatabase) '
            'RETURN DISTINCT re.identifier AS Identifier, rd.displayName AS Database')
 
-    data = _get_data(qry, password)
+    data = _get_data(qry)
     with open(fout_txt, 'w') as prt:
         _prt_data(data, prt)
         print('  WROTE: {TXT}'.format(TXT=fout_txt))
@@ -41,15 +48,15 @@ def _prt_data(data, prt):
         prt.write('{Identifier:15} {Database}\n'.format(**dct))
     print(msg)
 
-def _get_data(qry, password):
+def _get_data(qry):
     """Get the Participating molecules for a pathway."""
-    gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    ntargs = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
+    gdbdr = GraphDatabase.driver(ntargs.url, auth=(ntargs.neo4j_username, ntargs.neo4j_password))
     with gdbdr.session() as session:
         return [rec.data() for rec in session.run(qry).records()]
 
 
 if __name__ == '__main__':
-    assert len(sys.argv) != 1, 'First arg must be your Neo4j database password'
-    main(sys.argv[1])
+    main()
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
