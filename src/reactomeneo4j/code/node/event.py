@@ -55,7 +55,7 @@ class Event(DatabaseObject):
     params_opt = ('oldStId', 'releaseStatus')
     datefmt = '%Y-%m-%d'
 
-    prtfmt = '{stId:13} {schemaClass:17} {aart} {abc} {releaseDate} {displayName}'
+    prtfmt = '{dbId:8} {stId:13} {schemaClass:17} {aart} {abc} {releaseDate} {displayName}'
 
     relationships = {
         #'literatureReference': frozenset(['Publication']),
