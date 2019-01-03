@@ -8,7 +8,7 @@ __author__ = "DV Klopfenstein"
 import collections as cx
 #### from reactomeneo4j.code.schema.data_schema import ITEM2CHILDREN
 #### from dvkbiodnld.data.hgnc.famid2name import FAMILYID2NAME
-from reactomeneo4j.code.schema.node import DataSchemaNode
+#### from reactomeneo4j.code.schema.node import DataSchemaNode
 from goatools.godag.go_tasks import get_id2children
 from goatools.godag.go_tasks import get_id2parents
 
@@ -17,7 +17,7 @@ from goatools.godag.go_tasks import get_id2parents
 class Init(object):
     """Initializes Reactome data schema objects."""
 
-    def __init__(self, item2children):
+    def __init__(self, item2children, DataSchemaNode):
         _child2parents = self._get_child2parents(item2children)
         _names = set(item2children).union(_child2parents)
         self.name2obj = {name:DataSchemaNode(name) for name in _names}
