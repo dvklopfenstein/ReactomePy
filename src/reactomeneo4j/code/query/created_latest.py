@@ -30,41 +30,17 @@ class CreatedLatest():
         self.gdbdr = gdbdr
         self.objng = NodeGetter(gdbdr)
 
-    # def _get_fig2nt(self):
-    #     """Create Figure data using associated: InstanceEdit Person."""
-    #     _ng = self.objng
-    #     fig2url = _ng.get_dbid2val('MATCH (f:Figure) RETURN f.dbId AS dbId, f.url AS val')
-    #     fig2edits = _ng.get_dbid2set('MATCH (e:InstanceEdit)-[r]->(f:Figure) RETURN f.dbId AS dbId, e.dbId AS val')
-    #     # Given InstanceEdit dbIds, get Persons who author
-    #     editids = set(e for es in fig2edits.values() for e in es)
-    #     edit2authors = self.get_edit2person(editids)
-    #     # Given author Person dbIds, get author names
-    #     figid2ntedit = self._get_editdates(edit2authors, auid2name)  # created/modified dateTime authors
-    #     fig2ntdct = self._get_edits(figid2ntedit)
-    #     # Combine Figure information from Figure, ->InstanceEdit, and [author]->(Person)
-    #     fig2nt = {}
-    #     ntobj = cx.namedtuple('NtFig', 'dbId url created last_modified author')
-    #     for fid, url in fig2url.items():
-    #         pass
-    #     return fig2nt
+    def get_editid2authors(self, dbids_instanceedit):
+        """Create Figure data using associated: InstanceEdit Person."""
+        # Given InstanceEdit dbIds, get Persons who author
+        edit2auids = self._get_edit2person(dbids_instanceedit, sys.stdout)
+        # Given author Person dbIds, get author names
+        auids = set(au for aus in edit2auids.values() for au in aus)
+        auid2names = self._get_auid2names(auids)
+        # editid2authors: Return InstanceEdit dbId -> Authornames
+        return {editid:frozenset(auid2names[a] for a in auids) for editid, auids in edit2auids.items()}
 
-    def get_auid2names(self, person_dbids):
-        """Get the Person names, fiven Person dbIds."""
-        qrypat = ('WITH [{IDs}] AS dbIds_Person MATCH (person:Person) WHERE person.dbId in dbIds_Person '
-                  'RETURN person.dbId AS dbId, person.displayName AS val')
-        query = qrypat.format(IDs=', '.join(sorted(set(str(au) for au in person_dbids))))
-        return self.objng.get_dbid2val(query)  # auid2names
-
-    def get_edit2person(self, edit_dbids, prt=sys.stdout):
-        """Get the Person(s) who author for a set of InstanceEdit dbIds."""
-        qrypat = ('WITH [{IDs}] AS dbIds_InstanceEdit '
-                  'MATCH (person:Person)-[:author]->(instanceedit:InstanceEdit) '
-                  'WHERE instanceedit.dbId IN dbIds_InstanceEdit '
-                  'RETURN person.dbId AS val, instanceedit.dbId AS dbId')
-        query = qrypat.format(IDs=', '.join(set(str(e) for e in edit_dbids)))
-        return self.objng.get_dbid2set(query, prt)  # InstanceEdit.dbId->set(Person.dbId)
-
-    def get_editdates(self, dststr, edit2auid, auid2name):
+    def get_editdates(self, dststr, edit2authors):
         """Get ALL edit dates for user-nodes."""
         qrypat = 'MATCH (e:InstanceEdit)-[r]->(dst:{DST}) RETURN e, type(r) AS rtyp, dst.dbId AS dbId'
         query = qrypat.format(DST=dststr)
@@ -74,7 +50,7 @@ class CreatedLatest():
         with self.gdbdr.session() as session:
             for rec in session.run(query).records():
                 dbid_edit = rec['e']['dbId']
-                authors = frozenset(auid2name[auid] for auid in edit2auid[dbid_edit])
+                authors = edit2authors[dbid_edit]
                 rel = rec['rtyp']
                 editnode = Neo4jNode(rec['e'])
                 ntd = ntobj(year=editnode.ntp.dateTime.year, authors=authors)
@@ -114,6 +90,22 @@ class CreatedLatest():
                 date_au.add(dct['modified'])
         print('  {HMS} {N:,} UNIQUE EDIT AUTHOR DATES'.format(HMS=get_hms(self.tic), N=len(date_au)))
         return sorted(date_au, key=lambda nt: [-1*nt.year, nt.authors])
+
+    def _get_auid2names(self, person_dbids):
+        """Get the Person names, fiven Person dbIds."""
+        qrypat = ('WITH [{IDs}] AS dbIds_Person MATCH (person:Person) WHERE person.dbId in dbIds_Person '
+                  'RETURN person.dbId AS dbId, person.displayName AS val')
+        query = qrypat.format(IDs=', '.join(sorted(set(str(au) for au in person_dbids))))
+        return self.objng.get_dbid2val(query)  # auid2names
+
+    def _get_edit2person(self, edit_dbids, prt=sys.stdout):
+        """Get the Person(s) who author for a set of InstanceEdit dbIds."""
+        qrypat = ('WITH [{IDs}] AS dbIds_InstanceEdit '
+                  'MATCH (person:Person)-[:author]->(instanceedit:InstanceEdit) '
+                  'WHERE instanceedit.dbId IN dbIds_InstanceEdit '
+                  'RETURN person.dbId AS val, instanceedit.dbId AS dbId')
+        query = qrypat.format(IDs=', '.join(set(str(e) for e in edit_dbids)))
+        return self.objng.get_dbid2set(query, prt)  # InstanceEdit.dbId->set(Person.dbId)
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

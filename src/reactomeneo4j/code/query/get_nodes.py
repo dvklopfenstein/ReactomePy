@@ -48,6 +48,19 @@ class NodeGetter():
                 HMS=get_hms(self.tic), N=len(dbid2set), Q=self._shorten_queryprt(qry)))
         return {dbid:vals for dbid, vals in dbid2set.items()}
 
+    def get_dbid2ntset(self, qry, prt=sys.stdout):
+        """Get a set of values for every dbId from Reactome."""
+        dbid2ntset = cx.defaultdict(set)
+        # Ex: MATCH (e:InstanceEdit)-[r]->(f:Figure) RETURN f.dbId AS key_dbId, type(r) AS rtyp, e.dbId AS val_dbId')
+        ntobj = cx.namedtuple('NtIdRel', 'dbId rel')
+        with self.gdbdr.session() as session:
+            for rec in session.run(qry).records():
+                dbid2ntset[rec['key_dbId']].add(ntobj(dbId=rec['val_dbId'], rel=rec['rtyp']))
+        if prt:
+            prt.write('  {HMS} {N:,} rel-dbIds: {Q}\n'.format(
+                HMS=get_hms(self.tic), N=len(dbid2ntset), Q=self._shorten_queryprt(qry)))
+        return {dbid:vals for dbid, vals in dbid2ntset.items()}
+
     def get_dbid2node(self, dbids):
         """Get Summation as a Neo4jNode."""
         dbid2node = {}
