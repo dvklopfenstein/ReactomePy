@@ -19,6 +19,13 @@ __author__ = "DV Klopfenstein"
 class Relationships():
     """Create, collect, and report a Node hierarchy."""
 
+    pathway_hier = {
+        'hasEncapsulatedEvent',
+        'hasEvent',
+        'normalPathway',
+        'precedingEvent',
+    }
+
     physicalentity_hier = {
         'hasCandidate',
         'repeatedUnit',

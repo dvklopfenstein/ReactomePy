@@ -32,6 +32,8 @@ class Neo4jNodeBasic():
         try:
             #### msg = [self.objsch.prtfmt.format(**self.ntp._asdict())]
             msg = [self.objsch.prtfmt.format(**self.ntp._asdict(), **self.objsch.get_optstr(self.ntp.optional))]
+            for rel, dsts in self.relationship.items():
+                msg.append('{} dbIds[{}]: {}'.format(rel, len(dsts), ' '.join(str(o.item_id) for o in dsts)))
             # msg = ['{dbId} {schemaClass}'.format(dbId=self.item_id, schemaClass=self.objsch.name)]
             # print('FMTPAT', self.objsch.prtfmt)
             # print('NT', self.ntp._asdict())
@@ -43,6 +45,10 @@ class Neo4jNodeBasic():
             print('FORMAT:', self.objsch.prtfmt)
             print('NAMEDTUPLE:', self.ntp)
             raise
+
+    #### def dst_is_node(self):
+    ####     """Return if the relationship destination is a Neo4jNodeBasic."""
+
 
     #### def prt_verbose(self, prt):
     ####     """Return a string with all details of the Node and its relationships."""

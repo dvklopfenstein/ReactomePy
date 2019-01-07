@@ -41,10 +41,10 @@ class RelationshipCollapse():
         # }
         self._collapse_relationships()
 
-    def mv_children_parents(self):
+    def mv_children_parents(self, chosenrelationships):
         """Move children from selected relationships to children parameters for ALL nodes."""
         for srcnode in self.dbid2node.values():
-            relationships = Relationships.physicalentity_hier.intersection(srcnode.relationship)
+            relationships = chosenrelationships.intersection(srcnode.relationship)
             for rel in relationships:
                 dstnodes = srcnode.relationship[rel]
                 srcnode.children.update(dstnodes)
