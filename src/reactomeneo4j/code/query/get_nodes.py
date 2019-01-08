@@ -75,7 +75,18 @@ class NodeGetter():
     #     print('SLOW  {HMS} {N:,} nodes found'.format(HMS=get_hms(tic), N=len(dbid2node)))
     #     return dbid2node
 
-    def get_dbid2node(self, dbids):
+    def get_nodes(self, srchstr, msg=None):
+        """Get Summation as a Neo4jNode."""
+        nodes = []
+        tic = timeit.default_timer()
+        qry = 'MATCH (s:{SRCHSTR}) RETURN s'.format(SRCHSTR=srchstr)
+        with self.gdbdr.session() as session:
+            for rec in session.run(qry).records():
+                nodes.append(Neo4jNode(rec['s']))
+        print('  {HMS} {N:,} {MSG}'.format(HMS=get_hms(tic), N=len(nodes), MSG=msg if msg else srchstr))
+        return nodes
+
+    def get_dbid2node(self, dbids, msg='nodes found'):
         """Get Summation as a Neo4jNode."""
         dbid2node = {}
         tic = timeit.default_timer()
@@ -85,7 +96,7 @@ class NodeGetter():
                 query = qupat.format(DBID=dbid)
                 for rec in session.run(query).records():
                     dbid2node[dbid] = Neo4jNode(rec['s'])
-        print('FAST  {HMS} {N:,} nodes found'.format(HMS=get_hms(tic), N=len(dbid2node)))
+        print('FASTISH  {HMS} {N:,} {MSG}'.format(HMS=get_hms(tic), N=len(dbid2node), MSG=msg))
         return dbid2node
 
     @staticmethod

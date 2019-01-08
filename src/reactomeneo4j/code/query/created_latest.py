@@ -43,7 +43,7 @@ class CreatedLatest():
         dbid2ntedits = self.get_editdates(dbid2ntreleid, edit2node, edit2authors)
         # Consolidate to create-au + last_modified-au (if exists)
         dbid2ntd = self.get_edits(dbid2ntedits)  # many dates -> created last_modified
-        dateau_list = self._get_edit_date_au(dbid2ntd.values())
+        dateau_list = self._get_edit_date_au(dbid2ntd.values())  # oldest date first, latest date last
         dbid2ntshort = self._get_dbid2ntshort(dbid2ntd, dateau_list)
         return dateau_list, dbid2ntshort
 
