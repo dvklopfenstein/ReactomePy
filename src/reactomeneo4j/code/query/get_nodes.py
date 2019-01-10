@@ -24,6 +24,12 @@ class NodeGetter():
         self.tic = timeit.default_timer()
         self.gdbdr = gdbdr
 
+    def prt_summary_dbid2rel2sch2dbids(self, dbid2rel2sch2dbids, prt=sys.stdout):
+        prt.write("# SUMMARY OF RELATIONSHIPS/DESTINATION COUNTS:\n")
+        rel2dstcnt = self._get_rel_cnts(dbid2rel2sch2dbids)
+        for (rel, dsch), cnt in sorted(rel2dstcnt.items(), key=lambda t: [t[0][0], -1*t[1]]):
+            prt.write('#     {N:7,} {REL:20} {DSCH}\n'.format(N=cnt, REL=rel, DSCH=dsch))
+
     def get_dbid2val(self, qry, prt=sys.stdout):
         """Get a value for every dbId from Reactome."""
         dbid2val = {}
@@ -109,5 +115,65 @@ class NodeGetter():
             return re.sub(r'WITH \[.*\] AS', 'WITH [...] AS', qry, flags=re.I)
         return qry
 
+    def get_dbid2rel2sch2dbids(self, nodestr, prt=sys.stdout):
+        """2) Get all Pathway (includes TopLevelPathway) dbIds."""
+        qrypat = ('MATCH (s:{NODESTR})-[r]->(d) '
+                  'RETURN s.dbId AS src_dbid, type(r) AS rtyp, '
+                  'd.dbId AS dst_dbid, d.schemaClass AS dsch')
+        query = qrypat.format(NODESTR=nodestr)
+        dbid2rel2sch2dbids = cx.defaultdict(lambda: cx.defaultdict(lambda: cx.defaultdict(set)))
+        # 1) Get a list of all Pathways, with the number of TopLevelPathways
+        # 2) For each pathway, find all relationships
+        with self.gdbdr.session() as session:
+            print("QUERY: {Q}".format(Q=query))
+            idx = 0
+            for idx, rec in enumerate(session.run(query).records(), 1):
+                dbid2rel2sch2dbids[rec['src_dbid']][rec['rtyp']][rec['dsch']].add(rec['dst_dbid'])
+            print('  {HMS} {N:,} Pathways over {R:,} records: {QU}'.format(
+                HMS=get_hms(self.tic), QU=query, N=len(dbid2rel2sch2dbids), R=idx))
+        # 3) Report the number of relationships and destination schemaClass types
+        if prt:
+            self.prt_summary_dbid2rel2sch2dbids(dbid2rel2sch2dbids, prt)
+        return dbid2rel2sch2dbids
+
+    @staticmethod
+    def _get_rel_cnts(dbid2rel2sch2dbids):
+        """Get counts of relationships seen in pathways.
+            85,736 hasEvent             Reaction
+            23,694 hasEvent             Pathway
+             7,761 hasEvent             BlackBoxEvent
+               349 hasEvent             FailedReaction
+               227 hasEvent             Polymerisation
+                36 hasEvent             Depolymerisation
+
+             1,348 precedingEvent       Pathway
+               426 precedingEvent       Reaction
+                21 precedingEvent       BlackBoxEvent
+
+             4,692 hasEncapsulatedEvent Pathway
+                18 hasEncapsulatedEvent TopLevelPathway
+
+            23,524 summation            Summation
+            23,520 species              Species
+            21,071 evidenceType         EvidenceType
+            20,689 inferredTo           Pathway
+            15,796 compartment          Compartment
+            12,332 goBiologicalProcess  GO_BiologicalProcess
+             9,437 literatureReference  LiteratureReference
+               112 literatureReference  Book
+                11 literatureReference  URL
+             1,830 crossReference       DatabaseIdentifier
+               542 disease              Disease
+               408 inferredTo           TopLevelPathway
+               300 normalPathway        Pathway
+               279 figure               Figure
+               206 relatedSpecies       Species
+        """
+        ctr = cx.Counter()
+        for rel2sch2dbids in dbid2rel2sch2dbids.values():
+            for rel, sch2dbids in rel2sch2dbids.items():
+                for sch, dbids in sch2dbids.items():
+                    ctr[(rel, sch)] += len(dbids)
+        return ctr
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
