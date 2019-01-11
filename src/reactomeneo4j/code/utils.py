@@ -61,4 +61,5 @@ def get_hms(tic):
     """Return HMS since script started."""
     return str(datetime.timedelta(seconds=(timeit.default_timer()-tic)))
 
+
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -62,10 +62,9 @@ class CreatedLatest():
         # Given InstanceEdit dbIds, get Persons who author
         edit2auids = self._get_edit2person(dbids_instanceedit, sys.stdout)
         # Given author Person dbIds, get author names
+        # pylint: disable=unused-variable
         auids = set(au for aus in edit2auids.values() for au in aus)
-        auid2names = self._get_auid2names(auids)
-        # editid2authors: Return InstanceEdit dbId -> Authornames
-        return {editid:frozenset(auid2names[a] for a in auids) for editid, auids in edit2auids.items()}
+        return {editid:frozenset(auids) for editid, auids in edit2auids.items()}
 
     @staticmethod
     def get_editdates(dbid2ntedits, edit2node, edit2authors):
@@ -114,13 +113,6 @@ class CreatedLatest():
                 date_au.add(ntd.modified)
         print('  {HMS} {N:,} UNIQUE EDIT AUTHOR DATES'.format(HMS=get_hms(self.tic), N=len(date_au)))
         return sorted(date_au, key=lambda nt: [nt.year, nt.authors])
-
-    def _get_auid2names(self, person_dbids):
-        """Get the Person names, fiven Person dbIds."""
-        qrypat = ('WITH [{IDs}] AS dbIds_Person MATCH (person:Person) WHERE person.dbId IN dbIds_Person '
-                  'RETURN person.dbId AS dbId, person.displayName AS val')
-        query = qrypat.format(IDs=', '.join(set(str(au) for au in person_dbids)))
-        return self.objng.get_dbid2val(query)  # auid2names
 
     def _get_edit2person(self, edit_dbids, prt=sys.stdout):
         """Get the Person(s) who author for a set of InstanceEdit dbIds."""
