@@ -25,7 +25,8 @@ class NodeGetter():
         self.gdbdr = gdbdr
 
     def prt_summary_dbid2rel2sch2dbids(self, dbid2rel2sch2dbids, prt=sys.stdout):
-        prt.write("# SUMMARY OF RELATIONSHIPS/DESTINATION COUNTS:\n")
+        prt.write("# SUMMARY OF RELATIONSHIPS/DESTINATION COUNTS FOR {N:} dbIds:\n".format(
+            N=len(dbid2rel2sch2dbids)))
         rel2dstcnt = self._get_rel_cnts(dbid2rel2sch2dbids)
         for (rel, dsch), cnt in sorted(rel2dstcnt.items(), key=lambda t: [t[0][0], -1*t[1]]):
             prt.write('#     {N:7,} {REL:20} {DSCH}\n'.format(N=cnt, REL=rel, DSCH=dsch))
@@ -55,7 +56,7 @@ class NodeGetter():
         return {dbid:vals for dbid, vals in dbid2set.items()}
 
     def get_dbid2ntset(self, qry, prt=sys.stdout):
-        """Get a set of values for every dbId from Reactome."""
+        """Get a set of tuples (rel, dst.dbId) for each spepcified source dbId from Reactome."""
         dbid2ntset = cx.defaultdict(set)
         # Ex: MATCH (e:InstanceEdit)-[r]->(f:Figure)
         #     RETURN f.dbId AS key_dbId, type(r) AS rtyp, e.dbId AS val_dbId

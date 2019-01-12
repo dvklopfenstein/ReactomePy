@@ -47,16 +47,6 @@ def get_args(docstr, fields):
     ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
     return ntobj(**dct)
 
-def sortby_stid(stid):
-    """Sort by Pathway number."""
-    vals = stid.split('-')
-    #### TBD: Put in test
-    #### assert len(vals) == 3
-    #### assert vals[0] == 'R'
-    #### assert vals[1] == self.taxnt.abc.upper(), "{} {} {}".format(
-    ####     vals[1], self.taxnt.abc, stid)
-    return int(vals[2])
-
 def get_hms(tic):
     """Return HMS since script started."""
     return str(datetime.timedelta(seconds=(timeit.default_timer()-tic)))
