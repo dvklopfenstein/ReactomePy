@@ -98,7 +98,7 @@ class AnalysisService(object):
             # pprint.pprint(rsp_json)
             return rsp_json
         print("FAILED POST: {CODE} {REASON}".format(CODE=rsp.status_code, REASON=rsp.reason))
-        print(rsp.text)
+        print(rsp)
         print("\nHDRS", rsp.headers)
         print("\nURL", rsp.url)
         print(dir(rsp))
@@ -139,7 +139,7 @@ class AnalysisService(object):
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text)
-            return rsp.json()
+            return rsp.text
         return rsp
 
     def get_results(self, token, resource='TOTAL'):
@@ -162,7 +162,7 @@ class AnalysisService(object):
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text)
-            return rsp.json()
+            return rsp.text
 
     def csv_notfound(self, fout_csv, token):
         """Report identifiers not found."""
@@ -173,7 +173,7 @@ class AnalysisService(object):
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text)
-            return rsp.json()
+            return rsp.text
 
     def get_notfound(self, token):
         """Report identifiers not found."""

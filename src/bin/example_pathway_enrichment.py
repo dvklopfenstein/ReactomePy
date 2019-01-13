@@ -12,8 +12,8 @@ Options:
                       Tokens are used to access a previous analysis.
   --pdf=PDF  Write pathway report into pdf file [default: pathway_enrichment.pdf]
   --csv=CSV  Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
-  --csv0=NF  Write list of identifiers that were not found
-  --csv1=F   Write list of identifiers that were found
+  --csv0=NF  Write list of identifiers that were not found [default: ids_found.csv]
+  --csv1=F   Write list of identifiers that were found [default: ids_notfound.csv]
 
 """
 
@@ -24,7 +24,7 @@ __author__ = "DV Klopfenstein"
 # import os
 # import sys
 from docopt import docopt
-from reactomeneo4j.code.utils import get_args
+#### from reactomeneo4j.code.utils import get_args
 from reactomeneo4j.code.rest.service_analysis import AnalysisService
 from reactomeneo4j.code.ex.uniprot_accession_list import SAMPLE_NAME
 from reactomeneo4j.code.ex.uniprot_accession_list import DATA
@@ -33,31 +33,33 @@ from reactomeneo4j.code.ex.uniprot_accession_list import DATA
 def main():
     """Run Reactome's Pathway Enrichment Analysis UniProt example."""
     ana = AnalysisService()
-    args = get_args(__doc__, {'token', 'pdf', 'csv', 'data', 'sample_name'})
-    args = docopt(docstr)
+    #### args = get_args(__doc__, {'token', 'pdf', 'csv', 'data', 'sample_name'})
+    args = docopt(__doc__)
     print(args)
 
     # Run pathway enrichment analysis example and get the associated identifying token:
     #     sample_name: GBM Uniprot
     #     data: P01023 Q99758 O15439 O43184 Q13444 P82987
-    token = obj.get_token(DATA, SAMPLE_NAME, args)
+    token = _get_token(DATA, SAMPLE_NAME, args.get('--token'), ana)
 
     # Write Pathway Enrichment Analysis to a file
-    obj.ana.pdf_report(args['pdf'], token)
-    obj.ana.csv_pathways(args['csv'], token, resource='TOTAL')
+    ana.pdf_report(args['--pdf'], token)
+    ana.csv_pathways(args['--csv'], token, resource='TOTAL')
+    ana.csv_found(args['--csv0'], token, resource='TOTAL')
+    ana.csv_notfound(args['--csv1'], token)
 
 
-def get_token(data, sample_name, args):
+def _get_token(data, sample_name, token, ana):
     """Return a token associated with a Pathway enrichment analysis."""
     # If user provides no token, then run a Pathway enrichemtn analysis. Return token
-    if 'token' not in args:
-        rsp = self.ana.post_ids(data, sample_name)
+    if token is None:
+        rsp = ana.post_ids(data, sample_name)
         print(rsp)
         assert 'summary' in rsp, rsp
         token = rsp['summary']['token']
         print('TOKEN: {T}'.format(T=token))
         return token
-    return args['token']
+    return token
 
 
 if __name__ == '__main__':
