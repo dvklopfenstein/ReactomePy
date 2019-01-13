@@ -33,6 +33,9 @@ def get_args(docstr, fields):
         'url': '--url',
         'neo4j_username': '--neo4j_username',
         'neo4j_password': '<neo4j_password>',
+        'token': '--token',
+        'pdf': '--pdf',
+        'csv': '--csv',
     }
     # If user provided no options, print help screen
     if len(sys.argv) == 1 and 'neo4j_password' in fields:
@@ -44,9 +47,11 @@ def get_args(docstr, fields):
     for usrfld in fields:
         argfld = fld2docopt[usrfld]
         argval = args[argfld]
-        dct[usrfld] = argval
-    ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
-    return ntobj(**dct)
+        if argval is not None: 
+            dct[usrfld] = argval
+    return dct
+    # ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
+    # return ntobj(**dct)
 
 def get_hms(tic):
     """Return HMS since script started."""

@@ -139,6 +139,8 @@ class AnalysisService(object):
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text)
+            return rsp.json()
+        return rsp
 
     def get_results(self, token, resource='TOTAL'):
         """result.csv w/web; Get the overrepresented pathway results."""
@@ -148,9 +150,7 @@ class AnalysisService(object):
         assert resource in self.resources
         url = url_pat.format(URL=self.url, TOKEN=token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
-        return rsp
-        # if rsp.status_code == 200:
-        #     self._wr(fout_csv, rsp.text)
+        return rsp.json() if rsp.status_code == 200 else rsp
 
     def csv_found(self, fout_csv, token, resource='TOTAL'):
         """mapping.csv w/web; Get IDs which were found and their mapping."""
@@ -162,6 +162,7 @@ class AnalysisService(object):
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text)
+            return rsp.json()
 
     def csv_notfound(self, fout_csv, token):
         """Report identifiers not found."""
@@ -172,6 +173,7 @@ class AnalysisService(object):
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text)
+            return rsp.json()
 
     def get_notfound(self, token):
         """Report identifiers not found."""
