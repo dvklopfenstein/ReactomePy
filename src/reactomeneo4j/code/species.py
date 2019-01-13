@@ -15,10 +15,10 @@ class Species(object):
     taxid2nt = {nt.taxId:nt for nt in SPECIES}
     pat = '{taxId:7} {abc} {displayName}\n'
 
-    def __init__(self, species):
+    def __init__(self, species=None):
         self.species = species
         self.name2nt = self._ini_species2nt()
-        self.abc = self.name2nt[species].abc
+        self.abc = self.name2nt[species].abc if species is not None else None
 
     def get_nt(self):
         """Get the namedtuple for the species of interest."""
@@ -53,8 +53,9 @@ class Species(object):
     def _ini_species2nt(self):
         """Get a dict with species name as key and other fields stored in a namedtuple."""
         name2nt = {nt.displayName:nt for nt in SPECIES}
-        assert self.species in name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
-            S=self.species, A="\n".join(sorted(name2nt)))
+        if self.species is not None:
+            assert self.species in name2nt, "SPECIES({S}) NOT FOUND IN:\n{A}\n".format(
+                S=self.species, A="\n".join(sorted(name2nt)))
         return name2nt
 
 
