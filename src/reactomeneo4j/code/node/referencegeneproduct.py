@@ -33,7 +33,7 @@ class ReferenceGeneProduct(ReferenceSequence):
         ('chain', 'checksum', 'isSequenceChanged', 'secondaryIdentifier')  # params_opt =
 
     prtfmt_gene = '{div}{sequenceLength}{checksum}{chain}'
-    prtfmt = '{dbId:8} {schemaClass:32} {abc}{aart} {displayName}' + prtfmt_gene
+    prtfmt = '{dbId:8} {schemaClass} {abc} {aart} {displayName}' + prtfmt_gene
     optstr_dflt = {'div':'', 'sequenceLength':'', 'checksum':'', 'chain':''}
 
     relationships = {

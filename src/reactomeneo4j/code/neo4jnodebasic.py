@@ -32,8 +32,8 @@ class Neo4jNodeBasic():
         try:
             #### msg = [self.objsch.prtfmt.format(**self.ntp._asdict())]
             msg = [self.objsch.prtfmt.format(**self.ntp._asdict(), **self.objsch.get_optstr(self.ntp.optional))]
-            for rel, dsts in self.relationship.items():
-                msg.append('{} dbIds[{}]: {}'.format(rel, len(dsts), ' '.join(str(o.item_id) for o in dsts)))
+            # for rel, dsts in self.relationship.items():
+            #     msg.append('{REL} dbIds[{N}]: {IDs}'.format(REL=rel, N=len(dsts), IDs=' '.join(str(o.item_id) for o in dsts)))
             # msg = ['{dbId} {schemaClass}'.format(dbId=self.item_id, schemaClass=self.objsch.name)]
             # print('FMTPAT', self.objsch.prtfmt)
             # print('NT', self.ntp._asdict())
