@@ -24,8 +24,8 @@ def chk_unique(dcts, fld2expunique):
 def get_gdbdr(docstr):
     """Return GraphDatabase driver given user args."""
     from neo4j import GraphDatabase
-    args = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
-    return GraphDatabase.driver(args[0], auth=(args[1], args[2]))
+    dct = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
+    return GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
 
 def get_args(docstr, fields):
     """Given a doc string and desired fields, return a namedtuple w/user values."""

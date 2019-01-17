@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Save all species in Reactome to Python modules.
+"""Print all ReferenceDatabase in Reactome.
 
-Usage: test_args.py <neo4j_password> [options]
+Usage: referencedatabase.py <neo4j_password> [options]
 
 Options:
   -h --help  Show usage
@@ -14,19 +14,18 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-import sys
-from reactomeneo4j.code.wrpy.species import Species
+from reactomeneo4j.code.wrpy.referencedatabase import ReferenceDatabases
 from reactomeneo4j.code.utils import get_gdbdr
 
+def prt_referencedatabase():
+    """Print all ReferenceDatabase in Reactome."""
+    fout_referencedatabase_py = 'src/reactomeneo4j/data/referencedatabase2nt.py'
 
-def prt_species():
-    """Print all species in Reactome."""
-    obj = Species(get_gdbdr(__doc__))
-    obj.wrpy_info('src/reactomeneo4j/data/species.py')
-    obj.wrpy_common_names('src/reactomeneo4j/data/species_commonnames.py')
+    obj = ReferenceDatabases(get_gdbdr(__doc__))
+    obj.wrpy_referencedatabase_nts(fout_referencedatabase_py)
 
 
 if __name__ == '__main__':
-    prt_species()
+    prt_referencedatabase()
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

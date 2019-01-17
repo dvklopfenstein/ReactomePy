@@ -13,7 +13,7 @@ COPYRIGHT = "Copyright (C) 2018-{YEAR}, DV Klopfenstein. All rights reserved.".f
     YEAR=str(datetime.datetime.now().year))
 
 
-def prt_dict(key_val, name, afmt='{A}', bfmt='{B}', sortby=None, prt=sys.stdout):
+def prt_dict(key_val, name, afmt='{A}', bfmt='{B}', prt=sys.stdout):
     """Write data in dicts into a namedtuple."""
     prt.write("{NAME} = {{\n".format(NAME=name.upper()))
     for key, val in key_val:
@@ -24,6 +24,16 @@ def prt_dict(key_val, name, afmt='{A}', bfmt='{B}', sortby=None, prt=sys.stdout)
         prt.write("    {KEY}: {VAL},\n".format(KEY=key, VAL=val))
         # prt.write(str([dct[fld] for fld in flds]))
         # prt.write('),\n')
+    prt.write("}\n")
+
+def prt_id2nt(key_nt_lst, prt=sys.stdout):
+    """Write data in dicts into a namedtuple."""
+    ntd = key_nt_lst[0][1]
+    prt.write('# {N} items\n'.format(N=len(key_nt_lst)))
+    prt.write("NtObj = namedtuple('NtObj', '{FLDS}')\n\n".format(FLDS=' '.join(ntd._fields)))
+    prt.write("ID2NT = {\n")
+    for key, ntd in key_nt_lst:
+        prt.write("    {KEY}: NtObj._make({VALS}),\n".format(KEY=key, VALS=list(ntd)))
     prt.write("}\n")
 
 def prt_namedtuple(lst_of_dcts, name, flds, prt=sys.stdout):

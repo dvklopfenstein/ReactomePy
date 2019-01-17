@@ -6,14 +6,10 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
-import sys
 import collections as cx
-from neo4j import GraphDatabase
 from reactomeneo4j.data.species import SPECIES
 from reactomeneo4j.code.wrpy.utils import REPO
 from reactomeneo4j.code.wrpy.utils import prt_docstr_module
-from reactomeneo4j.code.wrpy.utils import prt_namedtuple
-from reactomeneo4j.code.wrpy.utils import prt_dict
 from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
 
 
@@ -21,11 +17,12 @@ from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
 class PathwayMolecules(object):
     """Extract and print participating molecules for a pathway."""
 
-    def __init__(self, password):
-        self.gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
+    def __init__(self, gdbdr):
+        self.gdbdr = gdbdr
         self.name2ntabc = {nt.displayName:nt for nt in SPECIES}
 
-    def get_query(self, species, database):
+    @staticmethod
+    def get_query(species, database):
         """Return all paticipating molecules for all pathways in a species."""
         return "".join([
             'MATCH (p:Pathway{speciesName:"', '{SPECIES}'.format(SPECIES=species), '"})'
@@ -77,6 +74,7 @@ class PathwayMolecules(object):
             N=len(pw2molecules), M=len(molecules), DB=database, ORG=species)
         with open(os.path.join(REPO, fout_py), 'w') as prt:
             prt_docstr_module(msg, prt)
+            prt.write('# pylint: disable=line-too-long, too-many-lines\n')
             prt.write('PWY2ITEMS = {\n')
             for pwy, molecules in sorted(pw2molecules.items(), key=lambda t: int(t[0].split('-')[2])):
                 prt.write("    '{PWY}':".format(PWY=pwy))
@@ -86,15 +84,6 @@ class PathwayMolecules(object):
             prt.write('}\n')
             prt_copyright_comment(prt)
         print("  {MSG} WROTE: {PY}".format(MSG=msg, PY=fout_py))
-
-    def wrpy_info(self, fout_py):
-        """Print Reactome species main information."""
-        fields = ['abc', 'abbreviation', 'taxId', 'displayName']
-        with open(os.path.join(REPO, fout_py), 'w') as prt:
-            prt_docstr_module('Species in Reactome', prt)
-            prt_namedtuple(self.dcts, 'SPECIES', fields, prt)
-            prt_copyright_comment(prt)
-            print('  WROTE: {PY}'.format(PY=fout_py))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
