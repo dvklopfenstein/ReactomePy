@@ -11,9 +11,12 @@ run:
 # Re-generate Python modules containing Reatome data
 # This is done for every new Reactome version
 wrpy:
-	src/bin_neo4j/wrpy/pathways.py $(PASSWORD)
-	src/bin_neo4j/wrpy/species.py $(PASSWORD)
 	src/bin_neo4j/wrpy/disease.py $(PASSWORD)
+	src/bin_neo4j/wrpy/inferredfrom.py $(PASSWORD)
+	src/bin_neo4j/wrpy/pathway_molecules.py $(PASSWORD)
+	src/bin_neo4j/wrpy/pathways.py $(PASSWORD)
+	src/bin_neo4j/wrpy/referencedatabase.py $(PASSWORD)
+	src/bin_neo4j/wrpy/species.py $(PASSWORD)
 
 
 # Write relationships for various schema

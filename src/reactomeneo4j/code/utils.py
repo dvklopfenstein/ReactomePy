@@ -42,7 +42,7 @@ def get_args(docstr, fields):
         sys.argv.append('-h')
     # Get user args matching doc-string
     args = docopt(docstr)
-    print(args)
+    # print(args)
     dct = {}
     for usrfld in fields:
         argfld = fld2docopt[usrfld]
