@@ -8,7 +8,6 @@ import timeit
 import datetime
 import collections as cx
 from docopt import docopt
-from neo4j import GraphDatabase
 
 
 def chk_unique(dcts, fld2expunique):
@@ -24,6 +23,7 @@ def chk_unique(dcts, fld2expunique):
 
 def get_gdbdr(docstr):
     """Return GraphDatabase driver given user args."""
+    from neo4j import GraphDatabase
     args = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
     return GraphDatabase.driver(args[0], auth=(args[1], args[2]))
 
@@ -33,19 +33,25 @@ def get_args(docstr, fields):
         'url': '--url',
         'neo4j_username': '--neo4j_username',
         'neo4j_password': '<neo4j_password>',
+        'token': '--token',
+        'pdf': '--pdf',
+        'csv': '--csv',
     }
     # If user provided no options, print help screen
     if len(sys.argv) == 1 and 'neo4j_password' in fields:
         sys.argv.append('-h')
     # Get user args matching doc-string
     args = docopt(docstr)
+    print(args)
     dct = {}
     for usrfld in fields:
         argfld = fld2docopt[usrfld]
         argval = args[argfld]
-        dct[usrfld] = argval
-    ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
-    return ntobj(**dct)
+        if argval is not None: 
+            dct[usrfld] = argval
+    return dct
+    # ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
+    # return ntobj(**dct)
 
 def get_hms(tic):
     """Return HMS since script started."""
