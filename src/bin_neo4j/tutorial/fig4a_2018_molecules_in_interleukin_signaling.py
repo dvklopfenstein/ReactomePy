@@ -50,8 +50,8 @@ def _prt_data(data, prt):
 
 def _get_data(qry):
     """Get the Participating molecules for a pathway."""
-    ntargs = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
-    gdbdr = GraphDatabase.driver(ntargs.url, auth=(ntargs.neo4j_username, ntargs.neo4j_password))
+    dct = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
+    gdbdr = GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
     with gdbdr.session() as session:
         return [rec.data() for rec in session.run(qry).records()]
 

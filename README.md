@@ -13,6 +13,9 @@ Explore peer-reviewed biological pathways in Reactome using Python to run neo4j 
 ## Prerequisites
   * Python 3.5 or greater
 
+### Packages
+  * docopt
+
 ## Reactome Links
   * [**Download hints**](/doc/md/README_download_hints.md)
   * **Publications**

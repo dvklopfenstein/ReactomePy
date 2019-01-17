@@ -1,8 +1,8 @@
 """Reactome version"""
 
-__copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-VERSION = 66
+VERSION = 67
 
-# Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

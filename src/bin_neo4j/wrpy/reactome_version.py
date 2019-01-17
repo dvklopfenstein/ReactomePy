@@ -15,22 +15,20 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from neo4j import GraphDatabase
-from reactomeneo4j.code.wrpy.disease import Diseases
 from reactomeneo4j.code.utils import get_args
+from reactomeneo4j.code.wrpy.wrpy_general import WrPy
+from reactomeneo4j.code.query.functions import get_version
 
 
-def prt_disease():
+def main():
     """Print all disease in Reactome."""
     dct = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
     gdbdr = GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
-    obj = Diseases(gdbdr)
-    fout_disease_py = 'src/reactomeneo4j/data/disease_definitions.py'
-    obj.wrpy_disease2fld(fout_disease_py, 'definition', 'DISEASE2DEFN')
-    #fout_common_py = 'src/reactomeneo4j/data/disease_synonyms.py'
-    # TBD Names and synonyms
+    obj = WrPy()
+    obj.wrpy_version('src/reactomeneo4j/data/reactome_version.py', get_version(gdbdr))
 
 
 if __name__ == '__main__':
-    prt_disease()
+    main()
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -24,7 +24,6 @@ from reactomeneo4j.code.query.functions import get_version
 def main(password):
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
     objwr = WrPy()
-    objwr.wrpy_version('src/reactomeneo4j/data/reactome_version.py', get_version(gdbdr))
     orgs = [
         'Homo sapiens',
         'Mus musculus',
