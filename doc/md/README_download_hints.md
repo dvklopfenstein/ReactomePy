@@ -1,18 +1,20 @@
 # Reactome Download Hints
-Please see [Reactome's official documentation](https://reactome.org/dev/graph-database#GetStarted)
+Please see [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
 regarding installing Neo4j and downloading the Reactome Knowledgebase.
 
-Please direct questions on downloading and installing Neo4j and loading the Reactome Knowledgebase to Reactome.
+**Please direct questions on downloading and installing Neo4j and loading the Reactome Knowledgebase to Reactome.**,
+rather than open an issue in this repo.
 
-  * [**Hints for Downloading the Reactome Knowledgebase**](#hints-for-downloading-the-reactome-knowledgebase)
 
-## Hints for Downloading the Reactome Knowledgebase
+## HINTS for Downloading the Reactome Knowledgebase
 1. [**Download the Reactome database**](#1-download-the-reactome-database)
-2. [**Uncompress and extract the database**]()
-3. [**Ensure the graph.db directory does not exist in the Neo4j directory structure**]()
-4. [**Moved the Reactome database to the graph.db directory**]()
-5. [**Start the neo4j server on the new Reactome Knowledgebase**]()
+2. [**Uncompress and extract the database**](#2-uncompress-and-extract-the-reactome-database-in-neo4j-format)
+3. [**Ensure the graph.db directory does not exist in the Neo4j directory structure**](#3-ensure-the-graphdb-directory-does-not-exist-in-the-neo4j-directory-structure)
+4. [**Moved the Reactome database to the Neo4j graph.db directory**](#4-moved-the-reactome-database-to-the-graphdb-directory)
+5. [**Start the neo4j server on the new Reactome Knowledgebase**](#5-start-the-neo4j-server-on-the-new-reactome-knowledgebase)
 
+
+## HINTS for Downloading the Reactome Knowledgebase (details)
 ### 1. Download the Reactome database
 ![download](images/download.png)
 
@@ -32,14 +34,14 @@ $ tar -xzvf reactome.graphdb.tgz
 ### 3. Ensure the graph.db directory does not exist in the Neo4j directory structure
 
 Does the graph.db directory exist?    
-No. Move to step 4.    
+No? Go to step 4.    
 ```
 $ cd ~/neo4j/neo4j-community-3.4.7/data/databases/graph.db
 $ ls graph.db
     ls: cannot access 'graph.db': No such file or directory
 ```
 
-Yes. Move it out of the way:
+Yes? Move it out of the way:
 ```
 $ ls graph.db
     debug.log                             neostore.nodestore.db.labels             neostore.relationshipgroupstore.db.id
@@ -53,10 +55,9 @@ $ ls graph.db
 
 ### 4. Moved the Reactome database to the graph.db directory
 ```
-# Move the extracted Reactome database to its Neo4j database directory
 $ mv reactome.graphdb.v67 ~/neo4j/neo4j-community-3.4.7/data/databases/graph.db
 
-# Check that you moved it
+# Confirm it is moved
 $ cd ~/neo4j/neo4j-community-3.4.7/data/databases/graph.db
 $ ls graph.db
     debug.log                             neostore.nodestore.db.labels             neostore.relationshipgroupstore.db.id
