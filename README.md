@@ -14,7 +14,7 @@ Explore peer-reviewed biological pathways in Reactome using Python to run neo4j 
   * Python 3.5 or greater
 
 ## Reactome Links
-  * Download hints
+  * [**Download hints**](/doc/md/README_download_hints.md)
   * **Publications**
     * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
