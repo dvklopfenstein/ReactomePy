@@ -1,6 +1,6 @@
 """Species in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import collections as cx
@@ -90,4 +90,4 @@ SPECIES = [
     NtObj._make(['xtr', 'XTR', 8364, 'Xenopus tropicalis']),
 ]
 
-# Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

@@ -1,6 +1,6 @@
 """Common name for the species in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # pylint: disable=line-too-long
@@ -45,4 +45,4 @@ TAXID2NAMES = {
     333760: ['human papillomavirus type 16 HPV16', 'human papillomavirus type 16 HPV 16', 'HPV16'],
 }
 
-# Copyright (C) 2018-2018, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
