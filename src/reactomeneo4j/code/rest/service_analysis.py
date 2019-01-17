@@ -188,6 +188,17 @@ class AnalysisService(object):
             pprint.pprint(data)
             return data
 
+    def get_version(self):
+        """Compare version of Reactome online with version in this repo."""
+        # curl -X GET "https://reactome.org/ContentService/data/database/version" -H  "accept: text/plain"
+        url = "https://reactome.org/ContentService/data/database/version"
+        hdrs = {'accept': 'text/plain'}
+        rsp = requests.get(url, headers=hdrs)
+        print(rsp)
+        if rsp.status_code == 200:
+            return rsp.text
+        return rsp
+
 # # token = 'MjAxODA4MTMxNjIzMTRfNDcwNw%3D%3D'
 # GET "/token/{token}/page/{pathway}".format(pathway="R-HSA-6809371")  # Get page number
 # 1
