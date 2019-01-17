@@ -7,7 +7,8 @@ Please direct questions on downloading and installing Neo4j and loading the Reac
   * [**Hints for Downloading the Reactome Knowledgebase**](#hints-for-downloading-the-reactome-knowledgebase)
 
 ## Hints for Downloading the Reactome Knowledgebase
-1. [Download the Reactome database]()
+1. [**Download the Reactome database**](#1-download-the-reactome-database)
+2. [**Uncompress the database**](
 
 ### 1. Download the Reactome database
 ![download](images/download.png)
