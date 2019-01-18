@@ -75,8 +75,11 @@ class CreatedLatest():
         for dbid_tgt, ntedits in dbid2ntedits.items():
             for ntedit in ntedits:
                 dbid_edit = ntedit.dbId
-                assert dbid_edit in edit2authors, 'NO AUTHORS: {}'.format(ntedit)
-                authors = edit2authors[dbid_edit]
+                if dbid_edit in edit2authors:
+                    authors = edit2authors[dbid_edit]
+                else:
+                    print('NO AUTHORS FOR EDIT: {}'.format(ntedit))
+                    #assert dbid_edit in edit2authors, 'NO AUTHORS: {}'.format(ntedit)
                 editnode = edit2node[dbid_edit]
                 ntd = ntobj(year=editnode.ntp.dateTime.year, authors=authors)
                 dbid2rel2ntedit[dbid_tgt][ntedit.rel].append(ntd)
