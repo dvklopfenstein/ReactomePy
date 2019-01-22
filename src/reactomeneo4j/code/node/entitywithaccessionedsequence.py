@@ -5,7 +5,6 @@
     -- EntitySet (dcnt=3)
   > --- CandidateSet (dcnt=0)
   > --- DefinedSet (dcnt=0)
-  > --- OpenSet (dcnt=0)
     -- Drug (dcnt=2)
   > --- ChemicalDrug (dcnt=0)
   > --- ProteinDrug (dcnt=0)

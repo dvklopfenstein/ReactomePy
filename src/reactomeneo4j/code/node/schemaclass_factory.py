@@ -11,8 +11,8 @@ from reactomeneo4j.code.node.physicalentity import PhysicalEntity
 from reactomeneo4j.code.node.entityset import EntitySet
 from reactomeneo4j.code.node.candidateset import CandidateSet
 from reactomeneo4j.code.node.definedset import DefinedSet
-from reactomeneo4j.code.node.openset import OpenSet
 from reactomeneo4j.code.node.drug import Drug
+from reactomeneo4j.code.node.proteindrug import ProteinDrug
 from reactomeneo4j.code.node.chemicaldrug import ChemicalDrug
 from reactomeneo4j.code.node.genomeencodedentity import GenomeEncodedEntity
 from reactomeneo4j.code.node.entitywithaccessionedsequence import EntityWithAccessionedSequence
@@ -53,6 +53,7 @@ from reactomeneo4j.code.node.go_cellularcomponent import GOCellularComponent
 from reactomeneo4j.code.node.go_biologicalprocess import GOBiologicalProcess
 from reactomeneo4j.code.node.go_molecularfunction import GOMolecularFunction
 from reactomeneo4j.code.node.externalontology import ExternalOntology
+from reactomeneo4j.code.node.psimod import PsiMod
 from reactomeneo4j.code.node.abstractmodifiedresidue import AbstractModifiedResidue
 from reactomeneo4j.code.node.fragmentdeletionmodification import FragmentDeletionModification
 from reactomeneo4j.code.node.fragmentinsertionmodification import FragmentInsertionModification
@@ -81,7 +82,6 @@ SCHEMACLASS2CLS = OrderedDict([
     #   -- EntitySet (dcnt=3)
     # > --- CandidateSet (dcnt=0)
     # > --- DefinedSet (dcnt=0)
-    # > --- OpenSet (dcnt=0)
     #   -- Drug (dcnt=2)
     # > --- ChemicalDrug (dcnt=0)
     # > --- ProteinDrug (dcnt=0)
@@ -95,10 +95,9 @@ SCHEMACLASS2CLS = OrderedDict([
     ('EntitySet', EntitySet),
     ('CandidateSet', CandidateSet),
     ('DefinedSet', DefinedSet),
-    ('OpenSet', OpenSet),
     ('Drug', Drug),
     ('ChemicalDrug', ChemicalDrug),
-    ('ProteinDrug', Drug),
+    ('ProteinDrug', ProteinDrug),
     ('GenomeEncodedEntity', GenomeEncodedEntity),
     ('EntityWithAccessionedSequence', EntityWithAccessionedSequence),
     ('Complex', Complex),
@@ -204,7 +203,7 @@ SCHEMACLASS2CLS = OrderedDict([
     # > -- PsiMod (dcnt=0)
     # > -- SequenceOntology (dcnt=0)
     ('Disease', ExternalOntology),
-    ('PsiMod', ExternalOntology),
+    ('PsiMod', PsiMod),
     ('SequenceOntology', ExternalOntology),
 
     #   - DatabaseObject (dcnt=80)
@@ -265,10 +264,8 @@ SCHEMACLASS2CLS = OrderedDict([
 def _new_inst(schemaclass):
     """Create and return the requested object."""
     argsch = {
-        'ProteinDrug',
         'ReferenceRNASequence',
         'Disease',
-        'PsiMod',
         'SequenceOntology',
         'EvidenceType',
     }

@@ -25,11 +25,22 @@ class NodeGetter():
         self.gdbdr = gdbdr
 
     def prt_summary_dbid2rel2sch2dbids(self, dbid2rel2sch2dbids, prt=sys.stdout):
+        """Print summary of relationships/destination counts."""
         prt.write("# SUMMARY OF RELATIONSHIPS/DESTINATION COUNTS FOR {N:} dbIds:\n".format(
             N=len(dbid2rel2sch2dbids)))
         rel2dstcnt = self._get_rel_cnts(dbid2rel2sch2dbids)
         for (rel, dsch), cnt in sorted(rel2dstcnt.items(), key=lambda t: [t[0][0], -1*t[1]]):
             prt.write('#     {N:7,} {REL:20} {DSCH}\n'.format(N=cnt, REL=rel, DSCH=dsch))
+
+    def get_dbids(self, qry, prt=sys.stdout):
+        """Get dbIds given a query."""
+        dbids = set()
+        with self.gdbdr.session() as session:
+            for idx, rec in enumerate(session.run(qry).records()):
+                dbids.add(rec['dbId'])
+                if prt and idx%10000 == 0:
+                    prt.write('{HMS} {IDX} {DBID}'.format(HMS=get_hms(TIC), IDX=idx, DBID=rec['dbId']))
+        return dbids
 
     def get_dbid2val(self, qry, prt=sys.stdout):
         """Get a value for every dbId from Reactome."""
@@ -69,6 +80,25 @@ class NodeGetter():
                 HMS=get_hms(self.tic), N=len(dbid2ntset), Q=self._shorten_queryprt(qry)))
         return {dbid:vals for dbid, vals in dbid2ntset.items()}
 
+    def get_dbid2ntnodes(self, qry, prt=sys.stdout):
+        """Get a set of tuples (rel, dst.dbId) for each spepcified source dbId from Reactome."""
+        dbid2ntnodes = cx.defaultdict(dict)
+        # Ex: MATCH (s:InstanceEdit)-[r]->(d:Figure) RETURN s, type(r) AS rtyp, d
+        ntobjkey = cx.namedtuple('NtIdRel', 'dbId rel')
+        ntobjnode = cx.namedtuple('NtSRD', 'src rel dst')
+        with self.gdbdr.session() as session:
+            for rec in session.run(qry).records():
+                src = rec['s']
+                rel = rec['rtyp']
+                dst = rec['d']
+                ntkey = ntobjkey(dbId=dst['dbId'], rel=rel)
+                ntnodes = ntobjnode(src=src, rel=rel, dst=dst)
+                dbid2ntnodes[dst['dbId']][ntkey] = ntnodes
+        if prt:
+            prt.write('  {HMS} {N:,} rel-dbIds: {Q}\n'.format(
+                HMS=get_hms(self.tic), N=len(dbid2ntnodes), Q=self._shorten_queryprt(qry)))
+        return {dbid:vals for dbid, vals in dbid2ntnodes.items()}
+
     # def get_dbid2node2(self, dbids):
     #     """Get Summation as a Neo4jNode."""
     #     dbid2node = {}
@@ -90,7 +120,8 @@ class NodeGetter():
         with self.gdbdr.session() as session:
             for rec in session.run(qry).records():
                 nodes.append(Neo4jNode(rec['s']))
-        print('  {HMS} {N:,} {MSG}'.format(HMS=get_hms(tic), N=len(nodes), MSG=msg if msg else srchstr))
+        print('  {HMS} {N:,} {MSG}'.format(
+            HMS=get_hms(tic), N=len(nodes), MSG=msg if msg else srchstr))
         return nodes
 
     def get_dbid2node(self, dbids, msg='nodes found'):

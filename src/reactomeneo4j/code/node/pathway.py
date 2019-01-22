@@ -40,7 +40,7 @@ class Pathway(Event):
     #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
     params_req = Event.params_req + ('hasDiagram',)
     # params: oldStId releaseStatus
-    params_opt = Event.params_opt + ('doi', 'diagramHeight', 'diagramWidth', 'definition')
+    params_opt = Event.params_opt + ('doi', 'diagramHeight', 'diagramWidth', 'hasEHLD', 'definition')
     ntobj = namedtuple('NtObj', ' '.join(params_req) + Event.flds_last)
 
     relationships = {

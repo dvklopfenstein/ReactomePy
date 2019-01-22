@@ -29,6 +29,7 @@ class InstanceEdit(DatabaseObject):
     params_opt = DatabaseObject.params_opt + ('note',)
     timefmt = '%Y-%m-%d %H:%M:%S'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
+    prtfmt = '{dbId:8} {schemaClass:32} {dateTime} {displayName}'
 
     relationships = {
         'created' : frozenset(['DatabaseObject']),

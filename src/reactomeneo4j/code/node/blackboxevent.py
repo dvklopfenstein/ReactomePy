@@ -43,10 +43,10 @@ class BlackBoxEvent(ReactionLikeEvent):
             'evidenceType'       : frozenset(['EvidenceType']),
 
             # 'entityOnOtherCell': frozenset(['PhysicalEntity']),
-            'entityOnOtherCell': frozenset(['DefinedSet', 'OpenSet',
+            'entityOnOtherCell': frozenset(['DefinedSet',
                                             'EntityWithAccessionedSequence',
                                             'SimpleEntity', 'Polymer']),
-            'input': frozenset(['CandidateSet', 'DefinedSet', 'OpenSet',
+            'input': frozenset(['CandidateSet', 'DefinedSet',
                                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                                 'Complex', 'SimpleEntity', 'OtherEntity', 'Polymer']),
             'output': frozenset(['CandidateSet', 'DefinedSet',

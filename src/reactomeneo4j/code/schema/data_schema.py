@@ -106,7 +106,6 @@ ITEM2CHILDREN = {
     'EntitySet':set([
         'CandidateSet',
         'DefinedSet',
-        'OpenSet',
     ]),
 
     'Publication':set([

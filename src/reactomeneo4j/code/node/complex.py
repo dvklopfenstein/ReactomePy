@@ -7,7 +7,6 @@
     -- EntitySet (dcnt=3)
   > --- CandidateSet (dcnt=0)
   > --- DefinedSet (dcnt=0)
-  > --- OpenSet (dcnt=0)
     -- Drug (dcnt=2)
   > --- ChemicalDrug (dcnt=0)
   > --- ProteinDrug (dcnt=0)
@@ -45,12 +44,12 @@ class Complex(PhysicalEntity):
             'relatedSpecies': frozenset(['Species']),
             'inferredTo': frozenset(['Complex']),
             'hasComponent': frozenset([
-                'CandidateSet', 'DefinedSet', 'OpenSet',
+                'CandidateSet', 'DefinedSet',
                 'ChemicalDrug',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
             'entityOnOtherCell': frozenset([
-                'DefinedSet', 'OpenSet',
+                'DefinedSet',
                 'EntityWithAccessionedSequence',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
             'includedLocation': frozenset(['Compartment']),

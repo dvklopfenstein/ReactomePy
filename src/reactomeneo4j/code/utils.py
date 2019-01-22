@@ -36,13 +36,14 @@ def get_args(docstr, fields):
         'token': '--token',
         'pdf': '--pdf',
         'csv': '--csv',
+        'schemaClass': '--schemaClass',
     }
     # If user provided no options, print help screen
     if len(sys.argv) == 1 and 'neo4j_password' in fields:
         sys.argv.append('-h')
     # Get user args matching doc-string
     args = docopt(docstr)
-    # print(args)
+    # print('ARGS', args)
     dct = {}
     for usrfld in fields:
         argfld = fld2docopt[usrfld]

@@ -4,7 +4,6 @@
     -- EntitySet (dcnt=3)
   > --- CandidateSet (dcnt=0)
   > --- DefinedSet (dcnt=0)
-  > --- OpenSet (dcnt=0)
     -- Drug (dcnt=2)
   > --- ChemicalDrug (dcnt=0)
   > --- ProteinDrug (dcnt=0)
@@ -23,9 +22,6 @@
   574,228 PhysicalEntity    9003 CandidateSet      33  9003  0.0037 isOrdered
   574,228 PhysicalEntity    9003 CandidateSet    8997  9003  0.9993 speciesName
   574,228 PhysicalEntity    9003 CandidateSet       5  9003  0.0006 systematicName
-
-  574,228 PhysicalEntity      19 OpenSet           19    19  1.0000 referenceType
-  574,228 PhysicalEntity      19 OpenSet           18    19  0.9474 speciesName
 """
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
@@ -39,7 +35,8 @@ class DefinedSet(EntitySet):
     """Params seen on all EntitySets."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    # params: oldStId | speciesName isOrdered systematicName
+    # params: oldStId | speciesName isOrdered definition
+    # params_opt = EntitySet.params_opt  # + ('definition',)
 
     relationships = {
         **EntitySet.relationships,
@@ -47,7 +44,7 @@ class DefinedSet(EntitySet):
             'literatureReference': frozenset(['LiteratureReference', 'URL']),
             'figure': frozenset(['Figure']),
             'goCellularComponent': frozenset(['GO_CellularComponent', 'Compartment']),
-            'hasMember': frozenset(['DefinedSet', 'CandidateSet', 'OpenSet',
+            'hasMember': frozenset(['DefinedSet', 'CandidateSet',
                                     'ChemicalDrug', 'ProteinDrug',
                                     'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                                     'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),

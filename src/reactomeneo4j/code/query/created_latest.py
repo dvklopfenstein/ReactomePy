@@ -10,7 +10,7 @@ import sys
 import timeit
 # import datetime
 import collections as cx
-# from reactomeneo4j.code.neo4jnode import Neo4jNode
+from reactomeneo4j.code.neo4jnode import Neo4jNode
 from reactomeneo4j.code.utils import get_hms
 # from reactomeneo4j.code.wrpy.utils import REPO
 # from reactomeneo4j.code.wrpy.utils import prt_docstr_module
@@ -34,8 +34,12 @@ class CreatedLatest():
 
     def get_dbid2nteditsummary(self, dbid2ntreleid):
         """For each dbId, get one namedtuple summarizing: created+au, last_modified+au."""
+        # dbid2nreleid from:
+        #     MATCH (e:InstanceEdit)-[r]->(d:Figure|Summation|Person)
+        #     RETURN d.dbId AS key_dbId, type(r) AS rtyp, e.dbId AS val_dbId
         # nt: User.dbId -> rel InstanceEdit.dbId, ...
         dbids_instanceedit = set(nt.dbId for nts in dbid2ntreleid.values() for nt in nts)
+        #     MATCH (person:Person)-[:author]->(instanceedit:InstanceEdit)
         edit2authors = self.get_editid2authors(dbids_instanceedit)
         edit2node = self.objng.get_dbid2node(dbids_instanceedit)
         # Get ALL edit dates
@@ -66,8 +70,7 @@ class CreatedLatest():
         auids = set(au for aus in edit2auids.values() for au in aus)
         return {editid:frozenset(auids) for editid, auids in edit2auids.items()}
 
-    @staticmethod
-    def get_editdates(dbid2ntedits, edit2node, edit2authors):
+    def get_editdates(self, dbid2ntedits, edit2node, edit2authors):
         """Get ALL edit dates for user-nodes."""
         dbid2rel2ntedit = cx.defaultdict(lambda: cx.defaultdict(list))
         ntobj = cx.namedtuple('NtDateAu', 'year authors')
@@ -78,13 +81,34 @@ class CreatedLatest():
                 if dbid_edit in edit2authors:
                     authors = edit2authors[dbid_edit]
                 else:
-                    print('NO AUTHORS FOR EDIT: {}'.format(ntedit))
+                    self._prt_err(dbid_tgt, ntedit, prt=sys.stdout)
                     #assert dbid_edit in edit2authors, 'NO AUTHORS: {}'.format(ntedit)
                 editnode = edit2node[dbid_edit]
                 ntd = ntobj(year=editnode.ntp.dateTime.year, authors=authors)
                 dbid2rel2ntedit[dbid_tgt][ntedit.rel].append(ntd)
                 assert ntedit.rel in exp_rels, 'NEW FIGURE EDIT RELATIONSHIPS FOUND; UPDATE CODE'
         return dbid2rel2ntedit
+
+    def _prt_err(self, dbid_tgt, ntedit, prt=sys.stdout):
+        """Deatils message about missing information."""
+        # msg = 'MATCH (p:Person)-[q]->(e:InstanceEdit{{dbId:{E}}})-[r:{R}]->(d:{D}{{dbId:{d}}}) RETURN p, q, e, r, d'.format(
+        # msg = 'MATCH (e:InstanceEdit{{dbId:{E}}})-[r:{R}]->(d:{D}{{dbId:{d}}}) RETURN e, type(r), d'
+        qry = 'MATCH (s:InstanceEdit{{dbId:{EDIT}}})-[r:{R}]->(d:DatabaseObject{{dbId:{DST}}}) RETURN s, type(r) AS rtyp, d'
+        query = qry.format(EDIT=ntedit.dbId, R=ntedit.rel, DST=dbid_tgt)
+        dbid2ntnodes = self.objng.get_dbid2ntnodes(query, prt)
+        for dbid_editeditem, ntdcts in dbid2ntnodes.items():
+            for ntkey, ntnode in ntdcts.items():
+                edit = ntnode.src
+                dst = ntnode.dst
+                prt.write('**WARNING: InstanceEdit(dbId={EDIT}) HAS NO AUTHOR: MATCH RETURNS (no changes, no records):\n'.format(
+                    EDIT=edit['dbId']))
+                prt.write('    MATCH (s:Person)-[r]->(e:InstanceEdit{dbId:{dbId}}) RETURN s.dbId AS p, type(r) as r, e.dbId AS e\n')
+                prt.write('{schemaClass}(dbId={OBJ}) was {REL} by InstanceEdit(dbId={EDIT})\n'.format(
+                    schemaClass=dst['schemaClass'], OBJ=dst['dbId'], REL=ntkey.rel, EDIT=edit['dbId']))
+                prt.write('  {dbId:8} EditInstance: dateTime({dateTime}) displayName({displayName})\n'.format(
+                    dbId=edit['dbId'], dateTime=edit['dateTime'], displayName=edit['displayName']))
+                prt.write('  {dbId:8} {schemaClass}: displayName={NM}\n\n'.format(
+                    dbId=dst['dbId'], schemaClass=dst['schemaClass'], NM=dst['displayName']))
 
     def get_edits(self, dbid2rel2ntedits):
         """Get the instance edit date, created and latest modified, for figures."""

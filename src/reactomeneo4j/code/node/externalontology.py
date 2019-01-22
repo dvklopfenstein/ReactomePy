@@ -23,6 +23,7 @@ class ExternalOntology(DatabaseObject):
     params_opt = DatabaseObject.params_opt + ('definition', 'synonym')
     prtfmt = '{schemaClass}: {displayName}'
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
+    optstr_dflt = {'div':'', 'formula':'', 'trivial':''}
 
     relationships = {
         'referenceDatabase': frozenset(['ReferenceDatabase']),
