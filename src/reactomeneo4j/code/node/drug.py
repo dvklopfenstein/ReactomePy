@@ -31,7 +31,8 @@ class Drug(PhysicalEntity):
     relationships = {
         **PhysicalEntity.relationships,
         **{
-            'referenceTherapeutic': frozenset(['ReferenceTherapeutic']),
+            'referenceEntity': frozenset(['ReferenceTherapeutic']),
+            'literatureReference': frozenset(['LiteratureReference']),
         }
     }
 

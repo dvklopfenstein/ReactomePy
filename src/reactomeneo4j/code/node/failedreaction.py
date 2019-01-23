@@ -43,7 +43,6 @@ class FailedReaction(ReactionLikeEvent):
                 'CandidateSet', 'DefinedSet',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'SimpleEntity', 'Complex', 'OtherEntity', 'Polymer']),
-            'output': frozenset(['Complex', 'EntityWithAccessionedSequence']),
             'precedingEvent': frozenset(['Reaction']),
             # 'regulatedBy': frozenset(['Regulation']),
             'regulatedBy': frozenset(['NegativeRegulation']),

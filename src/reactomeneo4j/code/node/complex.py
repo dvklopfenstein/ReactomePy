@@ -45,7 +45,7 @@ class Complex(PhysicalEntity):
             'inferredTo': frozenset(['Complex']),
             'hasComponent': frozenset([
                 'CandidateSet', 'DefinedSet',
-                'ChemicalDrug',
+                'ChemicalDrug', 'ProteinDrug',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
             'entityOnOtherCell': frozenset([

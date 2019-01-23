@@ -42,6 +42,7 @@ class Polymerisation(ReactionLikeEvent):
             'output': frozenset(['CandidateSet', 'DefinedSet',
                                  'Complex', 'SimpleEntity', 'Polymer']),
             'precedingEvent': frozenset(['Polymerisation', 'BlackBoxEvent', 'Reaction']),
+            'regulatedBy' : frozenset(['PositiveRegulation']),
         }
     }
 

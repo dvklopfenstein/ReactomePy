@@ -1,8 +1,17 @@
 #!/usr/bin/env python
-"""Retrieving a pathway based on its identifier."""
+"""Retrieving a pathway based on its identifier.
 # https://reactome.org/dev/graph-database/extract-participating-molecules#retrieving-objects
 
+Usage: s1a_get_pathway.py <neo4j_password> [options]
+
+Options:
+  -h --help  Show usage
+  -u --neo4j_username=USER  Neo4j Reactome username [default: neo4j]
+  --url=URL                 Neo4j Reactome local url [default: bolt://localhost:7687]
+"""
+
 from __future__ import print_function
+from reactomeneo4j.code.utils import get_gdbdr
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"

@@ -28,13 +28,12 @@ class ChemicalDrug(Drug):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
     # params: oldStId
 
-    relationships = {
-        **Drug.relationships,
-        **{
-            'literatureReference': frozenset(['LiteratureReference']),
-            'referenceEntity': frozenset(['ReferenceMolecule']),
-        }
-    }
+    # relationships = {
+    #     **Drug.relationships,
+    #     **{
+    #         'referenceEntity': frozenset(['ReferenceTherapeutic']),
+    #     }
+    # }
 
     def __init__(self):
         super(ChemicalDrug, self).__init__('ChemicalDrug')

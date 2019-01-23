@@ -51,7 +51,7 @@ class Reaction(ReactionLikeEvent):
             'input': frozenset([
                 'CandidateSet', 'DefinedSet',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                'ChemicalDrug',
+                'ChemicalDrug', 'ProteinDrug',
                 'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
             'output': frozenset([
                 'CandidateSet', 'DefinedSet',
