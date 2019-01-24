@@ -14,8 +14,8 @@ rather than open an issue in this repo.
 5. [**Start the neo4j server on the new Reactome Knowledgebase**](#5-start-the-neo4j-server-on-the-new-reactome-knowledgebase)
 6. [**View the Reactome database in the neo4j browser**]()
 7. **Python interface to neo4j**:    
-  7.1) [**Load the Python package, neo4j**]()    
-  7.2) [**In a Python script connect to neo4j**]()    
+  7.1) [**Install the Python package, neo4j**]()    
+  7.2) [**Connect to neo4j from a Python script**]()    
 
 
 ## HINTS for Downloading the Reactome Knowledgebase (details)
@@ -90,7 +90,7 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
 ```
 
-### 6. Load the Python package, neo4j
-### 7. In a Python script connect to neo4j
+###  7.1) Install the Python package, neo4j
+###  7.2) Connect to neo4j from a Python script
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
