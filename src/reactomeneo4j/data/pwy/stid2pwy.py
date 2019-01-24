@@ -21,7 +21,7 @@ from collections import namedtuple
 
 Nto = namedtuple('Nto', 'stId releaseDate TDFIPBU BC displayName')
 # pylint: disable=line-too-long, too-many-lines
-DBID2NTPWY = {
+STID2NTPWY = {
     'R-HSA-15869':Nto._make([date(2004, 07, 06), '..F.P..', 'B.', """Metabolism of nucleotides"""])],
     'R-ATH-15869':Nto._make([date(2018, 12, 13), '..fI...', 'B.', """Metabolism of nucleotides"""])],
     'R-BTA-15869':Nto._make([date(2018, 12, 13), '..fI...', 'B.', """Metabolism of nucleotides"""])],
