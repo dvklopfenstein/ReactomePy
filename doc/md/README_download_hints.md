@@ -12,6 +12,10 @@ rather than open an issue in this repo.
 3. [**Ensure the graph.db directory does not exist in the Neo4j directory structure**](#3-ensure-the-graphdb-directory-does-not-exist-in-the-neo4j-directory-structure)
 4. [**Moved the Reactome database to the Neo4j graph.db directory**](#4-moved-the-reactome-database-to-the-graphdb-directory)
 5. [**Start the neo4j server on the new Reactome Knowledgebase**](#5-start-the-neo4j-server-on-the-new-reactome-knowledgebase)
+6. [**View the Reactome database in the neo4j browser**]()
+7. **Python interface to neo4j**
+  * [**Load the Python package, neo4j**]()
+  * [**In a Python script connect to neo4j**]()
 
 
 ## HINTS for Downloading the Reactome Knowledgebase (details)
@@ -85,5 +89,8 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     There may be a short delay until the server is ready.
     See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
 ```
+
+### 6. Load the Python package, neo4j
+### 7. In a Python script connect to neo4j
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
