@@ -15,30 +15,15 @@ __author__ = "DV Klopfenstein"
 
 from neo4j import GraphDatabase
 from reactomeneo4j.code.wrpy.pathway_molecules import PathwayMolecules
-from reactomeneo4j.code.utils import get_args
+from reactomeneo4j.code.utils import get_gdbdr
 
 
 # pylint: disable=line-too-long
 def main():
-    """Save the participating molecules for a pathway into a Python module."""
-
-    # 2049 Pathways contain 10912 items from UniProt for Homo sapiens
-    # 1623 Pathways contain 12207 items from UniProt for Mus musculus
-    # 1374 Pathways contain  9316 items from UniProt for Drosophila melanogaster
-    #     ->
-    # src/reactomeneo4j/data/hsa/pathways/pwy2uniprot.py
-    # src/reactomeneo4j/data/dme/pathways/pwy2uniprot.py
-    # src/reactomeneo4j/data/mmu/pathways/pwy2uniprot.py
-    species = [
-        'Homo sapiens',
-        'Mus musculus',
-        'Drosophila melanogaster',
-    ]
-    dct = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
-    gdbdr = GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
-    obj = PathwayMolecules(gdbdr)
-    for org in species:
-        obj.wrpy_pw2molecules(org, 'UniProt')
+    """Save the participating molecules for each pathway into a Python module."""
+    fout_py = 'src/reactomeneo4j/data/pwy/pwy2uniprot.py'
+    obj = PathwayMolecules(get_gdbdr(__doc__))
+    obj.wrpy_pw2molecules(fout_py, 'UniProt')
 
 
 if __name__ == '__main__':

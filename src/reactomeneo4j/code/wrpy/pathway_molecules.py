@@ -7,11 +7,13 @@ __author__ = "DV Klopfenstein"
 
 import os
 import collections as cx
-from reactomeneo4j.data.species import SPECIES
+import timeit
+from reactomeneo4j.code.utils import get_hms
 from reactomeneo4j.code.wrpy.utils import REPO
 from reactomeneo4j.code.wrpy.utils import prt_docstr_module
 from reactomeneo4j.code.wrpy.utils import prt_copyright_comment
 
+TIC = timeit.default_timer()
 
 # pylint: disable=line-too-long
 class PathwayMolecules(object):
@@ -19,14 +21,12 @@ class PathwayMolecules(object):
 
     def __init__(self, gdbdr):
         self.gdbdr = gdbdr
-        self.name2ntabc = {nt.displayName:nt for nt in SPECIES}
 
     @staticmethod
-    def get_query(species, database):
-        """Return all paticipating molecules for all pathways in a species."""
+    def get_query(database):
+        """Return all paticipating molecules for all pathways."""
         return "".join([
-            'MATCH (p:Pathway{speciesName:"', '{SPECIES}'.format(SPECIES=species), '"})'
-            '-[:hasEvent*]->(rle:ReactionLikeEvent),',
+            'MATCH (p:Pathway)-[:hasEvent*]->(rle:ReactionLikeEvent),',
             '(rle)',
             '-[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator',
             '|hasComponent|hasMember|hasCandidate*]',
@@ -53,29 +53,28 @@ class PathwayMolecules(object):
     ####     _prt_data(data, prt)
     ####     print('  {N} WROTE: {TXT}'.format(N=len(data), TXT=fout_txt))
 
-    def get_pw2molecules(self, species='Homo sapiens', database='UniProt'):
+    def get_pw2molecules(self, database='UniProt'):
         """Get the Participating molecules for a pathway."""
         pwid2molecules = cx.defaultdict(set)
         with self.gdbdr.session() as session:
-            query = self.get_query(species, database)
+            query = self.get_query(database)
             # print("QUERY: {Q}".format(Q=query))
             for rec in session.run(query).records():
                 # print(rec)
                 pwid2molecules[rec['pwid']].add(rec['mol_id'])
         return pwid2molecules
 
-    def wrpy_pw2molecules(self, species='Homo sapiens', database='UniProt'):
+    def wrpy_pw2molecules(self, fout_py, database='UniProt'):
         """Print the Participating molecules for a pathway."""
-        fout_py = "src/reactomeneo4j/data/{ABC}/pathways/pwy2{DB}.py".format(
-            ABC=self.name2ntabc[species].abc, DB=database.lower())
-        pw2molecules = self.get_pw2molecules(species, database)
+        pw2molecules = self.get_pw2molecules(database)
         molecules = set(m for ms in pw2molecules.values() for m in ms)
-        msg = '{N:4} Pathways contain {M:5} items from {DB} for {ORG:23}'.format(
-            N=len(pw2molecules), M=len(molecules), DB=database, ORG=species)
+        hms = get_hms(TIC)
+        msg = '{HMS} {N:4} Pathways contain {M:5} items from {DB}'.format(
+            HMS=hms, N=len(pw2molecules), M=len(molecules), DB=database)
         with open(os.path.join(REPO, fout_py), 'w') as prt:
             prt_docstr_module(msg, prt)
             prt.write('# pylint: disable=line-too-long, too-many-lines\n')
-            prt.write('PWY2ITEMS = {\n')
+            prt.write('PWY2{ITEM}S = {{\n'.format(ITEM=database.upper()))
             for pwy, molecules in sorted(pw2molecules.items(), key=lambda t: int(t[0].split('-')[2])):
                 prt.write("    '{PWY}':".format(PWY=pwy))
                 mstrs = ["'{V}'".format(V=m) for m in sorted(molecules)]
@@ -83,7 +82,8 @@ class PathwayMolecules(object):
             # prt_namedtuple(self.dcts, 'SPECIES', fields, prt)
             prt.write('}\n')
             prt_copyright_comment(prt)
-        print("  {MSG} WROTE: {PY}".format(MSG=msg, PY=fout_py))
+        filesize = int(os.stat(os.path.join(REPO, fout_py)).st_size/1000000.0)
+        print("  {HMS} {MB} Mbytes {MSG} WROTE: {PY}".format(HMS=hms, MB=filesize, MSG=msg, PY=fout_py))
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
