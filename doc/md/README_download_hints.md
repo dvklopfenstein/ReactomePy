@@ -13,9 +13,9 @@ rather than open an issue in this repo.
 4. [**Moved the Reactome database to the Neo4j graph.db directory**](#4-moved-the-reactome-database-to-the-graphdb-directory)
 5. [**Start the neo4j server on the new Reactome Knowledgebase**](#5-start-the-neo4j-server-on-the-new-reactome-knowledgebase)
 6. [**View the Reactome database in the neo4j browser**]()
-7. **Python interface to neo4j**
-  * [**Load the Python package, neo4j**]()
-  * [**In a Python script connect to neo4j**]()
+7. **Python interface to neo4j**:
+  7.1 [**Load the Python package, neo4j**]()
+  7.2 [**In a Python script connect to neo4j**]()
 
 
 ## HINTS for Downloading the Reactome Knowledgebase (details)
