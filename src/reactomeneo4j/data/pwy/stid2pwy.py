@@ -1,4 +1,5 @@
-"""23,623 Pathways in Reactome"""
+"""-*- coding: utf-8 -*-
+# 23,623 Pathways in Reactome"""
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
@@ -19,7 +20,7 @@ from collections import namedtuple
 #     B -> GO_BiologicalProcess
 #     C -> Compartment
 
-Nto = namedtuple('Nto', 'stId releaseDate TDFIPBU BC displayName')
+Nto = namedtuple('Nto', 'releaseDate TDFIPBU BC displayName')
 # pylint: disable=line-too-long, too-many-lines
 STID2NTPWY = {
     'R-HSA-15869':Nto._make([date(2004,  7,  6), '..F.P..', 'B.', """Metabolism of nucleotides"""]),
