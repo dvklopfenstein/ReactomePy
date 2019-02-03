@@ -2,7 +2,7 @@
 
 1) [**Install the Python package, neo4j**](#1-install-the-python-package-neo4j)
 2) [**Connect to the neo4j server from a Python script**](#2-connect-to-the-neo4j-server-from-a-python-script)
-3) [**Three Arguments:**](#three-arguments-graphdatabasedriverurl-authusername-password):
+3) [**Three Arguments:**](#three-arguments-graphdatabasedriverurl-authusername-password)
 **GraphDatabase.driver([_url_](#1-url-hover-your-mouse-over-the-tab-to-see-it--not-the-url-seen-in-the-browser-command-line),
 auth=([_username_](#2-username-neo4j-username-seen-with-the-neo4j-command), [_password_](#3-password-can-be-set-in-neo4j-using)))**
 
