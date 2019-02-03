@@ -14,8 +14,8 @@ rather than open an issue in this repo.
 5. [**Start the neo4j server on the new Reactome Knowledgebase**](#5-start-the-neo4j-server-on-the-new-reactome-knowledgebase)
 6. [**View the Reactome database in the neo4j browser**]()
 7. [**Python interface to neo4j**](README_gdbdr.md):    
-  7.1) [**Install the Python package, neo4j**](README_gdbdr.md##1-install-the-python-package-neo4j)
-  7.2) [**Connect to the neo4j server from a Python script**](README_gdbdr.md#2-connect-to-the-neo4j-server-from-a-python-script)
+  7.1) [**Install the Python package, neo4j**](README_gdbdr.md##1-install-the-python-package-neo4j)    
+  7.2) [**Connect to the neo4j server from a Python script**](README_gdbdr.md#2-connect-to-the-neo4j-server-from-a-python-script)    
 
 
 ## HINTS for Downloading the Reactome Knowledgebase (details)

@@ -1,6 +1,13 @@
 # Biological Pathways, Reactome, Python, and Neo4j
 Explore peer-reviewed biological pathways in Reactome using Python to run neo4j queries
 
+**_Reactome isn't just Biological Pathways!_**
+
+ReactoJme contains a treasure trove of expert-authored, peer-reviewed
+knowledgebese of reactions, ingredients of complexes, links to biological
+models, as well as pathways. Explore it today using Python to connect with the
+entire Reactome knowledgebase loaded into Neo4j
+
 ## **Scripts**
   * **No need to have Neo4j running:**    
     * [src/bin](/src/bin)     
