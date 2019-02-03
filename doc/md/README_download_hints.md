@@ -89,5 +89,10 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     There may be a short delay until the server is ready.
     See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
 ```
+### 6. View the Reactome database in the neo4j browser
+Try a Cyphertext command:
+![subpwy](images/neo4j_pwy_subpwy.png)
+
+### 7. [**Python interface to neo4j**](README_gdbdr.md)    
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
