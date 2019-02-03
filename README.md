@@ -6,15 +6,21 @@ Reactome contains a treasure trove of expert-authored, peer-reviewed detailed kn
 
 Explore today [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb) to run [**neo4j queries**](/doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser)
 
-## **Scripts**
+## To Cite
+
+_Please cite the following research paper if you use this repo in your research_:
+
+Klopfenstein DV, Dampier w [Disease hotspots in Human, Mouse, and Fly](https://www.nature.com/articles/s41598-018-28948-z)    
+_bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
+
+
+## Scripts
   * **No need to have Neo4j running:**    
     * [src/bin](/src/bin)     
   * **Neo4j must be installed and running on data downloaded from Reactome:**    
     * Run [**Reactome's tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules) of Neo4j queries using these Python scripts:    
        * **Jupyter notebooks:** [src/ipy/tutorial](src/ipy/tutorial)
        * **Python scripts:** [src/bin_neo4j/tutorial](src/bin_neo4j/tutorial)
-    * Extract Reactome data using Neo4j. Save in Python modules used by scripts in [src/bin](src/bin):    
-      * [src/bin_neo4j/wrpy](src/bin_neo4j/wrpy)
 
 ## Prerequisites
   * Python 3.5 or greater
