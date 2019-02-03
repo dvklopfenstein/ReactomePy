@@ -1,4 +1,4 @@
-# Python interface to Neo4j
+# How to Connect Neo4j in Python
 
 1) [**Install the Python package, neo4j**](#1-install-the-python-package-neo4j)
 2) [**Connect to the neo4j server from a Python script**](#2-connect-to-the-neo4j-server-from-a-python-script)

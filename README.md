@@ -10,7 +10,7 @@ Explore today [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
 
 _Please cite the following research paper if you use this repo in your research_:
 
-Klopfenstein DV, Dampier w [Disease hotspots in Human, Mouse, and Fly](https://www.nature.com/articles/s41598-018-28948-z)    
+Klopfenstein DV, Dampier W [Disease hotspots in Human, Mouse, and Fly](https://www.nature.com/articles/s41598-018-28948-z)    
 _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
 
 
