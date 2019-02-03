@@ -24,7 +24,7 @@ gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
 2. The _user_ is the Neo4j username seen with the neo4j command:    
 ```
 :server status
-```.    
+```
 3. The _password_ can be set in Neo4j using:   
 ```
 :server change-password
