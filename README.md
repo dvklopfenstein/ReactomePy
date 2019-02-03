@@ -2,9 +2,9 @@
 
 **_Reactome isn't just Biological Pathways!_**
 
-Reactome contains a _treasure trove_ of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
+Reactome contains a treasure trove of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
 
-Explore today using [Python](src/ipy/tutorial/s4a_pathway_subpathways.ipynb) to run [neo4j queries](/doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser)
+Explore today [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb) to run [**neo4j queries**](/doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser)
 
 ## **Scripts**
   * **No need to have Neo4j running:**    
