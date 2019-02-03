@@ -91,7 +91,7 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
 ```
 ### 6. View the Reactome database in the neo4j browser
 #### Try a Cypher command:
-What sub-pathways are under under pathway, R-HSA-983169, "Class I MHC mediated antigen processing & presentation"?
+What sub-pathways are under under pathway, R-HSA-983169, _Class I MHC mediated antigen processing & presentation_?
 
 ![subpwy](images/neo4j_pwy_subpwy.png)
 
