@@ -2,10 +2,8 @@
 
 1) [**Install the Python package, neo4j**](#install-the-python-package-neo4j)
 2) [**Connect to the neo4j server from a Python script**](#connect-to-the-neo4j-server-from-a-python-script)
-3) [**Three Graphdatabase.driver Arguments**]()
-  * url    
-  * Neo4j user name    
-  * Neo4j password    
+3) [**Three Graphdatabase.driver Arguments:**]()
+3) [**Three Arguments](): GraphDatabase.driver(_url_, auth=(_username_, _password_))**]
 
 ## Install the Python package, neo4j
 ```
@@ -19,13 +17,13 @@ from neo4j import GraphDatabase
 gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
 ```
 
-### Three GraphDatabase.driver Arguments
-1. The _url_ argument is tha value you see when you hover your mouse over the tab.    
-2. The _user_ is the Neo4j username seen with the neo4j command:    
+### Three Arguments: GraphDatabase.driver(_url_, auth=(_username_, _password_))
+#### 1. The _url_ argument is tha value you see when you hover your mouse over the tab.    
+#### 2. The _user_ is the Neo4j username seen with the neo4j command:    
 ```
 :server status
 ```
-3. The _password_ can be set in Neo4j using:   
+#### 3. The _password_ can be set in Neo4j using:   
 ```
 :server change-password
 ```
