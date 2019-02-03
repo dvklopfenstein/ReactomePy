@@ -1,6 +1,6 @@
 # Biological Pathways, Reactome, Python, and Neo4j
 
-**_Reactome isn't just Biological Pathways_**
+**_Reactome isn't just Biological Pathways_ ...**
 
 Reactome contains a treasure trove of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
 
