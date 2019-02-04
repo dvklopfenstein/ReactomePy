@@ -29,7 +29,8 @@ _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
   * docopt
 
 ## Reactome Links
-  * [**Download hints**](/doc/md/README_download_hints.md)
+  * **Download hints**:
+    * [**Download Reactome Knowledgebase**](/doc/md/README_download_hints.md)
   * **Publications**
     * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
