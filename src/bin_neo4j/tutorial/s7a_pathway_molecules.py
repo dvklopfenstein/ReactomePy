@@ -51,49 +51,4 @@ if __name__ == '__main__':
     assert len(sys.argv) != 1, 'First arg must be your Neo4j database password'
     main(sys.argv[1])
 
-
-# Tutorial 7a) Joining the pieces: Participating molecules for a pathway
-What are all the molecules in the pathway, R-HSA-983169, _Class I MHC mediated antigen processing & presentation_?
-
-[**Reactome Tutorial**: Joining the pieces: Participating molecules for a pathway](https://reactome.org/dev/graph-database/extract-participating-molecules#joining-pieces)
-
-## Step 1) [Connect to Neo4j loaded with the Reactome Knowledgebase](https://github.com/dvklopfenstein/reactome_neo4j_py/blob/master/doc/md/README_gdbdr.md)
-
-# Link to Reactome Knowledbase loaded into Neo4j
-from neo4j import GraphDatabase
-
-neo4j_url = 'bolt://localhost:7687'
-neo4j_usr = 'neo4j'
-neo4j_password = 'myneo4j_password'
-neo4j_password = 'free2beme'
-
-gdbdr = GraphDatabase.driver(neo4j_url, auth=(neo4j_usr, neo4j_password))
-
-## Step 2) Pathway Molecules Query
-### What are all the molecules in the pathway, R-HSA-983169, _Class I MHC mediated antigen processing & presentation_?
-
-query = ('MATCH (p:Pathway{stId:"R-HSA-983169"})-[:hasEvent*]->(rle:ReactionLikeEvent),'
-         '(rle)-[:'
-         'input|output|catalystActivity|regulatedBy|'
-         'physicalEntity|regulator|hasComponent|hasMember|hasCandidate*'
-         ']->(pe:PhysicalEntity),'
-         '(pe)-[:referenceEntity]->(re:ReferenceEntity)-[:referenceDatabase]->(rd:ReferenceDatabase)'
-         'RETURN DISTINCT '
-         'pe.displayName AS Name, re.identifier AS Identifier, rd.displayName AS Database')
-
-# Query and get the sub-pathways under R-HSA-983169
-def _get_data():
-    with gdbdr.session() as session:
-        return [rec.data() for rec in session.run(query).records()]
-
-data = _get_data()
-# Print sub-pathways under R-HSA-983169
-print('Database| ID     | Name')
-print('--------|--------|------')
-for data in sorted(data, key=lambda r:[r['Database'], r['Identifier']]):
-    print("{Database:8}| {Identifier:6} | {Name}".format(**data))
-
-
-
-
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
