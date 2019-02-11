@@ -26,12 +26,14 @@ class NodeGetter():
 
     def get_dbids(self, qry, prt=sys.stdout):
         """Get dbIds given a query."""
+        # Example: 'MATCH (s:Figure) RETURN s.dbId AS dbId'
         dbids = set()
         with self.gdbdr.session() as session:
             for idx, rec in enumerate(session.run(qry).records()):
                 dbids.add(rec['dbId'])
                 if prt and idx%10000 == 0:
-                    prt.write('{HMS} {IDX} {DBID}'.format(HMS=get_hms(TIC), IDX=idx, DBID=rec['dbId']))
+                    prt.write('{HMS} {IDX} {DBID}'.format(
+                        HMS=get_hms(self.tic), IDX=idx, DBID=rec['dbId']))
         return dbids
 
     def get_dbid2val(self, qry, prt=sys.stdout):

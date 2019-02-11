@@ -5,28 +5,28 @@ __author__ = "DV Klopfenstein"
 
 from collections import namedtuple
 
-# 800 Figures for ??? Pathways and ??? Reactions. 64 edit instances
+# 800 Figures. 64 EditInstances
 
 # 19 Authors:
 #  Person dbId Surname       Ini  First Name
 #  ----------- ------------  ---  ----------
-#       109873 Alnemri       E    
+#       109873 Alnemri       E
 #       140934 D'Eustachio   P    Peter
 #       266365 D'Eustachio   P    Peter
 #       201661 Garapati      P V  Phani Vijay
 #        73681 Gillespie     ME   Marc
-#        73870 Gopinathrao   G    
+#        73870 Gopinathrao   G
 #        73447 Jassal        B    Bijay
 #       158006 Joshi-Tope    G    Geeta
 #       391309 Jupe          S    Steve
-#       210350 Mahajan       SS   
+#       210350 Mahajan       SS
 #       142011 Matthews      L    Lisa
 #       203835 May           B    Bruce
 #      1169272 Orlic-Milacic M    Marija
 #        70169 Schmidt       EE   Esther
 #       804962 Stephan       R    Ralf
 #        72611 Tello-Ruiz    MK   Marcela
-#       205591 Williams      MG   
+#       205591 Williams      MG
 #       140537 Wu            G    Guanming
 #       114499 de Bono       B    Bernard
 
