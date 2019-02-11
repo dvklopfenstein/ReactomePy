@@ -5,6 +5,7 @@ __author__ = "DV Klopfenstein"
 
 # pylint: disable=line-too-long
 from collections import OrderedDict
+from reactomeneo4j.code.node.dbinfo import DBInfo
 from reactomeneo4j.code.node.databaseobject import DatabaseObject
 from reactomeneo4j.code.node.instanceedit import InstanceEdit
 from reactomeneo4j.code.node.physicalentity import PhysicalEntity
@@ -259,6 +260,7 @@ SCHEMACLASS2CLS = OrderedDict([
     # > -- EvidenceType (dcnt=0)
     #       2018/12: "inferred by electronic annotation"
     ('EvidenceType', DatabaseObject),
+    (None, DBInfo),
 ])
 
 def _new_inst(schemaclass):
