@@ -6,7 +6,7 @@ __author__ = "DV Klopfenstein"
 # Key: schemaClass Id; Values: GO IDs
 # pylint: disable=line-too-long, too-many-lines
 # 17,235 IDs
-ID2GOS = {
+PWY2GOS = {
     'R-ATH-109581': {'GO:0006915'},
     'R-ATH-109582': {'GO:0007596'},
     'R-ATH-109606': {'GO:0097193'},
