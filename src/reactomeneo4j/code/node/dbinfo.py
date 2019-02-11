@@ -16,6 +16,8 @@ class DBInfo():
 
     ntobj = namedtuple('NtOpj', ' '.join(params_req + ('optional',)))
 
+    relationships = {}
+
     def __init__(self):
         self.name = 'DBInfo'
 
