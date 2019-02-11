@@ -31,7 +31,7 @@ class GOTerm(DatabaseObject):
     params_req = DatabaseObject.params_req + (
         'accession', 'databaseName', 'definition', 'name', 'url')
 
-    prtfmt = '{NS} {ID} {name} -> {definition}'
+    prtfmt = '{NS} {GO} {name} -> {definition}'
 
     relationships = {
         'referenceDatabase': frozenset(['ReferenceDatabase']),
@@ -43,7 +43,7 @@ class GOTerm(DatabaseObject):
         #'positivelyRegulate': frozenset(['GO_Term']),
     }
 
-    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' NS ID optional')
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + ' NS GO optional')
 
     def __init__(self, name):
         # pylint: disable=useless-super-delegation
@@ -53,7 +53,7 @@ class GOTerm(DatabaseObject):
         """Return a Python dict containing all Neo4j Node parameters."""
         k2v = DatabaseObject.get_dict(self, node)
         k2v['NS'] = self.sch2ns[k2v['schemaClass']]
-        k2v['ID'] = '{DB}:{ACC}'.format(DB=k2v['databaseName'], ACC=k2v['accession'])
+        k2v['GO'] = '{DB}:{ACC}'.format(DB=k2v['databaseName'], ACC=k2v['accession'])
         return k2v
 
     def get_nt(self, node):
