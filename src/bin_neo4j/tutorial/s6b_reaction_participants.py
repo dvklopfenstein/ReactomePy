@@ -11,7 +11,6 @@ import sys
 from neo4j import GraphDatabase
 
 # pylint: disable=line-too-long
-#### def main(password, schemaname='Complex', stid='R-HSA-8863895'):
 def main(password, prt=sys.stdout):
     """Retrieving the particpants of a Reaction."""
 
@@ -25,8 +24,9 @@ def main(password, prt=sys.stdout):
     # First level paticipating molecules for reaction R-HSA-8863895
     #      '-[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator*]'
     # All paticipating molecules for reaction R-HSA-8863895
-    qry = ('MATCH (r:ReactionLikeEvent{stId:"R-HSA-8863895"})'
-           '-[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator|hasComponent|hasMember|hasCandidate*]'
+    qry = ('MATCH (r:ReactionLikeEvent{stId:"R-HSA-8863895"})-[:'
+           'input|output|catalystActivity|regulatedBy|'
+           'physicalEntity|regulator|hasComponent|hasMember|hasCandidate*]'
            '->(pe:PhysicalEntity)'
            'RETURN DISTINCT r.stId AS Reaction, pe.stId as Participant, pe.displayName AS DisplayName')
 

@@ -26,12 +26,14 @@ class NodeGetter():
 
     def get_dbids(self, qry, prt=sys.stdout):
         """Get dbIds given a query."""
+        # Example: 'MATCH (s:Figure) RETURN s.dbId AS dbId'
         dbids = set()
         with self.gdbdr.session() as session:
             for idx, rec in enumerate(session.run(qry).records()):
                 dbids.add(rec['dbId'])
                 if prt and idx%10000 == 0:
-                    prt.write('{HMS} {IDX} {DBID}'.format(HMS=get_hms(TIC), IDX=idx, DBID=rec['dbId']))
+                    prt.write('{HMS} {IDX} {DBID}'.format(
+                        HMS=get_hms(self.tic), IDX=idx, DBID=rec['dbId']))
         return dbids
 
     def get_dbid2val(self, qry, prt=sys.stdout):
@@ -91,7 +93,18 @@ class NodeGetter():
                 HMS=get_hms(self.tic), N=len(dbid2ntnodes), Q=self._shorten_queryprt(qry)))
         return {dbid:vals for dbid, vals in dbid2ntnodes.items()}
 
-    def get_nodes(self, srchstr, msg=None):
+    def get_nodes_query(self, query, msg=None):
+        """Get Summation as a Neo4jNode."""
+        nodes = []
+        tic = timeit.default_timer()
+        with self.gdbdr.session() as session:
+            for rec in session.run(query).records():
+                nodes.append(Neo4jNode(rec['s']))
+        print('  {HMS} {N:,} {MSG}'.format(
+            HMS=get_hms(tic), N=len(nodes), MSG=msg if msg else query))
+        return nodes
+
+    def get_nodes_sch(self, srchstr, msg=None):
         """Get Summation as a Neo4jNode."""
         nodes = []
         tic = timeit.default_timer()

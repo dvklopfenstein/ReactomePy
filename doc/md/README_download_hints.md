@@ -6,7 +6,7 @@ regarding installing Neo4j and downloading the Reactome Knowledgebase.
 rather than open an issue in this repo.
 
 
-## HINTS for Downloading the Reactome Knowledgebase
+## Hints for downloading the Reactome Knowledgebase
 1. [**Download the Reactome database**](#1-download-the-reactome-database)
 2. [**Uncompress and extract the database**](#2-uncompress-and-extract-the-reactome-database-in-neo4j-format)
 3. [**Ensure the graph.db directory does not exist in the Neo4j directory structure**](#3-ensure-the-graphdb-directory-does-not-exist-in-the-neo4j-directory-structure)
@@ -18,7 +18,7 @@ rather than open an issue in this repo.
   7.2) [**Connect to the neo4j server from a Python script**](README_gdbdr.md#2-connect-to-the-neo4j-server-from-a-python-script)    
 
 
-## HINTS for Downloading the Reactome Knowledgebase (details)
+## Hints for downloading the Reactome Knowledgebase (details)
 ### 1. Download the Reactome database
 ![download](images/download.png)
 
@@ -89,5 +89,13 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     There may be a short delay until the server is ready.
     See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
 ```
+### 6. View the Reactome database in the neo4j browser
+#### Try a Cypher command:
+What sub-pathways are under under pathway, R-HSA-983169, _Class I MHC mediated antigen processing & presentation_?
+
+![subpwy](images/neo4j_pwy_subpwy.png)
+
+### 7. [**Python interface to neo4j**](README_gdbdr.md)    
+More on the [next page...](README_gdbdr.md)    
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

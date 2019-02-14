@@ -1,20 +1,26 @@
-# Biological Pathways, Reactome, Python, and Neo4j
+# [Reactome](https://reactome.org/), Python, and Neo4j
 
-**_Reactome isn't just Biological Pathways!_**
+**_[Reactome](https://reactome.org/) isn't just Biological Pathways_ ...**
 
-Reactome contains a _treasure trove_ of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
+Reactome contains a wealth of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
 
-Explore it today using Python to run neo4j queries
+Explore [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb) to run [**neo4j queries**](/doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser) on the Reactome Knowledgebase.
 
-## **Scripts**
+## To Cite
+
+_Please cite the following research paper if this repo is used in your research_:
+
+Klopfenstein DV, Tozeren A, Dampier W [Disease hotspots in Human, Mouse, and Fly](https://www.nature.com/articles/s41598-018-28948-z)    
+_bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
+
+
+## Scripts
   * **No need to have Neo4j running:**    
     * [src/bin](/src/bin)     
   * **Neo4j must be installed and running on data downloaded from Reactome:**    
     * Run [**Reactome's tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules) of Neo4j queries using these Python scripts:    
        * **Jupyter notebooks:** [src/ipy/tutorial](src/ipy/tutorial)
        * **Python scripts:** [src/bin_neo4j/tutorial](src/bin_neo4j/tutorial)
-    * Extract Reactome data using Neo4j. Save in Python modules used by scripts in [src/bin](src/bin):    
-      * [src/bin_neo4j/wrpy](src/bin_neo4j/wrpy)
 
 ## Prerequisites
   * Python 3.5 or greater
@@ -23,7 +29,8 @@ Explore it today using Python to run neo4j queries
   * docopt
 
 ## Reactome Links
-  * [**Download hints**](/doc/md/README_download_hints.md)
+  * **Download hints**:
+    * [**Download Reactome Knowledgebase**](/doc/md/README_download_hints.md)
   * **Publications**
     * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    

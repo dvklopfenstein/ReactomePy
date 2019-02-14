@@ -23,7 +23,7 @@ def main(password, prt=sys.stdout):
     #
     # First level paticipating molecules for reaction R-HSA-8863895
     qry = ('MATCH (r:ReactionLikeEvent{stId:"R-HSA-8863895"})'
-           '-[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator*]'
+           '-[:input|output|catalystActivity|regulatedBy|regulator|physicalEntity*]'
            '->(pe:PhysicalEntity)'
            'RETURN DISTINCT r.stId AS Reaction, pe.stId as Participant, pe.displayName AS DisplayName')
 

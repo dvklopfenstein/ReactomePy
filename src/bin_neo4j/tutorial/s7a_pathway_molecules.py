@@ -17,7 +17,10 @@ def main(password):
 
     # ALL paticipating molecules for pathway R-HSA-983169
     qry = ('MATCH (p:Pathway{stId:"R-HSA-983169"})-[:hasEvent*]->(rle:ReactionLikeEvent),'
-           '(rle)-[:input|output|catalystActivity|physicalEntity|regulatedBy|regulator|hasComponent|hasMember|hasCandidate*]->(pe:PhysicalEntity),'
+           '(rle)-[:'
+           'input|output|catalystActivity|regulatedBy|'
+           'physicalEntity|regulator|hasComponent|hasMember|hasCandidate*'
+           ']->(pe:PhysicalEntity),'
            '(pe)-[:referenceEntity]->(re:ReferenceEntity)-[:referenceDatabase]->(rd:ReferenceDatabase)'
            'RETURN DISTINCT re.identifier AS Identifier, rd.displayName AS Database')
 
