@@ -1,10 +1,12 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
-**_[Reactome](https://reactome.org/) isn't just Biological Pathways_ ...**
+**_[Reactome](https://reactome.org/) isn't just a pathway database_ ...**
 
 Reactome contains a wealth of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
 
-Explore [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb) to run [**neo4j queries**](/doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser) on the Reactome Knowledgebase.
+  1) Explore [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb) to run [**neo4j queries**](/doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser) on the Reactome Knowledgebase.
+
+  2) Run Reactome Pathway Analyses [from the command line](doc/md/README_analyses.md)
 
 ## To Cite
 
