@@ -80,6 +80,12 @@ vim_old:
 	./src/reactomeneo4j/code/acc_seq.py \
 	./src/reactomeneo4j/code/node.py
 
+vim_ea:
+	vim -p \
+	../reactome_neo4j_py/src/bin/example_pathway_enrichment.py \
+	../reactome_neo4j_py/src/reactomeneo4j/code/rest/service_analysis.py \
+	../reactome_neo4j_py/src/reactomeneo4j/code/cli/pwy_enrichment.py
+
 pylint:
 	@git status -uno | perl -ne 'if (/(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$1}' | tee tmp_pylint
 	chmod 755 tmp_pylint
