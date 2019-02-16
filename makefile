@@ -41,7 +41,6 @@ wr_rel:
 
 vim_:
 	vim -p \
-	./src/bin/run_reactome_tutorial.py \
 	./src/bin_neo4j/wrpy/pathways.py \
 	./src/reactomeneo4j/code/session.py \
 	./src/reactomeneo4j/code/graph.py \
