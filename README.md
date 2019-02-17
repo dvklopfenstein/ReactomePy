@@ -2,21 +2,22 @@
 
 **_[Reactome](https://reactome.org/) isn't just a world-class pathway database_ ...**
 
-Reactome also contains a wealth of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links to associated reasearch papers, URLs, and books, as well as pathway information.
+Reactome also contains a wealth of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links
+to associated reasearch papers, URLs, and books, in addition to pathway information.
 
 
 ## Use this Python library to:
 
-  1) Explore the Reactome Knowledgebase [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
-     to run a [**neo4j queries**](doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser)
+  1) Run [**Reactome's Neo4j Tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules)
+     from one of the [**Jupyter notebooks**](src/ipy/tutorial) or a plain [**Python script**](src/bin_neo4j/tutorial)
 
   2) Find enriched pathways [**from the command line**](doc/md/README_analyses.md),
      which accesses Reactome's [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
 
   3) Find enriched pathways using custom associations.
 
-  4) Run [**Reactome's Neo4j Tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules)
-     from one of the [**Jupyter notebooks**](src/ipy/tutorial) or a plain [**Python script**](src/bin_neo4j/tutorial)
+  4) Explore the Reactome Knowledgebase [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
+     to run a [**neo4j queries**](doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser)
 
 ## To Cite
 
