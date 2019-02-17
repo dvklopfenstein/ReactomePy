@@ -86,7 +86,7 @@ class NodeGetter():
                 rel = rec['rtyp']
                 dst = rec['d']
                 ntkey = ntobjkey(dbId=dst['dbId'], rel=rel)
-                ntnodes = ntobjnode(src=src, rel=rel, dst=dst)
+                ntnodes = ntobjnode(src=Neo4jNode(src), rel=rel, dst=Neo4jNode(dst))
                 dbid2ntnodes[dst['dbId']][ntkey] = ntnodes
         if prt:
             prt.write('  {HMS} {N:,} rel-dbIds: {Q}\n'.format(

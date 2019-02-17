@@ -41,7 +41,6 @@ wr_rel:
 
 vim_:
 	vim -p \
-	./src/bin/run_reactome_tutorial.py \
 	./src/bin_neo4j/wrpy/pathways.py \
 	./src/reactomeneo4j/code/session.py \
 	./src/reactomeneo4j/code/graph.py \
@@ -79,6 +78,12 @@ vim_old:
 	./src/reactomeneo4j/code/pathway.py \
 	./src/reactomeneo4j/code/acc_seq.py \
 	./src/reactomeneo4j/code/node.py
+
+vim_ea:
+	vim -p \
+	../reactome_neo4j_py/src/bin/example_pathway_enrichment.py \
+	../reactome_neo4j_py/src/reactomeneo4j/code/rest/service_analysis.py \
+	../reactome_neo4j_py/src/reactomeneo4j/code/cli/pwy_enrichment.py
 
 pylint:
 	@git status -uno | perl -ne 'if (/(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$1}' | tee tmp_pylint

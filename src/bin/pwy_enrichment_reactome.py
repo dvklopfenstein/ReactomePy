@@ -14,7 +14,7 @@ Options:
   --csv=CSV  Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
   --csv0=NF  Write list of identifiers that were not found [default: ids_found.csv]
   --csv1=F   Write list of identifiers that were found [default: ids_notfound.csv]
-
+  -b --base  Prepend a basename to all output files
 """
 
 
@@ -51,7 +51,7 @@ def main():
 
 def _get_token(data, sample_name, token, ana):
     """Return a token associated with a Pathway enrichment analysis."""
-    # If user provides no token, then run a Pathway enrichemtn analysis. Return token
+    # If user provides no token, then run a Pathway enrichment analysis. Return token
     if token is None:
         rsp = ana.post_ids(data, sample_name)
         print(rsp)
