@@ -2,7 +2,7 @@
 
 **_[Reactome](https://reactome.org/) isn't just a world-class pathway database_ ...**
 
-In addition to being a world-class pathway databse, 
+In addition to being a world-class pathway database, 
 Reactome contains a wealth of expert-authored, peer-reviewed detailed knowledge of 
 reactions, 
 ingredients of molecular complexes, 
@@ -17,7 +17,7 @@ links to associated reasearch papers, URLs, and books.
      from one of the [**Jupyter notebooks**](src/ipy/tutorial) or a plain [**Python script**](src/bin_neo4j/tutorial)
 
   2) Find enriched pathways [**from the command line**](doc/md/README_analyses.md),
-     which accesses Reactome's [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
+     accessing Reactome's [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
 
   3) Find enriched pathways using custom associations.
 
@@ -31,9 +31,10 @@ _Please cite the following research paper if this repo is used in your research_
 Klopfenstein DV, Tozeren A, Dampier W [Disease hotspots in Human, Mouse, and Fly](https://www.nature.com/articles/s41598-018-28948-z)    
 _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
 
-## Reactome Links
-  * **Download hints**:
-    * [**Download Reactome Knowledgebase**](/doc/md/README_download_hints.md)
+## Links
+  * **User's Download hints**:
+    * [Download Reactome Knowledgebase](/doc/md/README_download_hints.md)    
+    * [Install Neo4j](/doc/md/README_install_neo4j.md)
   * **Reactome Publications**
     * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * **Reactome Documentation**    
