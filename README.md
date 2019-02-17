@@ -2,8 +2,13 @@
 
 **_[Reactome](https://reactome.org/) isn't just a world-class pathway database_ ...**
 
-Reactome also contains a wealth of expert-authored, peer-reviewed detailed knowledge of reactions, ingredients of molecular complexes, protein-protein interactions, links to biological models, links
-to associated reasearch papers, URLs, and books, in addition to pathway information.
+In addition to being a world-class pathway databse, 
+Reactome contains a wealth of expert-authored, peer-reviewed detailed knowledge of 
+reactions, 
+ingredients of molecular complexes, 
+protein-protein interactions, 
+links to biological models, 
+links to associated reasearch papers, URLs, and books.
 
 
 ## Use this Python library to:
