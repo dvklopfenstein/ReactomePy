@@ -34,11 +34,12 @@ _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
 ## Reactome Links
   * **Download hints**:
     * [**Download Reactome Knowledgebase**](/doc/md/README_download_hints.md)
-  * **Publications**
+  * **Reactome Publications**
     * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
-  * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
-  * [Glossary Data Model](http://wiki.reactome.org/index.php/Glossary_Data_Model)    
-  * [Icon library](https://reactome.org/icon-lib)    
-  * [Reactome Graph Database on GitHub](https://github.com/reactome/graph-core)    
+  * **Reactome Documentation**    
+    * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
+    * [Glossary Data Model](http://wiki.reactome.org/index.php/Glossary_Data_Model)    
+    * [Icon library](https://reactome.org/icon-lib)    
+    * [Reactome Graph Database on GitHub](https://github.com/reactome/graph-core)    
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
