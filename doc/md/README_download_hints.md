@@ -1,8 +1,8 @@
 # Reactome Download Hints
 Please see [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
-regarding installing Neo4j and downloading the Reactome Knowledgebase.
+regarding downloading the Reactome Knowledgebase.
 
-**Please direct questions** regarding **downloading and installing Neo4j** and **loading the Reactome Knowledgebase** to **Reactome**,
+**Please direct questions** regarding **loading the Reactome Knowledgebase** to **Reactome**,
 rather than open an issue in this repo.
 
 
