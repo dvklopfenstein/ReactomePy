@@ -21,8 +21,9 @@ links to associated reasearch papers, URLs, and books.
 
   3) Find enriched pathways using custom associations.
 
-  4) Explore the Reactome Knowledgebase [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
-     to run a [**neo4j query**](doc/md/README_cypher_cmd.md)
+  4) Explore the Reactome Knowledgebase 
+     with a [**neo4j query**](doc/md/README_cypher_cmd.md)
+     in a [**Python script**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
 
 ## To Cite
 
