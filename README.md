@@ -28,13 +28,13 @@ links to associated reasearch papers, URLs, and books.
 
 _Please cite the following research paper if this repo is used in your research_:
 
-Klopfenstein DV, Tozeren A, Dampier W [Disease hotspots in Human, Mouse, and Fly](https://www.nature.com/articles/s41598-018-28948-z)    
+Klopfenstein DV, Tozeren A, Dampier W [_Disease hotspots in Human, Mouse, and Fly_](https://www.nature.com/articles/s41598-018-28948-z)    
 _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
 
 ## Links
   * **User's Download hints**:
-    * [Download Reactome Knowledgebase](/doc/md/README_download_hints.md)    
-    * [Install Neo4j](/doc/md/README_install_neo4j.md)
+    * [1) Install Neo4j](/doc/md/README_install_neo4j.md)
+    * [2) Download Reactome Knowledgebase](/doc/md/README_download_hints.md)    
   * **Reactome Publications**
     * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * **Reactome Documentation**    
