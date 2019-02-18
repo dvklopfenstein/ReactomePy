@@ -17,12 +17,12 @@ links to associated reasearch papers, URLs, and books.
      from one of the [**Jupyter notebooks**](src/ipy/tutorial) or a plain [**Python script**](src/bin_neo4j/tutorial)
 
   2) Find enriched pathways [**from the command line**](doc/md/README_analyses.md),
-     accessing Reactome's [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
+     accessing Reactome's online [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
 
   3) Find enriched pathways using custom associations.
 
   4) Explore the Reactome Knowledgebase [**using Python**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
-     to run a [**neo4j queries**](doc/md/README_download_hints.md#6-view-the-reactome-database-in-the-neo4j-browser)
+     to run a [**neo4j query**](doc/md/README_cypher_cmd.md)
 
 ## To Cite
 
@@ -36,7 +36,7 @@ _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
     * [1) Install Neo4j](/doc/md/README_install_neo4j.md)
     * [2) Download Reactome Knowledgebase](/doc/md/README_download_hints.md)    
   * **Reactome Publications**
-    * 2018 [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
+    * 2018 | [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * **Reactome Documentation**    
     * [Data Schema](https://reactome.org/content/schema/DatabaseObject)    
     * [Glossary Data Model](http://wiki.reactome.org/index.php/Glossary_Data_Model)    
