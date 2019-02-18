@@ -1,21 +1,25 @@
 # Neo4j Download Hints
 Please see [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
-regarding installing Neo4j and downloading the Reactome Knowledgebase.   
+regarding installing Neo4j.
 
 
-**Please direct questions** regarding **downloading and installing Neo4j** and **loading the Reactome Knowledgebase** to **Reactome**,
+**Please direct questions** regarding **downloading and installing Neo4j** to **Reactome**,
 rather than open an issue in this repo.
 
-Contributions Welcome to this page!
+Please contribute to this page if you have a helpful install hint.
 
 ## Hints for installing Neo4j
 * **Download the _Neo4j Community Edition_**
-* **
+* **Download Java, if needed**
 
 ## Hints for installing Neo4j (details)
 
 ### Download the [_Neo4j Community Edition_](https://neo4j.com/download-center/#releases)
-![Neo4j COmmunity Server](images/Neo4j_Community_Server.png)
+![Neo4j Community Server](images/Neo4j_Community_Server.png)
+
+### Download Java, if needed
+Download the Java Design Kit from Oracle:
+![JDK Download](doc/md/images/java_jdk_download.png)
 
 ### N. Download the Reactome Knowledegebase and connect it to Neo4j
 More on the [next page...](README_download_hints.md)
