@@ -15,11 +15,12 @@ Please contribute to this page if you have a helpful install hint.
 ## Hints for installing Neo4j (details)
 
 ### Download the [_Neo4j Community Edition_](https://neo4j.com/download-center/#releases)
-![Neo4j Community Server](images/Neo4j_Community_Server.png)
+![Neo4j Community Server](/doc/md/images/Neo4j_CommunityServer.png)
 
 ### Download Java, if needed
-Download the Java Design Kit from Oracle:
-![JDK Download](doc/md/images/java_jdk_download.png)
+Download the Java Design Kit from Oracle:    
+https://www.oracle.com/technetwork/java/javase/downloads/index.html     
+![JDK Download](/doc/md/images/java_jdk_download.png)
 
 ### N. Download the Reactome Knowledegebase and connect it to Neo4j
 More on the [next page...](README_download_hints.md)
