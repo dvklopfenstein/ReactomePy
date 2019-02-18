@@ -10,7 +10,7 @@ Please contribute to this page if you would like to share a helpful install hint
 
 
 ## Hints for installing Neo4j
-* [**Download the _Neo4j Community Edition_**](#download-the-neo4j-community-edition)
+* [**Download the _Neo4j Community Server Edition_**](#download-the-neo4j-community-server-edition)
 * [**Download Java, if needed**](#download-java-if-needed)
 * [**Download the Reactome Knowledegebase and connect it to Neo4j**](README_download_hints.md)
 
