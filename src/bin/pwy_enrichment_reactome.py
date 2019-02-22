@@ -14,7 +14,7 @@ Options:
   --csv=CSV  Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
   --csv0=NF  Write list of identifiers that were not found [default: ids_found.csv]
   --csv1=F   Write list of identifiers that were found [default: ids_notfound.csv]
-  -b --base  Prepend a basename to all output files
+  -b --base=BASE  Prepend a basename to all output files
 """
 
 
@@ -28,6 +28,7 @@ from docopt import docopt
 from reactomeneo4j.code.rest.service_analysis import AnalysisService
 from reactomeneo4j.code.ex.uniprot_accession_list import SAMPLE_NAME
 from reactomeneo4j.code.ex.uniprot_accession_list import DATA
+from enrichmentanalysis.file_utils import prepend
 
 
 def main():
@@ -43,10 +44,11 @@ def main():
     token = _get_token(DATA, SAMPLE_NAME, args.get('--token'), ana)
 
     # Write Pathway Enrichment Analysis to a file
-    ana.pdf_report(args['--pdf'], token)
-    ana.csv_pathways(args['--csv'], token, resource='TOTAL')
-    ana.csv_found(args['--csv0'], token, resource='TOTAL')
-    ana.csv_notfound(args['--csv1'], token)
+    base = args['--base'] if args['--base'] else None
+    ana.pdf_report(prepend(base, args['--pdf']), token)
+    ana.csv_pathways(prepend(base, args['--csv']), token, resource='TOTAL')
+    ana.csv_found(prepend(base, args['--csv0']), token, resource='TOTAL')
+    ana.csv_notfound(prepend(base, args['--csv1']), token)
 
 
 def _get_token(data, sample_name, token, ana):
@@ -54,6 +56,7 @@ def _get_token(data, sample_name, token, ana):
     # If user provides no token, then run a Pathway enrichment analysis. Return token
     if token is None:
         rsp = ana.post_ids(data, sample_name)
+        # pylint: disable=superfluous-parens
         print(rsp)
         assert 'summary' in rsp, rsp
         token = rsp['summary']['token']
