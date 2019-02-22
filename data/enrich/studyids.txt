@@ -1,0 +1,44 @@
+#    1)  1 (+)chr1  152968765 153774989    806,225 1q21.3        36 Genes
+# pkgdisclu.data.clu_ag.pc.disease.L05hasL01.gte10.hsa.clusters
+# Created by: proj_dis_clu/src/bin/lst_clu_genes.py
+
+#   36 genes all
+#   35 genes with proteins
+#   35 proteins
+#    0 proteins are associated with more than one gene
+
+O95295
+P05109
+P06702
+P06703
+P16066
+P22528
+P22531
+P22532
+P23297
+P23490
+P26447
+P29034
+P31151
+P33763
+P33764
+P35321
+P35325
+P35326
+P80511
+Q12905
+Q5K4L6
+Q5T870
+Q5T871
+Q68E01
+Q86SG5
+Q96FQ6
+Q96LB8
+Q96LB9
+Q96PI1
+Q96RM1
+Q99584
+Q9BYE4
+Q9HCY8
+Q9UBC9
+Q9Y3Y2
