@@ -90,14 +90,30 @@ pylint:
 	chmod 755 tmp_pylint
 	tmp_pylint
 
+# --------------------------------------------------------------------------------
+dist_archive:
+	#python3 -m pip install --user --upgrade setuptools wheel
+	python3 setup.py sdist bdist_wheel
+	find dist
+
+clean_dist:
+	rm -rf dist build enrichmentanalysis.egg-info
+
+# --------------------------------------------------------------------------------
+upload_pypi_test:
+	python setup.py register -r pypitest
+	python setup.py sdist upload -r pypitest
+
+# ----------------------------------------------------------------------------------------
 clean:
+	rm -f *.csv
 	rm -f relationship_*.txt
 	rm -f tmp_pylint
 	make -f makefile clean_pyc
 
 clean_pyc:
 	find . -name \*.pyc | xargs rm -f
-	find . -name \*.stackdump | xargs rm -f
+	find . -name \*.st\*p | xargs rm -f
 
 clobber_materials:
 	rm goa_human.*; wget http://geneontology.org/gene-associations/goa_human.gaf.gz; gunzip goa_human.gaf.gz
