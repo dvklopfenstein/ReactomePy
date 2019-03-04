@@ -1,7 +1,5 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
-**_[Reactome](https://reactome.org/) isn't just a world-class pathway database_ ...**
-
 In addition to being a world-class pathway database, 
 Reactome contains a wealth of expert-authored, peer-reviewed detailed knowledge of 
 reactions, 

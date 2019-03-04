@@ -70,15 +70,6 @@ vim_pub:
 	src/reactomeneo4j/data/hsa/pathways/pathways.py \
 	src/reactomeneo4j/code/species.py
 
-vim_old:
-	vim -p \
-	./src/bin/test_reactome_tutorial.py \
-	./src/reactomeneo4j/code/graphdb.py \
-	./src/reactomeneo4j/code/lit_ref.py \
-	./src/reactomeneo4j/code/pathway.py \
-	./src/reactomeneo4j/code/acc_seq.py \
-	./src/reactomeneo4j/code/node.py
-
 vim_ea:
 	vim -p \
 	../reactome_neo4j_py/src/bin/example_pathway_enrichment.py \
@@ -97,7 +88,7 @@ dist_archive:
 	find dist
 
 clean_dist:
-	rm -rf dist build enrichmentanalysis.egg-info
+	rm -rf dist build reactomeneo4j.egg-info
 
 # --------------------------------------------------------------------------------
 upload_pypi_test:

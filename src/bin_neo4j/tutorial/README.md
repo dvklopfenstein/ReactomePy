@@ -1,12 +1,12 @@
 # Query the Reactome Knowledgebase from Jupyter notebooks
 
-## The Reactome Paper
+## Examples from the Reactome paper
 [**_Reactome graph database: Efficient access to complex pathway data_**](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005968)
 
   * [**Fig 4a) Which molecules participate in Interleukin-4 and 13 signaling (R-HSA-6785807)?**](fig4a_2018_molecules_in_interleukin_signaling.py)
   * [**Fig 4b) In which pathways does CCR5 (UniProt:P51681) participate?**](fig4b_2018_ccr5_pathways.py)
 
-## The [Reactome Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules)
+## Examples from the [Reactome Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules)
 
   * [**1a) Retrieve a Pathway based on its identifier**](s1a_get_pathway.py)    
   * [**1b) Retrieving a protein based on its identifier**](s1b_get_protein.py)    
