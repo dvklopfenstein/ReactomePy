@@ -1,10 +1,13 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
 In addition to being a world-class pathway database, 
-Reactome contains a wealth of expert-authored, peer-reviewed detailed knowledge of 
+Reactome contains 
+expert-authored and peer-reviewed
 reactions, 
-ingredients of molecular complexes, 
-protein-protein interactions, 
+molecular complex ingredients and structure, and
+protein-protein interactions.
+
+Links 
 links to biological models, 
 links to associated reasearch papers, URLs, and books.
 
@@ -27,7 +30,8 @@ links to associated reasearch papers, URLs, and books.
 
 _Please cite the following research paper if this repo is used in your research_:
 
-Klopfenstein DV, Tozeren A, Dampier W [_Disease hotspots in Human, Mouse, and Fly_](https://www.nature.com/articles/s41598-018-28948-z)    
+Klopfenstein DV, Dampier W 
+[Understudied disease genes are similar to gene neighbors in human, mouse and fl](https://www.nature.com/articles/s41598-018-28948-z)    
 _bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
 
 ## Links
