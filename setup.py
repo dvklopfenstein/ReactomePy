@@ -53,5 +53,5 @@ setup(
     ],
     url='http://github.com/dvklopfenstein/reactome_neo4j_py',
     description='Explore biological pathways in Reactome from the command-line',
-    install_requires=['timeit', 'datetime', 'collections'],
+    install_requires=['timeit', 'datetime', 'collections', 'enrichmentanalysis'],
 )

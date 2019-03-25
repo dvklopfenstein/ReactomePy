@@ -8,6 +8,16 @@
 run:
 	echo Hello
 
+vim_ea_reactome:
+	vim -p \
+	../reactome_neo4j_py/src/bin/pwy_enrichment_reactome.py \
+	../reactome_neo4j_py/src/reactomeneo4j/code/rest/service_analysis.py
+
+pylint:
+	@git status -uno | perl -ne 'if (/(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$1}' | tee tmp_pylint
+	chmod 755 tmp_pylint
+	tmp_pylint
+
 # Re-generate Python modules containing Reatome data
 # This is done for every new Reactome version
 wrpy:
@@ -32,55 +42,6 @@ wr_rel:
 	$(WRREL) $(PASSWORD) -o --species='' --schemaClass=Drug
 	mv relationship_r*.txt log/get_relationship_cnts
 	
-
-# mv_db:
-# 	mv $(DL)/reactome.graphdb.gz .
-# 	gunzip reactome.graphdb.gz
-# 	tar -xvf reactome.graphdb.gz
-# 	mv reactome.graphdb.v66 ~/neo4j/neo4j-community-3.4.7/data/graph.db
-
-vim_:
-	vim -p \
-	./src/bin_neo4j/wrpy/pathways.py \
-	./src/reactomeneo4j/code/session.py \
-	./src/reactomeneo4j/code/graph.py \
-	./src/reactomeneo4j/code/record.py \
-	./src/reactomeneo4j/code/node.py \
-	./src/reactomeneo4j/code/relationship.py \
-	./src/reactomeneo4j/code/schema/data_schema.py \
-	./src/reactomeneo4j/code/schema/hier.py \
-	./src/reactomeneo4j/code/schema/hier_init.py \
-	./src/reactomeneo4j/code/schema/node.py
-
-vim_wrpy:
-	vim -p \
-	./src/bin_neo4j/wrpy/pathways.py \
-	src/reactomeneo4j/code/wrpy/query_general.py \
-	src/reactomeneo4j/code/wrpy/pathway_query.py \
-	src/reactomeneo4j/code/wrpy/wrpy_general.py \
-	src/reactomeneo4j/code/wrpy/pathway_wrpy.py \
-	src/reactomeneo4j/data/hsa/pathways_publications.py \
-	src/reactomeneo4j/data/species.py \
-	src/reactomeneo4j/code/wrpy/utils.py
-
-vim_pub:
-	vim -p \
-	src/bin/describe_pathway.py \
-	src/reactomeneo4j/code/describe_pathway.py \
-	src/reactomeneo4j/data/hsa/pathways/pathways.py \
-	src/reactomeneo4j/code/species.py
-
-vim_ea:
-	vim -p \
-	../reactome_neo4j_py/src/bin/example_pathway_enrichment.py \
-	../reactome_neo4j_py/src/reactomeneo4j/code/rest/service_analysis.py \
-	../reactome_neo4j_py/src/reactomeneo4j/code/cli/pwy_enrichment.py
-
-pylint:
-	@git status -uno | perl -ne 'if (/(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$1}' | tee tmp_pylint
-	chmod 755 tmp_pylint
-	tmp_pylint
-
 # --------------------------------------------------------------------------------
 dist_archive:
 	#python3 -m pip install --user --upgrade setuptools wheel

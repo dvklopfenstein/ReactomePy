@@ -1,13 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Run Reactome's Pathway Enrichment Analysis using their REST Service.
 
 Usage:
-    example_pathway_enrichment.py [options]
+    example_pathway_enrichment.py (<study_ids>| --token=TOKEN) [options]
 
 Options:
   -h --help           Show usage
-  -d --data=FILE      File containing a list of identifiers
-  --name=SAMPLE_NAME  Sample name
   -t --token=TOKEN    Provide token representing a completed analysis.
                       Tokens are used to access a previous analysis.
   --pdf=PDF  Write pathway report into pdf file [default: pathway_enrichment.pdf]
@@ -15,6 +13,7 @@ Options:
   --csv0=NF  Write list of identifiers that were not found [default: ids_found.csv]
   --csv1=F   Write list of identifiers that were found [default: ids_notfound.csv]
   -b --base=BASE  Prepend a basename to all output files
+  -tl --tokenlog=TOKEN  File containing a log of all new tokens [default: tokens.log]
 """
 
 
@@ -26,43 +25,31 @@ __author__ = "DV Klopfenstein"
 from docopt import docopt
 #### from reactomeneo4j.code.utils import get_args
 from reactomeneo4j.code.rest.service_analysis import AnalysisService
-from reactomeneo4j.code.ex.uniprot_accession_list import SAMPLE_NAME
-from reactomeneo4j.code.ex.uniprot_accession_list import DATA
+from enrichmentanalysis.file_utils import clean_args
 from enrichmentanalysis.file_utils import prepend
+from enrichmentanalysis.file_utils import read_ids
 
 
 def main():
     """Run Reactome's Pathway Enrichment Analysis UniProt example."""
-    ana = AnalysisService()
+    ana = AnalysisService('tokens.log')
     #### args = get_args(__doc__, {'token', 'pdf', 'csv', 'data', 'sample_name'})
-    args = docopt(__doc__)
+    docargs = docopt(__doc__)
+    args = clean_args(docargs)
     print(args)
+    study_dct = read_ids(args['study_ids'])
 
     # Run pathway enrichment analysis example and get the associated identifying token:
     #     sample_name: GBM Uniprot
     #     data: P01023 Q99758 O15439 O43184 Q13444 P82987
-    token = _get_token(DATA, SAMPLE_NAME, args.get('--token'), ana)
+    token = ana.get_token(**study_dct, token=args.get('token'))
 
     # Write Pathway Enrichment Analysis to a file
-    base = args['--base'] if args['--base'] else None
-    ana.pdf_report(prepend(base, args['--pdf']), token)
-    ana.csv_pathways(prepend(base, args['--csv']), token, resource='TOTAL')
-    ana.csv_found(prepend(base, args['--csv0']), token, resource='TOTAL')
-    ana.csv_notfound(prepend(base, args['--csv1']), token)
-
-
-def _get_token(data, sample_name, token, ana):
-    """Return a token associated with a Pathway enrichment analysis."""
-    # If user provides no token, then run a Pathway enrichment analysis. Return token
-    if token is None:
-        rsp = ana.post_ids(data, sample_name)
-        # pylint: disable=superfluous-parens
-        print(rsp)
-        assert 'summary' in rsp, rsp
-        token = rsp['summary']['token']
-        print('TOKEN: {T}'.format(T=token))
-        return token
-    return token
+    base = args.get('base')
+    ana.pdf_report(prepend(base, args['pdf']), token)
+    ana.csv_pathways(prepend(base, args['csv']), token, resource='TOTAL')
+    ana.csv_found(prepend(base, args['csv0']), token, resource='TOTAL')
+    ana.csv_notfound(prepend(base, args['csv1']), token)
 
 
 if __name__ == '__main__':

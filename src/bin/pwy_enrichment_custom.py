@@ -1,15 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Pathway enrichment analysis with user-provided population and associations.
 
 Usage:
-    example_pathway_enrichment.py <study_ids> <population_ids> <pathway_associations> [options]
+    pwy_enrichment_custom.py <study_ids> <population_ids> <pathway_associations> [options]
 
 Options:
   -h --help             Show usage
   --csv=CSV  Write pathway enrichment analysis into a csv file [default: pw_pathway_enrichment_custom.csv]
   --csv0=NF  Write list of identifiers that were not found [default: pw_ids_found.csv]
   --csv1=F   Write list of identifiers that were found [default: pw_ids_notfound.csv]
-  -b --base  Prepend a basename to all output files [default: pw]
+  -b --base=BASE  Prepend a basename to all output files
 """
 
 

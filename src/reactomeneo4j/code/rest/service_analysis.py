@@ -9,6 +9,7 @@ __author__ = "DV Klopfenstein"
 # import json
 import pprint
 import requests
+import datetime
 
 
 # pylint: disable=line-too-long
@@ -34,6 +35,35 @@ class AnalysisService(object):
         'NCBI_PROTEIN',
         'EMBL',
         'COMPOUND'])
+
+    def __init__(self, fout_log_tokens):
+        self.fout_log_tokens = fout_log_tokens
+
+    def get_token(self, ids, name=None, token=None):
+        """Return a token associated with a Pathway enrichment analysis."""
+        # If user provides no token, then run a Pathway enrichment analysis. Return token
+        if token is None:
+            return self._get_token(ids, name)
+        return token
+
+    def _get_token(self, data, sample_name):
+        """Run a Pathway enrichment analysis. Return token"""
+        rsp = self.post_ids(data, sample_name)
+        # pylint: disable=superfluous-parens
+        assert 'summary' in rsp, rsp
+        token = rsp['summary']['token']
+        self._prt_token(token, data, sample_name)
+        return token
+
+    def _prt_token(self, token, data, sample_name):
+        """Print newly genrated token."""
+        txt = 'TOKEN: {T}  # {DATE} {N:4} user items {NAME}'.format(
+            T=token, N=len(data), NAME=sample_name,
+            DATE=datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y"))
+        print(txt)
+        with open(self.fout_log_tokens, 'a') as log:
+            log.write('  {TOKEN}\n'.format(TOKEN=txt))
+            print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
 
     def post_ids(self, ids, sample_name=None):
         """Data Submission, identifiers."""
@@ -105,9 +135,9 @@ class AnalysisService(object):
         return rsp
 
     @staticmethod
-    def _wr(fout, rsp_data):
+    def _wr(fout, rsp_data, mode):
         """Write response data to a file."""
-        with open(fout, 'w') as prt:
+        with open(fout, mode) as prt:
             prt.write(rsp_data)  # content for a binary (pdf) file
             print("  WROTE: {FILE}".format(FILE=fout))
 
@@ -127,7 +157,7 @@ class AnalysisService(object):
         # params = {'output':fout_pdf}
         rsp = requests.get(url, headers=hdrs, params=params)
         if rsp.status_code == 200:
-            self._wr(fout_pdf, rsp.content)
+            self._wr(fout_pdf, rsp.content, 'wb')
 
     def csv_pathways(self, fout_csv, token, resource='TOTAL'):
         """result.csv w/web; Get the overrepresented pathway results."""
@@ -138,7 +168,7 @@ class AnalysisService(object):
         url = url_pat.format(URL=self.url, TOKEN=token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
-            self._wr(fout_csv, rsp.text)
+            self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
         return rsp
 
@@ -161,7 +191,7 @@ class AnalysisService(object):
         url = url_pat.format(URL=self.url, TOKEN=token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
-            self._wr(fout_csv, rsp.text)
+            self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
 
     def csv_notfound(self, fout_csv, token):
@@ -172,7 +202,7 @@ class AnalysisService(object):
         url = url_pat.format(URL=self.url, TOKEN=token, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
-            self._wr(fout_csv, rsp.text)
+            self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
 
     def get_notfound(self, token):
