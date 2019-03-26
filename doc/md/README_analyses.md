@@ -1,6 +1,7 @@
 # Analyze Data with <img src="images/logo_reactome.png" height="50pt">
 Get the [**same analysis results**](#command-line-and-gui-return-the-same-results)
-from the command line as from Reactome's _Analyse Data Tool GUI_.
+from the [**command line**](#command-line-examples)
+as from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
 
 The results are written into these files:
   * result.csv
