@@ -1,4 +1,10 @@
 """For communicating with Reactome's REST service."""
+# TBD: Add pathway analysis options:
+#   1) Project to human using ENSEMBL's Inferra database
+#      Analyse the identifiers in the file over the different species and projects the result to Homo Sapiens
+#      /identifiers/form/projection
+#   2) include interactors from IntAct
+#
 
 from __future__ import print_function
 

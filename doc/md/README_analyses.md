@@ -1,11 +1,5 @@
 # Analyze Data with <img src="images/logo_reactome.png" height="50pt">
-Do pathway enrichment analysis using Reactome's
-[**Pathway Analysis Service**](https://reactome.org/AnalysisService/)
-from the command-line.
-
-This returns the same results as running a pathway enrichment analysis
-from the [_Analyse your data_i](https://reactome.org/PathwayBrowser/#TOOL=AT) tabxi
-in the Reactome _Analysis tools_ web page.
+Get the same analysis results from the command line as from Reactome's _Analyse Data Tool GUI_.
 
 The results are written into these files:
   * result.csv
@@ -17,5 +11,14 @@ The results are written into these files:
 ```
 $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
 ```
+
+## Command-line and GUI return the same results
+
+### Reactome Pathway Analysis
+![Reactome's Pathway Analysis](images/anal00_analyze_data.png)
+
+### Load Study IDs
+![Load Study IDs into Reactome](images/anal01_load_study_ids.png)
+
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
