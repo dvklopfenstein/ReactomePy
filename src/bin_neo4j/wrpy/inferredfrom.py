@@ -17,8 +17,8 @@ __author__ = "DV Klopfenstein"
 
 import sys
 from neo4j import GraphDatabase
-from reactomeneo4j.code.wrpy.inferredfrom import InferredFrom
-from reactomeneo4j.code.utils import get_args
+from reactomepy.code.wrpy.inferredfrom import InferredFrom
+from reactomepy.code.utils import get_args
 
 
 def prt_inferredfrom():

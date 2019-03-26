@@ -23,8 +23,8 @@ __author__ = "DV Klopfenstein"
 # import os
 # import sys
 from docopt import docopt
-#### from reactomeneo4j.code.utils import get_args
-from reactomeneo4j.code.rest.service_analysis import AnalysisService
+#### from reactomepy.code.utils import get_args
+from reactomepy.code.rest.service_analysis import AnalysisService
 from enrichmentanalysis.file_utils import clean_args
 from enrichmentanalysis.file_utils import prepend
 from enrichmentanalysis.file_utils import read_ids

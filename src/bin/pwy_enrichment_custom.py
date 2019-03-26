@@ -19,9 +19,9 @@ __author__ = "DV Klopfenstein"
 # import os
 # import sys
 from docopt import docopt
-from reactomeneo4j.code.enrich.file_utils import read_ids
-from reactomeneo4j.code.enrich.file_utils import read_associations
-from reactomeneo4j.code.enrich.enrich_pwy import PathwayEnrichment
+from reactomepy.code.enrich.file_utils import read_ids
+from reactomepy.code.enrich.file_utils import read_associations
+from reactomepy.code.enrich.enrich_pwy import PathwayEnrichment
 
 
 def main():

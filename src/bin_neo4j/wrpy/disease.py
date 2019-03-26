@@ -14,8 +14,8 @@ from __future__ import print_function
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.wrpy.disease import Diseases
-from reactomeneo4j.code.utils import get_gdbdr
+from reactomepy.code.wrpy.disease import Diseases
+from reactomepy.code.utils import get_gdbdr
 
 
 def prt_disease():

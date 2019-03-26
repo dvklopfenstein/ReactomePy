@@ -11,7 +11,7 @@ Options:
 """
 
 from __future__ import print_function
-from reactomeneo4j.code.utils import get_gdbdr
+from reactomepy.code.utils import get_gdbdr
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"

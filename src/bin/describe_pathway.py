@@ -12,8 +12,8 @@ from goatools.obo_parser import GODag
 from goatools.associations import read_gaf
 from goatools.semantic import TermCounts
 from goatools.gosubdag.gosubdag import GoSubDag
-from reactomeneo4j.code.wrpy.utils import REPO
-from reactomeneo4j.code.describe_pathway import DescribePathway
+from reactomepy.code.wrpy.utils import REPO
+from reactomepy.code.describe_pathway import DescribePathway
 
 
 def main(obo='go-basic.obo', gaf='goa_human.gaf'):

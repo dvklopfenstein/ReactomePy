@@ -19,7 +19,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from neo4j import GraphDatabase
-from reactomeneo4j.code.utils import get_args
+from reactomepy.code.utils import get_args
 
 # pylint: disable=line-too-long
 def main():

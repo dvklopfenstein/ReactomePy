@@ -12,10 +12,10 @@ Options:
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from reactomeneo4j.code.rest.service_content import ContentService
-from reactomeneo4j.code.utils import get_gdbdr
-from reactomeneo4j.code.query.functions import get_version
-from reactomeneo4j.data.reactome_version import VERSION
+from reactomepy.code.rest.service_content import ContentService
+from reactomepy.code.utils import get_gdbdr
+from reactomepy.code.query.functions import get_version
+from reactomepy.data.reactome_version import VERSION
 
 
 def main():

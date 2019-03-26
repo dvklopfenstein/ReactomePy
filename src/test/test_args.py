@@ -13,7 +13,7 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
-from reactomeneo4j.code.utils import get_args
+from reactomepy.code.utils import get_args
 
 
 def test_args():

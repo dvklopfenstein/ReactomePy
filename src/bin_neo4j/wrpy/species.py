@@ -15,8 +15,8 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
-from reactomeneo4j.code.wrpy.species import Species
-from reactomeneo4j.code.utils import get_gdbdr
+from reactomepy.code.wrpy.species import Species
+from reactomepy.code.utils import get_gdbdr
 
 
 def prt_species():
