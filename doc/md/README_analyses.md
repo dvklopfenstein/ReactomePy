@@ -14,10 +14,10 @@ $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
 
 ## Command-line and GUI return the same results
 
-### Reactome Pathway Analysis
+### 1) Reactome Pathway Analysis
 ![Reactome's Pathway Analysis](images/anal00_analyze_data.png)
 
-### Load Study IDs
+### 2) Load Study IDs
 ![Load Study IDs into Reactome](images/anal01_load_study_ids.png)
 
 
