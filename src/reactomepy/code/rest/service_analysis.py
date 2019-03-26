@@ -17,6 +17,89 @@ import pprint
 import requests
 import datetime
 
+## **database**   Database info queries
+#    GET /database/name The name of current database
+#    GET /database/version The version number of current database
+
+## **download**   Retrieve downloadable files in CSV format
+#    1) Downloads those identifiers found for a given analysis and a certain resource
+#       GET /download/{token}/entities/found/{resource}/{filename}.csv
+#    2) Downloads a list of the not found identifiers
+#       GET /download/{token}/entities/notfound/{filename}.csv
+#    3) Downloads all hit pathways for a given analysis
+#       GET /download/{token}/pathways/{resource}/{filename}.csv
+
+## **identifier**   Queries for only one identifier
+#    1) Analyse the identifier over the different species in the database
+#       GET /identifier/{id}
+#    2) Analyse the identifier over the different species in the database and projects the result to Homo Sapiens
+#       GET /identifier/{id}/projection
+
+## **identifiers**   Queries for multiple identifiers
+#    1) Analyse the post identifiers over the different species
+#       POST /identifiers/
+#    2) Analyse the identifiers in the file over the different species
+#       POST /identifiers/form
+#    3) Analyse the identifiers in the file over the different species and projects the result to Homo Sapiens
+#       POST /identifiers/form/projection
+#    4) Analyse the post identifiers over the different species and projects the result to Homo Sapiens
+#       POST /identifiers/projection
+#    5) Analyse the identifiers contained in the provided url over the different species
+#       POST /identifiers/url
+#    6) Analyse the identifiers contained in the provided url over the different species and projects the result to Homo Sapiens
+#       POST /identifiers/url/projection
+
+## **mapping** Identifiers mapping methods
+#    1) Maps the post identifiers over the different species
+#       POST /mapping/
+#    2) Maps the identifiers in the file over the different species
+#       POST /mapping/form
+#    3) Maps the identifiers in the file over the different species and projects the result to Homo Sapiens
+#       POST /mapping/form/projection
+#    4) Maps the post identifiers over the different species and projects the result to Homo Sapiens
+#       POST /mapping/projection
+#    5) Maps the identifiers contained in the provided url over the different species
+#       POST /mapping/url
+#    6) Maps the identifiers contained in the provided url over the different species and projects the result to Homo Sapiens
+#       POST /mapping/url/projection
+
+## **report** Retrieves report files in PDF format
+#    1) Downloads a report for a given pathway analysis result
+#       GET /report/{token}/{species}/{filename}.pdf
+
+## **species** Species comparison
+#    1) Compares Homo sapiens to the specified species
+#       GET /species/homoSapiens/{species}
+
+## **token** Previous queries filter
+#    1) Returns the result associated with the token
+#       GET /token/{token}
+#    2) Returns the result for the pathway ids sent by post (when they are present in the original result)
+#       POST /token/{token}/filter/pathways
+#    3) Filters the result by species
+#       GET /token/{token}/filter/species/{species}
+#    4) Returns a summary of the contained identifiers and interactors for each requested pathway and a given token
+#       POST /token/{token}/found/all
+#    5) Returns a summary of the contained identifiers and interactors for a given pathway and token
+#       GET /token/{token}/found/all/{pathway}
+#    6) Returns a summary of the found curated identifiers for a given pathway and token
+#       GET /token/{token}/found/entities/{pathway}
+#    7) Returns a summary of the found interactors for a given pathway and token
+#       GET /token/{token}/found/interactors/{pathway}
+#    8) Returns a list of the identifiers not found for a given token
+#       GET /token/{token}/notFound
+#    9) Returns the page where the corresponding pathway is taking into account the passed parameters
+#       GET /token/{token}/page/{pathway}
+#    10) Returns a list of binned hit pathway sizes associated with the token
+#       GET /token/{token}/pathways/binned
+#    11) Returns the reaction ids of the pathway ids sent by post that are present in the original result
+#       POST /token/{token}/reactions/pathways
+#    12) Returns the reaction ids of the provided pathway id that are present in the original result
+#       GET /token/{token}/reactions/{pathway}
+#    13) Returns the resources summary associated with the token
+#       GET /token/{token
+
+
 
 # pylint: disable=line-too-long
 class AnalysisService(object):
@@ -66,13 +149,13 @@ class AnalysisService(object):
         txt = 'TOKEN: {T}  # {DATE} {N:4} user items {NAME}'.format(
             T=token, N=len(data), NAME=sample_name,
             DATE=datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y"))
-        print(txt)
+        print('  {TXT}'.format(TXT=txt))
         with open(self.fout_log_tokens, 'a') as log:
-            log.write('  {TOKEN}\n'.format(TOKEN=txt))
+            log.write('{TOKEN}\n'.format(TOKEN=txt))
             print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
 
     def post_ids(self, ids, sample_name=None):
-        """Data Submission, identifiers."""
+        """POST: /identifiers/ Analyse the post identifiers over the different species."""
         # curl -X POST "https://reactome.org/AnalysisService/identifiers/?interactors=false&sortBy=ENTITIES_PVALUE&order=ASC&resource=TOTAL" -H  "accept: application/json" -H  "content-type: text/plain" -d "# 1-1q21.3Q68E01P22532P31151P35321P05109Q9UBC9Q9BYE4Q99584P35326Q5K4L6Q96LB8P22528Q12905Q9HCY8Q96FQ6P80511Q9Y3Y2P16066P33763P33764P35325P23297P29034P06703P06702P23490Q96LB9Q96PI1Q5T871Q5T870Q96RM1P22531O95295P26447Q86SG5"
         # https://curl.trillworks.com/  curl-to-requests
 

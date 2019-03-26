@@ -26,7 +26,7 @@ def prt_inferredfrom():
     dct = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
     gdbdr = GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
     obj = InferredFrom(gdbdr)
-    # obj.wrpy_info('src/reactomeneo4j/data/species.py')
+    # obj.wrpy_info('src/reactomepy/data/species.py')
 
 
 if __name__ == '__main__':

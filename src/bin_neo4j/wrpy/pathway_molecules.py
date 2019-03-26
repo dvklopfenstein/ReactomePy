@@ -21,7 +21,7 @@ from reactomepy.code.utils import get_gdbdr
 # pylint: disable=line-too-long
 def main():
     """Save the participating molecules for each pathway into a Python module."""
-    fout_py = 'src/reactomeneo4j/data/pwy/pwy2uniprot.py'
+    fout_py = 'src/reactomepy/data/pwy/pwy2uniprot.py'
     obj = PathwayMolecules(get_gdbdr(__doc__))
     obj.wrpy_pw2molecules(fout_py, 'UniProt')
 

@@ -22,7 +22,7 @@ from reactomepy.code.query.functions import get_version
 def main():
     """Print all disease in Reactome."""
     obj = WrPy()
-    obj.wrpy_version('src/reactomeneo4j/data/reactome_version.py', get_version(get_gdbdr(__doc__)))
+    obj.wrpy_version('src/reactomepy/data/reactome_version.py', get_version(get_gdbdr(__doc__)))
 
 
 if __name__ == '__main__':

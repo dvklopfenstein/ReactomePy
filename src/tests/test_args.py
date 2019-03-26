@@ -23,26 +23,22 @@ def test_args():
 
     # TEST: $ src/test/test_args.py password
     sys.argv = [fname, 'password']
-    ntargs = get_args(__doc__, fields)
-    assert dict(ntargs._asdict()) == {
+    assert get_args(__doc__, fields) == {
         'neo4j_password': 'password', 'neo4j_username': 'neo4j', 'url': 'bolt://localhost:7687'}
 
     # TEST: $ src/test/test_args.py password -u usr
     sys.argv = [fname, 'password', '-u', 'usr']
-    ntargs = get_args(__doc__, fields)
-    assert dict(ntargs._asdict()) == {
+    assert get_args(__doc__, fields) == {
         'neo4j_password': 'password', 'neo4j_username': 'usr', 'url': 'bolt://localhost:7687'}
 
     # TEST: $ src/test/test_args.py password --url bolt://localhost:8888
     sys.argv = [fname, 'password', '--url', 'bolt://localhost:8888']
-    ntargs = get_args(__doc__, fields)
-    assert dict(ntargs._asdict()) == {
+    assert get_args(__doc__, fields) == {
         'neo4j_password': 'password', 'neo4j_username': 'neo4j', 'url': 'bolt://localhost:8888'}
 
     # TEST: $ src/test/test_args.py password --url bolt://localhost:8888 -u usr
     sys.argv = [fname, 'password', '--url', 'bolt://localhost:8888', '-u', 'usr']
-    ntargs = get_args(__doc__, fields)
-    assert dict(ntargs._asdict()) == {
+    assert get_args(__doc__, fields) == {
         'neo4j_password': 'password', 'neo4j_username': 'usr', 'url': 'bolt://localhost:8888'}
 
 

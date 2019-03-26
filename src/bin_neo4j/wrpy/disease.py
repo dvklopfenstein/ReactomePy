@@ -21,9 +21,9 @@ from reactomepy.code.utils import get_gdbdr
 def prt_disease():
     """Print all disease in Reactome."""
     obj = Diseases(get_gdbdr(__doc__))
-    fout_disease_py = 'src/reactomeneo4j/data/disease_definitions.py'
+    fout_disease_py = 'src/reactomepy/data/disease_definitions.py'
     obj.wrpy_disease2fld(fout_disease_py, 'definition', 'DISEASE2DEFN')
-    #fout_common_py = 'src/reactomeneo4j/data/disease_synonyms.py'
+    #fout_common_py = 'src/reactomepy/data/disease_synonyms.py'
     # TBD Names and synonyms
 
 

@@ -22,8 +22,8 @@ from reactomepy.code.utils import get_gdbdr
 def prt_species():
     """Print all species in Reactome."""
     obj = Species(get_gdbdr(__doc__))
-    obj.wrpy_info('src/reactomeneo4j/data/species.py')
-    obj.wrpy_common_names('src/reactomeneo4j/data/species_commonnames.py')
+    obj.wrpy_info('src/reactomepy/data/species.py')
+    obj.wrpy_common_names('src/reactomepy/data/species_commonnames.py')
 
 
 if __name__ == '__main__':

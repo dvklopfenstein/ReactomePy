@@ -27,7 +27,7 @@ class DescribePathway(object):
     def __init__(self, abc, gosubdag=None, linewidth=80):
         self.abc = abc
         self.gosubdag = gosubdag
-        self.mdir = 'reactomeneo4j.data.{ABC}.pathways.'.format(ABC=abc)
+        self.mdir = 'reactomepy.data.{ABC}.pathways.'.format(ABC=abc)
         self.linewidth = linewidth
         self.pw2nt = {nt.stId:nt for nt in import_module(self.mdir+"pathways").PWYNTS}
         self.pw2sum = import_module(self.mdir+"pwy2summation").PW2SUMS
@@ -138,7 +138,7 @@ class DescribePathway(object):
 
     def _init_pmid2info(self):
         """Initialize PMID-to-Abstract if it is available."""
-        modstr = 'reactomeneo4j.work.{ABC}_pwy_pmid2info'.format(ABC=self.abc)
+        modstr = 'reactomepy.work.{ABC}_pwy_pmid2info'.format(ABC=self.abc)
         if pkgutil.find_loader(modstr) is not None:
             return import_module(modstr).pmid2info
 

@@ -19,7 +19,7 @@ from reactomepy.code.utils import get_gdbdr
 
 def prt_referencedatabase():
     """Print all ReferenceDatabase in Reactome."""
-    fout_referencedatabase_py = 'src/reactomeneo4j/data/referencedatabase2nt.py'
+    fout_referencedatabase_py = 'src/reactomepy/data/referencedatabase2nt.py'
 
     obj = ReferenceDatabases(get_gdbdr(__doc__))
     obj.wrpy_referencedatabase_nts(fout_referencedatabase_py)
