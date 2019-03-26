@@ -1,5 +1,5 @@
-"""-*- coding: utf-8 -*-
-# 23,623 Pathways in Reactome"""
+# '-*- coding: utf-8 -*-
+"""23,623 Pathways in Reactome"""
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"

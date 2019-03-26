@@ -56,6 +56,18 @@ upload_pypi_test:
 	python setup.py register -r pypitest
 	python setup.py sdist upload -r pypitest
 
+# - TEST ---------------------------------------------------------------------------------
+test_internet:
+	$(PY) src/tests/pwy_enrichment_reactome.py
+
+test_simple:
+	$(PY) src/tests/rpt_figs.py
+	$(PY) src/tests/test_args.py
+
+test_all:
+	make test_internet
+	make test_simple
+
 # ----------------------------------------------------------------------------------------
 clean:
 	rm -f *.csv
