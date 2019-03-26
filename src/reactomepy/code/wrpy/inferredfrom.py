@@ -69,7 +69,7 @@ class InferredFrom(object):
             for rec in res.records():
                 assert rec['lo']['isInferred']
                 # if not rec['hi']['isInferred']:
-                print(rec['hi'])
+                # print(rec['hi'])
                 pidlo = rec['lo']['stId']
                 abc = pidlo.split('-')[1].lower()
                 org2plo2phi[abc][pidlo].add(rec['hi']['stId'])

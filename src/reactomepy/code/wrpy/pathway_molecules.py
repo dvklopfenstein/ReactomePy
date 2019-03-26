@@ -69,8 +69,8 @@ class PathwayMolecules(object):
         pw2molecules = self.get_pw2molecules(database)
         molecules = set(m for ms in pw2molecules.values() for m in ms)
         hms = get_hms(TIC)
-        msg = '{HMS} {N:4} Pathways contain {M:5} items from {DB}'.format(
-            HMS=hms, N=len(pw2molecules), M=len(molecules), DB=database)
+        msg = '{N:4} Pathways contain {M:5} items from {DB}'.format(
+            N=len(pw2molecules), M=len(molecules), DB=database)
         with open(os.path.join(REPO, fout_py), 'w') as prt:
             prt_docstr_module(msg, prt)
             prt.write('# pylint: disable=line-too-long, too-many-lines\n')
