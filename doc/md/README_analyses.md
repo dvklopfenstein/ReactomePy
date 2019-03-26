@@ -24,6 +24,9 @@ Click on **Analyze Data** to begin a pathway enrichment analysis.
 ![Reactome's Pathway Analysis](images/anal00_analyze_data.png)
 
 ### 2) Load Study IDs
+Load the study ID file
+from the [**command line**](#command-line-examples)
+or in Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
 ![Load Study IDs into Reactome](images/anal01_load_study_ids.png)
 
 
