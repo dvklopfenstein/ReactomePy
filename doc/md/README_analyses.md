@@ -1,5 +1,6 @@
 # Analyze Data with <img src="images/logo_reactome.png" height="50pt">
-Get the same analysis results from the command line as from Reactome's _Analyse Data Tool GUI_.
+Get the [**same analysis results**](#command-line-and-gui-return-the-same-results)
+from the command line as from Reactome's _Analyse Data Tool GUI_.
 
 The results are written into these files:
   * result.csv
@@ -7,7 +8,7 @@ The results are written into these files:
   * result.pdf
   * not_found.csv
 
-## Examples
+## Command-line Examples
 ```
 $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
 ```
