@@ -20,7 +20,7 @@ $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
   2. [**Load Study IDs**](#2-load-study-ids)
 
 ### 1) Reactome Pathway Analysis
-Click on **Analyze Data** on [Reactome's homepage](https://reactome.org) to begin a pathway enrichment analysis.
+Click on **Analyze Data** on [**Reactome's homepage**](https://reactome.org) to begin a pathway enrichment analysis.
 
 ![Reactome's Pathway Analysis](images/anal00_analyze_data.png)
 
