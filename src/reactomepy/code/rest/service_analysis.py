@@ -128,6 +128,10 @@ class AnalysisService(object):
     def __init__(self, fout_log_tokens):
         self.fout_log_tokens = fout_log_tokens
 
+    #### def get_ids(self, fin_study_ids):
+    ####     """Get study
+    #### study_dct = read_ids(args['study_ids'])
+
     def get_token(self, ids, name=None, token=None):
         """Return a token associated with a Pathway enrichment analysis."""
         # If user provides no token, then run a Pathway enrichment analysis. Return token

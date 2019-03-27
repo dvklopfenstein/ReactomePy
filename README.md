@@ -28,7 +28,7 @@ links to associated reasearch papers, URLs, and books.
 
 ## To Cite
 
-_Please cite the following research paper if this repo is used in your research_:
+_Please cite the following if this repo is used in your research_:
 
 Klopfenstein DV and Dampier W 
 [**Understudied disease genes are similar to gene neighbors in human, mouse and fly**](https://www.nature.com/articles/s41598-018-28948-z)    

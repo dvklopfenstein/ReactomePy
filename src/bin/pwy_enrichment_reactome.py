@@ -40,7 +40,7 @@ def main():
     #### args = get_args(__doc__, {'token', 'pdf', 'csv', 'data', 'sample_name'})
     docargs = docopt(__doc__)
     args = clean_args(docargs)
-    print(args)
+    print('\n'.join(['{A:12} {V}'.format(A=a, V=v) for a, v in args.items()]))
     study_dct = read_ids(args['study_ids'])
 
     # Run pathway enrichment analysis example and get the associated identifying token:
@@ -53,8 +53,8 @@ def main():
     base = args.get('base')
     ana.pdf_report(prepend(base, args['pdf']), token)
     ana.csv_pathways(prepend(base, args['csv']), token, resource='TOTAL')
-    ana.csv_found(prepend(base, args['csv0']), token, resource='TOTAL')
-    ana.csv_notfound(prepend(base, args['csv1']), token)
+    ana.csv_found(prepend(base, args['ids0']), token, resource='TOTAL')
+    ana.csv_notfound(prepend(base, args['ids1']), token)
 
 
 if __name__ == '__main__':
