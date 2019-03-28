@@ -14,7 +14,7 @@ Options:
   --xlsx=XLSX  Write enrichment analysis into a xlsx file [default: enrichment.xlsx]
   --tsv=TSV    Write enrichment analysis into a tsv file
   --csv=CSV  Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
-  --ids0=NF  Write list of identifiers that were not found [default: ids_found.csv]
+  --ids0=NF  Write list of identifiers that were not found [default: ids_mapping.csv]
   --ids1=F   Write list of identifiers that were found [default: ids_notfound.csv]
   -b --base=BASE    Prepend a basename to all output files
   --tokenlog=TOKEN  File containing a log of all new tokens [default: tokens.log]
@@ -41,7 +41,9 @@ def main():
     docargs = docopt(__doc__)
     args = clean_args(docargs)
     print('\n'.join(['{A:12} {V}'.format(A=a, V=v) for a, v in args.items()]))
-    study_dct = read_ids(args['study_ids'])
+    study_dct = read_ids(args.get('study_ids'))
+    study_dct = read_ids('ids_mapping_0.csv')
+    study_dct = read_ids('ids_mapping_1.csv')
 
     # Run pathway enrichment analysis example and get the associated identifying token:
     #     sample_name: GBM Uniprot
@@ -51,7 +53,7 @@ def main():
 
     # Write Pathway Enrichment Analysis to a file
     base = args.get('base')
-    ana.pdf_report(prepend(base, args['pdf']), token)
+    #ana.pdf_report(prepend(base, args['pdf']), token)
     ana.csv_pathways(prepend(base, args['csv']), token, resource='TOTAL')
     ana.csv_found(prepend(base, args['ids0']), token, resource='TOTAL')
     ana.csv_notfound(prepend(base, args['ids1']), token)

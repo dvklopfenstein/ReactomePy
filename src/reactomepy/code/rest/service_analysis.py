@@ -14,12 +14,12 @@ __author__ = "DV Klopfenstein"
 # import os
 # import json
 import pprint
-import requests
 import datetime
+import requests
 
 ## **database**   Database info queries
-#    GET /database/name The name of current database
-#    GET /database/version The version number of current database
+#  Y GET /database/name The name of current database
+#  Y GET /database/version The version number of current database
 
 ## **download**   Retrieve downloadable files in CSV format
 #    1) Downloads those identifiers found for a given analysis and a certain resource
@@ -36,8 +36,8 @@ import datetime
 #       GET /identifier/{id}/projection
 
 ## **identifiers**   Queries for multiple identifiers
-#    1) Analyse the post identifiers over the different species
-#       POST /identifiers/
+# .  1) Analyse the post identifiers over the different species
+# y     POST /identifiers/
 #    2) Analyse the identifiers in the file over the different species
 #       POST /identifiers/form
 #    3) Analyse the identifiers in the file over the different species and projects the result to Homo Sapiens
@@ -102,7 +102,7 @@ import datetime
 
 
 # pylint: disable=line-too-long
-class AnalysisService(object):
+class AnalysisService:
     """Post identifiers to Reactome."""
 
     # url = 'https://reactome.org/AnalysisService/identifiers/\?pageSize\=1\&page\=1'
@@ -125,18 +125,20 @@ class AnalysisService(object):
         'EMBL',
         'COMPOUND'])
 
-    def __init__(self, fout_log_tokens):
+    def __init__(self, fout_log_tokens='tokens.log'):
         self.fout_log_tokens = fout_log_tokens
 
     #### def get_ids(self, fin_study_ids):
     ####     """Get study
     #### study_dct = read_ids(args['study_ids'])
 
-    def get_token(self, ids, name=None, token=None):
+    def get_token(self, ids=None, name=None, token=None):
         """Return a token associated with a Pathway enrichment analysis."""
         # If user provides no token, then run a Pathway enrichment analysis. Return token
         if token is None:
+            assert ids is not None, 'FATAL IDS({IDs})'.format(IDs=ids)
             return self._get_token(ids, name)
+        assert token is not None, 'FATAL TOKEN({IDs})'.format(IDs=token)
         return token
 
     def _get_token(self, data, sample_name):
@@ -158,8 +160,46 @@ class AnalysisService(object):
             log.write('{TOKEN}\n'.format(TOKEN=txt))
             print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
 
-    def post_ids(self, ids, sample_name=None):
+    def post_ids(self, ids, sample_name=None, **kws):
         """POST: /identifiers/ Analyse the post identifiers over the different species."""
+        params = {
+            'interactors': 'false',
+            'pageSize': 20,
+            'page': 1,
+            'sortBy': 'ENTITIES_PVALUE',
+            'order': 'ASC',
+            'resource': 'TOTAL',
+            'pValue': 1,
+            'includeDisease': 'true',
+        }
+        for key in set(['interactors', 'includeDisease']).intersection(kws):
+            params[key] = kws[key]
+        # Format data
+        str_ids = " ".join(str(g) for g in ids)
+        #### if sample_name is not None:
+        ####     str_ids = ",".join([sample_name, str_ids])
+        data = '{DATA}'.format(DATA=str_ids)
+        # print(data)
+        # Other fields
+        url = '{URL}/identifiers/'.format(URL=self.url)
+        hdrs = { # 'accept':'application/json',
+            'Content-type':'text/plain'}
+        # POST and received response
+        print('URL:', url)
+        print('DATA:', data)
+        print('HEADERS:', hdrs)
+        rsp = requests.post(url, data=data, headers=hdrs)  # , params=params)
+        if rsp.status_code == 200:
+            rsp_json = rsp.json()
+            # pprint.pprint(rsp_json)
+            return rsp_json
+        print("FAILED POST: {CODE} {REASON}".format(CODE=rsp.status_code, REASON=rsp.reason))
+        print(rsp)
+        print("\nHDRS", rsp.headers)
+        print("\nURL", rsp.url)
+        print(dir(rsp))
+        return rsp
+
         # curl -X POST "https://reactome.org/AnalysisService/identifiers/?interactors=false&sortBy=ENTITIES_PVALUE&order=ASC&resource=TOTAL" -H  "accept: application/json" -H  "content-type: text/plain" -d "# 1-1q21.3Q68E01P22532P31151P35321P05109Q9UBC9Q9BYE4Q99584P35326Q5K4L6Q96LB8P22528Q12905Q9HCY8Q96FQ6P80511Q9Y3Y2P16066P33763P33764P35325P23297P29034P06703P06702P23490Q96LB9Q96PI1Q5T871Q5T870Q96RM1P22531O95295P26447Q86SG5"
         # https://curl.trillworks.com/  curl-to-requests
 
@@ -204,28 +244,6 @@ class AnalysisService(object):
         #     ('resource', 'TOTAL'),
         # )
 
-        # Format data
-        str_ids = "\n".join(str(g) for g in ids)
-        if sample_name is not None:
-            str_ids = "\n".join([sample_name, str_ids])
-        data = '"{DATA}"'.format(DATA=str_ids)
-        # print(data)
-        # Other fields
-        url = '{URL}/identifiers/'.format(URL=self.url)
-        hdrs = { # 'accept':'application/json',
-            'Content-type':'text/plain'}
-        # POST and received response
-        rsp = requests.post(url, data=data, headers=hdrs)  # , params=params)
-        if rsp.status_code == 200:
-            rsp_json = rsp.json()
-            # pprint.pprint(rsp_json)
-            return rsp_json
-        print("FAILED POST: {CODE} {REASON}".format(CODE=rsp.status_code, REASON=rsp.reason))
-        print(rsp)
-        print("\nHDRS", rsp.headers)
-        print("\nURL", rsp.url)
-        print(dir(rsp))
-        return rsp
 
     @staticmethod
     def _wr(fout, rsp_data, mode):
@@ -295,6 +313,8 @@ class AnalysisService(object):
         url = url_pat.format(URL=self.url, TOKEN=token, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
+            print('IDS NOT FOUND', dir(rsp))
+            print(rsp.text)
             self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
 
@@ -306,18 +326,30 @@ class AnalysisService(object):
         url = url_pat.format(URL=self.url, TOKEN=token)
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
-            print(rsp)
+            print('RRRRRR', rsp)
             data = rsp.json()
             pprint.pprint(data)
             return data
 
-    def get_version(self):
-        """Compare version of Reactome online with version in this repo."""
+    # - database ----------------------------------------------------------------------------------
+    @staticmethod
+    def get_version():
+        """The version number of the current Reactome database."""
         # curl -X GET "https://reactome.org/ContentService/data/database/version" -H  "accept: text/plain"
         url = "https://reactome.org/ContentService/data/database/version"
         hdrs = {'accept': 'text/plain'}
         rsp = requests.get(url, headers=hdrs)
-        print(rsp)
+        if rsp.status_code == 200:
+            return int(rsp.text)
+        return rsp
+
+    @staticmethod
+    def get_name():
+        """The name of the current Reactome database."""
+        # curl -X GET "https://reactome.org/ContentService/data/database/name" -H  "accept: text/plain"
+        url = "https://reactome.org/ContentService/data/database/name"
+        hdrs = {'accept': 'text/plain'}
+        rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             return rsp.text
         return rsp
