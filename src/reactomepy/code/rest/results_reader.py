@@ -8,7 +8,7 @@ import csv
 import collections as cx
 
 
-class ReactomeCsv():
+class ReactomeResultsCsv():
     """Read a Reactome pathway analysis results file. Store in a Python var"""
 
     chk_flds = {
