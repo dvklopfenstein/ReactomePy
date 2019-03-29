@@ -4,6 +4,7 @@ __copyright__ = "Copyright (C) 2014-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
+import sys
 import csv
 import collections as cx
 
@@ -40,24 +41,38 @@ class ReactomeResultsCsv():
             nts = []
             ntobj = None
             for flds in csv.reader(ifstrm):
-            ## for line in ifstrm:
-                ## flds = line.split(',')
-                ## flds[-1] = flds[-1].rstrip()
-                if self.hdrs:
-                    # print('FFFFF', flds)
-                    dct = self._get_dict_flds(flds)
-                    # pylint: disable=not-callable
-                    nts.append(ntobj(**dct))
-                else:
-                    self.hdrs = self._nthdrs(flds)
-                    ntobj = cx.namedtuple("ntpw", " ".join(self.hdrs))
-                    # print('HHHHH', ' '.join(self.hdrs))
+                try:
+                    if self.hdrs:
+                        dct = self._get_dict_flds(flds)
+                        # pylint: disable=not-callable
+                        nts.append(ntobj(**dct))
+                    else:
+                        self.hdrs = self._nthdrs(flds)
+                        ntobj = cx.namedtuple("ntpw", " ".join(self.hdrs))
+                except RuntimeError as inst:
+                    import traceback
+                    traceback.print_exc()
+                    sys.stderr.write("\n  **FATAL: {MSG}\n\n".format(MSG=str(inst)))
+                    sys.stderr.write("**FATAL: {F}".format(F=flds))
+                    sys.exit(1)
+                except ValueError as inst:
+                    import traceback
+                    traceback.print_exc()
+                    sys.stderr.write("\n  **FATAL: {MSG}\n\n".format(FIN=self.fin_csv, MSG=str(inst)))
+                    sys.stderr.write("**FATAL: {FIN}: {F}".format(FIN=self.fin_csv, F=flds))
+                    sys.exit(1)
             # pylint: disable=superfluous-parens
             print("  {N:6,} results READ: {CSV}".format(N=len(nts), CSV=self.fin_csv))
             return nts
 
     def _get_dict_flds(self, vals):
         """Get data from a row of csv format, return in a Python dict.
+
+           NOTE: These:
+               * Entities_ratio
+               * Reactions_ratio
+           indicates how big the pathway is, compared to the number of entities in the species.
+
                Entities_pValue      0.976271665748
                num_Entities_found   1
                Mapped_entities      ['P28070']
