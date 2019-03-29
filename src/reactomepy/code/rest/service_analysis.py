@@ -147,30 +147,40 @@ class AnalysisService:
         # pylint: disable=superfluous-parens
         assert 'summary' in rsp, rsp
         token = rsp['summary']['token']
-        self._prt_token(token, data, sample_name)
+        self._prt_token(rsp, data, sample_name)
         return token
 
-    def _prt_token(self, token, data, sample_name):
+    def _prt_token(self, rsp, data, sample_name):
         """Print newly genrated token."""
+        token = rsp['summary']['token']
         txt = 'TOKEN: {T}  # {DATE} {N:4} user items {NAME}'.format(
             T=token, N=len(data), NAME=sample_name,
             DATE=datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y"))
         print('  {TXT}'.format(TXT=txt))
         with open(self.fout_log_tokens, 'a') as log:
             log.write('{TOKEN}\n'.format(TOKEN=txt))
+            for param, val in rsp['summary'].items():
+                log.write('{K:11} = {V}\n'.format(K=param, V=val))
+            log.write('{N:4} IDs not found\n'.format(N=rsp['identifiersNotFound']))
+            log.write('{N:4} pathways found\n\n'.format(N=rsp['pathwaysFound']))
+            colnames = rsp['expression']['columnNames']
+            if colnames:
+                log.write('EXPRESSION COLUMN NAMES:\n')
+                for idx, name in enumerate(colnames):
+                    log.write('{I:3}) {COL}\n'.format(I=idx, COL=name))
             print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
 
     def post_ids(self, ids, sample_name=None, **kws):
         """POST: /identifiers/ Analyse the post identifiers over the different species."""
         params = {
-            'interactors': 'false',
+            'interactors': False,
             'pageSize': 20,
             'page': 1,
             'sortBy': 'ENTITIES_PVALUE',
             'order': 'ASC',
             'resource': 'TOTAL',
             'pValue': 1,
-            'includeDisease': 'true',
+            'includeDisease': True,
         }
         for key in set(['interactors', 'includeDisease']).intersection(kws):
             params[key] = kws[key]
@@ -185,19 +195,19 @@ class AnalysisService:
         hdrs = { # 'accept':'application/json',
             'Content-type':'text/plain'}
         # POST and received response
-        print('URL:', url)
-        print('DATA:', data)
-        print('HEADERS:', hdrs)
+        # print('URL:', url)
+        # print('DATA:', data)
+        # print('HEADERS:', hdrs)
         rsp = requests.post(url, data=data, headers=hdrs)  # , params=params)
         if rsp.status_code == 200:
             rsp_json = rsp.json()
             # pprint.pprint(rsp_json)
             return rsp_json
-        print("FAILED POST: {CODE} {REASON}".format(CODE=rsp.status_code, REASON=rsp.reason))
-        print(rsp)
-        print("\nHDRS", rsp.headers)
-        print("\nURL", rsp.url)
-        print(dir(rsp))
+        # print("FAILED POST: {CODE} {REASON}".format(CODE=rsp.status_code, REASON=rsp.reason))
+        # print(rsp)
+        # print("\nHDRS", rsp.headers)
+        # print("\nURL", rsp.url)
+        # print(dir(rsp))
         return rsp
 
         # curl -X POST "https://reactome.org/AnalysisService/identifiers/?interactors=false&sortBy=ENTITIES_PVALUE&order=ASC&resource=TOTAL" -H  "accept: application/json" -H  "content-type: text/plain" -d "# 1-1q21.3Q68E01P22532P31151P35321P05109Q9UBC9Q9BYE4Q99584P35326Q5K4L6Q96LB8P22528Q12905Q9HCY8Q96FQ6P80511Q9Y3Y2P16066P33763P33764P35325P23297P29034P06703P06702P23490Q96LB9Q96PI1Q5T871Q5T870Q96RM1P22531O95295P26447Q86SG5"
