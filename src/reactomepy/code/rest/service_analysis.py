@@ -313,8 +313,8 @@ class AnalysisService:
         url = url_pat.format(URL=self.url, TOKEN=token, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
-            print('IDS NOT FOUND', dir(rsp))
-            print(rsp.text)
+            # print('IDS NOT FOUND', dir(rsp))
+            # print(rsp.text)
             self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
 
@@ -326,9 +326,9 @@ class AnalysisService:
         url = url_pat.format(URL=self.url, TOKEN=token)
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
-            print('RRRRRR', rsp)
+            # print('RRRRRR', rsp)
             data = rsp.json()
-            pprint.pprint(data)
+            # pprint.pprint(data)
             return data
 
     # - database ----------------------------------------------------------------------------------
