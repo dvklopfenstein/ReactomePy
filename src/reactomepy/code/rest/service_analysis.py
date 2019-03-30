@@ -147,33 +147,39 @@ class AnalysisService:
 
     def _get_token(self, post_fnc, data):
         """Run a Pathway enrichment analysis. Return token"""
-        rsp = post_fnc(data)
+        rsp_raw = post_fnc(data)
+        rsp_json = rsp_raw.json()
         # pylint: disable=superfluous-parens
-        assert 'summary' in rsp, rsp
-        token = rsp['summary']['token']
-        self._prt_token(rsp, data)
+        assert 'summary' in rsp_json, rsp_json
+        token = rsp_json['summary']['token']
+        self._prt_token(rsp_raw, rsp_json, data)
         return token
 
-    def _prt_token(self, rsp, data):
+    def _prt_token(self, rsp_raw, rsp_json, data):
         """Print newly genrated token."""
-        token = rsp['summary']['token']
-        sample_name = rsp['summary']['sampleName']
+        token = rsp_json['summary']['token']
+        sample_name = rsp_json['summary']['sampleName']
         txt = 'TOKEN: {T}  # {DATE} {N:4} user items {NAME}'.format(
             T=token, N=len(data), NAME=sample_name,
             DATE=datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y"))
         print('  {TXT}'.format(TXT=txt))
         with open(self.fout_log_tokens, 'a') as log:
             log.write('{TOKEN}\n'.format(TOKEN=txt))
-            log.write("URL: {URL}\n".format(URL=rsp.url))
+            log.write("URL: {URL}\n".format(URL=rsp_raw.url))
             # Summary
             log.write('SUMMARY:\n')
-            for param, val in rsp['summary'].items():
+            for param, val in rsp_json['summary'].items():
                 log.write('  {K:11} = {V}\n'.format(K=param, V=val))
+            # Headers
+            log.write('HEADERS:\n')
+            for param, val in rsp_raw.headers.items():
+                log.write('  {K:12} = {V}\n'.format(K=param, V=val))
             # Number of IDs and Pathways found
-            log.write('{N:4} IDs not found\n'.format(N=rsp['identifiersNotFound']))
-            log.write('{N:4} pathways found\n\n'.format(N=rsp['pathwaysFound']))
+            log.write('FOUND:\n')
+            log.write('{N:4} study IDs not found\n'.format(N=rsp_json['identifiersNotFound']))
+            log.write('{N:4} pathways found for study IDs\n\n'.format(N=rsp_json['pathwaysFound']))
             # Expression column names
-            colnames = rsp['expression']['columnNames']
+            colnames = rsp_json['expression']['columnNames']
             if colnames:
                 log.write('EXPRESSION COLUMN NAMES:\n')
                 for idx, name in enumerate(colnames):
@@ -204,9 +210,8 @@ class AnalysisService:
         # print('HEADERS:', hdrs)
         rsp = requests.post(url, files=files)  #, json=None, headers=hdrs)  #, params={'fileName':fin_ids})  #params)
         if rsp.status_code == 200:
-            rsp_json = rsp.json()
             # pprint.pprint(rsp_json)
-            return rsp_json
+            return rsp
         self.prt_rsp_info(rsp, prt=sys.stdout)
         return rsp
 
