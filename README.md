@@ -1,6 +1,6 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
-In addition to being a world-class pathway database, 
+In addition biological pathways,
 Reactome contains 
 expert-authored and peer-reviewed
 reactions, 
