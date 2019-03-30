@@ -1,15 +1,14 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
-In addition biological pathways,
+In addition to biological pathways,
 Reactome contains 
 expert-authored and peer-reviewed
 reactions, 
 molecular complex ingredients and structure, and
 protein-protein interactions.
 
-Links 
-links to biological models, 
-links to associated reasearch papers, URLs, and books.
+Reactome also provides links from pathways, reactions, and molecules to 
+biological models, associated research papers, URLs, and books.
 
 
 ## Use this Python library to:
