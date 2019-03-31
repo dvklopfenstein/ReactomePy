@@ -19,11 +19,6 @@ biological models, associated research papers, URLs, and books.
   2) Find enriched pathways [**from the command line**](doc/md/README_analyses.md),
      accessing Reactome's online [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
 
-  3) Find enriched pathways using custom associations.
-
-  4) Explore the Reactome Knowledgebase 
-     with a [**neo4j query**](doc/md/README_cypher_cmd.md)
-     in a [**Python script**](src/ipy/tutorial/s4a_pathway_subpathways.ipynb)
 
 ## To Cite
 

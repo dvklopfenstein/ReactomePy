@@ -69,6 +69,7 @@ test_simple:
 # ----------------------------------------------------------------------------------------
 clean:
 	rm -f *.csv
+	rm -f *pathway_enrichment*.pdf
 	rm -f relationship_*.txt
 	rm -f tmp_pylint
 	make -f makefile clean_pyc

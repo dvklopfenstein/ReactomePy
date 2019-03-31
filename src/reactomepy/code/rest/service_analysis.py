@@ -129,23 +129,24 @@ class AnalysisService:
     def __init__(self, fout_log_tokens='tokens.log'):
         self.fout_log_tokens = fout_log_tokens
 
-    #### def get_ids(self, fin_study_ids):
-    ####     """Get study
-    #### study_dct = read_ids(args['study_ids'])
-
-    def get_token(self, ids=None, token=None):
+    def get_token(self, ids=None, token=None, to_hsa=True):
         """Return a token associated with a Pathway enrichment analysis."""
         # If user provides no token, then run a Pathway enrichment analysis. Return token
         if token is None:
             assert ids is not None, 'FATAL IDS({IDs})'.format(IDs=ids)
             if os.path.exists(ids):
-                return self._get_token(self.post_ids_form_projection, ids)
+                if to_hsa:
+                    print('PROJECTION')
+                    return self._get_token(ids, self.post_ids_form_project)
+                else:
+                    print('NOOOOOOOOOOOOOOOOOOO PROJECTION')
+                    return self._get_token(ids, self.post_ids_form)
             else:
                 raise RuntimeError('CANNOT READ STUDY ID FILE: {F}'.format(F=ids))
         assert token is not None, 'FATAL TOKEN({IDs})'.format(IDs=token)
         return token
 
-    def _get_token(self, post_fnc, data):
+    def _get_token(self, data, post_fnc):
         """Run a Pathway enrichment analysis. Return token"""
         rsp_raw = post_fnc(data)
         rsp_json = rsp_raw.json()
@@ -156,13 +157,15 @@ class AnalysisService:
         return token
 
     def _prt_token(self, rsp_raw, rsp_json, data):
-        """Print newly genrated token."""
+        """Print newly generated token."""
+        # pprint.pprint(rsp_json)
         token = rsp_json['summary']['token']
         sample_name = rsp_json['summary']['sampleName']
         txt = 'TOKEN: {T}  # {DATE} {N:4} user items {NAME}'.format(
             T=token, N=len(data), NAME=sample_name,
             DATE=datetime.datetime.today().strftime("%a %b %d %H:%M:%S %Y"))
         print('  {TXT}'.format(TXT=txt))
+        print('  URL: {URL}'.format(URL=rsp_raw.url))
         with open(self.fout_log_tokens, 'a') as log:
             log.write('{TOKEN}\n'.format(TOKEN=txt))
             log.write("URL: {URL}\n".format(URL=rsp_raw.url))
@@ -177,20 +180,26 @@ class AnalysisService:
             # Number of IDs and Pathways found
             log.write('FOUND:\n')
             log.write('{N:4} study IDs not found\n'.format(N=rsp_json['identifiersNotFound']))
-            log.write('{N:4} pathways found for study IDs\n\n'.format(N=rsp_json['pathwaysFound']))
+            log.write('{N:4} pathways found for study IDs\n'.format(N=rsp_json['pathwaysFound']))
             # Expression column names
             colnames = rsp_json['expression']['columnNames']
             if colnames:
                 log.write('EXPRESSION COLUMN NAMES:\n')
                 for idx, name in enumerate(colnames):
                     log.write('{I:3}) {COL}\n'.format(I=idx, COL=name))
+            log.write('\n')
             print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
 
-    def post_ids_form_projection(self, fin_ids, **kws):
+    def post_ids_form_project(self, fin_ids, **kws):
+        """POST: /identifiers/ Analyse the post identifiers over the different species."""
+        return self.post_ids_form(fin_ids, True, **kws)
+
+    def post_ids_form(self, fin_ids, to_hsa=False, **kws):
         """POST: /identifiers/ Analyse the post identifiers over the different species."""
         files = {
             'file': (fin_ids, open(fin_ids, 'rb'), 'text/plain'),
         }
+        # Parameters
         params = {
             'interactors': 'false',
             'pageSize': 20,
@@ -199,18 +208,18 @@ class AnalysisService:
             'order': 'ASC',
             'resource': 'TOTAL',
             'pValue': 1,
-            'includeDisease': 'true',
+            'includeDisease': 'false',
         }
         for key in set(['interactors', 'includeDisease']).intersection(kws):
             params[key] = str(kws[key]).lower()
-        # Other fields
-        url = '{URL}/identifiers/form/projection'.format(URL=self.url)
+        # /identifiers/form or /identifiers/form/projection
+        cmd = 'identifiers/form/projection' if to_hsa else 'identifiers/form'
+        url = '{URL}/{CMD}'.format(URL=self.url, CMD=cmd)
         # hdrs = { 'accept':'application/json', 'Content-type':'multipart/form-data'}
         # POST and received response
         # print('HEADERS:', hdrs)
-        rsp = requests.post(url, files=files)  #, json=None, headers=hdrs)  #, params={'fileName':fin_ids})  #params)
+        rsp = requests.post(url, files=files, params=params)
         if rsp.status_code == 200:
-            # pprint.pprint(rsp_json)
             return rsp
         self.prt_rsp_info(rsp, prt=sys.stdout)
         return rsp

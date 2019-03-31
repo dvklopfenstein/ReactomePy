@@ -3,11 +3,21 @@ Get the [**same analysis results**](#command-line-and-reactome-gui-return-the-sa
 from the [**command line**](#command-line-examples)
 as from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
 
-The results are written into these files:
-  * result.csv
-  * mapping.csv
-  * result.pdf
-  * not_found.csv
+## Table of Contents
+  * [Output files]()
+  * [Command-line Examples]()
+  * [Command-line and Reactome GUI return the same results]()
+
+## Output Files
+
+The pathway enrichment results are written into these files:
+
+| Reactome Name | ReactomePy Name
+|---------------|-----------------
+| result.csv    | pathway_enrichment.csv
+| result.pdf    | pathway_enrichment.pdf
+| mapping.csv   | ids_mapping.csv
+| not_found.csv | ids_notfound.csv
 
 ## Command-line Examples
 ```

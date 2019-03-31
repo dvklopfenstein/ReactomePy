@@ -8,7 +8,8 @@ Options:
   -h --help         Show usage
   -t --token=TOKEN  Provide token representing a completed analysis.
                     Tokens are used to access a previous analysis.
-  --interactors     Include interactors [default:False]
+  --noProject2human  Do not convert all non-human identifiers to their human equivalents
+  --interactors     Include interactors
   --excludeDisease  Exclude disease pathways
   --pdf=PDF    Write pathway report into pdf file [default: pathway_enrichment.pdf]
   --xlsx=XLSX  Write enrichment analysis into a xlsx file [default: enrichment.xlsx]
@@ -16,8 +17,8 @@ Options:
   --csv=CSV    Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
   --ids0=NF    Write list of identifiers that were not found [default: ids_mapping.csv]
   --ids1=F     Write list of identifiers that were found [default: ids_notfound.csv]
-  -b --base=BASE    Add a prefix to all output files
-  --tokenlog=TOKEN  File containing a log of all new tokens [default: tokens.log]
+  -p --prefix=PREFIX  Add a prefix to all output files
+  --tokenlog=TOKEN    File containing a log of all new tokens [default: tokens.log]
 """
 
 
@@ -42,15 +43,10 @@ def main():
     args = clean_args(docargs)
     print('\n'.join(['{A:12} {V}'.format(A=a, V=v) for a, v in args.items()]))
     study_ids = args.get('study_IDs_file')
-    ## study_dct = read_ids(args.get('study_ids'))
-    ## study_dct = read_ids('ids_mapping_0.csv')
-    ## study_dct = read_ids('ids_mapping_1.csv')
 
     # Run pathway enrichment analysis example and get the associated identifying token:
-    #     sample_name: GBM Uniprot
-    #     data: P01023 Q99758 O15439 O43184 Q13444 P82987
-    # POST: /identifiers/
-    token = ana.get_token(study_ids, token=args.get('token'))
+    to_hsa = 'noProject2human' not in args
+    token = ana.get_token(study_ids, args.get('token'), to_hsa)
 
     # Write Pathway Enrichment Analysis to a file
     base = args.get('base')
