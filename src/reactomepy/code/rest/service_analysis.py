@@ -212,6 +212,21 @@ class AnalysisService:
         files = {
             'file': (fin_ids, open(fin_ids, 'rb'), 'text/plain'),
         }
+        # /identifiers/form or /identifiers/form/projection
+        cmd = 'identifiers/form/projection' if to_hsa else 'identifiers/form'
+        url = '{URL}/{CMD}'.format(URL=self.url, CMD=cmd)
+        # hdrs = { 'accept':'application/json', 'Content-type':'multipart/form-data'}
+        # POST and received response
+        # print('HEADERS:', hdrs)
+        params = self.get_params_ea(kws)
+        rsp = requests.post(url, files=files, params=params)
+        if rsp.status_code == 200:
+            return rsp
+        self.prt_rsp_info(rsp, prt=sys.stdout)
+        return rsp
+
+    @staticmethod
+    def get_params_ea(kws):
         # Parameters
         params = {
             'interactors': 'false', 
@@ -225,17 +240,7 @@ class AnalysisService:
         }
         for key in set(['interactors', 'includeDisease']).intersection(kws):
             params[key] = str(kws[key]).lower()
-        # /identifiers/form or /identifiers/form/projection
-        cmd = 'identifiers/form/projection' if to_hsa else 'identifiers/form'
-        url = '{URL}/{CMD}'.format(URL=self.url, CMD=cmd)
-        # hdrs = { 'accept':'application/json', 'Content-type':'multipart/form-data'}
-        # POST and received response
-        # print('HEADERS:', hdrs)
-        rsp = requests.post(url, files=files, params=params)
-        if rsp.status_code == 200:
-            return rsp
-        self.prt_rsp_info(rsp, prt=sys.stdout)
-        return rsp
+        return params
 
     @staticmethod
     def prt_rsp_info(rsp, prt=sys.stdout):

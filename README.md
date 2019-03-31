@@ -11,7 +11,7 @@ Reactome also provides links from pathways, reactions, and molecules to
 biological models, associated research papers, URLs, and books.
 
 
-## Use this Python library to:
+## Use this Python3 library to:
 
   1) Run [**Reactome's Neo4j Tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules)
      from one of the [**Jupyter notebooks**](src/ipy/tutorial) or a plain [**Python script**](src/bin_neo4j/tutorial)

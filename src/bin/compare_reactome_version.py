@@ -29,7 +29,8 @@ def main():
     print('    {VER:3} <- Latest version from Content Service'.format(VER=ver_curr))
     print('    {VER:3} <- version from locally loaded DAG'.format(VER=ver_local))
     print('    {VER:3} <- Version in this repo\n\n'.format(VER=VERSION))
-    assert ver_local == ver_curr, 'VERSION FROM CONTENT SERVICE != LOCAL DAG'
+    assert ver_local == ver_curr, 'VERSION: LOCAL DAG({A}) != CONTENT SERVICE({E})'.format(
+        E=ver_curr, A=ver_local)
     assert VERSION == ver_curr, 'PLEASE DOWNLOAD THE MOST RECENT REACTOME KNOWLEDGEBASE'
     assert obj.get_databasename() == 'reactome', 'UNEXPECTED DATABASE NAME'
     assert isinstance(ver_curr, int), 'BAD VERSION VALUE'

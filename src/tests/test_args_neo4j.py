@@ -40,6 +40,7 @@ def test_args():
     sys.argv = [fname, 'password', '--url', 'bolt://localhost:8888', '-u', 'usr']
     assert get_args(__doc__, fields) == {
         'neo4j_password': 'password', 'neo4j_username': 'usr', 'url': 'bolt://localhost:8888'}
+    print('TEST PASSED')
 
 
 if __name__ == '__main__':
