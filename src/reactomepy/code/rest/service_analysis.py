@@ -13,6 +13,7 @@ __author__ = "DV Klopfenstein"
 
 import os
 import sys
+import re
 # import json
 # import pprint
 import datetime
@@ -187,8 +188,21 @@ class AnalysisService:
                 log.write('EXPRESSION COLUMN NAMES:\n')
                 for idx, name in enumerate(colnames):
                     log.write('{I:3}) {COL}\n'.format(I=idx, COL=name))
+            log.write('{LINE}\n'.format(LINE=self._get_desc_oneline(rsp_raw, rsp_json)))
             log.write('\n')
             print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
+
+    @staticmethod
+    def _get_desc_oneline(rsp_raw, rsp_json):
+        """Get one-liner describing simulation."""
+        mtch = re.search(r'(includeDisease=(true|false))', str(rsp_raw.url))
+        disease = mtch.group(1) if mtch else 'NO_DISEASE'
+        return '{PWY:4} pwys, {M:3} IDs not found: projection={PROJ} interactors={INT} {DIS}'.format(
+            PWY=rsp_json['pathwaysFound'],
+            M=rsp_json['identifiersNotFound'],
+            PROJ=rsp_json['summary']['projection'],
+            INT=rsp_json['summary']['interactors'],
+            DIS=disease)
 
     def post_ids_form_project(self, fin_ids, **kws):
         """POST: /identifiers/ Analyse the post identifiers over the different species."""
