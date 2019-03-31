@@ -130,26 +130,24 @@ class AnalysisService:
     def __init__(self, fout_log_tokens='tokens.log'):
         self.fout_log_tokens = fout_log_tokens
 
-    def get_token(self, ids=None, token=None, to_hsa=True):
+    def get_token(self, ids=None, token=None, to_hsa=True, **kws):
         """Return a token associated with a Pathway enrichment analysis."""
         # If user provides no token, then run a Pathway enrichment analysis. Return token
         if token is None:
             assert ids is not None, 'FATAL IDS({IDs})'.format(IDs=ids)
             if os.path.exists(ids):
                 if to_hsa:
-                    print('PROJECTION')
-                    return self._get_token(ids, self.post_ids_form_project)
+                    return self._get_token(ids, self.post_ids_form_project, **kws)
                 else:
-                    print('NOOOOOOOOOOOOOOOOOOO PROJECTION')
-                    return self._get_token(ids, self.post_ids_form)
+                    return self._get_token(ids, self.post_ids_form, **kws)
             else:
                 raise RuntimeError('CANNOT READ STUDY ID FILE: {F}'.format(F=ids))
         assert token is not None, 'FATAL TOKEN({IDs})'.format(IDs=token)
         return token
 
-    def _get_token(self, data, post_fnc):
+    def _get_token(self, data, post_fnc, **kws):
         """Run a Pathway enrichment analysis. Return token"""
-        rsp_raw = post_fnc(data)
+        rsp_raw = post_fnc(data, **kws)
         rsp_json = rsp_raw.json()
         # pylint: disable=superfluous-parens
         assert 'summary' in rsp_json, rsp_json
@@ -189,6 +187,7 @@ class AnalysisService:
                 for idx, name in enumerate(colnames):
                     log.write('{I:3}) {COL}\n'.format(I=idx, COL=name))
             log.write('{LINE}\n'.format(LINE=self._get_desc_oneline(rsp_raw, rsp_json)))
+            print('{LINE}\n'.format(LINE=self._get_desc_oneline(rsp_raw, rsp_json)))
             log.write('\n')
             print('  APPENDED: {LOG}'.format(LOG=self.fout_log_tokens))
 
@@ -197,7 +196,7 @@ class AnalysisService:
         """Get one-liner describing simulation."""
         mtch = re.search(r'(includeDisease=(true|false))', str(rsp_raw.url))
         disease = mtch.group(1) if mtch else 'NO_DISEASE'
-        return '{PWY:4} pwys, {M:3} IDs not found: projection={PROJ} interactors={INT} {DIS}'.format(
+        return '{PWY:4} pwys, {M:3} IDs not found: projection={PROJ:1} interactors={INT:1} {DIS}'.format(
             PWY=rsp_json['pathwaysFound'],
             M=rsp_json['identifiersNotFound'],
             PROJ=rsp_json['summary']['projection'],
@@ -215,14 +214,14 @@ class AnalysisService:
         }
         # Parameters
         params = {
-            'interactors': 'false',
+            'interactors': 'false', 
             'pageSize': 20,
             'page': 1,
             'sortBy': 'ENTITIES_PVALUE',
             'order': 'ASC',
             'resource': 'TOTAL',
             'pValue': 1,
-            'includeDisease': 'false',
+            'includeDisease': 'true',
         }
         for key in set(['interactors', 'includeDisease']).intersection(kws):
             params[key] = str(kws[key]).lower()

@@ -8,7 +8,7 @@ PY = python3
 # 	tmp_pylint
 
 run:
-	echo Hello
+	src/bin/pwy_enrichment_reactome.py data/enrich/studyids/UniProt.txt
 
 pylint:
 	@git status -uno | perl -ne 'if (/(\S+.py)/) {printf "echo $$1\npylint -r no %s\n", $$1}' | tee tmp_pylint

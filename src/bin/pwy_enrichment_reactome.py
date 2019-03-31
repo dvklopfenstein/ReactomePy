@@ -46,14 +46,23 @@ def main():
 
     # Run pathway enrichment analysis example and get the associated identifying token:
     to_hsa = 'noProject2human' not in args
-    token = ana.get_token(study_ids, args.get('token'), to_hsa)
+    token = ana.get_token(study_ids, args.get('token'), to_hsa, **_get_kws_analyse(args))
 
     # Write Pathway Enrichment Analysis to a file
-    base = args.get('base')
-    #ana.pdf_report(prepend(base, args['pdf']), token)
-    ana.csv_pathways(prepend(base, args['csv']), token, resource='TOTAL')
-    ana.csv_found(prepend(base, args['ids0']), token, resource='TOTAL')
-    ana.csv_notfound(prepend(base, args['ids1']), token)
+    pre = args.get('prefix')
+    #ana.pdf_report(prepend(pre, args['pdf']), token)
+    ana.csv_pathways(prepend(pre, args['csv']), token, resource='TOTAL')
+    ana.csv_found(prepend(pre, args['ids0']), token, resource='TOTAL')
+    ana.csv_notfound(prepend(pre, args['ids1']), token)
+
+def _get_kws_analyse(args):
+    """Get keyword args used when running a pathway analysis."""
+    kws = {}
+    if 'interactors' in args and args['interactors']:
+        kws['interactors'] = True
+    if 'excludeDisease' in args and args['excludeDisease']:
+        kws['includeDisease'] = False
+    return kws
 
 
 if __name__ == '__main__':
