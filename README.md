@@ -19,6 +19,8 @@ biological models, associated research papers, URLs, and books.
   2) Find enriched pathways [**from the command line**](doc/md/README_analyses.md),
      accessing Reactome's online [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
 
+  3) Write your own Python scripts accessing the Reactome database through Neo4j
+
 
 ## To Cite
 
