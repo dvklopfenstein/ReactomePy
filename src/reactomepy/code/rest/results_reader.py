@@ -23,7 +23,24 @@ class ReactomeResultsCsv():
         # Entities_pValue=0.9999691890340465, Entities_FDR=0.9999691890340465,
     }
 
-    floats = set(['Entities_pValue', 'Entities_ratio', 'Entities_FDR', 'Reactions_ratio'])
+    floats = set([
+        'Entities_pValue',
+        'Entities_ratio',
+        'Entities_FDR',
+        'Reactions_ratio',
+    ])
+    ints = set([
+        'num_Entities_found',
+        'num_Entities_total',
+        'num_Reactions_found',
+        'num_Reactions_total',
+        'Species_identifier',
+    ])
+    strs = set([
+        'Species_name',
+        'Pathway_identifier',
+        'Pathway_name',
+    ])
     splits_semicolon = {
         'Submitted_entities_found',
         'Mapped_entities',
@@ -46,6 +63,7 @@ class ReactomeResultsCsv():
 
     def _init_results(self):
         """Read a Reactome pathway analysis results file. Store in a Python var"""
+        # print('FFFFFFFFFFFFFFFFF', self.fin_csv)
         with open(self.fin_csv) as ifstrm:
             nts = []
             ntobj = None
@@ -58,6 +76,7 @@ class ReactomeResultsCsv():
                     else:
                         self.hdrs = self._nthdrs(flds)
                         ntobj = cx.namedtuple("ntpw", " ".join(self.hdrs))
+                        # for idx, hdr in enumerate(self.hdrs): print(idx, hdr)
                 except RuntimeError as inst:
                     import traceback
                     traceback.print_exc()
@@ -112,14 +131,18 @@ class ReactomeResultsCsv():
         """Given string value, return value with correct type."""
         if key in self.floats:
             return float(val)
-        if key[:4] == 'num_' or key == 'Species_identifier':
+        if key in self.ints:
             return int(val)
+        if key in self.strs:
+            return val
         if key in self.splits_semicolon:
             values = val.split(';') if val != "" else []
             if values and next(iter(values)).isdigit():
                 return [int(v) for v in values]
             return values
-        return val
+        # print(key, val)
+        # User columns
+        return float(val)
 
     @staticmethod
     def _nthdrs(hdrs):
@@ -127,9 +150,13 @@ class ReactomeResultsCsv():
         ntflds = []
         for hdr in hdrs:
             hdr = hdr.replace(' ', '_')
-            if hdr[0] == '#':
+            hdr_0 = hdr[0]
+            if hdr_0 == '#':
                 hdr = 'num_' + hdr[1:]
+            if hdr_0.isdigit():
+                hdr = 'u' + hdr
             ntflds.append(hdr)
         return ntflds
+
 
 # Copyright (C) 2014-2019, DV Klopfenstein. All rights reserved."
