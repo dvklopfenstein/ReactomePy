@@ -1,8 +1,8 @@
 # Query the Reactome Knowledgebase from Jupyter notebooks
-  * [**Examples from the Reactome Tutorial**](#examples-from-the-reactome-tutorial)
-  * [**Examples from the Reactome paper**](#examples-from-the-reactome-paper)
+  1. [**Examples from the Reactome Tutorial**](#1-examples-from-the-reactome-tutorial)
+  2. [**Examples from the Reactome paper**](#2-examples-from-the-reactome-paper)
 
-## Examples from the [Reactome Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules)
+## 1) Examples from the [Reactome Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules)
 
   * [**1a) Retrieve a Pathway based on its identifier**](s1a_get_pathway.ipynb)    
   * [**1b) Retrieving a protein based on its identifier**](s1b_get_protein.ipynb)    
@@ -16,7 +16,7 @@
   * [**6b) Retrieving all participants for a given reaction**](s6b_reaction_participants.ipynb)
   * [**7a) Joining the pieces: Participating molecules for a pathway**](s7a_pathway_molecules.ipynb)
 
-## Examples from the Reactome paper
+## 2) Examples from the Reactome paper
 [**_Reactome graph database: Efficient access to complex pathway data_**](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005968)
 
   * [**Fig 4a) Which molecules participate in Interleukin-4 and 13 signaling (R-HSA-6785807)?**](fig4a_2018_molecules_in_interleukin_signaling.ipynb)
