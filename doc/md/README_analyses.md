@@ -1,12 +1,12 @@
 # Analyze Data with <img src="images/logo_reactome.png" height="50pt">
-Get the [**same analysis results**](#command-line-and-reactome-gui-return-the-same-results)
+Get analysis results
 from the [**command line**](#command-line-examples)
-as from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
+like those from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
 
 ## Table of Contents
-  * [Output files]()
-  * [Command-line Examples]()
-  * [Command-line and Reactome GUI return the same results]()
+  * [Output files](#output-files)
+  * [Command-line Examples](#command-line-examples)
+  * [Command-line and Reactome GUI compared](#command-line-and-reactome-gui-return-the-same-results)
 
 ## Output Files
 
