@@ -60,11 +60,12 @@ test_all:
 	make test_simple
 
 test_internet:
-	$(PY) src/tests/pwy_enrichment_reactome.py
+	echo TBD
 
 test_simple:
 	$(PY) src/tests/rpt_figs.py
-	$(PY) src/tests/test_args.py
+	$(PY) src/tests/test_args_neo4j.py
+	$(PY) src/tests/test_args_pwyea_reactome.py
 
 # ----------------------------------------------------------------------------------------
 clean:

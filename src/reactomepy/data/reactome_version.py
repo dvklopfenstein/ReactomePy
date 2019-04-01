@@ -1,4 +1,4 @@
-"""Reactome version"""
+"""Reactome version in DAG"""
 
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"

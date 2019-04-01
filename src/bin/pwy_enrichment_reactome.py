@@ -29,8 +29,8 @@ __author__ = "DV Klopfenstein"
 # import os
 # import sys
 from docopt import docopt
-#### from reactomepy.code.utils import get_args
 from reactomepy.code.rest.service_analysis import AnalysisService
+from reactomepy.code.rest.token_mgr import TokenManager
 from enrichmentanalysis.file_utils import clean_args
 from enrichmentanalysis.file_utils import prepend
 from enrichmentanalysis.file_utils import read_ids
@@ -43,7 +43,7 @@ def main():
     #### args = get_args(__doc__, {'token', 'pdf', 'csv', 'data', 'sample_name'})
     docargs = docopt(__doc__)
     args = clean_args(docargs)
-    ana = AnalysisService(args['tokenlog')
+    ana = AnalysisService(args['tokenlog'])
     print('\n'.join(['{A:12} {V}'.format(A=a, V=v) for a, v in args.items()]))
     study_ids = args.get('study_IDs_file')
 
@@ -52,13 +52,14 @@ def main():
     token = ana.get_token(study_ids, args.get('token'), to_hsa, **get_kws_analyse(args))
 
     # Write Pathway Enrichment Analysis to a file
+    tok = TokenManager(token)
     pre = args.get('prefix')
     if 'pdf' in args:
         fout_pdf = get_fout_pdf(args)
         ana.pdf_report(prepend(pre, fout_pdf), token)
-    ana.csv_pathways(prepend(pre, args['csv']), token, resource='TOTAL')
-    ana.csv_found(prepend(pre, args['ids0']), token, resource='TOTAL')
-    ana.csv_notfound(prepend(pre, args['ids1']), token)
+    tok.csv_pathways(prepend(pre, args['csv']), token, resource='TOTAL')
+    tok.csv_found(prepend(pre, args['ids0']), token, resource='TOTAL')
+    tok.csv_notfound(prepend(pre, args['ids1']), token)
 
 
 if __name__ == '__main__':

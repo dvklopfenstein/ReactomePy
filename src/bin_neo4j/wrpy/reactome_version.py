@@ -15,14 +15,21 @@ __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from reactomepy.code.utils import get_gdbdr
-from reactomepy.code.wrpy.wrpy_general import WrPy
+from reactomepy.code.wrpy.utils import prt_docstr_module
+from reactomepy.code.wrpy.utils import prt_copyright_comment
 from reactomepy.code.query.functions import get_version
 
 
 def main():
-    """Print all disease in Reactome."""
-    obj = WrPy()
-    obj.wrpy_version('src/reactomepy/data/reactome_version.py', get_version(get_gdbdr(__doc__)))
+    """Print Reactome version in downloaded DAG."""
+    fout_py = 'src/reactomepy/data/reactome_version.py'
+    with open(fout_py, 'w') as prt:
+        prt_docstr_module('Reactome version in DAG', prt)
+        version = get_version(get_gdbdr(__doc__))
+        prt.write('VERSION = {V}\n'.format(V=version))
+        prt_copyright_comment(prt)
+        print('  Version {V} WROTE: {PY}\n'.format(PY=fout_py, V=version))
+    #obj.wrpy_version('src/reactomepy/data/reactome_version.py', get_version(get_gdbdr(__doc__)))
 
 
 if __name__ == '__main__':

@@ -31,5 +31,28 @@ class ContentService(object):
             return rsp.text
         return rsp
 
+    #### # - database ----------------------------------------------------------------------------------
+    #### @staticmethod
+    #### def get_version():
+    ####     """The version number of the current Reactome database."""
+    ####     # curl -X GET "https://reactome.org/ContentService/data/database/version" -H  "accept: text/plain"
+    ####     url = "https://reactome.org/ContentService/data/database/version"
+    ####     hdrs = {'accept': 'text/plain'}
+    ####     rsp = requests.get(url, headers=hdrs)
+    ####     if rsp.status_code == 200:
+    ####         return int(rsp.text)
+    ####     return rsp
+
+    #### @staticmethod
+    #### def get_name():
+    ####     """The name of the current Reactome database."""
+    ####     # curl -X GET "https://reactome.org/ContentService/data/database/name" -H  "accept: text/plain"
+    ####     url = "https://reactome.org/ContentService/data/database/name"
+    ####     hdrs = {'accept': 'text/plain'}
+    ####     rsp = requests.get(url, headers=hdrs)
+    ####     if rsp.status_code == 200:
+    ####         return rsp.text
+    ####     return rsp
+
 
 # Copyright (C) 2014-2019, DV Klopfenstein. All rights reserved."
