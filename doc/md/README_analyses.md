@@ -28,7 +28,7 @@ $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
 
   1. [**Reactome Pathway Analysis**](#1-reactome-pathway-analysis)
   2. [**Load Study IDs**](#2-load-study-ids)
-  3. [**Write results to files**]()
+  3. [**Write results to files**](#3-write-results-to-files)
 
 ### 1) Reactome Pathway Analysis
 Click on **Analyze Data** on [**Reactome's homepage**](https://reactome.org) to begin a pathway enrichment analysis.
@@ -51,7 +51,10 @@ or in Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser
 | Mapping         | mapping.csv   | ids_mapping.csv
 | Not found       | not_found.csv | ids_notfound.csv
 
+#### 3a) Result and Mapping files
 ![enrichment results](images/results_files.png)    
+
+#### 3b) 'Not found' file
 ![IDs not found](images/results_notfound.png)      
 
 
