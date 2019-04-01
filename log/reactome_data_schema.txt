@@ -1,8 +1,8 @@
 TOP DATA SCHEMA: DatabaseObject
 ------------------------------------
-- DatabaseObject(dcnt=80)
--- PhysicalEntity(dcnt=13)
+- DatabaseObject(dcnt=79)
 -- AbstractModifiedResidue(dcnt=12)
+-- PhysicalEntity(dcnt=12)
 -- Event(dcnt=8)
 -- ReferenceEntity(dcnt=8)
 -- Regulation(dcnt=5)
@@ -27,21 +27,6 @@ TOP DATA SCHEMA: DatabaseObject
 DEPTH-01 DATA SCHEMA: DatabaseObject
 ------------------------------------
 
-- PhysicalEntity(dcnt=13)
--- EntitySet(dcnt=3)
---- CandidateSet(dcnt=0)
---- DefinedSet(dcnt=0)
---- OpenSet(dcnt=0)
--- Drug(dcnt=2)
---- ChemicalDrug(dcnt=0)
---- ProteinDrug(dcnt=0)
--- GenomeEncodedEntity(dcnt=1)
---- EntityWithAccessionedSequence(dcnt=0)
--- Complex(dcnt=0)
--- OtherEntity(dcnt=0)
--- Polymer(dcnt=0)
--- SimpleEntity(dcnt=0)
-
 - AbstractModifiedResidue(dcnt=12)
 -- GeneticallyModifiedResidue(dcnt=5)
 --- FragmentModification(dcnt=3)
@@ -56,6 +41,20 @@ DEPTH-01 DATA SCHEMA: DatabaseObject
 --- GroupModifiedResidue(dcnt=0)
 --- ModifiedResidue(dcnt=0)
 
+- PhysicalEntity(dcnt=12)
+-- Drug(dcnt=2)
+--- ChemicalDrug(dcnt=0)
+--- ProteinDrug(dcnt=0)
+-- EntitySet(dcnt=2)
+--- CandidateSet(dcnt=0)
+--- DefinedSet(dcnt=0)
+-- GenomeEncodedEntity(dcnt=1)
+--- EntityWithAccessionedSequence(dcnt=0)
+-- Complex(dcnt=0)
+-- OtherEntity(dcnt=0)
+-- Polymer(dcnt=0)
+-- SimpleEntity(dcnt=0)
+
 - Event(dcnt=8)
 -- ReactionLikeEvent(dcnt=5)
 --- BlackBoxEvent(dcnt=0)
@@ -63,8 +62,8 @@ DEPTH-01 DATA SCHEMA: DatabaseObject
 --- FailedReaction(dcnt=0)
 --- Polymerisation(dcnt=0)
 --- Reaction(dcnt=0)
--- Pathway(dcnt=1)
---- TopLevelPathway(dcnt=0)
+-- Pathway(dcnt=0)
+-- TopLevelPathway(dcnt=0)
 
 - ReferenceEntity(dcnt=8)
 -- ReferenceSequence(dcnt=4)
