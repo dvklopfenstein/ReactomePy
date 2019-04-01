@@ -13,8 +13,6 @@ Options:
   --excludeDisease  Exclude disease pathways
   --pdf          Write pathway report into pathway_enrichment.pdf
   --pdfname=PDF  Specify pathway report name
-  --xlsx=XLSX    Write enrichment analysis into a xlsx file [default: enrichment.xlsx]
-  --tsv=TSV      Write enrichment analysis into a tsv file
   --csv=CSV      Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
   --ids0=NF      Write list of identifiers that were not found [default: ids_mapping.csv]
   --ids1=F       Write list of identifiers that were found [default: ids_notfound.csv]
@@ -26,8 +24,6 @@ Options:
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-# import os
-# import sys
 from docopt import docopt
 from reactomepy.code.rest.service_analysis import AnalysisService
 from reactomepy.code.rest.token_mgr import TokenManager
@@ -39,7 +35,6 @@ from enrichmentanalysis.file_utils import get_kws_analyse
 
 def main():
     """Run Reactome's Pathway Enrichment Analysis UniProt example."""
-    #### args = get_args(__doc__, {'token', 'pdf', 'csv', 'data', 'sample_name'})
     docargs = docopt(__doc__)
     args = clean_args(docargs)
     ana = AnalysisService(args['tokenlog'])
