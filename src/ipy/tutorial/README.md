@@ -1,6 +1,6 @@
 # Query the Reactome Knowledgebase from Jupyter notebooks
-  * [Examples from the Reactome Tutorial]()
-  * [Examples from the Reactome paper]()
+  * [**Examples from the Reactome Tutorial**](#examples-from-the-reactome-tutorial)
+  * [**Examples from the Reactome paper**](#examples-from-the-reactome-paper)
 
 ## Examples from the [Reactome Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules)
 
