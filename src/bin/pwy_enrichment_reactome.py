@@ -18,7 +18,7 @@ Options:
   --csv=CSV      Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
   --ids0=NF      Write list of identifiers that were not found [default: ids_mapping.csv]
   --ids1=F       Write list of identifiers that were found [default: ids_notfound.csv]
-  -p --prefix=PREFIX  Add a prefix to all output files
+  --prefix=PREFIX  Add a prefix to all output files
   --tokenlog=TOKEN    File containing a log of all new tokens [default: tokens.log]
 """
 

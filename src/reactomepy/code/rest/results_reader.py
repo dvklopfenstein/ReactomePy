@@ -24,16 +24,25 @@ class ReactomeResultsCsv():
     }
 
     floats = set(['Entities_pValue', 'Entities_ratio', 'Entities_FDR', 'Reactions_ratio'])
-    splits_semicolon = set([
+    splits_semicolon = {
         'Submitted_entities_found',
         'Mapped_entities',
-        'Found_reaction_identifiers'])
+        'Found_reaction_identifiers'}
 
     def __init__(self, fin_csv):
         self.fin_csv = fin_csv
         self.hdrs = None
         self.results = self._init_results()
         assert self.hdrs is not None, "NO HEADERS READ: {CSV}".format(CSV=fin_csv)
+
+    def get_items(self, attrname='Submitted_entities_found'):
+        """Return a set of items for all results."""
+        items = set()
+        assert attrname in self.splits_semicolon, 'ATTR({A}) NOT IN: {S}'.format(
+            A=attrname, S=self.splits_semicolon)
+        for ntd in self.results:
+            items.update(getattr(ntd, attrname))
+        return items
 
     def _init_results(self):
         """Read a Reactome pathway analysis results file. Store in a Python var"""
@@ -106,7 +115,10 @@ class ReactomeResultsCsv():
         if key[:4] == 'num_' or key == 'Species_identifier':
             return int(val)
         if key in self.splits_semicolon:
-            return val.split(';')
+            values = val.split(';') if val != "" else []
+            if values and next(iter(values)).isdigit():
+                return [int(v) for v in values]
+            return values
         return val
 
     @staticmethod
