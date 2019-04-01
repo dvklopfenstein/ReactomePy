@@ -24,7 +24,7 @@ The pathway enrichment results are written into these files:
 $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
 ```
 
-## Command-line and Reactome GUI return the same results
+## Command-line and Reactome GUI compared
 
   1. [**Reactome Pathway Analysis**](#1-reactome-pathway-analysis)
   2. [**Load Study IDs**](#2-load-study-ids)
