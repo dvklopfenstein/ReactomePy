@@ -1,6 +1,6 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
-In addition to biological pathways,
+In addition to biomolecular pathways,
 Reactome contains 
 expert-authored and peer-reviewed
 reactions, 

@@ -1,10 +1,6 @@
 # Query the Reactome Knowledgebase from Jupyter notebooks
-
-## Examples from the Reactome paper
-[**_Reactome graph database: Efficient access to complex pathway data_**](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005968)
-
-  * [**Fig 4a) Which molecules participate in Interleukin-4 and 13 signaling (R-HSA-6785807)?**](fig4a_2018_molecules_in_interleukin_signaling.ipynb)
-  * [**Fig 4b) In which pathways does CCR5 (UniProt:P51681) participate?**](fig4b_2018_ccr5_pathways.ipynb)
+  * [Examples from the Reactome Tutorial]()
+  * [Examples from the Reactome paper]()
 
 ## Examples from the [Reactome Tutorial](https://reactome.org/dev/graph-database/extract-participating-molecules)
 
@@ -19,5 +15,11 @@
   * [**6a) Retrieving the participants for a given reaction**](s6a_reaction_participants.ipynb)
   * [**6b) Retrieving all participants for a given reaction**](s6b_reaction_participants.ipynb)
   * [**7a) Joining the pieces: Participating molecules for a pathway**](s7a_pathway_molecules.ipynb)
+
+## Examples from the Reactome paper
+[**_Reactome graph database: Efficient access to complex pathway data_**](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005968)
+
+  * [**Fig 4a) Which molecules participate in Interleukin-4 and 13 signaling (R-HSA-6785807)?**](fig4a_2018_molecules_in_interleukin_signaling.ipynb)
+  * [**Fig 4b) In which pathways does CCR5 (UniProt:P51681) participate?**](fig4b_2018_ccr5_pathways.ipynb)
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
