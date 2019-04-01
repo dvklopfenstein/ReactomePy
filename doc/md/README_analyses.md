@@ -49,12 +49,12 @@ or in Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser
 | Result          | result.csv    | pathway_enrichment.csv
 | Report (PDF)    | result.pdf    | pathway_enrichment.pdf
 | Mapping         | mapping.csv   | ids_mapping.csv
-| Not found       | not_found.csv | ids_notfound.csv
+| [Not found](#3b-not-found-file) | not_found.csv | ids_notfound.csv
 
 #### 3a) Result and Mapping files
 ![enrichment results](images/results_files.png)    
 
-#### 3b) 'Not found' file
+#### 3b) _Not found_ file
 ![IDs not found](images/results_notfound.png)      
 
 
