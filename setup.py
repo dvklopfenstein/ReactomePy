@@ -16,7 +16,6 @@ PACKAGES = [
     'reactomepy/code/cli',
     'reactomepy/code/enrich',
     'reactomepy/code/ex',
-    'reactomepy/code/mkpy',
     'reactomepy/code/node',
     'reactomepy/code/query',
     'reactomepy/code/rest',
@@ -26,8 +25,6 @@ PACKAGES = [
     'reactomepy/code/wrpy',
     'reactomepy/data',
     'reactomepy/data/all',
-    'reactomepy/data/hsa',
-    'reactomepy/data/hsa/pathways',
     'reactomepy/data/pwy',
     'reactomepy/work',
 ]
@@ -42,7 +39,7 @@ setup(
     package_dir={p:'src/{PKG}'format(PKG=p) for p in PACKAGES},
     # include_package_data=True,
     # package_data={"reactomepy.test_data.nbt_3102": ["*.*"]},
-    scripts=glob('src/bin/*.py'),
+    scripts=glob('src/bin/*.py') + glob('src/bin_neo4j/tutorial/*.py') + glob('src/bin_neo4j/wrpy/*.py'),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
@@ -51,7 +48,7 @@ setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Operating System :: OS Independent',
     ],
-    url='http://github.com/dvklopfenstein/reactome_neo4j_py',
-    description='Explore biological pathways in Reactome from the command-line',
+    url='http://github.com/dvklopfenstein/ReactomePy',
+    description='Explore biomolecular pathways in Reactome from the command line',
     install_requires=['timeit', 'datetime', 'collections', 'enrichmentanalysis'],
 )
