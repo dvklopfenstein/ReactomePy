@@ -5,6 +5,9 @@ __author__ = "DV Klopfenstein"
 
 import requests
 
+## **database**   Database info queries
+# -Y- GET /database/name The name of current database
+# -Y- GET /database/version The version number of current database
 
 class ContentService(object):
     """Post identifiers to Reactome."""

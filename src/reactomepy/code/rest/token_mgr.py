@@ -6,7 +6,7 @@ __author__ = "DV Klopfenstein"
 # import os
 # import sys
 import requests
-
+from reactomepy.data.species import SPECIES
 
 ## **download**   Retrieve downloadable files in CSV format
 #    1) Downloads those identifiers found for a given analysis and a certain resource
@@ -36,7 +36,7 @@ import requests
 #    7) Returns a summary of the found interactors for a given pathway and token
 #       GET /token/{token}/found/interactors/{pathway}
 #    8) Returns a list of the identifiers not found for a given token
-#       GET /token/{token}/notFound
+# -Y-   GET /token/{token}/notFound
 #    9) Get page where the corresponding pathway is taking into account the passed parameters
 #       GET /token/{token}/page/{pathway}
 #    10) Returns a list of binned hit pathway sizes associated with the token
@@ -46,7 +46,7 @@ import requests
 #    12) Returns the reaction ids of the provided pathway id that are present in the original result
 #       GET /token/{token}/reactions/{pathway}
 #    13) Returns the resources summary associated with the token
-#       GET /token/{token
+# -Y-   GET /token/{token}/resources
 
 # pylint: disable=line-too-long
 class TokenManager:
@@ -54,7 +54,9 @@ class TokenManager:
 
     url_ana = 'https://reactome.org/AnalysisService'
 
-    resources = set([
+    species_names = {nt.displayName for nt in SPECIES}
+
+    resource_names = set([
         'TOTAL',
         'UNIPROT',
         'ENSEMBL',
@@ -67,20 +69,22 @@ class TokenManager:
 
     def __init__(self, token):
         self.token = token
+        self.resources = self._init_resources()
 
-    def get_results(self, token, resource='TOTAL'):
+    def get_results(self, resource='TOTAL'):
         """result.csv w/web; Get the overrepresented pathway results."""
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/pathways/TOTAL/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/pathways/{RESOURCE}/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        assert resource in self.resources
-        url = url_pat.format(URL=self.url_ana, TOKEN=token, RESOURCE=resource, FILENAME='result')
+        assert resource in self.resource_names
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         return rsp.json() if rsp.status_code == 200 else rsp
 
-    def pdf_report(self, fout_pdf, token):
+    def pdf_report(self, fout_pdf, species='Homo sapiens'):
         """report.pdf w/web; Get the full report on the pathways found overrepresented."""
-        url_pat = "{URL}/report/{TOKEN}/Homo%20sapiens/report.pdf"
+        url_pat = "{URL}/report/{TOKEN}/{SPECIES}/report.pdf"
+        self._chk_species(species)
         hdrs = {'accept': 'application/pdf'}
         params = (
             ('number', '25'),
@@ -90,19 +94,27 @@ class TokenManager:
             ('fireworksProfile', 'Copper'),  # Copper, Copper plus, Barium Lithium, Calcium Salts
         )
         # curl -X GET "https://reactome.org/AnalysisService/report/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/Homo%20sapiens/report.pdf?number=25&resource=TOTAL&diagramProfile=Modern&analysisProfile=Standard&fireworksProfile=Barium%20Lithium" -H "accept: application/pdf" --output curl_report.pdf
-        url = url_pat.format(URL=self.url_ana, TOKEN=token, PDF=fout_pdf)
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token, SPECIES=species.replace(' ', '%20'))
         # params = {'output':fout_pdf}
         rsp = requests.get(url, headers=hdrs, params=params)
         if rsp.status_code == 200:
             self._wr(fout_pdf, rsp.content, 'wb')
 
-    def csv_pathways(self, fout_csv, token, resource='TOTAL'):
+    def _chk_species(self, species):
+        """Check that the species is found in Reactome."""
+        if species in self.species_names:
+            return
+        print('NO SPECIES FOUND IN REACTOME: {SPECIES}'.format(SPECIES=species))
+        for ntd in SPECIES:
+            print(ntd.displayName)
+
+    def csv_pathways(self, fout_csv, resource='TOTAL'):
         """result.csv w/web; Get the overrepresented pathway results."""
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/pathways/TOTAL/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/pathways/{RESOURCE}/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        assert resource in self.resources
-        url = url_pat.format(URL=self.url_ana, TOKEN=token, RESOURCE=resource, FILENAME='result')
+        assert resource in self.resource_names, resource
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         # print('PATHWAYS', dir(rsp))
         # print('PATHWAYS', rsp.headers)
@@ -111,12 +123,12 @@ class TokenManager:
             return rsp.text
         return rsp
 
-    def csv_notfound(self, fout_csv, token):
+    def csv_notfound(self, fout_csv):
         """Report identifiers not found."""
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/entities/notfound/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/entities/notfound/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        url = url_pat.format(URL=self.url_ana, TOKEN=token, FILENAME='result')
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             # print('IDS NOT FOUND', dir(rsp))
@@ -124,12 +136,12 @@ class TokenManager:
             self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
 
-    def get_notfound(self, token):
+    def get_notfound(self):
         """Report identifiers not found."""
         # curl -X GET "https://reactome.org/AnalysisService/token/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/notFound?pageSize=40&page=1" -H  "accept: application/json"
         url_pat = "{URL}/token/{TOKEN}/notFound"  # ?pageSize=40&page=1
         hdrs = {'accept': 'application/json'}
-        url = url_pat.format(URL=self.url_ana, TOKEN=token)
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token)
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             # print('RRRRRR', rsp)
@@ -147,17 +159,26 @@ class TokenManager:
             prt.write(rsp_data)  # content for a binary (pdf) file
             print("  WROTE: {FILE}".format(FILE=fout))
 
-    def csv_found(self, fout_csv, token, resource='TOTAL'):
+    def csv_found(self, fout_csv, resource='TOTAL'):
         """mapping.csv w/web; Get IDs which were found and their mapping."""
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/entities/found/TOTAL/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/entities/found/{RESOURCE}/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        assert resource in self.resources
-        url = url_pat.format(URL=self.url_ana, TOKEN=token, RESOURCE=resource, FILENAME='result')
+        assert resource in self.resource_names
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
             self._wr(fout_csv, rsp.text, 'w')
             return rsp.text
+
+    def _init_resources(self):
+        """Get the counts of pathways found for each type of resource (eg TOTAL UNIPROT)"""
+        url_pat = "{URL}/token/{TOKEN}/resources"
+        hdrs = {'accept': 'application/json'}
+        url = url_pat.format(URL=self.url_ana, TOKEN=self.token)
+        rsp = requests.get(url, headers=hdrs)
+        if rsp.status_code == 200:
+            return rsp.json()
 
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

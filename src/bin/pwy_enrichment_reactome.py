@@ -11,13 +11,13 @@ Options:
   --noProject2human  Do not convert all non-human identifiers to their human equivalents
   --interactors     Include interactors
   --excludeDisease  Exclude disease pathways
-  --pdf        Write pathway report into pathway_enrichment.pdf
-  --pdfname    Specify pathway report name
-  --xlsx=XLSX  Write enrichment analysis into a xlsx file [default: enrichment.xlsx]
-  --tsv=TSV    Write enrichment analysis into a tsv file
-  --csv=CSV    Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
-  --ids0=NF    Write list of identifiers that were not found [default: ids_mapping.csv]
-  --ids1=F     Write list of identifiers that were found [default: ids_notfound.csv]
+  --pdf          Write pathway report into pathway_enrichment.pdf
+  --pdfname=PDF  Specify pathway report name
+  --xlsx=XLSX    Write enrichment analysis into a xlsx file [default: enrichment.xlsx]
+  --tsv=TSV      Write enrichment analysis into a tsv file
+  --csv=CSV      Write pathway enrichment analysis into a csv file [default: pathway_enrichment.csv]
+  --ids0=NF      Write list of identifiers that were not found [default: ids_mapping.csv]
+  --ids1=F       Write list of identifiers that were found [default: ids_notfound.csv]
   -p --prefix=PREFIX  Add a prefix to all output files
   --tokenlog=TOKEN    File containing a log of all new tokens [default: tokens.log]
 """
@@ -33,7 +33,6 @@ from reactomepy.code.rest.service_analysis import AnalysisService
 from reactomepy.code.rest.token_mgr import TokenManager
 from enrichmentanalysis.file_utils import clean_args
 from enrichmentanalysis.file_utils import prepend
-from enrichmentanalysis.file_utils import read_ids
 from enrichmentanalysis.file_utils import get_fout_pdf
 from enrichmentanalysis.file_utils import get_kws_analyse
 
@@ -54,12 +53,12 @@ def main():
     # Write Pathway Enrichment Analysis to a file
     tok = TokenManager(token)
     pre = args.get('prefix')
-    if 'pdf' in args:
+    if 'pdf' in args or 'pdfname' in args:
         fout_pdf = get_fout_pdf(args)
-        ana.pdf_report(prepend(pre, fout_pdf), token)
-    tok.csv_pathways(prepend(pre, args['csv']), token, resource='TOTAL')
-    tok.csv_found(prepend(pre, args['ids0']), token, resource='TOTAL')
-    tok.csv_notfound(prepend(pre, args['ids1']), token)
+        tok.pdf_report(prepend(pre, fout_pdf))
+    tok.csv_pathways(prepend(pre, args['csv']), resource='TOTAL')
+    tok.csv_found(prepend(pre, args['ids0']), resource='TOTAL')
+    tok.csv_notfound(prepend(pre, args['ids1']))
 
 
 if __name__ == '__main__':

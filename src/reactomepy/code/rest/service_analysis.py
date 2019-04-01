@@ -19,9 +19,6 @@ import re
 import datetime
 import requests
 
-## **database**   Database info queries
-# -Y- GET /database/name The name of current database
-# -Y- GET /database/version The version number of current database
 
 ## **identifier**   Queries for only one identifier
 #    1) Analyse the identifier over the different species in the database
