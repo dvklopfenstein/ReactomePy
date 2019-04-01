@@ -6,7 +6,7 @@ like those from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/Path
 ## Table of Contents
   * [Output files](#output-files)
   * [Command-line Examples](#command-line-examples)
-  * [Command-line and Reactome GUI compared](#command-line-and-reactome-gui-return-the-same-results)
+  * [Command-line and Reactome GUI compared](#command-line-and-reactome-gui-compared)
 
 ## Output Files
 
