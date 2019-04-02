@@ -12,17 +12,6 @@ import collections as cx
 class ReactomeResultsCsv():
     """Read a Reactome pathway analysis results file. Store in a Python var"""
 
-    chk_flds = {
-        'Pathway_name',
-        'num_Entities_found', 'num_Entities_total',
-        'num_Reactions_found', 'num_Reactions_total',
-        'Species_identifier', 'Species_name',
-        #'Submitted_entities_found',  # =['Q5K4L6'],
-        # Found_reaction_identifiers=['R-HSA-8875077'])
-        # Mapped_entities=[''],
-        # Entities_pValue=0.9999691890340465, Entities_FDR=0.9999691890340465,
-    }
-
     floats = set([
         'Entities_pValue',
         'Entities_ratio',

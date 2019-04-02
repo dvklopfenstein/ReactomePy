@@ -1,7 +1,8 @@
 # Analyze Data with <img src="images/logo_reactome.png" height="50pt">
-Get analysis results
+Get the [**same analysis results**](#command-line-and-reactome-gui-return-the-same-results)
 from the [**command line**](#command-line-examples)
-like those from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
+as from Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser/#TOOL=AT).
+
 
 ## Table of Contents
   * [Output files](#output-files)
@@ -24,7 +25,7 @@ The pathway enrichment results are written into these files:
 $ src/bin/pwy_enrichment_reactome.py data/enrich/studyids/1q21o3.txt
 ```
 
-## Command-line and Reactome GUI compared
+## Command-line and Reactome GUI return the same results
 
   1. [**Reactome Pathway Analysis**](#1-reactome-pathway-analysis)
   2. [**Load Study IDs**](#2-load-study-ids)
