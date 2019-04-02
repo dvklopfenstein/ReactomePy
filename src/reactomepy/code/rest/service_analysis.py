@@ -8,7 +8,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2014-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
@@ -63,25 +63,40 @@ import requests
 class AnalysisService:
     """Post identifiers to Reactome."""
 
-    # url = 'https://reactome.org/AnalysisService/identifiers/\?pageSize\=1\&page\=1'
-    # url = 'https://reactome.org/AnalysisService/identifiers/'
     url = 'https://reactome.org/AnalysisService'
-
-    headers = {'Content-type': 'text/plain'}  # application/json'}
 
     diagram_profile = 'Modern'
     analysis_profile = 'Standard'
     fireworks_profile = 'Barium Lithium'
 
-####    resources = set([
-####        'TOTAL',
-####        'UNIPROT',
-####        'ENSEMBL',
-####        'CHEBI',
-####        'MIRBASE',
-####        'NCBI_PROTEIN',
-####        'EMBL',
-####        'COMPOUND'])
+    resources = set([
+        'TOTAL',
+        'UNIPROT',
+        'ENSEMBL',
+        'CHEBI',
+        'IUPHAR',
+        'MIRBASE',
+        'NCBI_PROTEIN',
+        'EMBL',
+        'COMPOUND',
+        'PUBCHEM_COMPOUND',
+    ])
+
+    sortby = set([
+        'NAME',
+        'TOTAL_ENTITIES',
+        'TOTAL_INTERACTORS',
+        'TOTAL_REACTIONS',
+        'FOUND_ENTITIES',
+        'FOUND_INTERACTORS',
+        'FOUND_REACTIONS',
+        'ENTITIES_RATIO',
+        'ENTITIES_PVALUE',
+        'ENTITIES_FDR',
+        'REACTIONS_RATIO',
+    ])
+
+    order = set(['ASC', 'DESC'])
 
     def __init__(self, fout_log_tokens='tokens.log'):
         self.fout_log_tokens = fout_log_tokens
@@ -181,8 +196,7 @@ class AnalysisService:
         self.prt_rsp_info(rsp, prt=sys.stdout)
         return rsp
 
-    @staticmethod
-    def get_params_ea(kws):
+    def get_params_ea(self, kws):
         """Get parameters for enrichment analysis"""
         params = {
             'interactors': 'false',
@@ -196,7 +210,22 @@ class AnalysisService:
         }
         for key in set(['interactors', 'includeDisease']).intersection(kws):
             params[key] = str(kws[key]).lower()
+        if 'resource' in kws:
+            self._set_param(params, 'resource', kws['resource'], self.resources)
+        if 'sortBy' in kws:
+            self._set_param(params, 'sortBy', kws['sortBy'], self.sortby)
+        if 'order' in kws:
+            self._set_param(params, 'order', kws['order'], self.order)
+        if 'pValue' in kws:
+            params['pValue'] = kws['pValue']
+        # print('KWWWWW:', kws)
+        # print('PARAMS:', params)
         return params
+
+    def _set_param(self, params,  key, val, expected):
+        """Set parameter and check for expected results."""
+        self._chk_option(key, val, expected)
+        params[key] = val
 
     @staticmethod
     def prt_rsp_info(rsp, prt=sys.stdout):
@@ -209,191 +238,16 @@ class AnalysisService:
         if rsp.status_code != 200:
             prt.write("TEXT: {TEXT}\n".format(TEXT=rsp.text))
 
-        # curl -X POST "https://reactome.org/AnalysisService/identifiers/?interactors=false&sortBy=ENTITIES_PVALUE&order=ASC&resource=TOTAL" -H  "accept: application/json" -H  "content-type: text/plain" -d "# 1-1q21.3Q68E01P22532P31151P35321P05109Q9UBC9Q9BYE4Q99584P35326Q5K4L6Q96LB8P22528Q12905Q9HCY8Q96FQ6P80511Q9Y3Y2P16066P33763P33764P35325P23297P29034P06703P06702P23490Q96LB9Q96PI1Q5T871Q5T870Q96RM1P22531O95295P26447Q86SG5"
-        # https://curl.trillworks.com/  curl-to-requests
-
-        #    {u'expression': {u'columnNames': []},
-        #     u'identifiersNotFound': 12,
-        #     u'pathways': [{u'dbId': 6809371,
-
-        #            {u'dbId': 6805567,
-        #             u'entities': {u'exp': [],
-        #                           u'fdr': 3.106759294269068e-10,
-        #                           u'found': 11,
-        #                           u'pValue': 8.876455126483052e-12,
-        #                           u'ratio': 0.016295334919604873,
-        #                           u'resource': u'TOTAL',
-        #                           u'total': 226},
-        #             u'llp': True,
-        #             u'name': u'Keratinization',
-        #             u'reactions': {u'found': 6,
-        #                            u'ratio': 0.002920209567980761,
-        #                            u'resource': u'TOTAL',
-        #                            u'total': 34},
-        #             u'species': {u'dbId': 48887,
-        #                          u'name': u'Homo sapiens',
-        #                          u'taxId': u'9606'},
-        #             u'stId': u'R-HSA-6805567'},
-
-        #     u'pathwaysFound': 56,
-        #     u'resourceSummary': [{u'pathways': 56, u'resource': u'TOTAL'},
-        #                          {u'pathways': 56, u'resource': u'UNIPROT'}],
-        #     u'summary': {u'interactors': False,
-        #                  u'projection': False,
-        #                  u'sampleName': u'',
-        #                  u'text': True,
-        #                  u'token': u'MjAxODA4MjAxNTU0MjBfNzM2MA%3D%3D',
-        #                  u'type': u'OVERREPRESENTATION'},
-        #     u'warnings': [u'Missing header. Using a default one.']}
-
-        # params = (
-        #     ('interactors', 'false'),
-        #     ('sortBy', 'ENTITIES_PVALUE'),
-        #     ('order', 'ASC'),
-        #     ('resource', 'TOTAL'),
-        # )
+    def _chk_option(self, key, val, expected_values):
+        """Check the option value."""
+        if val in expected_values:
+            return
+        msg = '**FATAL: UNEXPECTED VALUE({V}) FOUND FOR {K}.'.format(V=val, K=key)
+        print('{MSG} EXPECTED VALUES ARE:'.format(MSG=msg))
+        for exp in sorted(expected_values):
+            print('    {EXP}'.format(EXP=exp))
+        raise RuntimeError(msg)
 
 
-####    @staticmethod
-####    def _wr(fout, rsp_data, mode, num=None):
-####        """Write response data to a file."""
-####        attr = 'text' if mode == 'w' else 'content'
-####        print('DDDDDDDDDDDDDDDDDDDDDDDDDD({})'.format(rsp_data))
-####        # rsp_data = getattr(rsp, attr)
-####        with open(fout, mode) as prt:
-####            prt.write(rsp_data)  # content for a binary (pdf) file
-####            print("  WROTE: {FILE}".format(FILE=fout))
 
-####    def pdf_report(self, fout_pdf, token):
-####        """report.pdf w/web; Get the full report on the pathways found overrepresented."""
-####        url_pat = "{URL}/report/{TOKEN}/Homo%20sapiens/report.pdf"
-####        hdrs = {'accept': 'application/pdf'}
-####        params = (
-####            ('number', '25'),
-####            ('resource', 'TOTAL'),
-####            ('diagramProfile', 'Modern'),
-####            ('analysisProfile', 'Standard'),
-####            ('fireworksProfile', 'Copper'),  # 'Copper', 'Copper plus', 'Barium Lithium', 'Calcium Salts'
-####        )
-####        # curl -X GET "https://reactome.org/AnalysisService/report/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/Homo%20sapiens/report.pdf?number=25&resource=TOTAL&diagramProfile=Modern&analysisProfile=Standard&fireworksProfile=Barium%20Lithium" -H "accept: application/pdf" --output curl_report.pdf
-####        url = url_pat.format(URL=self.url, TOKEN=token, PDF=fout_pdf)
-####        # params = {'output':fout_pdf}
-####        rsp = requests.get(url, headers=hdrs, params=params)
-####        if rsp.status_code == 200:
-####            self._wr(fout_pdf, rsp.content, 'wb')
-
-####     def csv_pathways(self, fout_csv, token, resource='TOTAL'):
-####         """result.csv w/web; Get the overrepresented pathway results."""
-####         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/pathways/TOTAL/result.csv" -H  "accept: text/csv"
-####         url_pat = "{URL}/download/{TOKEN}/pathways/{RESOURCE}/{FILENAME}.csv"
-####         hdrs = {'accept': 'text/csv'}
-####         assert resource in self.resources
-####         url = url_pat.format(URL=self.url, TOKEN=token, RESOURCE=resource, FILENAME='result')
-####         rsp = requests.get(url, headers=hdrs)
-####         # print('PATHWAYS', dir(rsp))
-####         # print('PATHWAYS', rsp.headers)
-####         if rsp.status_code == 200:
-####             self._wr(fout_csv, rsp.text, 'w')
-####             return rsp.text
-####         return rsp
-
-####    def get_results(self, token, resource='TOTAL'):
-####        """result.csv w/web; Get the overrepresented pathway results."""
-####        # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/pathways/TOTAL/result.csv" -H  "accept: text/csv"
-####        url_pat = "{URL}/download/{TOKEN}/pathways/{RESOURCE}/{FILENAME}.csv"
-####        hdrs = {'accept': 'text/csv'}
-####        assert resource in self.resources
-####        url = url_pat.format(URL=self.url, TOKEN=token, RESOURCE=resource, FILENAME='result')
-####        rsp = requests.get(url, headers=hdrs)
-####        return rsp.json() if rsp.status_code == 200 else rsp
-
-####    def csv_found(self, fout_csv, token, resource='TOTAL'):
-####        """mapping.csv w/web; Get IDs which were found and their mapping."""
-####        # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/entities/found/TOTAL/result.csv" -H  "accept: text/csv"
-####        url_pat = "{URL}/download/{TOKEN}/entities/found/{RESOURCE}/{FILENAME}.csv"
-####        hdrs = {'accept': 'text/csv'}
-####        assert resource in self.resources
-####        url = url_pat.format(URL=self.url, TOKEN=token, RESOURCE=resource, FILENAME='result')
-####        rsp = requests.get(url, headers=hdrs)
-####        if rsp.status_code == 200:
-####            self._wr(fout_csv, rsp.text, 'w')
-####            return rsp.text
-####
-####    def csv_notfound(self, fout_csv, token):
-####        """Report identifiers not found."""
-####        # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/entities/notfound/result.csv" -H  "accept: text/csv"
-####        url_pat = "{URL}/download/{TOKEN}/entities/notfound/{FILENAME}.csv"
-####        hdrs = {'accept': 'text/csv'}
-####        url = url_pat.format(URL=self.url, TOKEN=token, FILENAME='result')
-####        rsp = requests.get(url, headers=hdrs)
-####        if rsp.status_code == 200:
-####            # print('IDS NOT FOUND', dir(rsp))
-####            # print(rsp.text)
-####            self._wr(fout_csv, rsp.text, 'w')
-####            return rsp.text
-
-####    def get_notfound(self, token):
-####        """Report identifiers not found."""
-####        # curl -X GET "https://reactome.org/AnalysisService/token/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/notFound?pageSize=40&page=1" -H  "accept: application/json"
-####        url_pat = "{URL}/token/{TOKEN}/notFound"  # ?pageSize=40&page=1
-####        hdrs = {'accept': 'application/json'}
-####        url = url_pat.format(URL=self.url, TOKEN=token)
-####        rsp = requests.get(url, headers=hdrs)
-####        if rsp.status_code == 200:
-####            # print('RRRRRR', rsp)
-####            data = rsp.json()
-####            # pprint.pprint(data)
-####            return data
-
-####    # - database ----------------------------------------------------------------------------------
-####    @staticmethod
-####    def get_version():
-####        """The version number of the current Reactome database."""
-####        # curl -X GET "https://reactome.org/ContentService/data/database/version" -H  "accept: text/plain"
-####        url = "https://reactome.org/ContentService/data/database/version"
-####        hdrs = {'accept': 'text/plain'}
-####        rsp = requests.get(url, headers=hdrs)
-####        if rsp.status_code == 200:
-####            return int(rsp.text)
-####        return rsp
-####
-####    @staticmethod
-####    def get_name():
-####        """The name of the current Reactome database."""
-####        # curl -X GET "https://reactome.org/ContentService/data/database/name" -H  "accept: text/plain"
-####        url = "https://reactome.org/ContentService/data/database/name"
-####        hdrs = {'accept': 'text/plain'}
-####        rsp = requests.get(url, headers=hdrs)
-####        if rsp.status_code == 200:
-####            return rsp.text
-####        return rsp
-
-# # token = 'MjAxODA4MTMxNjIzMTRfNDcwNw%3D%3D'
-# GET "/token/{token}/page/{pathway}".format(pathway="R-HSA-6809371")  # Get page number
-# 1
-#
-# # Get reaction identifiers R-HSA-NNN...
-# GET "/token/{token}/reactions/{pathway}".format(pathway="R-HSA-6809371")
-# [
-#   6814387,
-#   6811539,
-#   6814734,
-#   6814764,
-#   6814298,
-#   6810937
-# ]
-#
-#
-# GET /token/{token}/resources
-# [
-#   {
-#     "resource": "TOTAL",
-#     "pathways": 213
-#   },
-#   {
-#     "resource": "UNIPROT",
-#     "pathways": 213
-#   }
-# ]
-
-# Copyright (C) 2014-2019, DV Klopfenstein. All rights reserved."
+# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."

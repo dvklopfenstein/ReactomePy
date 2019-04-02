@@ -18,6 +18,11 @@ Options:
   --ids1=F       Write list of identifiers that were found [default: ids_notfound.csv]
   --prefix=PREFIX  Add a prefix to all output files
   --tokenlog=TOKEN    File containing a log of all new tokens [default: tokens.log]
+
+  --resource=STR  Resources like TOTAL, UNIPROT, ENSEMBL, etc. [default: TOTAL]
+  --sortBy=STR    Sort pathway enrichment results [default: ENTITIES_PVALUE]
+  --order=STR     order by ASC or DESC [default: ASC]
+  --pValue=FLOAT  Keep values with pvalues [default: 1.0]
 """
 
 
@@ -30,7 +35,6 @@ from reactomepy.code.rest.token_mgr import TokenManager
 from enrichmentanalysis.file_utils import clean_args
 from enrichmentanalysis.file_utils import prepend
 from enrichmentanalysis.file_utils import get_fout_pdf
-from enrichmentanalysis.file_utils import get_kws_analyse
 
 
 def main():
@@ -50,10 +54,22 @@ def main():
     pre = args.get('prefix')
     if 'pdf' in args or 'pdfname' in args:
         fout_pdf = get_fout_pdf(args)
-        tok.pdf_report(prepend(pre, fout_pdf))
-    tok.csv_pathways(prepend(pre, args['csv']), resource='TOTAL')
-    tok.csv_found(prepend(pre, args['ids0']), resource='TOTAL')
+        tok.pdf_report(prepend(pre, fout_pdf), resource=args['resource'])
+    tok.csv_pathways(prepend(pre, args['csv']), resource=args['resource'])
+    tok.csv_found(prepend(pre, args['ids0']), resource=args['resource'])
     tok.csv_notfound(prepend(pre, args['ids1']))
+
+def get_kws_analyse(args):
+    """Get keyword args used when running a pathway analysis."""
+    kws = {}
+    if 'interactors' in args and args['interactors']:
+        kws['interactors'] = True
+    if 'excludeDisease' in args and args['excludeDisease']:
+        kws['includeDisease'] = False
+    kws['pValue'] = float(args['pValue'])
+    for key in set(['sortBy', 'order', 'resource']).intersection(args.keys()):
+        kws[key] = args[key]
+    return kws
 
 
 if __name__ == '__main__':

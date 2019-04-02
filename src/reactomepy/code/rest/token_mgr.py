@@ -69,26 +69,27 @@ class TokenManager:
 
     def __init__(self, token):
         self.token = token
-        self.resources = self._init_resources()
+        # [{'resource': 'TOTAL',   'pathways': 957, 'filtered': 957},
+        #  {'resource': 'UNIPROT', 'pathways': 957, 'filtered': 957}]
+        self.resources_values = self._init_resources()
 
     def get_results(self, resource='TOTAL'):
         """result.csv w/web; Get the overrepresented pathway results."""
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/pathways/TOTAL/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/pathways/{RESOURCE}/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        assert resource in self.resource_names
         url = url_pat.format(URL=self.url_ana, TOKEN=self.token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         return rsp.json() if rsp.status_code == 200 else rsp
 
-    def pdf_report(self, fout_pdf, species='Homo sapiens'):
+    def pdf_report(self, fout_pdf, species='Homo sapiens', resource='TOTAL'):
         """report.pdf w/web; Get the full report on the pathways found overrepresented."""
         url_pat = "{URL}/report/{TOKEN}/{SPECIES}/report.pdf"
         self._chk_species(species)
         hdrs = {'accept': 'application/pdf'}
         params = (
             ('number', '25'),
-            ('resource', 'TOTAL'),
+            ('resource', resource),
             ('diagramProfile', 'Modern'),
             ('analysisProfile', 'Standard'),
             ('fireworksProfile', 'Copper'),  # Copper, Copper plus, Barium Lithium, Calcium Salts
@@ -113,7 +114,6 @@ class TokenManager:
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/pathways/TOTAL/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/pathways/{RESOURCE}/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        assert resource in self.resource_names, resource
         url = url_pat.format(URL=self.url_ana, TOKEN=self.token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         # print('PATHWAYS', dir(rsp))
@@ -164,7 +164,6 @@ class TokenManager:
         # curl -X GET "https://reactome.org/AnalysisService/download/MjAxODA4MTMxNjIzMTRfNDcwNw%253D%253D/entities/found/TOTAL/result.csv" -H  "accept: text/csv"
         url_pat = "{URL}/download/{TOKEN}/entities/found/{RESOURCE}/{FILENAME}.csv"
         hdrs = {'accept': 'text/csv'}
-        assert resource in self.resource_names
         url = url_pat.format(URL=self.url_ana, TOKEN=self.token, RESOURCE=resource, FILENAME='result')
         rsp = requests.get(url, headers=hdrs)
         if rsp.status_code == 200:
