@@ -20,7 +20,7 @@ rather than open an issue in this repo.
 
 ## Hints for downloading the Reactome Knowledgebase (details)
 ### 1. Download the Reactome database
-Download from https://reactome.org/dev/graph-database
+Download from **https://reactome.org/dev/graph-database**
 ![download](images/download.png)
 
 ### 2. Uncompress and extract the Reactome database in Neo4j format
