@@ -91,6 +91,8 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
 ```
 ### 6. View the Reactome database in the neo4j browser
+In your browser, go to: **http://localhost:7474/browser/**
+
 #### Try a Cypher command:
 What sub-pathways are under under pathway, R-HSA-983169, _Class I MHC mediated antigen processing & presentation_?
 
