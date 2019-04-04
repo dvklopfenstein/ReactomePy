@@ -40,6 +40,7 @@ class InterChainCrosslinkedResidue(CrosslinkedResidue):
     """CrosslinkedResidue."""
 
     # params_req: dbId schemaClass displayName
+    params_req = CrosslinkedResidue.params_req + ('label',)
     # params_opt: coordinate | secondCoordinate
 
     relationships = {

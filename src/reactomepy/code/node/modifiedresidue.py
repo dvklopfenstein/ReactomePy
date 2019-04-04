@@ -42,6 +42,7 @@ class ModifiedResidue(TranslationalModification):
     # params_req: dbId schemaClass displayName
     # params_opt: coordinate
     # params_opt = AbstractModifiedResidue.params_opt + ['secondCoordinate']
+    params_opt = TranslationalModification.params_opt + ('label',)
 
     relationships = {
         **TranslationalModification.relationships,

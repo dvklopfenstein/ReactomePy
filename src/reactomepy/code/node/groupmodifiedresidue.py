@@ -40,6 +40,7 @@ class GroupModifiedResidue(TranslationalModification):
     """GroupModifiedResidue."""
 
     # params_req: dbId schemaClass displayName
+    params_req = TranslationalModification.params_req + ('label',)
     # params_opt: coordinate
 
     relationships = {

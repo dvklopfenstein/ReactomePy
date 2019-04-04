@@ -54,7 +54,7 @@ class CandidateSet(EntitySet):
                                     'Complex', 'Polymer', 'SimpleEntity']),
             'inferredTo': frozenset(['CandidateSet', 'DefinedSet',
                                      'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                                     'Complex']),
+                                     'Complex', 'Polymer']),
         }
     }
 

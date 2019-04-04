@@ -26,7 +26,7 @@ class BlackBoxEvent(ReactionLikeEvent):
     """Reactome ReactionLikeEvent Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name |
-    #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
+    #         isInferred releaseDate speciesName category
     # params_opt: oldStId releaseStatus | isChimeric systematicName
     # params_opt = ReactionLikeEvent.params_opt + ['definition']
 

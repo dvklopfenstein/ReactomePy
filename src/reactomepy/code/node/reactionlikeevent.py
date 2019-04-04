@@ -19,6 +19,7 @@ Hier: Event:ReactionLikeEvent(5)
 __copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
+from collections import namedtuple
 from reactomepy.code.node.event import Event
 
 
@@ -29,6 +30,7 @@ class ReactionLikeEvent(Event):
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name |
     #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
     # params_opt: oldStId releaseStatus
+    params_req = Event.params_req + ('category',)
     params_opt = Event.params_opt + ('isChimeric', 'systematicName')
 
     relationships = {
@@ -44,8 +46,17 @@ class ReactionLikeEvent(Event):
             #'regulatedBy': frozenset(['Regulation']),
             #'entityOnOtherCell': frozenset(['PhysicalEntity']),
             #'normalReaction': frozenset(['ReactionLikeEvent']),
+            'activeUnit': frozenset(['CandidateSet', 'DefinedSet',
+                                    'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
+                                    'Complex', 'Polymer', 'SimpleEntity',
+                                    #'OtherEntity',
+                                    ]),
+
         }
     }
+
+    flds_last = ' aart abc optional'
+    ntobj = namedtuple('NtOpj', ' '.join(params_req) + flds_last)
 
     def __init__(self, name):
         super(ReactionLikeEvent, self).__init__(name)

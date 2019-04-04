@@ -5,7 +5,7 @@ __author__ = "DV Klopfenstein"
 
 from reactomepy.data.all.figures import FIG2NT as F2N
 
-# 333 Pathways have Figures
+# 335 Pathways have Figures
 # Key: Pathway stId; Value: Figure dbIds
 PWY2FIGS = {
     'R-HSA-15869': {F2N[110736], F2N[9628939]},
@@ -220,7 +220,6 @@ PWY2FIGS = {
     'R-HSA-216083': {F2N[2291893]},
     'R-HSA-217271': {F2N[114718]},
     'R-HSA-264876': {F2N[266131]},
-    'R-DME-350384': {F2N[450744]},
     'R-HSA-350562': {F2N[353111]},
     'R-HSA-351202': {F2N[353114]},
     'R-GGA-352875': {F2N[372929]},
@@ -300,6 +299,7 @@ PWY2FIGS = {
     'R-HSA-2559585': {F2N[5693884]},
     'R-HSA-2559586': {F2N[5693882]},
     'R-HSA-2980736': {F2N[9628893]},
+    'R-HSA-3108232': {F2N[9638035]},
     'R-HSA-3700989': {F2N[9628905]},
     'R-HSA-5250913': {F2N[9628916]},
     'R-HSA-5250941': {F2N[9628920]},
@@ -334,6 +334,8 @@ PWY2FIGS = {
     'R-HSA-8957322': {F2N[9628917]},
     'R-HSA-8963743': {F2N[9628889]},
     'R-HSA-9006925': {F2N[9628884]},
+    'R-HSA-9006927': {F2N[9638142]},
+    'R-HSA-9006931': {F2N[9638143]},
     'R-HSA-9006934': {F2N[9628901]},
     'R-HSA-9006936': {F2N[9628941]},
     'R-HSA-9007101': {F2N[9628948]},

@@ -17,8 +17,12 @@ class EntityFunctionalStatus(DatabaseObject):
     # params: dbId schemaName displayName
 
     relationships = {
-        'physicalEntity': frozenset(['CandidateSet', 'DefinedSet',
-                                     'EntityWithAccessionedSequence', 'Complex']),
+        #### 'physicalEntity': frozenset(['CandidateSet', 'DefinedSet',
+        ####                              'EntityWithAccessionedSequence', 'Complex']),
+        'normalEntity': frozenset(['CandidateSet', 'DefinedSet',
+                                   'EntityWithAccessionedSequence', 'Complex', 'Polymer']),
+        'diseaseEntity': frozenset(['CandidateSet', 'DefinedSet',
+                                    'EntityWithAccessionedSequence', 'Complex']),
         'functionalStatus': frozenset(['FunctionalStatus']),
     }
 

@@ -26,7 +26,7 @@ class Depolymerisation(ReactionLikeEvent):
     """Reactome Depolymerisation Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name |
-    #         stId stIdVersion name isInDisease isInferred releaseDate speciesName
+    #         isInferred releaseDate speciesName category
     # params_opt: oldStId releaseStatus | isChimeric systematicName
 
     relationships = {
