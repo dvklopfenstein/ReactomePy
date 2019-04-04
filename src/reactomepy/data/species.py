@@ -8,7 +8,6 @@ import collections as cx
 NtObj = cx.namedtuple('ntSPECIES', 'abc abbreviation taxId displayName')
 SPECIES = [
     NtObj._make(['ama', 'AMA', 6344, 'Arenicola marina']),
-    NtObj._make(['ath', 'ATH', 3702, 'Arabidopsis thaliana']),
     NtObj._make(['ban', 'BAN', 1392, 'Bacillus anthracis']),
     NtObj._make(['bta', 'BTA', 9913, 'Bos taurus']),
     NtObj._make(['cae', 'CAE', 9534, 'Cercopithecus aethiops']),
@@ -48,7 +47,8 @@ SPECIES = [
     NtObj._make(['hsa', 'HSA', 9606, 'Homo sapiens']),
     NtObj._make(['ibr', 'IBR', 11120, 'Infectious bronchitis virus']),
     NtObj._make(['lmo', 'LMO', 1639, 'Listeria monocytogenes']),
-    NtObj._make(['lmo', 'LMO', 1906951, 'Listeria monocytogenes serovar 1/2a']),
+    NtObj._make(['lmo', 'LMO', 169963, 'Listeria monocytogenes serovar 1/2a']),
+    NtObj._make(['lmo', 'LMO', 1334565, 'Listeria monocytogenes serotype 1/2a']),
     NtObj._make(['lpn', 'LPN', 446, 'Legionella pneumophila']),
     NtObj._make(['mcv', 'MCV', 10279, 'Molluscum contagiosum virus']),
     NtObj._make(['mcv', 'MCV', 10280, 'Molluscum contagiosum virus subtype 1']),
@@ -63,7 +63,6 @@ SPECIES = [
     NtObj._make(['nme', 'NME', 491, 'Neisseria meningitidis serogroup B']),
     NtObj._make(['oar', 'OAR', 9940, 'Ovis aries']),
     NtObj._make(['ocu', 'OCU', 9986, 'Oryctolagus cuniculus']),
-    NtObj._make(['osa', 'OSA', 4530, 'Oryza sativa']),
     NtObj._make(['pch', 'PCH', 5076, 'Penicillium chrysogenum']),
     NtObj._make(['pfa', 'PFA', 5833, 'Plasmodium falciparum']),
     NtObj._make(['rno', 'RNO', 10116, 'Rattus norvegicus']),
@@ -81,7 +80,6 @@ SPECIES = [
     NtObj._make(['tae', 'TAE', 4565, 'Triticum aestivum']),
     NtObj._make(['ten', 'TEN', 11084, 'Tick-borne encephalitis virus']),
     NtObj._make(['tgo', 'TGO', 5811, 'Toxoplasma gondii']),
-    NtObj._make(['tgu', 'TGU', 59729, 'Taeniopygia guttata']),
     NtObj._make(['vra', 'VRA', 3916, 'Vigna radiata var. radiata']),
     NtObj._make(['vra', 'VRA', 157791, 'Vigna radiata']),
     NtObj._make(['vvi', 'VVI', 10245, 'Vaccinia virus']),

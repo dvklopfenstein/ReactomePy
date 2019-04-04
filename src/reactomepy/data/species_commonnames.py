@@ -7,8 +7,6 @@ __author__ = "DV Klopfenstein"
 TAXID2NAMES = {
     446: ['L.pneumophila'],
     562: ['Escherichia coli (strain K12)'],
-    3702: ['thale-cress', 'mouse-ear cress'],
-    4530: ['rice'],
     4896: ['S.pombe', 'S. pombe', 'fission yeast', 'Sp'],
     4932: ['S.cerevisiae', 'S. cerevisiae', 'Sc', "baker's yeast", "brewer's yeast", 'Saccharomyces cerevisiae (strain RM11-1a)', 'Saccharomyces cerevisiae (strain YJM789)'],
     5833: ['malaria parasite P. falciparum'],
