@@ -53,6 +53,18 @@ dist_archive:
 clean_dist:
 	rm -rf dist build reactomepy.egg-info
 
+vim_pip:
+	vim setup.py src/reactomepy/__init__.py makefile
+
+wheel:
+	make clean_dist
+	python3 setup.py sdist bdist_wheel
+	ls -lh dist
+
+upload:
+	python3 -m twine upload dist/* --verbose
+
+
 # --------------------------------------------------------------------------------
 upload_pypi_test:
 	python setup.py register -r pypitest

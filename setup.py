@@ -30,8 +30,8 @@ PACKAGES = [
 ]
 
 setup(
-    name='reactomepy_dvklopfenstein',
-    version='0.68.0',
+    name='reactomepy',
+    version='0.68.0004',
     author='DV Klopfenstein',
     author_email='dvklopfenstein@gmail.com',
     long_description=get_long_description(),
@@ -50,5 +50,13 @@ setup(
     ],
     url='http://github.com/dvklopfenstein/ReactomePy',
     description='Explore biomolecular pathways in Reactome from the command line',
-    install_requires=['datetime', 'collections', 'enrichmentanalysis', 'neo4j'],
+    install_requires=['enrichmentanalysis_dvklopfenstein', 'neo4j'],
 )
+
+# We use the Neo4j Python driver is officially supported by Neo4j, called neo4j.
+# https://neo4j.com/developer/python/
+# https://github.com/neo4j/neo4j-python-driver
+
+# These install the same package:
+#    * pip install neo4j
+#    * conda install neo4j-python-driver
