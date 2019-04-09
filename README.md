@@ -45,7 +45,8 @@ _Zenodo_ | (2019) | DOI: 10.5281/zenodo.2634376
 
 ```
 @online{klopfenstein2019reactomepy,
-  author = {Klopfenstein, DV and Dampier, W},
+  author = {Klopfenstein, DV and 
+            Dampier, W},
   title = {ReactomePy},
   year = 2019,
   month = apr,
