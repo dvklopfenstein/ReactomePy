@@ -50,7 +50,7 @@ setup(
     ],
     url='http://github.com/dvklopfenstein/ReactomePy',
     description='Explore biomolecular pathways in Reactome from the command line',
-    install_requires=['enrichmentanalysis_dvklopfenstein', 'neo4j'],
+    install_requires=['enrichmentanalysis_dvklopfenstein'],
 )
 
 # We use the Neo4j Python driver is officially supported by Neo4j, called neo4j.
