@@ -40,7 +40,11 @@ wrpy:
 	src/bin_neo4j/wrpy/inferredfrom.py $(PASSWORD)
 	src/bin_neo4j/wrpy/pathway_molecules.py $(PASSWORD)
 
-# --------------------------------------------------------------------------------
+# = DISRIBUTION ==================================================================
+tags:
+	git log --decorate=full --simplify-by-decoration --pretty=oneline HEAD
+	git tag -l -n
+
 dist_archive:
 	#python3 -m pip install --user --upgrade setuptools wheel
 	python3 setup.py sdist bdist_wheel
@@ -54,7 +58,7 @@ upload_pypi_test:
 	python setup.py register -r pypitest
 	python setup.py sdist upload -r pypitest
 
-# - TEST ---------------------------------------------------------------------------------
+# = TEST =========================================================================
 test_all:
 	make test_internet
 	make test_simple
@@ -67,7 +71,7 @@ test_simple:
 	$(PY) src/tests/test_args_neo4j.py
 	$(PY) src/tests/test_args_pwyea_reactome.py
 
-# ----------------------------------------------------------------------------------------
+# = CLEAN ========================================================================
 clean:
 	rm -f *.csv
 	rm -f *pathway_enrichment*.pdf

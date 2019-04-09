@@ -22,14 +22,6 @@ biological models, associated research papers, URLs, and books.
   3) Write your own Python scripts accessing the Reactome database through Neo4j
 
 
-## To Cite
-
-_Please cite the following if this repo is used in your research_:
-
-Klopfenstein DV and Dampier W 
-[**Understudied disease genes are similar to gene neighbors in human, mouse and fly**](https://www.nature.com/articles/s41598-018-28948-z)    
-_bioRxiv_ | (2019) N:NNNNN | DOI:XXXXXXXXX
-
 ## Links
   * **User's Download hints**:
     * [1) Install Neo4j](/doc/md/README_install_neo4j.md)
