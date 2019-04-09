@@ -43,6 +43,7 @@ _Zenodo_ | (2019) | DOI: 10.5281/zenodo.2634376
 
 ### BibLaTeX citation
 
+```
 @online{klopfenstein2019reactomepy,
   author = {Klopfenstein, DV and Dampier, W},
   title = {ReactomePy},
@@ -50,5 +51,6 @@ _Zenodo_ | (2019) | DOI: 10.5281/zenodo.2634376
   url = {https://github.com/dvklopfenstein/ReactomePy},
   doi = {10.5281/zenodo.2634376},
 }
+```
 
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
