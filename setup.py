@@ -31,7 +31,7 @@ PACKAGES = [
 
 setup(
     name='reactomepy_dvklopfenstein',
-    version='0.0.1',
+    version='0.68.0',
     author='DV Klopfenstein',
     author_email='dvklopfenstein@gmail.com',
     long_description=get_long_description(),
