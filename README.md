@@ -34,4 +34,21 @@ biological models, associated research papers, URLs, and books.
     * [Icon library](https://reactome.org/icon-lib)    
     * [Reactome Graph Database on GitHub](https://github.com/reactome/graph-core)    
 
+## To Cite
+
+_Please cite if this repo is used in your research_:
+
+Klopfenstein DV, Dampier W [_ReactomePy_](https://doi.org/10.5281/zenodo.2634376)
+_Zenodo_ | (2019) | DOI: 10.5281/zenodo.2634376
+
+### BibLaTeX citation
+
+@online{klopfenstein2019reactomepy,
+  author = {Klopfenstein, DV and Dampier, W},
+  title = {ReactomePy},
+  year = 2019,
+  url = {https://github.com/dvklopfenstein/ReactomePy},
+  doi = {10.5281/zenodo.2634376},
+}
+
 Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
