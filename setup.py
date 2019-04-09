@@ -30,13 +30,13 @@ PACKAGES = [
 ]
 
 setup(
-    name='reactomepy',
+    name='reactomepy_dvklopfenstein',
     version='0.0.1',
     author='DV Klopfenstein',
     author_email='dvklopfenstein@gmail.com',
     long_description=get_long_description(),
     packages=PACKAGES,
-    package_dir={p:'src/{PKG}'format(PKG=p) for p in PACKAGES},
+    package_dir={p:'src/{PKG}'.format(PKG=p) for p in PACKAGES},
     # include_package_data=True,
     # package_data={"reactomepy.test_data.nbt_3102": ["*.*"]},
     scripts=glob('src/bin/*.py') + glob('src/bin_neo4j/tutorial/*.py') + glob('src/bin_neo4j/wrpy/*.py'),
