@@ -34,6 +34,11 @@ biological models, associated research papers, URLs, and books.
     * [Icon library](https://reactome.org/icon-lib)    
     * [Reactome Graph Database on GitHub](https://github.com/reactome/graph-core)    
 
+  * We use the Neo4j Python driver that is officially supported by [Neo4j](https://neo4j.com/developer/python)
+    * https://github.com/neo4j/neo4j-python-driver
+    * To install: pip vs conda
+         * pip install neo4j
+         * conda install neo4j-python-driver
 ## To Cite
 
 _Please cite if this repo is used in your research_:

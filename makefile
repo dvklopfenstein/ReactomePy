@@ -45,25 +45,30 @@ tags:
 	git log --decorate=full --simplify-by-decoration --pretty=oneline HEAD
 	git tag -l -n
 
-dist_archive:
-	#python3 -m pip install --user --upgrade setuptools wheel
-	python3 setup.py sdist bdist_wheel
-	find dist
-
-clean_dist:
-	rm -rf dist build reactomepy.egg-info
-
+# --------------------------------------------------------------------------------
 vim_pip:
-	vim setup.py src/reactomepy/__init__.py makefile
+	vim src/reactomepy/__init__.py setup.py makefile
 
-wheel:
+bdist_wheel:
+	#python3 -m pip install --user --upgrade setuptools wheel
 	make clean_dist
 	python3 setup.py sdist bdist_wheel
 	ls -lh dist
 
-upload:
+upload_pip:
 	python3 -m twine upload dist/* --verbose
 
+bdist_conda:
+	python setup.py bdist_conda
+
+# Test in a virtual environment
+prep_conda:
+	conda remove --name myenv --all
+	conda create --name myenv
+# conda activate myenv
+# conda install -c dvklopfenstein enrichmentanalysis_dvklopfenstein
+# pwy_enrichment_reactome.py
+# pwy_enrichment_reactome.py data/exgo/study data/exgo/population data/exgo/association
 
 # --------------------------------------------------------------------------------
 upload_pypi_test:
@@ -110,5 +115,8 @@ clobber_materials:
 clobber_pwys:
 	rm -f src/reactomepy/data/*/pathways/p*.py
 	
+clean_dist:
+	rm -rf dist build reactomepy.egg-info
+
 
 # Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
