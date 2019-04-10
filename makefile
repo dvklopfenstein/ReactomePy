@@ -66,9 +66,9 @@ prep_conda:
 	conda remove --name myenv --all
 	conda create --name myenv
 # conda activate myenv
-# conda install -c dvklopfenstein enrichmentanalysis_dvklopfenstein
+# conda install -c dvklopfenstein reactomepy
 # pwy_enrichment_reactome.py
-# pwy_enrichment_reactome.py data/exgo/study data/exgo/population data/exgo/association
+# pwy_enrichment_reactome.py data/enrich/studyids/Gene_NCBI_Entrez.txt
 
 # --------------------------------------------------------------------------------
 upload_pypi_test:

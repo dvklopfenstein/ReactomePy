@@ -24,7 +24,11 @@ def get_install_requires():
     base = ['enrichmentanalysis_dvklopfenstein', 'requests']
     # conda: Anaconda installs all needed to run scripts
     if sys.argv[1:2] == ['bdist_conda']:
-        base.append('neo4j-python-driver')
+        pkgs = [
+            'neobolt',
+            'neo4j-python-driver',
+        ]
+        base.extend(pkgs)
     return base
 
 PACKAGES = [

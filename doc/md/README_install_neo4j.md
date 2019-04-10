@@ -2,11 +2,7 @@
 Please see [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
 regarding installing Neo4j.
 
-
-**Please direct questions** regarding **downloading and installing Neo4j** to **Reactome**,
-rather than open an issue in this repo.
-
-Please contribute to this page if you would like to share a helpful install hint.
+See below for user hints ...
 
 
 ## Hints for installing Neo4j

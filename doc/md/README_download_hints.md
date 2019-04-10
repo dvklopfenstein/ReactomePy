@@ -1,10 +1,8 @@
 # Reactome Download Hints
-Please see [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
+See [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
 regarding downloading the Reactome Knowledgebase.
 
-**Please direct questions** regarding **loading the Reactome Knowledgebase** to **Reactome**,
-rather than open an issue in this repo.
-
+See below for user hints ...
 
 ## Hints for downloading the Reactome Knowledgebase
 1. [**Download the Reactome database**](#1-download-the-reactome-database)
