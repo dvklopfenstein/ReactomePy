@@ -58,6 +58,7 @@ bdist_wheel:
 upload_pip:
 	python3 -m twine upload dist/* --verbose
 
+# Use conda build to build pkgs for Python to install rather than conda
 bdist_conda:
 	python setup.py bdist_conda
 

@@ -31,6 +31,13 @@ def get_install_requires():
         base.extend(pkgs)
     return base
 
+def get_distclass():
+    """If building for anaconda, get CondaDistribution class."""
+    if sys.argv[1:2] != ['bdist_conda']:
+        return None
+    from distutils.command.bdist_conda import CondaDistribution
+    return CondaDistribution
+
 PACKAGES = [
     'reactomepy',
     'reactomepy.code',
@@ -70,6 +77,7 @@ setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Operating System :: OS Independent',
     ],
+    distclass=get_distclass(),
     url='http://github.com/dvklopfenstein/ReactomePy',
     description='Explore biomolecular pathways in Reactome from the command line',
     install_requires=get_install_requires(),
