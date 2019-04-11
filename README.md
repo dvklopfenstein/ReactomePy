@@ -14,11 +14,11 @@ biological models, associated research papers, URLs, and books.
 ## Use this Python3 library to:
 
   1) Run [**Reactome's Neo4j Tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules)
-     from one of the [**Jupyter notebooks**](https://github.com/dvklopfenstein/ReactomePy/tree/master/src/ipy/tutorial/README.md)
-     or a plain [**Python script**](https://github.com/dvklopfenstein/ReactomePy/tree/master/src/bin_neo4j/tutorial)
+     from one of the [**Jupyter notebooks**](/src/ipy/tutorial/README.md)
+     or a plain [**Python script**](/src/bin_neo4j/tutorial)
 
   2) Find enriched pathways
-     [**from the command line**](https://github.com/dvklopfenstein/ReactomePy/blob/master/doc/md/README_analyses.md),
+     [**from the command line**](/doc/md/README_analyses.md),
      accessing Reactome's online
      [**Pathway Analysis Service**](https://reactome.org/AnalysisService/) 
 
@@ -27,8 +27,8 @@ biological models, associated research papers, URLs, and books.
 
 ## Links
   * **User's Download hints**:
-    * [1) Install Neo4j](https://github.com/dvklopfenstein/ReactomePy/blob/master/doc/md/README_install_neo4j.md)    
-    * [2) Download Reactome Knowledgebase](https://github.com/dvklopfenstein/ReactomePy/blob/master/doc/md/README_download_hints.md)   
+    * [1) Install Neo4j](/doc/md/README_install_neo4j.md)    
+    * [2) Download Reactome Knowledgebase](/doc/md/README_download_hints.md)   
   * **Reactome Publications**
     * 2018 | [Reactome graph database: Efficient access to complex pathway data](https://journals.plos.org/ploscompbiol/article?rev=2&id=10.1371/journal.pcbi.1005968)
   * **Reactome Documentation**    
