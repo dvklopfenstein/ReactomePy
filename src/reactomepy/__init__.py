@@ -1,3 +1,4 @@
-# Python scripts for accessing biological processes in Reactome using neo4j queries.
+# Reactome Pie: All the deliciousness of Reactome wrapped in rich, buttery Python
+
 name = 'reactomepy'
 __version__ = '0.68.0008'
