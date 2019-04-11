@@ -14,7 +14,7 @@ biological models, associated research papers, URLs, and books.
 ## Use this Python3 library to:
 
   1) Run [**Reactome's Neo4j Tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules)
-     from one of the [**Jupyter notebooks**](https://github.com/dvklopfenstein/ReactomePy/tree/master/src/ipy/tutorial)
+     from one of the [**Jupyter notebooks**](https://github.com/dvklopfenstein/ReactomePy/tree/master/src/ipy/tutorial/README.md)
      or a plain [**Python script**](https://github.com/dvklopfenstein/ReactomePy/tree/master/src/bin_neo4j/tutorial)
 
   2) Find enriched pathways
@@ -37,11 +37,9 @@ biological models, associated research papers, URLs, and books.
     * [Icon library](https://reactome.org/icon-lib)    
     * [Reactome Graph Database on GitHub](https://github.com/reactome/graph-core)    
 
-  * We use the Neo4j Python driver that is officially supported by [Neo4j](https://neo4j.com/developer/python)
+  * We use the **Neo4j Python driver** that is [officially supported](https://neo4j.com/developer/python) by Neo4j
     * https://github.com/neo4j/neo4j-python-driver
-    * To install: pip vs conda
-         * pip install neo4j
-         * conda install neo4j-python-driver
+
 ## To Cite
 
 _Please cite if this repo is used in your research_:

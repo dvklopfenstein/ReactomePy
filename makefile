@@ -50,7 +50,7 @@ vim_pip:
 	vim src/reactomepy/__init__.py setup.py makefile
 
 bdist_wheel:
-	#python3 -m pip install --user --upgrade setuptools wheel
+	# python3 -m pip install --user --upgrade setuptools wheel
 	make clean_dist
 	python3 setup.py sdist bdist_wheel
 	ls -lh dist
@@ -60,16 +60,20 @@ upload_pip:
 
 # Use conda build to build pkgs for Python to install rather than conda
 bdist_conda:
+	# Allow installation from the conda-forge channel to install neobolt
+	conda config --add channels conda-forge
+	# Use the neo4j-python-driver from conda-forge
+	conda config --set channel_priority strict
 	python setup.py bdist_conda
 
 # Test in a virtual environment
-prep_conda:
+prep_env:
 	conda remove --name myenv --all
 	conda create --name myenv
 # conda activate myenv
 # conda install -c dvklopfenstein reactomepy
-# pwy_enrichment_reactome.py
 # pwy_enrichment_reactome.py data/enrich/studyids/Gene_NCBI_Entrez.txt
+# src/bin_neo4j/tutorial/s4b_pathway_superpathways.py $(PASSWORD)
 
 # --------------------------------------------------------------------------------
 upload_pypi_test:

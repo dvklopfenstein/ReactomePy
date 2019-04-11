@@ -77,7 +77,7 @@ setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
         'Operating System :: OS Independent',
     ],
-    distclass=get_distclass(),
+    #distclass=get_distclass(),
     url='http://github.com/dvklopfenstein/ReactomePy',
     description='Explore biomolecular pathways in Reactome from the command line',
     install_requires=get_install_requires(),
@@ -87,6 +87,8 @@ setup(
 # https://neo4j.com/developer/python/
 # https://github.com/neo4j/neo4j-python-driver
 
-# These install the same package:
+# These install the same package (neo4j is not listed as a Python Anaconda Python package):
 #    * pip install neo4j
 #    * conda install neo4j-python-driver
+
+
