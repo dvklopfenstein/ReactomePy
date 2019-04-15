@@ -40,51 +40,11 @@ wrpy:
 	src/bin_neo4j/wrpy/inferredfrom.py $(PASSWORD)
 	src/bin_neo4j/wrpy/pathway_molecules.py $(PASSWORD)
 
-# = DISRIBUTION ==================================================================
-pytest:
-	python3 -m pytest -v src/tests
-	
-tags:
-	git log --decorate=full --simplify-by-decoration --pretty=oneline HEAD
-	git tag -l -n
-
-# --------------------------------------------------------------------------------
-vim_pip:
-	vim src/reactomepy/__init__.py setup.py makefile
-
-bdist_wheel:
-	# python3 -m pip install --user --upgrade setuptools wheel
-	make clean_dist
-	python3 setup.py sdist bdist_wheel
-	ls -lh dist
-
-upload_pip:
-	python3 -m twine upload dist/* --verbose
-
-# Use conda build to build pkgs for Python to install rather than conda
-bdist_conda:
-	# Allow installation from the conda-forge channel to install neobolt
-	conda config --add channels conda-forge
-	# Use the neo4j-python-driver from conda-forge
-	conda config --set channel_priority strict
-	python setup.py bdist_conda
-
-# Test in a virtual environment
-prep_env:
-	conda remove --name myenv --all
-	conda create --name myenv
-# conda activate myenv
-# conda install -c dvklopfenstein reactomepy
-# pwy_enrichment_reactome.py data/enrich/studyids/Gene_NCBI_Entrez.txt
-# src/bin_neo4j/tutorial/s4b_pathway_superpathways.py $(PASSWORD)
-
-# --------------------------------------------------------------------------------
-upload_pypi_test:
-	python setup.py register -r pypitest
-	python setup.py sdist upload -r pypitest
-
 # = TEST =========================================================================
-test_all:
+pytest:
+	python3 -m pytest -v src/tests | tee pytest.log
+
+test:
 	make test_internet
 	make test_simple
 
