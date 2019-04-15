@@ -35,8 +35,9 @@ def test_ea_params():
         {'interactors':True,  'includeDisease':False},
         {'interactors':True,  'includeDisease':True}]
 
+    obj = AnalysisService()
     for idx, (kws, exp) in enumerate(zip(stim_list, exp_list)):
-        act_all = AnalysisService.get_params_ea(kws)
+        act_all = obj.get_params_ea(kws)
         act_cur = {k:act_all[k]=='true' for k in {'interactors', 'includeDisease'}}
         assert act_cur == exp, '{I}) ACT({A}) != EXP({E}):  {X}'.format(I=idx, A=act_cur, E=exp, X=kws)
 

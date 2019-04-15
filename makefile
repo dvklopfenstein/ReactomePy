@@ -41,6 +41,9 @@ wrpy:
 	src/bin_neo4j/wrpy/pathway_molecules.py $(PASSWORD)
 
 # = DISRIBUTION ==================================================================
+pytest:
+	python3 -m pytest -v src/tests
+	
 tags:
 	git log --decorate=full --simplify-by-decoration --pretty=oneline HEAD
 	git tag -l -n
