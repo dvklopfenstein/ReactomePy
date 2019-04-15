@@ -1,5 +1,7 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 
+Explore biomolecular pathways in Reactome from the command-line or a Python script.    
+
 In addition to biomolecular pathways,
 Reactome contains 
 expert-authored and peer-reviewed
