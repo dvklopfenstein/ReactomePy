@@ -1,5 +1,5 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2634377.svg)](https://doi.org/10.5281/zenodo.2634377)
+[![DOI](/doc/images/zenodo.2634376.svg)](https://doi.org/10.5281/zenodo.2634377)
 
 Explore biomolecular pathways in Reactome from the command-line or a Python script.    
 
