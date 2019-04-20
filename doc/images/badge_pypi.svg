@@ -1,0 +1,35 @@
+
+<svg contentScriptType="text/ecmascript" width="132"
+     xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify"
+     contentStyleType="text/css" height="20" preserveAspectRatio="xMidYMid meet"
+     xmlns="http://www.w3.org/2000/svg" version="1.0">
+
+
+    <linearGradient xmlns:xlink="http://www.w3.org/1999/xlink" x2="0" y2="100%"
+                    xlink:type="simple" xlink:actuate="onLoad" id="a"
+                    xlink:show="other">
+        <stop stop-opacity=".1" stop-color="#bbb" offset="0"/>
+        <stop stop-opacity=".1" offset="1"/>
+    </linearGradient>
+
+    <rect rx="3" fill="#555" width="132" height="20" class="sWidth"/>
+    <rect rx="3" fill="#4c1" width="46" x="86" height="20" class="vWidth tMove"/>
+    <rect fill="#4c1" x="86" width="13" height="20" class="tMove"/>
+    <rect rx="3" fill="url(#a)" width="132" height="20" class="sWidth"/>
+
+    <g font-size="11" font-family="DejaVu Sans,Verdana,Geneva,sans-serif"
+       fill="#fff">
+        <text x="6" fill="#010101" fill-opacity=".3" y="15">
+            pypi package
+        </text>
+        <text x="6" id="tText" y="14">
+            pypi package
+        </text>
+        <text fill="#010101" x="91" fill-opacity=".3" y="15" class="tMove">
+            0.68.9
+        </text>
+        <text x="91" id="vText" y="14" class="tMove">
+            0.68.9
+        </text>
+    </g>
+</svg>

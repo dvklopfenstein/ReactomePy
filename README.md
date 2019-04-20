@@ -1,5 +1,6 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 [![DOI](/doc/images/zenodo.2634376.svg)](https://doi.org/10.5281/zenodo.2634377)
+[![PyPI version](/doc/images/badge_pypi.svg)](https://badge.fury.io/py/reactomepy)
 
 Explore biomolecular pathways in Reactome from the command-line or a Python script.    
 
