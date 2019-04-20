@@ -1,6 +1,10 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 [![DOI](doc/images/badge_zenodo.2634376.svg)](https://doi.org/10.5281/zenodo.2634377)
 [![PyPI version](/doc/images/badge_pypi.svg)](https://badge.fury.io/py/reactomepy)
+[![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/version.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
+[![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/latest_release_date.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
+[![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/platforms.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
+[![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/installer/conda.svg)](https://conda.anaconda.org/dvklopfenstein)
 
 Explore biomolecular pathways in Reactome from the command-line or a Python script.    
 
