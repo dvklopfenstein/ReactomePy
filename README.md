@@ -1,5 +1,6 @@
 # [Reactome](https://reactome.org/), Python, and Neo4j
 [![DOI](doc/images/badge_zenodo.2634376.svg)](https://doi.org/10.5281/zenodo.2634377)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PyPi version](https://pypip.in/v/ReactomePy/badge.png)](https://crate.io/packages/ReactomePy/)
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/version.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/latest_release_date.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
