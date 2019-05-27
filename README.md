@@ -1,5 +1,5 @@
 <head>
-<meta name="google-site-verification" content="_rgjcXp_dWFqnS32YG44dR1M2bBULuU20hzqorSY0CI" />
+  <meta name="google-site-verification" content="_rgjcXp_dWFqnS32YG44dR1M2bBULuU20hzqorSY0CI" />
 </head>
 
 # [Reactome](https://reactome.org/), Python, and Neo4j
