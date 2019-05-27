@@ -1,4 +1,6 @@
+<head>
 <meta name="google-site-verification" content="xtcuiHeruDqeFaBafCC9P4UUcGmcWNVRIj_ofiIDe1o" />
+</head>
 
 # [Reactome](https://reactome.org/), Python, and Neo4j
 [![DOI](doc/images/badge_zenodo.2634376.svg)](https://doi.org/10.5281/zenodo.2634377)
