@@ -45,6 +45,8 @@ from reactomepy.code.node.referencemolecule import ReferenceMolecule
 from reactomepy.code.node.referencetherapeutic import ReferenceTherapeutic
 from reactomepy.code.node.referencedatabase import ReferenceDatabase
 from reactomepy.code.node.catalystactivity import CatalystActivity
+from reactomepy.code.node.catalystactivityreference import CatalystActivityReference
+from reactomepy.code.node.regulationreference import RegulationReference
 from reactomepy.code.node.entityfunctionalstatus import EntityFunctionalStatus
 from reactomepy.code.node.literaturereference import LiteratureReference
 from reactomepy.code.node.book import Book
@@ -180,6 +182,9 @@ SCHEMACLASS2CLS = OrderedDict([
     ('ReferenceGroup', ReferenceGroup),
     ('ReferenceMolecule', ReferenceMolecule),
     ('ReferenceTherapeutic', ReferenceTherapeutic),
+
+    ('CatalystActivityReference', CatalystActivityReference),
+    ('RegulationReference', RegulationReference),
 
     #   - Publication (dcnt=3)
     # > -- LiteratureReference (dcnt=0)
