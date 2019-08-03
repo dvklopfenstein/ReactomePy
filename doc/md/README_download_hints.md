@@ -39,7 +39,7 @@ $ tar -xzvf reactome.graphdb.tgz
 Does the graph.db directory exist?    
 No? Go to step 4.    
 ```
-$ cd ~/neo4j/neo4j-community-3.4.7/data/databases/graph.db
+$ cd ~/neo4j/neo4j-community-3.4.7/data/databases/
 $ ls graph.db
     ls: cannot access 'graph.db': No such file or directory
 ```
