@@ -27,9 +27,10 @@ class GOBiologicalProcess(GOTerm):
             'hasPart': frozenset(['GO_BiologicalProcess', 'GO_MolecularFunction']),
             'componentOf': frozenset(['GO_BiologicalProcess']),
             'instanceOf': frozenset(['GO_BiologicalProcess']),
-            'regulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
-            'negativelyRegulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
-            'positivelyRegulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
+            ## Removed in v69:
+            ##   'regulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
+            ##   'negativelyRegulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
+            ##   'positivelyRegulate': frozenset(['GO_MolecularFunction', 'GO_BiologicalProcess']),
         }
     }
 
