@@ -33,7 +33,7 @@ class Complex(PhysicalEntity):
     """Reactome Complex Neo4j Node."""
 
     # params: dbId schemaClass displayName | stId stIdVersion oldStId isInDisease name
-    params_opt = PhysicalEntity.params_opt + ('speciesName', 'isChimeric', 'systematicName')
+    params_opt = PhysicalEntity.params_opt + ('speciesName', 'isChimeric', 'systematicName', 'stoichiometryKnown')
 
     relationships = {
         **PhysicalEntity.relationships,
