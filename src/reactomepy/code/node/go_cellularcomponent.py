@@ -27,6 +27,7 @@ class GOCellularComponent(GOTerm):
             'hasPart': frozenset(['Compartment', 'GO_CellularComponent']),
             'componentOf': frozenset(['Compartment', 'GO_CellularComponent']),
             'instanceOf': frozenset(['Compartment', 'GO_CellularComponent']),
+            'surroundedBy': frozenset(['Compartment', 'GO_CellularComponent']),
         }
     }
 
