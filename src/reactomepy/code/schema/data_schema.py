@@ -9,6 +9,7 @@ ITEM2CHILDREN = {
         'AbstractModifiedResidue',
         'Affiliation',
         'CatalystActivity',
+        'ControlReference',
         'DatabaseIdentifier',
         'EntityFunctionalStatus',
         'Event',
@@ -33,6 +34,11 @@ ITEM2CHILDREN = {
     'AbstractModifiedResidue':set([
         'GeneticallyModifiedResidue',
         'TranslationalModification',
+    ]),
+
+    'ControlReference':set([
+        'CatalystActivityReference',
+        'RegulationReference'
     ]),
 
     'GeneticallyModifiedResidue':set([
