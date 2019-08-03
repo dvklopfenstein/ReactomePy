@@ -22,6 +22,7 @@ class UndirectedInteraction(DatabaseObject):
 
     # params: dbId schemaClass displayName
     params_req = DatabaseObject.params_req + ('databaseName', 'accession', 'url', 'score')
+    params_opt = DatabaseObject.params_opt + ('pubmed',)
     ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
 
     relationships = {
