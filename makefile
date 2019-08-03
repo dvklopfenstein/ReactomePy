@@ -49,11 +49,7 @@ pytest:
 	python3 -m pytest -v src/tests | tee pytest.log
 
 test:
-	make test_internet
 	make test_simple
-
-test_internet:
-	echo TBD
 
 test_simple:
 	$(PY) src/tests/rpt_figs.py
