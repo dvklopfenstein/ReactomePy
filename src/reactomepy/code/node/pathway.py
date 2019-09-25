@@ -51,7 +51,7 @@ class Pathway(Event):
             'figure': frozenset(['Figure']),
             'relatedSpecies': frozenset(['Species']),
             'crossReference': frozenset(['DatabaseIdentifier']),
-            'hasEvent': frozenset(['Pathway',
+            'hasEvent': frozenset(['Pathway', 'TopLevelPathway',
                                    'Reaction', 'FailedReaction', 'BlackBoxEvent',
                                    'Depolymerisation', 'Polymerisation']),
             'precedingEvent': frozenset(['Pathway', 'Reaction', 'BlackBoxEvent']),
