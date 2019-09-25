@@ -18,7 +18,7 @@ class PsiMod(ExternalOntology):
     """Params seen on all Physical Entities."""
 
     # req: dbId schemaClass displayName
-    params_opt = ExternalOntology.params_opt + ('abbreviation',)
+    params_opt = ExternalOntology.params_opt + ('abbreviation', 'label')
     prtfmt = '{schemaClass}: {abbreviation}{div}{displayName}'
     optstr_dflt = {'div':'', 'abbreviation':''}
     # ntobj = namedtuple('NtObj', ' '.join(params_req) + ' optional')
