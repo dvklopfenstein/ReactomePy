@@ -36,6 +36,8 @@ class ReactionLikeEvent(Event):
     relationships = {
         **Event.relationships,
         **{
+            'catalystActivityReference': frozenset(['CatalystActivityReference']),
+            'regulationReference': frozenset(['RegulationReference']),
             #'precedingEvent': frozenset(['Event']),
             'relatedSpecies': frozenset(['Species']),
             #'input': frozenset(['PhysicalEntity']),
