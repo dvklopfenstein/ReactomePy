@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Does this repo have the current version of the Reactome Knowledgebase?
 
 Usage: compare_reactome_version.py <neo4j_password> [options]
