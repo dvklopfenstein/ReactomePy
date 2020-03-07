@@ -23,9 +23,25 @@ def chk_unique(dcts, fld2expunique):
 
 def get_gdbdr(docstr):
     """Return GraphDatabase driver given user args."""
+    # python -m pip install --upgrade neo4j
     from neo4j import GraphDatabase
     dct = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
-    return GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
+    try:
+        # https://neo4j.com/developer/python/#python-driver
+        # neo4j_username: 'neo4j@neo4j://localhost:7687/graph.db
+        return GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
+    except OSError:
+        import traceback
+        traceback.print_exc()
+        pat = '\n**FAILED: GraphDatabase.driver({url}, auth=({neo4j_username}, {neo4j_password})\n'
+        print(pat.format(**dct))
+        sys.exit()
+    except ValueError:
+        import traceback
+        traceback.print_exc()
+        pat = '\n**FAILED: GraphDatabase.driver({url}, auth=({neo4j_username}, {neo4j_password})\n'
+        print(pat.format(**dct))
+        sys.exit()
 
 def get_args(docstr, fields):
     """Given a doc string and desired fields, return a namedtuple w/user values."""
