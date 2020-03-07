@@ -38,6 +38,8 @@ biological models, associated research papers, URLs, and books.
   * **Official Reactome Help**:
     * [**Reactome Documentation**](https://reactome.org/dev/graph-database)    
     * Support: **help@reactome.org**
+    * Or open an issue on GitHub like [this one](https://github.com/neo4j/neo4j/issues/12408) or [driver](https://github.com/neo4j/neo4j-python-driver/issues/365)
+
   * **Unofficial user's download hints**
     * [1) Install Neo4j](/doc/md/README_install_neo4j.md)    
     * [2) Download Reactome Knowledgebase](/doc/md/README_download_hints.md)   
