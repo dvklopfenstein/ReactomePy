@@ -2,7 +2,7 @@
 See [**Reactome's official documentation**](https://reactome.org/dev/graph-database#GetStarted)
 regarding downloading the Reactome Knowledgebase.
 
-See below for user hints ...
+See below for unofficial user hints ...
 
 ## Hints for downloading the Reactome Knowledgebase
 1. [**Download the Reactome database**](#1-download-the-reactome-database)
@@ -39,6 +39,7 @@ $ tar -xzvf reactome.graphdb.tgz
 
 Does the graph.db directory exist?    
 No? Go to step 4.    
+
 ```
 $ cd ~/neo4j/neo4j-community-3.4.7/data/databases/
 $ ls graph.db
@@ -71,6 +72,8 @@ $ ls graph.db
 ```
 
 ### 5. Start the neo4j server on the new Reactome Knowledgebase
+[Where to look if it does not work](#where-to-look-if-it-does-not-work)
+
 ```
 $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     Active database: graph.db
@@ -89,15 +92,36 @@ $ neo4j/neo4j-community-3.4.7/bin/neo4j start
     There may be a short delay until the server is ready.
     See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
 ```
-### 6. View the Reactome database in the neo4j browser
+
+#### Where to look if it does not work
+Look at the bottom of both the **debug.log** and the **neo4j.log**
+```
+$ find neo4j-community-3.4.7/logs -type f
+neo4j-community-3.4.7/logs/debug.log
+neo4j-community-3.4.7/logs/neo4j.log
+```
+
+### 6. Connect to the server for the first time
+#### You will need to create a password    
+Setting both *Username* and *Password* to *neo4j* worked for us. Your results may vary.
+![Authentification1](/doc/md/images/neo4j_reactome_connect1.png)
+
+#### Create your password    
+![new password](/doc/md/images/neo4j_reactome_connect2.png)
+
+### 7. View the Reactome database in the neo4j browser
 In your browser, go to: **http://localhost:7474/browser/**
+
+If you click on the *Database* icon at the upper left corner (which should be green), you should see lots of Node Labels:
+![success](/doc/md/images/neo4j_reactome_connect3_success.png)    
+![databases](/doc/md/images/neo4j_reactome_connect4_dbs.png)
 
 #### Try a Cypher command:
 What sub-pathways are under under pathway, R-HSA-983169, _Class I MHC mediated antigen processing & presentation_?
 
 ![subpwy](images/neo4j_pwy_subpwy.png)
 
-### 7. [**Python interface to neo4j**](README_gdbdr.md)    
+### 8. [**Python interface to neo4j**](README_gdbdr.md)    
 More on the [next page...](README_gdbdr.md)    
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.
