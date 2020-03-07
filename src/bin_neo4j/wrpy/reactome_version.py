@@ -25,6 +25,7 @@ def main():
     fout_py = 'src/reactomepy/data/reactome_version.py'
     with open(fout_py, 'w') as prt:
         prt_docstr_module('Reactome version in DAG', prt)
+        # CYPHER: MATCH (v:DBInfo) RETURN v
         version = get_version(get_gdbdr(__doc__))
         prt.write('VERSION = {V}\n'.format(V=version))
         prt_copyright_comment(prt)
