@@ -12,6 +12,8 @@ See below for user hints ...
 
 
 ## Hints for installing Neo4j (details)
+We could not get Reactome v71 to connect to Python using the latest Neo4j, 4.0.1.    
+The old version of Neo4j, 3.4.7, works great.
 
 ### Download the [_Neo4j Community Server Edition_](https://neo4j.com/download-center/#releases)
 https://neo4j.com/download-center/#releases
