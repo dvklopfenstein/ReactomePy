@@ -1,6 +1,6 @@
 """Species in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import collections as cx
@@ -17,6 +17,7 @@ SPECIES = [
     NtObj._make(['cfa', 'CFA', 9615, 'Canis familiaris']),
     NtObj._make(['cfs', 'CFS', 5656, 'Crithidia fasciculata']),
     NtObj._make(['cgr', 'CGR', 10029, 'Cricetulus griseus']),
+    NtObj._make(['cpe', 'CPE', 1502, 'Clostridium perfringens']),
     NtObj._make(['cph', 'CPH', 10703, 'Corynephage beta']),
     NtObj._make(['cpo', 'CPO', 10141, 'Cavia porcellus']),
     NtObj._make(['csb', 'CSB', 60711, 'Chlorocebus sabaeus']),
@@ -88,4 +89,4 @@ SPECIES = [
     NtObj._make(['xtr', 'XTR', 8364, 'Xenopus tropicalis']),
 ]
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved.
