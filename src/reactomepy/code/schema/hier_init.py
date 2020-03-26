@@ -2,12 +2,11 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import collections as cx
 #### from reactomepy.code.schema.data_schema import ITEM2CHILDREN
-#### from dvkbiodnld.data.hgnc.famid2name import FAMILYID2NAME
 #### from reactomepy.code.schema.node import DataSchemaNode
 from goatools.godag.go_tasks import get_id2children
 from goatools.godag.go_tasks import get_id2parents
@@ -24,7 +23,7 @@ class Init(object):
         self._init_parents_children(_child2parents, item2children)
         self._init_depth()
         self._init_dcnt()
-        self._init_ancestors()
+        self._init_ancestors(_names)
 
     def _init_dcnt(self):
         """Initialize descendant count."""
@@ -34,12 +33,16 @@ class Init(object):
             obj.descendants = descendants
             obj.dcnt = len(descendants)
 
-    def _init_ancestors(self):
+    def _init_ancestors(self, names):
         """Initialize ancestors count."""
         id2ancestors = get_id2parents(self.name2obj.values())
-        for id_, ancestors in id2ancestors.items():
-            obj = self.name2obj[id_]
+        for schemaclass, ancestors in id2ancestors.items():
+            obj = self.name2obj[schemaclass]
             obj.ancestors = ancestors
+        # 
+        for schemaclass in names.difference(id2ancestors.keys()):
+            obj = self.name2obj[schemaclass]
+            obj.ancestors = set()
 
     def _init_depth(self):
         """Set depth for a Reactome data schema object."""
@@ -75,5 +78,11 @@ class Init(object):
                 child2parents[child].add(parent)
         return child2parents
 
+    def _init_name2obj(item2children, child2parents):
+        """Create a DataSchemaNode for all schema"""
+        names = set(item2children).union(child2parents)
+        names.add('DBInfo')
+        name2obj = {name:DataSchemaNode(name) for name in names}
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

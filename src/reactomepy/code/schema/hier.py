@@ -1,14 +1,10 @@
 """Holds all data schema items and their relationships to one another."""
 
-from __future__ import print_function
-
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
-# import os
 from collections import namedtuple
-## from dvkbiodnld.data.hgnc.famid2name import FAMILYID2NAME
 from reactomepy.code.schema.data_schema import ITEM2CHILDREN
 from reactomepy.code.schema.node import DataSchemaNode
 from reactomepy.code.schema.hier_init import Init
@@ -53,8 +49,12 @@ class DataSchemaHier(object):
     def get_ids_lte_all(self, names):
         """Return a set containing current data schema names ID and their descendants."""
         names_all = set()
+        if names is None:
+            return names_all
         for name in names:
-            names_all.update(self.name2obj[name].descendants)
+            descs = self.name2obj[name].descendants
+            if descs is not None:
+                names_all.update(self.name2obj[name].descendants)
         names_all.update(names)
         return names_all
 
@@ -78,14 +78,15 @@ class DataSchemaHier(object):
 
     def get_ancestor_dn(self, schema, depth):
         """Get the ancestor at the requested depth for given schema."""
-        obj = self.name2obj[schema]
-        names = set(a for a in obj.ancestors if self.name2obj[a].depth == depth)
-        num_names = len(names)
-        assert num_names <= 1
-        if num_names == 1:
-            return next(iter(names))
-        if obj.depth == depth:
-            return schema
+        if schema in self.name2obj:
+            obj = self.name2obj[schema]
+            names = set(a for a in obj.ancestors if self.name2obj[a].depth == depth)
+            num_names = len(names)
+            assert num_names <= 1
+            if num_names == 1:
+                return next(iter(names))
+            if obj.depth == depth:
+                return schema
         return ''
 
     def get_obj(self, name):
@@ -145,4 +146,4 @@ class DataSchemaHier(object):
   ##   return name_set.difference(not_found)
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.
