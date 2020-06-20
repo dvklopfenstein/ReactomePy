@@ -33,7 +33,7 @@
   5,262 Regulation    197 NegativeGeneExpressionRegulation    151    197  0.7665 stIdVersion
 """
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from reactomepy.code.node.negativeregulation import NegativeRegulation
@@ -52,6 +52,11 @@ class NegativeGeneExpressionRegulation(NegativeRegulation):
             'regulator': frozenset(['CandidateSet', 'DefinedSet',
                                     'EntityWithAccessionedSequence',
                                     'Complex']),
+            'activeUnit': frozenset([
+                'EntityWithAccessionedSequence', 'DefinedSet', # <- activeUnit <- Regulation
+                'Complex',      # <- activeUnit <- [4] NegReg* PosReg*
+                'CandidateSet', # <- activeUnit <- [3] NegReg* PosReg
+            ]),
         }
     }
 
@@ -59,4 +64,4 @@ class NegativeGeneExpressionRegulation(NegativeRegulation):
         super(NegativeGeneExpressionRegulation, self).__init__('NegativeGeneExpressionRegulation')
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

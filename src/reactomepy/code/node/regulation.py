@@ -48,11 +48,7 @@ class Regulation(DatabaseObject):
 
     relationships = {
         'literatureReference': frozenset(['LiteratureReference']),
-        #'regulator': frozenset(['PhysicalEntity']),
         'summation': frozenset(['Summation']),
-        'activeUnit': frozenset(['EntityWithAccessionedSequence', 'GenomeEncodedEntity',
-                                 'CandidateSet', 'DefinedSet',
-                                 'Complex', 'SimpleEntity']),
         'activity': frozenset(['GO_MolecularFunction']),
     }
 

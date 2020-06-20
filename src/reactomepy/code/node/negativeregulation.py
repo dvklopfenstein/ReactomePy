@@ -52,7 +52,15 @@ class NegativeRegulation(Regulation):
             'regulator': frozenset(['CandidateSet', 'DefinedSet',
                                     'ChemicalDrug',
                                     'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-                                    'Complex', 'Polymer', 'SimpleEntity']),
+                                    'Complex', 'SimpleEntity']),
+            'activeUnit': frozenset([
+                'EntityWithAccessionedSequence', 'DefinedSet', # <- [5] activeUnit <- Regulation
+                'Complex',      # <- activeUnit <- [4] NegReg* PosReg*
+                'CandidateSet', # <- activeUnit <- [3] NegReg* PosReg
+                'SimpleEntity', # <- activeUnit <- [2] NegReg  PosReg
+                'ProteinDrug',  # <- activeUnit <- [1] self
+                'ChemicalDrug', # <- activeUnit <- [1] self
+            ]),
         }
     }
 

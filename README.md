@@ -7,7 +7,9 @@
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/platforms.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/installer/conda.svg)](https://conda.anaconda.org/dvklopfenstein)
 
-Explore biomolecular pathways in Reactome from the command-line or a Python script.    
+Explore biomolecular pathways in the Reactome graph database from the command-line or a Python script.    
+
+## Reactome
 
 In addition to biomolecular pathways,
 Reactome contains 
@@ -75,4 +77,4 @@ _Zenodo_ | (2019) | DOI: 10.5281/zenodo.2634376
 }
 ```
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

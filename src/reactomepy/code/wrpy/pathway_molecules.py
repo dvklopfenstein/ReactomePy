@@ -75,7 +75,7 @@ class PathwayMolecules(object):
             prt_docstr_module(msg, prt)
             prt.write('# pylint: disable=line-too-long, too-many-lines\n')
             prt.write('PWY2{ITEM}S = {{\n'.format(ITEM=database.upper()))
-            for pwy, molecules in sorted(pw2molecules.items(), key=lambda t: int(t[0].split('-')[2])):
+            for pwy, molecules in sorted(pw2molecules.items(), key=lambda t: [int(t[0].split('-')[2]), t[0]]):
                 prt.write("    '{PWY}':".format(PWY=pwy))
                 mstrs = ["'{V}'".format(V=m) for m in sorted(molecules)]
                 prt.write("{{{SET}}},\n".format(SET=", ".join(mstrs)))

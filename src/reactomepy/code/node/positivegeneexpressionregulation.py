@@ -56,6 +56,11 @@ class PositiveGeneExpressionRegulation(PositiveRegulation):
                 'Complex',
                 'SimpleEntity',
             ]),
+            'activeUnit': frozenset([
+                'EntityWithAccessionedSequence', 'DefinedSet', # <- activeUnit <- Regulation
+                'Complex',      # <- activeUnit <- [4] NegReg* PosReg*
+                'CandidateSet', # <- activeUnit <- [3] NegReg* self
+            ]),
         }
     }
 

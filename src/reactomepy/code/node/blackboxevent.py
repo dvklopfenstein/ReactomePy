@@ -53,10 +53,14 @@ class BlackBoxEvent(ReactionLikeEvent):
                                  'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                                  'Complex', 'SimpleEntity', 'OtherEntity', 'Polymer']),
             'precedingEvent': frozenset(['Polymerisation', 'Pathway', 'BlackBoxEvent', 'Reaction']),
-            # 'regulatedBy': frozenset(['Regulation']),
-            'regulatedBy': frozenset(['NegativeRegulation', 'PositiveGeneExpressionRegulation',
-                                      'Requirement',
-                                      'PositiveRegulation', 'NegativeGeneExpressionRegulation']),
+            'regulatedBy': frozenset(['Regulation']),
+            # 'regulatedBy': frozenset([
+            #     'PositiveRegulation',               # <- regulatedBy <- [4]
+            #     'NegativeRegulation',               # <- regulatedBy <- [4]
+            #     'PositiveGeneExpressionRegulation', # <- regulatedBy <- [1]
+            #     'NegativeGeneExpressionRegulation', # <- regulatedBy <- [2]
+            #     'Requirement',
+            # ]),
         }
     }
 

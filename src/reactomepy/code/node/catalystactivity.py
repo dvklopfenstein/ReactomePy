@@ -26,12 +26,12 @@ class CatalystActivity(DatabaseObject):
             'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
             'Complex']),
         #'literatureReference': frozenset(['URL', 'Book', 'LiteratureReference']),
-        'literatureReference': frozenset(['LiteratureReference']),
+        'literatureReference': frozenset(['LiteratureReference', 'Book']),
         # 'physicalEntity': frozenset(['PhysicalEntity']),
         'physicalEntity': frozenset([
             'CandidateSet', 'DefinedSet',
             'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
-            'Complex', 'OtherEntity', 'Polymer']),
+            'Complex', 'OtherEntity', 'Polymer', 'SimpleEntity']),
     }
 
     def __init__(self):

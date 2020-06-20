@@ -65,11 +65,11 @@ class Reaction(ReactionLikeEvent):
                 'Pathway']),
             # 'regulatedBy': frozenset(['Regulation']),
             'regulatedBy': frozenset([
-                'PositiveRegulation',
+                'Requirement',                        # [2] <- regulatedBy
+                'NegativeRegulation',                 # [4] <- regulatedBy
+                'PositiveRegulation',                 # [4] <- regulatedBy
+                'NegativeGeneExpressionRegulation',   # [2] <- regulatedBy
                 #'PositiveGeneExpressionRegulation',
-                'Requirement',
-                'NegativeRegulation',
-                #'NegativeGeneExpressionRegulation']),
                 ]),
             # 'requiredInputComponent': frozenset(['PhysicalEntity']),
             'requiredInputComponent': frozenset([

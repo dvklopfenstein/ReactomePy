@@ -56,6 +56,7 @@ class Requirement(PositiveRegulation):
                                     'Complex',
                                     'SimpleEntity',
                                     ]),
+            'activeUnit': frozenset(['DefinedSet', 'EntityWithAccessionedSequence']),
         }
     }
 

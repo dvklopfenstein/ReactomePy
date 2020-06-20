@@ -60,6 +60,11 @@ class PositiveRegulation(Regulation):
                 'OtherEntity',
                 'SimpleEntity',
             ]),
+            'activeUnit': frozenset([
+                'EntityWithAccessionedSequence', 'DefinedSet', # <- activeUnit <- Regulation
+                'Complex',      # <- activeUnit <- [4] NegReg* PosReg*
+                'SimpleEntity', # <- activeUnit <- [2] NegReg  PosReg
+            ]),
         }
     }
 

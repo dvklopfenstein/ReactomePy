@@ -23,7 +23,7 @@ class CatalystActivityReference(ControlReference):
         **ControlReference.relationships,
         **{
             'catalystActivity': frozenset(['CatalystActivity']),
-            'literatureReference': frozenset(['LiteratureReference']),
+            'literatureReference': frozenset(['LiteratureReference', 'Book']),
         },
     }
     #    'activity': frozenset(['GO_MolecularFunction']),

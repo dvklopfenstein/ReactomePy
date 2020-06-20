@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
@@ -22,6 +22,8 @@ class InferredFrom(object):
     """Print to Python all inferred Pathways and the Pathway that they are inferred from."""
 
     QUERY = 'MATCH (hi:Pathway)<-[inferredTo]-(lo:Pathway{speciesName:"Mus musculus"}) RETURN hi, lo'
+    # https://github.com/reactome/graph-core/issues/3
+    # QUERY = 'MATCH (hi:Pathway)<-[inferredTo]-(lo:Pathway) RETURN hi, lo'
 
     def __init__(self, gdbdr):
         self.gdbdr = gdbdr  # GraphDatabase.driver
@@ -64,15 +66,26 @@ class InferredFrom(object):
         """Determine pathways that are determined from another species."""
         org2plo2phi = cx.defaultdict(lambda: cx.defaultdict(set))
         tic = timeit.default_timer()
+        ctr_hi = cx.Counter()
+        ctr_lo = cx.Counter()
         with self.gdbdr.session() as session:
             res = session.run(self.QUERY)
             for rec in res.records():
-                assert rec['lo']['isInferred']
+                ctr_hi[rec['hi']['speciesName']] += 1
+                ctr_lo[rec['lo']['speciesName']] += 1
+                #       MATCH (hi:Pathway)<-[inferredTo]-(lo:Pathway) RETURN hi, lo
+                # isInferred:     True                       False
+                assert rec['hi']['isInferred'], rec
+                # https://github.com/reactome/graph-core/issues/3
+                # if not rec['hi']['isInferred']:
+                #     print(rec)
                 # if not rec['hi']['isInferred']:
                 # print(rec['hi'])
                 pidlo = rec['lo']['stId']
                 abc = pidlo.split('-')[1].lower()
                 org2plo2phi[abc][pidlo].add(rec['hi']['stId'])
+        print('HI', ctr_hi.most_common())
+        print('LO', ctr_lo.most_common())
         print('{N} species pathways are inferred from other species'.format(N=len(org2plo2phi)))
         print(sorted(org2plo2phi.keys()))
         self.chk_cnts(org2plo2phi)
@@ -93,4 +106,4 @@ class InferredFrom(object):
         print(ctr.most_common())
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

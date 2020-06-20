@@ -32,7 +32,7 @@ from collections import namedtuple
 from reactomepy.code.node.event import Event
 
 
-# pylint: disable=too-few-public-methods
+# pylint: disable=too-few-public-methods,line-too-long
 class Pathway(Event):
     """Params seen on all Physical Entities."""
 
@@ -51,7 +51,7 @@ class Pathway(Event):
             'figure': frozenset(['Figure']),
             'relatedSpecies': frozenset(['Species']),
             'crossReference': frozenset(['DatabaseIdentifier']),
-            'hasEvent': frozenset(['Pathway', 'TopLevelPathway',
+            'hasEvent': frozenset(['Pathway',
                                    'Reaction', 'FailedReaction', 'BlackBoxEvent',
                                    'Depolymerisation', 'Polymerisation']),
             'precedingEvent': frozenset(['Pathway', 'Reaction', 'BlackBoxEvent']),

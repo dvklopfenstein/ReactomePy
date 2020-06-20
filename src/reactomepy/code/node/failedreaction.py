@@ -40,11 +40,11 @@ class FailedReaction(ReactionLikeEvent):
             # 'entityOnOtherCell': frozenset(['PhysicalEntity']),
             'entityOnOtherCell': frozenset(['EntityWithAccessionedSequence']),
             'input': frozenset([
+                'ChemicalDrug', 'ProteinDrug',
                 'CandidateSet', 'DefinedSet',
                 'GenomeEncodedEntity', 'EntityWithAccessionedSequence',
                 'SimpleEntity', 'Complex', 'OtherEntity', 'Polymer']),
             'precedingEvent': frozenset(['Reaction']),
-            # 'regulatedBy': frozenset(['Regulation']),
             'regulatedBy': frozenset(['NegativeRegulation', 'PositiveRegulation']),
         }
     }
