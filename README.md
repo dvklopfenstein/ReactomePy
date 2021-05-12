@@ -25,7 +25,7 @@ biological models, associated research papers, URLs, and books.
 ## Use this Python3 library to:
 
   1) Run [**Reactome's Neo4j Tutorial**](https://reactome.org/dev/graph-database/extract-participating-molecules)
-     from one of the [**Jupyter notebooks**](/src/ipy/tutorial/README.md)
+     from one of the [**Jupyter notebooks**](/notebooks/tutorial/README.md)
      or a plain [**Python script**](/src/bin_neo4j/tutorial)
 
   2) Find enriched pathways
