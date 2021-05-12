@@ -112,7 +112,7 @@ Setting both *Username* and *Password* to *neo4j* worked for us. Your results ma
 ### 7. View the Reactome database in the neo4j browser
 In your browser, go to: **http://localhost:7474/browser/**
 
-If you click on the *Database* icon at the upper left corner (which should be green), you should see lots of Node Labels:
+If you click on the *Database* icon at the upper left corner (which should be green after you click on it), you should see lots of Node Labels:
 ![success](/doc/md/images/neo4j_reactome_connect3_success.png)    
 ![databases](/doc/md/images/neo4j_reactome_connect4_dbs.png)
 

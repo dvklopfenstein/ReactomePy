@@ -60,4 +60,4 @@ or in Reactome's [**Analyse Data Tool GUI**](https://reactome.org/PathwayBrowser
 
 
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

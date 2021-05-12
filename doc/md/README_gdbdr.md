@@ -34,4 +34,4 @@ gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
 ### Do not use the URL seen in the command line
 ![URL Yes NO](images/python_neo4j_gdbdr_url.png)
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

@@ -4,4 +4,4 @@
 ![sub-pathway](images/neo4j_pwy_subpwy.png)
 
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

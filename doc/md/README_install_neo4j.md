@@ -24,4 +24,4 @@ Download the Java Design Kit from Oracle:
 https://www.oracle.com/technetwork/java/javase/downloads/index.html     
 ![JDK Download](/doc/md/images/java_jdk_download.png)
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.
