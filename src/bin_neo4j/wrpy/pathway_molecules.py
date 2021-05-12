@@ -10,10 +10,9 @@ Options:
 """
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-from neo4j import GraphDatabase
 from reactomepy.code.wrpy.pathway_molecules import PathwayMolecules
 from reactomepy.code.utils import get_gdbdr
 
@@ -22,11 +21,11 @@ from reactomepy.code.utils import get_gdbdr
 def main():
     """Save the participating molecules for each pathway into a Python module."""
     fout_py = 'src/reactomepy/data/pwy/pwy2uniprot.py'
-    obj = PathwayMolecules(get_gdbdr(__doc__))
+    obj = PathwayMolecules(get_gdbdr())
     obj.wrpy_pw2molecules(fout_py, 'UniProt')
 
 
 if __name__ == '__main__':
     main()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

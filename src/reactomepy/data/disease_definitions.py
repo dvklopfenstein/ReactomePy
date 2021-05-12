@@ -1,6 +1,6 @@
 """231 of 403 diseases in Reactome have definitions"""
 
-__copyright__ = "Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # pylint: disable=line-too-long
@@ -238,4 +238,4 @@ DISEASE2DEFN = {
     "vulva squamous cell carcinoma": "A vulva carcinoma and has_material_basis_in squamous cells and is located_in the epidermis of the vulvar tissue.",
 }
 
-# Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

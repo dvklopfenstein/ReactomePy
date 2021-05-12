@@ -9,7 +9,7 @@ Options:
   --url=URL                 Neo4j Reactome local url [default: bolt://localhost:7687]
 """
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from reactomepy.code.rest.service_content import ContentService
@@ -24,7 +24,7 @@ def main():
     obj = ContentService()
     ver_curr = obj.get_version()
     # Reactome version from locally loaded Reactome DAG
-    ver_local = get_version(get_gdbdr(__doc__))
+    ver_local = get_version(get_gdbdr())
     print('\n  Current Reactome Knowledgebase Version:')
     print('    {VER:3} <- Latest version from Content Service'.format(VER=ver_curr))
     print('    {VER:3} <- version from locally loaded DAG'.format(VER=ver_local))
@@ -39,4 +39,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

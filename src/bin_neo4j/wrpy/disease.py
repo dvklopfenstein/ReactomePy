@@ -11,7 +11,7 @@ Options:
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from reactomepy.code.wrpy.disease import Diseases
@@ -20,7 +20,7 @@ from reactomepy.code.utils import get_gdbdr
 
 def prt_disease():
     """Print all disease in Reactome."""
-    obj = Diseases(get_gdbdr(__doc__))
+    obj = Diseases(get_gdbdr())
     fout_disease_py = 'src/reactomepy/data/disease_definitions.py'
     obj.wrpy_disease2fld(fout_disease_py, 'definition', 'DISEASE2DEFN')
     #fout_common_py = 'src/reactomepy/data/disease_synonyms.py'
@@ -30,4 +30,4 @@ def prt_disease():
 if __name__ == '__main__':
     prt_disease()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

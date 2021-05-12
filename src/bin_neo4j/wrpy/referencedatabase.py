@@ -11,7 +11,7 @@ Options:
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from reactomepy.code.wrpy.referencedatabase import ReferenceDatabases
@@ -21,11 +21,11 @@ def prt_referencedatabase():
     """Print all ReferenceDatabase in Reactome."""
     fout_referencedatabase_py = 'src/reactomepy/data/referencedatabase2nt.py'
 
-    obj = ReferenceDatabases(get_gdbdr(__doc__))
+    obj = ReferenceDatabases(get_gdbdr())
     obj.wrpy_referencedatabase_nts(fout_referencedatabase_py)
 
 
 if __name__ == '__main__':
     prt_referencedatabase()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

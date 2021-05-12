@@ -11,17 +11,16 @@ Options:
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
-import sys
 from reactomepy.code.wrpy.species import Species
 from reactomepy.code.utils import get_gdbdr
 
 
 def prt_species():
     """Print all species in Reactome."""
-    obj = Species(get_gdbdr(__doc__))
+    obj = Species(get_gdbdr())
     obj.wrpy_info('src/reactomepy/data/species.py')
     obj.wrpy_common_names('src/reactomepy/data/species_commonnames.py')
 
@@ -29,4 +28,4 @@ def prt_species():
 if __name__ == '__main__':
     prt_species()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

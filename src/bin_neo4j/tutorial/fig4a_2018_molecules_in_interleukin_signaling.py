@@ -15,11 +15,11 @@ Options:
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from neo4j import GraphDatabase
-from reactomepy.code.utils import get_args
+from reactomepy.code.cli.bin_neo4j import get_args
 
 # pylint: disable=line-too-long
 def main():
@@ -50,8 +50,8 @@ def _prt_data(data, prt):
 
 def _get_data(qry):
     """Get the Participating molecules for a pathway."""
-    dct = get_args(__doc__, ['neo4j_password', 'neo4j_username', 'url'])
-    gdbdr = GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
+    args = get_args()
+    gdbdr = GraphDatabase.driver(args.url, auth=(args.neo4j_username, args.neo4j_password))
     with gdbdr.session() as session:
         return [rec.data() for rec in session.run(qry).records()]
 
@@ -59,4 +59,4 @@ def _get_data(qry):
 if __name__ == '__main__':
     main()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

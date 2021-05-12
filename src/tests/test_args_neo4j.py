@@ -9,36 +9,34 @@ Options:
   --url=URL                 Neo4j Reactome local url [default: bolt://localhost:7687]
 """
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
-from reactomepy.code.utils import get_args
+from reactomepy.code.cli.bin_neo4j import get_argparser
 
 
 def test_args():
     """Test command-line-interface for user runtime args."""
-    fields = ['neo4j_password', 'neo4j_username', 'url']
-    fname = __file__
+    parser = get_argparser()
 
     # TEST: $ src/test/test_args.py password
-    sys.argv = [fname, 'password']
-    assert get_args(__doc__, fields) == {
+    assert vars(parser.parse_args(['password',])) == {
         'neo4j_password': 'password', 'neo4j_username': 'neo4j', 'url': 'bolt://localhost:7687'}
 
-    # TEST: $ src/test/test_args.py password -u usr
-    sys.argv = [fname, 'password', '-u', 'usr']
-    assert get_args(__doc__, fields) == {
+    ## TEST: $ src/test/test_args.py password -u usr
+    argv = ['password', '-u', 'usr']
+    assert vars(parser.parse_args(argv)) == {
         'neo4j_password': 'password', 'neo4j_username': 'usr', 'url': 'bolt://localhost:7687'}
 
-    # TEST: $ src/test/test_args.py password --url bolt://localhost:8888
-    sys.argv = [fname, 'password', '--url', 'bolt://localhost:8888']
-    assert get_args(__doc__, fields) == {
+    ## TEST: $ src/test/test_args.py password --url bolt://localhost:8888
+    argv = ['password', '--url', 'bolt://localhost:8888']
+    assert vars(parser.parse_args(argv)) == {
         'neo4j_password': 'password', 'neo4j_username': 'neo4j', 'url': 'bolt://localhost:8888'}
 
-    # TEST: $ src/test/test_args.py password --url bolt://localhost:8888 -u usr
-    sys.argv = [fname, 'password', '--url', 'bolt://localhost:8888', '-u', 'usr']
-    assert get_args(__doc__, fields) == {
+    ## TEST: $ src/test/test_args.py password --url bolt://localhost:8888 -u usr
+    argv = ['password', '--url', 'bolt://localhost:8888', '-u', 'usr']
+    assert vars(parser.parse_args(argv)) == {
         'neo4j_password': 'password', 'neo4j_username': 'usr', 'url': 'bolt://localhost:8888'}
     print('TEST PASSED')
 
@@ -46,4 +44,3 @@ def test_args():
 if __name__ == '__main__':
     test_args()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.

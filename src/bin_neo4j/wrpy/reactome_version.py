@@ -11,7 +11,7 @@ Options:
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from reactomepy.code.utils import get_gdbdr
@@ -26,14 +26,14 @@ def main():
     with open(fout_py, 'w') as prt:
         prt_docstr_module('Reactome version in DAG', prt)
         # CYPHER: MATCH (v:DBInfo) RETURN v
-        version = get_version(get_gdbdr(__doc__))
+        version = get_version(get_gdbdr())
         prt.write('VERSION = {V}\n'.format(V=version))
         prt_copyright_comment(prt)
         print('  Version {V} WROTE: {PY}\n'.format(PY=fout_py, V=version))
-    #obj.wrpy_version('src/reactomepy/data/reactome_version.py', get_version(get_gdbdr(__doc__)))
+    #obj.wrpy_version('src/reactomepy/data/reactome_version.py', get_version(get_gdbdr()))
 
 
 if __name__ == '__main__':
     main()
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

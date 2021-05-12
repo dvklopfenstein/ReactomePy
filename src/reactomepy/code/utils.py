@@ -1,13 +1,13 @@
 """Functions to write Reactome data extracted from Neo4j to Python."""
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
 import timeit
 import datetime
 import collections as cx
-from docopt import docopt
+from reactomepy.code.cli.bin_neo4j import get_args
 
 
 def chk_unique(dcts, fld2expunique):
@@ -21,58 +21,68 @@ def chk_unique(dcts, fld2expunique):
         actually_unique = len(items) == num_dcts
         assert actually_unique == fld2expunique[fld]
 
-def get_gdbdr(docstr):
+def get_gdbdr():
     """Return GraphDatabase driver given user args."""
     # python -m pip install --upgrade neo4j
-    from neo4j import GraphDatabase
-    dct = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
+    args = get_args()
+    ## print('GDBDR:', args)
+    ## print('GDBDR:', vars(args))
+####dct = get_args(docstr, ['url', 'neo4j_username', 'neo4j_password'])
+    return get_graphdatabase(
+        args.url,
+        args.neo4j_username,
+        args.neo4j_password)
+
+def get_graphdatabase(url, neo4j_username, neo4j_password):
+    """Get a GraphDatabase object that is connected to a live neo4j process loaded w/Reactome"""
     try:
+        from neo4j import GraphDatabase
         # https://neo4j.com/developer/python/#python-driver
         # neo4j_username: 'neo4j@neo4j://localhost:7687/graph.db
-        return GraphDatabase.driver(dct['url'], auth=(dct['neo4j_username'], dct['neo4j_password']))
+        return GraphDatabase.driver(url, auth=(neo4j_username, neo4j_password))
     except OSError:
         import traceback
         traceback.print_exc()
         pat = '\n**FAILED: GraphDatabase.driver({url}, auth=({neo4j_username}, {neo4j_password})\n'
-        print(pat.format(**dct))
+        print(pat.format(url=url, neo4j_username=neo4j_username, neo4j_password=neo4j_password))
         sys.exit()
     except ValueError:
         import traceback
         traceback.print_exc()
         pat = '\n**FAILED: GraphDatabase.driver({url}, auth=({neo4j_username}, {neo4j_password})\n'
-        print(pat.format(**dct))
+        print(pat.format(url=url, neo4j_username=neo4j_username, neo4j_password=neo4j_password))
         sys.exit()
 
-def get_args(docstr, fields):
-    """Given a doc string and desired fields, return a namedtuple w/user values."""
-    fld2docopt = {
-        'url': '--url',
-        'neo4j_username': '--neo4j_username',
-        'neo4j_password': '<neo4j_password>',
-        'token': '--token',
-        'pdf': '--pdf',
-        'csv': '--csv',
-        'schemaClass': '--schemaClass',
-    }
-    # If user provided no options, print help screen
-    if len(sys.argv) == 1 and 'neo4j_password' in fields:
-        sys.argv.append('-h')
-    # Get user args matching doc-string
-    args = docopt(docstr)
-    # print('ARGS', args)
-    dct = {}
-    for usrfld in fields:
-        argfld = fld2docopt[usrfld]
-        argval = args[argfld]
-        if argval is not None: 
-            dct[usrfld] = argval
-    return dct
-    # ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
-    # return ntobj(**dct)
+#### def get_rgs(docstr, fields):
+####     """Given a doc string and desired fields, return a namedtuple w/user values."""
+####     fld2docopt = {
+####         'url': '--url',
+####         'neo4j_username': '--neo4j_username',
+####         'neo4j_password': '<neo4j_password>',
+####         'token': '--token',
+####         'pdf': '--pdf',
+####         'csv': '--csv',
+####         'schemaClass': '--schemaClass',
+####     }
+####     # If user provided no options, print help screen
+####     if len(sys.argv) == 1 and 'neo4j_password' in fields:
+####         sys.argv.append('-h')
+####     # Get user args matching doc-string
+####     args = docopt(docstr)
+####     # print('ARGS', args)
+####     dct = {}
+####     for usrfld in fields:
+####         argfld = fld2docopt[usrfld]
+####         argval = args[argfld]
+####         if argval is not None:
+####             dct[usrfld] = argval
+####     return dct
+####     # ntobj = cx.namedtuple('NtArgs', [f for f in fields if f in fld2docopt])
+####     # return ntobj(**dct)
 
 def get_hms(tic):
     """Return HMS since script started."""
     return str(datetime.timedelta(seconds=(timeit.default_timer()-tic)))
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

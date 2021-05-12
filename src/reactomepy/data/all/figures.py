@@ -1,6 +1,6 @@
 """Information for all Figures in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 from collections import namedtuple
@@ -891,4 +891,4 @@ FIG2NT = {
 }
 
 
-# Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.
