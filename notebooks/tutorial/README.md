@@ -22,4 +22,4 @@
   * [**Fig 4a) Which molecules participate in Interleukin-4 and 13 signaling (R-HSA-6785807)?**](fig4a_2018_molecules_in_interleukin_signaling.ipynb)
   * [**Fig 4b) In which pathways does CCR5 (UniProt:P51681) participate?**](fig4b_2018_ccr5_pathways.ipynb)
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

@@ -20,4 +20,4 @@
   * [**6b) Retrieving all participants for a given reaction**](s6b_reaction_participants.py)
   * [**7a) Joining the pieces: Participating molecules for a pathway**](s7a_pathway_molecules.py)
 
-Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.
