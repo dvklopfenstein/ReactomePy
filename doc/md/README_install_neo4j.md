@@ -21,7 +21,7 @@ export JAVA_VER=jdk-11.0.11
 export NEO4J_CONF=/home/neo4j/neo4j/neo4j-community-4.1.9/conf
 export NEO4J_HOME=/home/neo4j/neo4j/neo4j-community-4.1.9
 ```
-and the version of the `neo4j` Python package worked:
+This version of the `neo4j` Python package worked:
 ```
 $ python3 -c "import neo4j; print(neo4j.__version__)"
 4.2.1
