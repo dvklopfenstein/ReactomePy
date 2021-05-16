@@ -53,7 +53,7 @@ def _get_data(qry):
     args = get_args()
     gdbdr = GraphDatabase.driver(args.url, auth=(args.neo4j_username, args.neo4j_password))
     with gdbdr.session() as session:
-        return [rec.data() for rec in session.run(qry).records()]
+        return session.run(qry).data()
 
 
 if __name__ == '__main__':

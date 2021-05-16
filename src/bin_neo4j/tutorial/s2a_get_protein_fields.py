@@ -4,7 +4,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
@@ -22,12 +22,12 @@ def main(password):
 
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
     with gdbdr.session() as session:
-        for rec in session.run(qry).records():
-            print(rec.data())
+        for dct in session.run(qry).data():
+            print(dct)
 
 
 if __name__ == '__main__':
     assert len(sys.argv) != 1, 'First arg must be your Neo4j database password'
     main(sys.argv[1])
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

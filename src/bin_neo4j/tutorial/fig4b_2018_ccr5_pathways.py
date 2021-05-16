@@ -8,7 +8,7 @@ From Figure 4b in:
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
@@ -47,11 +47,11 @@ def _get_data(qry, password):
     """Get the Participating molecules for a pathway."""
     gdbdr = GraphDatabase.driver('bolt://localhost:7687', auth=('neo4j', password))
     with gdbdr.session() as session:
-        return [rec.data() for rec in session.run(qry).records()]
+        return session.run(qry).data()
 
 
 if __name__ == '__main__':
     assert len(sys.argv) != 1, 'First arg must be your Neo4j database password'
     main(sys.argv[1])
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.
