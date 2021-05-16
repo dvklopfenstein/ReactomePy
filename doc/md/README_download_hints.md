@@ -115,6 +115,10 @@ Setting both *Username* and *Password* to *neo4j* worked for us when loading a n
 ![Authentification1](/doc/md/images/neo4j_reactome_connect1.png)
 
 #### You will be asked to create a new password
+To change your password again:    
+```
+:server change-password
+```
 ![new password](/doc/md/images/neo4j_reactome_connect2.png)
 
 ### 7. View the Reactome database in the neo4j browser
