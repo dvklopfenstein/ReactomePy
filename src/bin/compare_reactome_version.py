@@ -23,12 +23,13 @@ def main():
     # Reactome version from Content Service
     obj = ContentService()
     ver_curr = obj.get_version()
-    # Reactome version from locally loaded Reactome DAG
-    ver_local = get_version(get_gdbdr())
     print('\n  Current Reactome Knowledgebase Version:')
     print('    {VER:3} <- Latest version from Content Service'.format(VER=ver_curr))
+    # Reactome version from locally loaded Reactome DAG
+    ver_local = get_version(get_gdbdr())
     print('    {VER:3} <- version from locally loaded DAG'.format(VER=ver_local))
-    print('    {VER:3} <- Version in this repo\n\n'.format(VER=VERSION))
+    print('    {VER:3} <- Version in this repo: src/reactomepy/data/reactome_version.py\n\n'.format(
+        VER=VERSION))
     assert ver_local == ver_curr, 'VERSION: LOCAL DAG({A}) != CONTENT SERVICE({E})'.format(
         E=ver_curr, A=ver_local)
     assert VERSION == ver_curr, 'PLEASE DOWNLOAD THE MOST RECENT REACTOME KNOWLEDGEBASE'

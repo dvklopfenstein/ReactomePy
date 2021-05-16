@@ -41,7 +41,7 @@ Does the graph.db directory exist?
 No? Go to step 4.    
 
 ```
-$ cd ~/neo4j/neo4j-community-3.4.7/data/databases/
+$ cd ~/neo4j/neo4j-community-4.1.9/data/databases/
 $ ls graph.db
     ls: cannot access 'graph.db': No such file or directory
 ```
@@ -60,10 +60,10 @@ $ ls graph.db
 
 ### 4. Moved the Reactome database to the graph.db directory
 ```
-$ mv reactome.graphdb.v67 ~/neo4j/neo4j-community-3.4.7/data/databases/graph.db
+$ mv reactome.graphdb.v67 ~/neo4j/neo4j-community-4.1.9/data/databases/graph.db
 
 # Confirm it is moved
-$ cd ~/neo4j/neo4j-community-3.4.7/data/databases/graph.db
+$ cd ~/neo4j/neo4j-community-4.1.9/data/databases/graph.db
 $ ls graph.db
     debug.log                             neostore.nodestore.db.labels             neostore.relationshipgroupstore.db.id
     index                                 neostore.nodestore.db.labels.id          neostore.relationshipstore.db
@@ -75,38 +75,46 @@ $ ls graph.db
 [Where to look if it does not work](#where-to-look-if-it-does-not-work)
 
 ```
-$ neo4j/neo4j-community-3.4.7/bin/neo4j start
+$ neo4j/neo4j-community-4.1.9/bin/neo4j start
     Active database: graph.db
     Directories in use:
-      home:         /home/neo4j/neo4j/neo4j-community-3.4.7
-      config:       /home/neo4j/neo4j/neo4j-community-3.4.7/conf/
-      logs:         /home/neo4j/neo4j/neo4j-community-3.4.7/logs
-      plugins:      /home/neo4j/neo4j/neo4j-community-3.4.7/plugins
-      import:       /home/neo4j/neo4j/neo4j-community-3.4.7/import
-      data:         /home/neo4j/neo4j/neo4j-community-3.4.7/data
-      certificates: /home/neo4j/neo4j/neo4j-community-3.4.7/certificates
-      run:          /home/neo4j/neo4j/neo4j-community-3.4.7/run
+      home:         /home/neo4j/neo4j/neo4j-community-4.1.9
+      config:       /home/neo4j/neo4j/neo4j-community-4.1.9/conf/
+      logs:         /home/neo4j/neo4j/neo4j-community-4.1.9/logs
+      plugins:      /home/neo4j/neo4j/neo4j-community-4.1.9/plugins
+      import:       /home/neo4j/neo4j/neo4j-community-4.1.9/import
+      data:         /home/neo4j/neo4j/neo4j-community-4.1.9/data
+      certificates: /home/neo4j/neo4j/neo4j-community-4.1.9/certificates
+      run:          /home/neo4j/neo4j/neo4j-community-4.1.9/run
     Starting Neo4j.
     WARNING: Max 1024 open files allowed, minimum of 40000 recommended. See the Neo4j manual.
     Started neo4j (pid 545). It is available at http://localhost:7474/
     There may be a short delay until the server is ready.
-    See /home/neo4j/neo4j/neo4j-community-3.4.7/logs/neo4j.log for current status.
+    See /home/neo4j/neo4j/neo4j-community-4.1.9/logs/neo4j.log for current status.
 ```
 
 #### Where to look if it does not work
-Look at the bottom of both the **debug.log** and the **neo4j.log**
+Look at the bottom of both the **debug.log** and the **neo4j.log**   
 ```
-$ find neo4j-community-3.4.7/logs -type f
-neo4j-community-3.4.7/logs/debug.log
-neo4j-community-3.4.7/logs/neo4j.log
+$ find neo4j-community-4.1.9/logs -type f
+neo4j-community-4.1.9/logs/debug.log
+neo4j-community-4.1.9/logs/neo4j.log
+```
+
+Your neo4j config file is at `/home/neo4j/neo4j/neo4j-community-4.1.9/conf/neo4j.conf` if you see this in the `debug.log` file:
+```
+Neo4j cannot be started because the database files require
+upgrading and upgrades are disabled in the configuration.
+Please set 'dbms.allow_upgrade' to 'true' in your
+configuration file and try again.
 ```
 
 ### 6. Connect to the server for the first time
 #### You will need to create a password    
-Setting both *Username* and *Password* to *neo4j* worked for us. Your results may vary.
+Setting both *Username* and *Password* to *neo4j* worked for us when loading a new Reactome database version for the first time.
 ![Authentification1](/doc/md/images/neo4j_reactome_connect1.png)
 
-#### Create your password    
+#### You will be asked to create a new password
 ![new password](/doc/md/images/neo4j_reactome_connect2.png)
 
 ### 7. View the Reactome database in the neo4j browser
