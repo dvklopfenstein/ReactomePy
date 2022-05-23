@@ -37,7 +37,7 @@ biological models, associated research papers, URLs, and books.
 
 
 ## Links
-  * **Official Reactome Help**:
+  * **Official Reactome Help**
     * [**Reactome Documentation**](https://reactome.org/dev/graph-database)    
     * Support: **help@reactome.org**
     * Or open an issue on GitHub like [this one](https://github.com/neo4j/neo4j/issues/12408) or [driver](https://github.com/neo4j/neo4j-python-driver/issues/365)
@@ -53,7 +53,7 @@ biological models, associated research papers, URLs, and books.
     * [Icon library](https://reactome.org/icon-lib)    
     * [Reactome Graph Database on GitHub](https://github.com/reactome/graph-core)    
 
-  * We use the **Neo4j Python driver** that is [officially supported](https://neo4j.com/developer/python) by Neo4j
+  * This project uses the **Neo4j Python driver** that is [officially supported](https://neo4j.com/developer/python) by Neo4j
     * https://github.com/neo4j/neo4j-python-driver
 
 ## To Cite

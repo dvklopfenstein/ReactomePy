@@ -101,7 +101,7 @@ neo4j-community-4.1.9/logs/debug.log
 neo4j-community-4.1.9/logs/neo4j.log
 ```
 
-Your neo4j config file is at `/home/neo4j/neo4j/neo4j-community-4.1.9/conf/neo4j.conf` if you see this in the `debug.log` file:
+The neo4j config file is at `/home/neo4j/neo4j/neo4j-community-4.1.9/conf/neo4j.conf` if seen in the `debug.log` file:
 ```
 Neo4j cannot be started because the database files require
 upgrading and upgrades are disabled in the configuration.
@@ -110,7 +110,7 @@ configuration file and try again.
 ```
 
 ### 6. Connect to the server for the first time
-#### You will need to create a password    
+#### Create a password    
 Setting both *Username* and *Password* to *neo4j* worked for us when loading a new Reactome database version for the first time.
 ![Authentification1](/doc/md/images/neo4j_reactome_connect1.png)
 
@@ -124,7 +124,7 @@ To change your password again:
 ### 7. View the Reactome database in the neo4j browser
 In your browser, go to: **http://localhost:7474/browser/**
 
-If you click on the *Database* icon at the upper left corner (which should be green after you click on it), you should see lots of Node Labels:
+Click on the *Database* icon at the upper left corner (which should be green after clicking on it); there should be lots of Node Labels:
 ![success](/doc/md/images/neo4j_reactome_connect3_success.png)    
 ![databases](/doc/md/images/neo4j_reactome_connect4_dbs.png)
 
