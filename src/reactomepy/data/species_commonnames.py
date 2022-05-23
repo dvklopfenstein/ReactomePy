@@ -1,6 +1,6 @@
 """Common name for the species in Reactome"""
 
-__copyright__ = "Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-2021, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # pylint: disable=line-too-long
@@ -41,6 +41,7 @@ TAXID2NAMES = {
     37296: ["Kaposi's sarcoma-associated herpesvirus", 'Human herpesvirus 8 type P', "Kaposi's sarcoma-associated herpesvirus - Human herpesvirus 8", "Kaposi's sarcoma-associated herpes-like virus", 'KSHV', 'HHV8'],
     90371: ['Salmonella enterica subsp. enterica'],
     333760: ['human papillomavirus type 16 HPV16', 'human papillomavirus type 16 HPV 16', 'HPV16'],
+    694009: ['Severe acute respiratory syndrome-related coronavirus', 'SARSr-CoV', 'SARS-CoV-1', 'HCoV-SARS', 'Severe acute respiratory syndrome coronavirus'],
 }
 
-# Copyright (C) 2018-2020, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-2021, DV Klopfenstein. All rights reserved.

@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
@@ -113,7 +113,7 @@ class _Init(object):
         # reltypes = cx.Counter()
         missing = cx.Counter()
         with self.gdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 rel = rec['r']
                 typ = rel.type
                 # reltypes[rel.type] += 1
@@ -364,7 +364,7 @@ class _Init(object):
         ctr = cx.Counter()
         qry = 'MATCH (Pathway{{stId:"{ID}"}})-[r]-() RETURN r'.format(ID=pw_stid)
         res = session.run(qry)
-        for rec in res.records():
+        for rec in res.data():
             ctr[rec['r'].type] += 1
         return ctr
 
@@ -382,4 +382,4 @@ class _Init(object):
             prt.write("  {CNT:6} {FLD}\n".format(CNT=cnt, FLD=fld))
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reservedsEvent
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reservedsEvent

@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
@@ -45,7 +45,7 @@ class ReferenceDatabases():
         id2nt = {}
         ntobj = cx.namedtuple('NtObj', 'displayName accessUrl url')
         with self.gdr.session() as session:
-            for rec in session.run(self.qry).records():
+            for rec in session.run(self.qry):
                 node = rec['node']
                 assert set(node.keys()) == set(ReferenceDatabase.params_req), \
                     'EXP({})\nACT({})'.format(
@@ -61,4 +61,4 @@ class ReferenceDatabases():
         return id2nt
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

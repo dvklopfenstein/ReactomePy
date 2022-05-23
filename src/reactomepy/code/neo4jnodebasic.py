@@ -31,6 +31,7 @@ class Neo4jNodeBasic():
         # Parameters on all Nodes
         try:
             #### msg = [self.objsch.prtfmt.format(**self.ntp._asdict())]
+            print('DDDDDDDD src/reactomepy/code/neo4jnodebasic.py', self.item_id, dir(self.objsch))
             msg = [self.objsch.prtfmt.format(**self.ntp._asdict(), **self.objsch.get_optstr(self.ntp.optional))]
             # for rel, dsts in self.relationship.items():
             #     msg.append('{REL} dbIds[{N}]: {IDs}'.format(REL=rel, N=len(dsts), IDs=' '.join(str(o.item_id) for o in dsts)))

@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
@@ -93,6 +93,10 @@ class NodeHier():
         print(query)
         print('GET ALL dbIds from QUERY AND LOWER')
         dbid2node, src_dbids = self.ses_dbid2nodebasic_srcdst(query, prt=sys.stdout)
+        for a, b in dbid2node.items():
+            print('FFFFFFFFFFFFFFFFFFFFFF ../ReactomePy/src/reactomepy/code/query/functions.py', a)
+            print('FFFFFFFFFFFFFFFFFFFFFF ../ReactomePy/src/reactomepy/code/query/functions.py', b)
+        print('GGGGGGGGGGGGGGGGGGGGGG ../ReactomePy/src/reactomepy/code/query/functions.py')
         dbid2dct = self.get_dbid2dct_g_dbid2nodeb(dbid2node, exact)
         print('FILL DICT WITH PARAMETER VALUES AND RELATIONSHIP DESTINATION NODES')
         return {'dbid2node':dbid2node, 'dbid2dct':dbid2dct, 'relationships':rels,
@@ -148,7 +152,10 @@ class NodeHier():
     def get_dbid2nodedct(self, dbids):
         """Get Neo4jNodes with neo4j params in a dict and direct children relationships loaded."""
         # Run 1: MATCH (src:DatabaseObject{dbId:DBID}) RETURN src.schemaClass AS schemaClass
+        print('DDDDDDDDDDDDDD ../ReactomePy/src/reactomepy/code/query/functions.py', dbids)
         dbid2sch = self.ses_dbid2sch(dbids)
+        for a, b in dbid2sch.items():
+            print('DDDDDDDDDDDDDD ../ReactomePy/src/reactomepy/code/query/functions.py', a, b)
         assert set(dbids) == set(dbid2sch), "TBD: Report dbIds NOT FOUND"
         dbid2nodebasic = {dbid:Neo4jNodeBasic(dbid, sch) for dbid, sch in dbid2sch.items()}
         # Run 2a: MATCH (s:DatabaseObject{dbId:ID})-[r]->(d) RETURN s, r, d.dbId AS d_Id
@@ -165,7 +172,8 @@ class NodeHier():
         with self.gdbdr.session() as session:
             for dbid in dbids:
                 query = pre + str(dbid) + post
-                for rec in session.run(query).records():
+                print('QQQQQQQQQQ ../ReactomePy/src/reactomepy/code/query/functions.py', query)
+                for rec in session.run(query):
                     dbid2sch[dbid] = rec['schemaClass']
         return dbid2sch
 
@@ -175,10 +183,10 @@ class NodeHier():
         dbid2nodebasic = {}
         src_dbids = set()
         tic = timeit.default_timer()
-        print('HELLO')
+        ## print('HELLO')
         with self.gdbdr.session() as session:
-            for idx, rec in enumerate(session.run(query).records()):
-                print('REC:', rec)
+            for idx, rec in enumerate(session.run(query)):
+                ## print('REC:', rec)
                 src_dbid = rec['src_dbId']
                 dst_dbid = rec['dst_dbId']
                 src_dbids.add(src_dbid)
@@ -200,7 +208,7 @@ class NodeHier():
         src_dbids = set()
         tic = timeit.default_timer()
         with self.gdbdr.session() as session:
-            for idx, rec in enumerate(session.run(query).records()):
+            for idx, rec in enumerate(session.run(query)):
                 src_dbid = rec['src_dbId']
                 src_dbids.add(src_dbid)
                 if src_dbid not in dbid2nodebasic:
@@ -226,7 +234,7 @@ class NodeHier():
         tic = timeit.default_timer()
         for dbid, nodebasic in dbid2node_missing.items():
             qry = pat.format(DBID=str(dbid))
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 dbid2dct[dbid] = nodebasic.objsch.get_dict(rec['src'])
         print('  HMS: {HMS} {N:6,} dbIds: {Q}'.format(
             HMS=get_hms(tic), N=len(dbid2node_missing,), Q=qry))
@@ -240,7 +248,7 @@ class NodeHier():
         tic = timeit.default_timer()
         for dbid, nodebasic in dbid2nodebasic.items():
             qry = pat.replace('ID', str(dbid))
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 #### nodebasic.dct = nodebasic.objsch.get_dict(rec['s'])
                 dbid2dct[dbid] = nodebasic.objsch.get_dict(rec['s'])
                 rel = rec['r'].type
@@ -290,7 +298,7 @@ def get_version(gdbdr):
     version = None
     query = 'MATCH (v:DBInfo) RETURN v'
     with gdbdr.session() as session:
-        for rec in session.run(query).records():
+        for rec in session.run(query):
             dbinfo = rec['v']
             assert dbinfo.get('name') == 'reactome'
             version = dbinfo.get('version')
@@ -333,9 +341,9 @@ def get_dbids(gdbdr, nodestr='Complex{stId:"R-HSA-167199"}'):
     dbids = set()
     query = 'MATCH (n:NODESTR) RETURN n'.format(NODESTR=nodestr)
     with gdbdr.session() as session:
-        for rec in session.run(query).records():
+        for rec in session.run(query):
             dbids.add(rec['n']['dbId'])
     return dbids
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

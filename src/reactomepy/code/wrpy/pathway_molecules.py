@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
@@ -59,7 +59,7 @@ class PathwayMolecules(object):
         with self.gdbdr.session() as session:
             query = self.get_query(database)
             # print("QUERY: {Q}".format(Q=query))
-            for rec in session.run(query).records():
+            for rec in session.run(query):
                 # print(rec)
                 pwid2molecules[rec['pwid']].add(rec['mol_id'])
         return pwid2molecules
@@ -86,4 +86,4 @@ class PathwayMolecules(object):
         print("  {HMS} {MB} Mbytes {MSG} WROTE: {PY}".format(HMS=hms, MB=filesize, MSG=msg, PY=fout_py))
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

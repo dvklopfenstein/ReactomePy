@@ -1,6 +1,6 @@
 """Holds information for one data schema item."""
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 # import os
@@ -75,7 +75,7 @@ class _Init():
             qry = self.qrypat.format(DBID=self.item_id)
             #print('\n{Q}'.format(Q=qry))
             with self.kws['gdbdr'].session() as session:
-                for rec in session.run(qry).records():
+                for rec in session.run(qry):
                     rel = rec['rel'].type
                     if rel not in self.rel_excl:
                         #print('{I} {R:19} {NOD}'.format(I=idx, R=rec['rel'].type, NOD=rec['dst']))
@@ -94,4 +94,4 @@ class _Init():
         return 'XXX'
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

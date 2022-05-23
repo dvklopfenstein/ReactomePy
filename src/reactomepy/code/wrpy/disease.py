@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
@@ -11,7 +11,7 @@ from reactomepy.code.wrpy.utils import prt_docstr_module
 # from reactomepy.code.wrpy.utils import prt_namedtuple
 from reactomepy.code.wrpy.utils import prt_dict
 from reactomepy.code.wrpy.utils import prt_copyright_comment
-from reactomepy.code.utils import chk_unique
+from reactomepy.code.neo4jnode import Neo4jNode
 
 
 class Diseases(object):
@@ -23,7 +23,6 @@ class Diseases(object):
     def __init__(self, gdbdr):
         self.gdr = gdbdr  # GraphDatabase.driver
         self.diseases = self._init_disease()
-        chk_unique(self.diseases, {'displayName':True})
         self.num_dis = len(self.diseases)
 
     def wrpy_disease2fld(self, fout_py, field, varname):
@@ -53,17 +52,18 @@ class Diseases(object):
         """Query for all diseases."""
         disease = []
         # fields_exp = set(['name', 'schemaClass', 'abbreviation', 'displayName', 'taxId', 'dbId'])
+        passed = True
         with self.gdr.session() as session:
-            res = session.run(self.dis_qry)
-            for rec in res.records():
+            for rec in session.run(self.dis_qry):
                 node = rec['node']
-                # assert node.keys() == fields_exp
                 assert node.get('schemaClass') == 'Disease'
                 assert node.get('databaseName') == 'DOID'
                 key2val = {f:node.get(f) for f in self.dis_keep}
                 disease.append(key2val)
         disease = sorted(disease, key=lambda d: d['displayName'])
+        if not passed:
+            raise RuntimeError('**FATAL: NOT UNIQUE: displayName')
         return disease
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

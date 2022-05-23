@@ -42,6 +42,7 @@ def prt_namedtuple(lst_of_dcts, name, flds, prt=sys.stdout):
         NAME=name, FLDS=" ".join(flds)))
     prt.write("{NAME} = [\n".format(NAME=name.upper()))
     for dct in lst_of_dcts:
+        print('DCT', dct)
         prt.write('    NtObj._make(')
         prt.write(str([dct[fld] for fld in flds]))
         prt.write('),\n')

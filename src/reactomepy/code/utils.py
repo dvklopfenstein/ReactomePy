@@ -14,12 +14,14 @@ def chk_unique(dcts, fld2expunique):
     """Ex: Expect that taxIds and displayNames are unique while abbreviation is not."""
     num_dcts = len(dcts)
     fld2sets = cx.OrderedDict([(f, set()) for f in fld2expunique])
-    for dct in dcts:
-        for fld in fld2expunique:
+    for fld in fld2expunique:
+        # print('FLD', fld)
+        for dct in dcts:
             fld2sets[fld].add(dct[fld])
     for fld, items in fld2sets.items():
         actually_unique = len(items) == num_dcts
-        assert actually_unique == fld2expunique[fld]
+        assert actually_unique == fld2expunique[fld], "{}:{}!={} {}".format(
+            fld, len(items), num_dcts, fld2expunique[fld])
 
 def get_gdbdr():
     """Return GraphDatabase driver given user args."""

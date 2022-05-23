@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import sys
@@ -29,7 +29,7 @@ class NodeGetter():
         # Example: 'MATCH (s:Figure) RETURN s.dbId AS dbId'
         dbids = set()
         with self.gdbdr.session() as session:
-            for idx, rec in enumerate(session.run(qry).records()):
+            for idx, rec in enumerate(session.run(qry)):
                 dbids.add(rec['dbId'])
                 if prt and idx%10000 == 0:
                     prt.write('{HMS} {IDX} {DBID}'.format(
@@ -41,7 +41,7 @@ class NodeGetter():
         dbid2val = {}
         # Example: 'MATCH (f:Figure) RETURN f.dbId AS dbId, f.url AS val'
         with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 dbid2val[rec['dbId']] = rec['val']
         if prt:
             prt.write('  {HMS} {N:,} dbIds: {Q}\n'.format(
@@ -53,7 +53,7 @@ class NodeGetter():
         dbid2set = cx.defaultdict(set)
         # Example: MATCH (s:InstanceEdit)-[r]->(f:Figure) RETURN s.dbId AS dbId, f.dbId AS val
         with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 dbid2set[rec['dbId']].add(rec['val'])
         if prt:
             prt.write('  {HMS} {N:,} dbIds: {Q}\n'.format(
@@ -67,7 +67,7 @@ class NodeGetter():
         #     RETURN f.dbId AS key_dbId, type(r) AS rtyp, e.dbId AS val_dbId
         ntobj = cx.namedtuple('NtIdRel', 'dbId rel')
         with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 dbid2ntset[rec['key_dbId']].add(ntobj(dbId=rec['val_dbId'], rel=rec['rtyp']))
         if prt:
             prt.write('  {HMS} {N:,} rel-dbIds: {Q}\n'.format(
@@ -81,7 +81,7 @@ class NodeGetter():
         ntobjkey = cx.namedtuple('NtIdRel', 'dbId rel')
         ntobjnode = cx.namedtuple('NtSRD', 'src rel dst')
         with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 src = rec['s']
                 rel = rec['rtyp']
                 dst = rec['d']
@@ -98,7 +98,7 @@ class NodeGetter():
         nodes = []
         tic = timeit.default_timer()
         with self.gdbdr.session() as session:
-            for rec in session.run(query).records():
+            for rec in session.run(query):
                 nodes.append(Neo4jNode(rec['s']))
         print('  {HMS} {N:,} {MSG}'.format(
             HMS=get_hms(tic), N=len(nodes), MSG=msg if msg else query))
@@ -110,7 +110,7 @@ class NodeGetter():
         tic = timeit.default_timer()
         qry = 'MATCH (s:{SRCHSTR}) RETURN s'.format(SRCHSTR=srchstr)
         with self.gdbdr.session() as session:
-            for rec in session.run(qry).records():
+            for rec in session.run(qry):
                 nodes.append(Neo4jNode(rec['s']))
         print('  {HMS} {N:,} {MSG}'.format(
             HMS=get_hms(tic), N=len(nodes), MSG=msg if msg else srchstr))
@@ -124,7 +124,7 @@ class NodeGetter():
         with self.gdbdr.session() as session:
             for dbid in dbids:
                 query = qupat.format(DBID=dbid)
-                for rec in session.run(query).records():
+                for rec in session.run(query):
                     dbid2node[dbid] = Neo4jNode(rec['s'])
         print('FASTISH  {HMS} {N:,} {MSG}'.format(HMS=get_hms(tic), N=len(dbid2node), MSG=msg))
         return dbid2node
@@ -140,4 +140,4 @@ class NodeGetter():
         return qry
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-__copyright__ = "Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved."
+__copyright__ = "Copyright (C) 2018-present, DV Klopfenstein. All rights reserved."
 __author__ = "DV Klopfenstein"
 
 import os
@@ -62,7 +62,7 @@ class Species(object):
         with self.gdbdr.session() as session:
             flds_exp = set(['name', 'schemaClass', 'abbreviation', 'displayName', 'taxId', 'dbId'])
             res = session.run(self.QUERY)
-            for rec in res.records():
+            for rec in res.data():
                 node = rec['node']
                 assert node.keys() == flds_exp
                 assert node.get('schemaClass') == 'Species'
@@ -74,4 +74,4 @@ class Species(object):
         return species
 
 
-# Copyright (C) 2018-2019, DV Klopfenstein. All rights reserved.
+# Copyright (C) 2018-present, DV Klopfenstein. All rights reserved.

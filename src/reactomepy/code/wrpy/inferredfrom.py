@@ -69,8 +69,7 @@ class InferredFrom(object):
         ctr_hi = cx.Counter()
         ctr_lo = cx.Counter()
         with self.gdbdr.session() as session:
-            res = session.run(self.QUERY)
-            for rec in res.records():
+            for rec in session.run(self.QUERY):
                 ctr_hi[rec['hi']['speciesName']] += 1
                 ctr_lo[rec['lo']['speciesName']] += 1
                 #       MATCH (hi:Pathway)<-[inferredTo]-(lo:Pathway) RETURN hi, lo
@@ -83,6 +82,7 @@ class InferredFrom(object):
                 # print(rec['hi'])
                 pidlo = rec['lo']['stId']
                 abc = pidlo.split('-')[1].lower()
+                print('EEEEEEEEEEEEEEEEE', abc)
                 org2plo2phi[abc][pidlo].add(rec['hi']['stId'])
         print('HI', ctr_hi.most_common())
         print('LO', ctr_lo.most_common())
