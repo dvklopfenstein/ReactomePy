@@ -7,6 +7,14 @@ PY = python3
 # 	chmod 755 tmp_pylint
 # 	tmp_pylint
 
+hello:
+	@echo "Welcome to ReactomePy"
+
+g:
+	git status -uno
+	git remote -v
+	git branch
+
 run:
 	src/bin/pwy_enrichment_reactome.py data/enrich/studyids/UniProt.txt
 
