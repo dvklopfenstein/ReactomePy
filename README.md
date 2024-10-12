@@ -5,7 +5,6 @@
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/version.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/latest_release_date.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
 [![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/platforms.svg)](https://anaconda.org/dvklopfenstein/reactomepy)
-[![Anaconda-Server Badge](https://anaconda.org/dvklopfenstein/reactomepy/badges/installer/conda.svg)](https://conda.anaconda.org/dvklopfenstein)
 
 Explore biomolecular pathways in the Reactome graph database from the command-line or a Python script.    
 
