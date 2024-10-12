@@ -15,6 +15,9 @@ g:
 	git remote -v
 	git branch
 
+py:
+	find src -name \*.py
+
 run:
 	src/bin/pwy_enrichment_reactome.py data/enrich/studyids/UniProt.txt
 
